@@ -1,7 +1,7 @@
-import * as storedNodes from "./data/nodes.json";
-import localizable from "./data/i18n.en.json";
-import { NodeDefinition } from "../data/graphTypes";
 import { ITreeNode } from "react-accessible-tree";
+import { NodeDefinition } from "../types/graphTypes";
+import localizable from "./v1.0/i18n.en.json";
+import * as storedNodes from "./v1.0/nodes.json";
 
 const availableNodes: NodeDefinition[] = storedNodes.availableNodes;
 const itemPanelNodes: ITreeNode[] = storedNodes.itemPanelNodes;
@@ -19,4 +19,26 @@ function localize(key: string) {
   return localized[key];
 }
 
-export { availableNodes, itemPanelNodes, getNodeDefinition, localize };
+function getCompatibleNodes(fullParentTypeRef: string) {
+  const compatibleNodes = [];
+  const parentType = fullParentTypeRef.replace("#/definitions/", "");
+
+  for (const candidateNode of availableNodes) {
+    const nodeInheritsFrom =
+      candidateNode.parsedAllOf &&
+      candidateNode.parsedAllOf.includes(fullParentTypeRef);
+    if (nodeInheritsFrom || candidateNode.name === parentType) {
+      compatibleNodes.push(candidateNode);
+    }
+  }
+
+  return compatibleNodes;
+}
+
+export {
+  availableNodes,
+  itemPanelNodes,
+  getNodeDefinition,
+  localize,
+  getCompatibleNodes,
+};
