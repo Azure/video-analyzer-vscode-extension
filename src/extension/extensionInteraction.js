@@ -15,7 +15,7 @@ export function initThenRun(callback) {
       callback(oldState, vscode.setState);
     })();
   } else {
-    // We won't save/restore state in browser
+    // We won't save/restore state in browser, use noop function
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     callback({}, () => {});
   }

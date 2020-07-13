@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   IAccessibleTreeStyles,
   ITreeNode,
-  ReactAccessibleTree
+  ReactAccessibleTree,
 } from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
@@ -17,6 +17,7 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
   const propsAPI = usePropsAPI();
 
   const nodeWillAdd = (node: ICanvasNode): ICanvasNode => {
+    // make sure this name hasn't already been used, append number if it has
     let nodeName = node.name || "";
     let duplicateCounter = 1;
     while (props.hasNodeWithName(nodeName)) {
@@ -34,6 +35,7 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
   };
 
   const nodeDidAdd = (node: ICanvasNode) => {
+    // show the side panel when adding a new node
     propsAPI.selectNodeById(node.id);
   };
 

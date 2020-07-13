@@ -4,7 +4,7 @@ import {
   getNodeProperties,
   getNodeTypeTitle,
   getPorts,
-} from "../../editor/helpers";
+} from "../../helpers/nodeHelpers";
 import { MediaGraphNodeType } from "../../types/graphTypes";
 import * as apiDefinition from "./LiveVideoAnalytics.json";
 
@@ -50,6 +50,7 @@ for (const nodeName in definitions) {
 
 const availableNodes: any[] = [];
 
+// returns the MediaGraphNodeType given a node definition
 function getNodeType(definition: any): MediaGraphNodeType {
   if (!definition.allOf) {
     return MediaGraphNodeType.Other;
@@ -160,7 +161,7 @@ const itemPanelNodes = nodeTypeList.map((nodeType) => ({
   expanded: true,
 }));
 
-// write to file
+// write to files in appropriate versioned folder
 const base = __dirname + "/../../../src/definitions/v" + version;
 
 if (!fs.existsSync(base)) {

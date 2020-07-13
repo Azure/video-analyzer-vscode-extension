@@ -9,7 +9,7 @@ import {
   ReactDagEditor,
   RegisterNode,
   RegisterPort,
-  withDefaultPortsPosition
+  withDefaultPortsPosition,
 } from "@vienna/react-dag-editor";
 import { convertGraphToTopology } from "../../converters/convertGraphToTopology";
 import { GraphInfo } from "../../types/graphTypes";
@@ -43,7 +43,7 @@ export const Graph: React.FunctionComponent<IGraphProps> = (props) => {
     return <h1>Browser not supported</h1>;
   }
 
-  // nodeNames maps from ID to name, is updated on node add/remove
+  // nodeNames maps an ID to a name, is updated on node add/remove
   const nodeNames: Record<string, string> = {};
   data.nodes.forEach((node) => {
     nodeNames[node.id] = node.name || "";

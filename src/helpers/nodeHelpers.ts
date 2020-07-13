@@ -2,6 +2,7 @@ import { v4 as uuid } from "uuid";
 import { ICanvasNode, ICanvasPort } from "@vienna/react-dag-editor";
 import { MediaGraphNodeType } from "../types/graphTypes";
 
+// returns a human readable string for a given MediaGraphNodeType
 export function getNodeTypeTitle(type: MediaGraphNodeType): string {
   switch (type) {
     case MediaGraphNodeType.Source:
@@ -15,6 +16,7 @@ export function getNodeTypeTitle(type: MediaGraphNodeType): string {
   }
 }
 
+// returns the appropriate ports for a node (proper input and input according to type)
 export function getPorts(node: any, type?: MediaGraphNodeType): ICanvasPort[] {
   const ports = [];
   const nodeType = typeof type === "undefined" ? node.nodeType : type;
@@ -50,6 +52,7 @@ export function getPorts(node: any, type?: MediaGraphNodeType): ICanvasPort[] {
   return ports;
 }
 
+// determines appearance properties for a node
 export function getNodeProperties(type: MediaGraphNodeType) {
   switch (type) {
     case MediaGraphNodeType.Source:
@@ -75,6 +78,7 @@ export function getNodeProperties(type: MediaGraphNodeType) {
   }
 }
 
+// evaluates if a node can be connected to another node (has to be downstream)
 export function nodeCanConnectToNode(source: ICanvasNode, target: ICanvasNode) {
   if (source.data && target.data) {
     const sourceNodeType = source.data.nodeType;

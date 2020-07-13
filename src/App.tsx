@@ -20,6 +20,9 @@ interface IProps {
 }
 
 export const App: React.FunctionComponent<IProps> = (props) => {
+  // if there is no state to recover from (in props.graphData or zoomPanSettings), use default
+  // (load sampleTopology) and 1x zoom, no translate (stored in a transformation matrix)
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
   return (
     <Graph
       initData={props.graphData || convertTopologyToGraph(sampleTopology)}

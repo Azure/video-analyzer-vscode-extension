@@ -5,7 +5,7 @@ import {
   getNodeProperties,
   getNodeTypeTitle,
   getPorts,
-} from "../editor/helpers";
+} from "../helpers/nodeHelpers";
 import { GraphInfo, MediaGraphNodeType } from "../types/graphTypes";
 
 const nodeTypeList = [
@@ -14,12 +14,14 @@ const nodeTypeList = [
   MediaGraphNodeType.Sink,
 ];
 
+// converts a topology (from disk or an Edge device for example) to an internally usable format
 export const convertTopologyToGraph = (topology: any): GraphInfo => {
+  // output is a list of nodes, edges, and some metadata
   let nodes: ICanvasNode[] = [];
   const edges: ICanvasEdge[] = [];
 
+  // go through all the sources, processors, and sinks we are given and flatten them into nodes
   for (const nodeType of nodeTypeList) {
-    // source, processor, or sink nodes
     const nodesForType = topology.properties[getNodeTypeTitle(nodeType)];
     for (const node of nodesForType) {
       nodes.push({
@@ -38,6 +40,7 @@ export const convertTopologyToGraph = (topology: any): GraphInfo => {
     }
   }
 
+  // helper that gets a node object from its string
   function getNode(nodeName: string) {
     for (const node of nodes) {
       if (node.name === nodeName) {
@@ -47,6 +50,7 @@ export const convertTopologyToGraph = (topology: any): GraphInfo => {
     return null;
   }
 
+  // get the input or output port for a node named nodeName
   function getPort(nodeName: string, input: boolean) {
     const node = getNode(nodeName);
     if (node && node.ports) {
@@ -59,28 +63,36 @@ export const convertTopologyToGraph = (topology: any): GraphInfo => {
     return null;
   }
 
-  for (const nodeType of nodeTypeList) {
-    for (const node of topology.properties[getNodeTypeTitle(nodeType)]) {
-      if (node.inputs) {
-        for (const input of node.inputs) {
-          const sourceNode = getNode(input.nodeName);
-          const sourcePort = getPort(input.nodeName, false);
-          const targetNode = getNode(node.name);
-          const targetPort = getPort(node.name, true);
-
-          if (sourceNode && sourcePort && targetNode && targetPort) {
-            edges.push({
-              source: sourceNode.id,
-              target: targetNode.id,
-              sourcePortId: sourcePort.id,
-              targetPortId: targetPort.id,
-              id: uuid(),
-            });
+  // loop through all inputs for all nodes
+  function forEachNodeInput(callback: (node: any, input: any) => void) {
+    for (const nodeType of nodeTypeList) {
+      for (const node of topology.properties[getNodeTypeTitle(nodeType)]) {
+        if (node.inputs) {
+          for (const input of node.inputs) {
+            callback(node, input);
           }
         }
       }
     }
   }
+
+  forEachNodeInput(function (node: any, input: any) {
+    const sourceNode = getNode(input.nodeName);
+    const sourcePort = getPort(input.nodeName, false);
+    const targetNode = getNode(node.name);
+    const targetPort = getPort(node.name, true);
+
+    // since we know all of the inputs for node, we can form edges (input, node)
+    if (sourceNode && sourcePort && targetNode && targetPort) {
+      edges.push({
+        source: sourceNode.id,
+        target: targetNode.id,
+        sourcePortId: sourcePort.id,
+        targetPortId: targetPort.id,
+        id: uuid(),
+      });
+    }
+  });
 
   const g = new dagre.graphlib.Graph();
 

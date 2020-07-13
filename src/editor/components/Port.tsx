@@ -5,9 +5,9 @@ import {
   ICanvasData,
   ICanvasNode,
   ICanvasPort,
-  IPortConfig
+  IPortConfig,
 } from "@vienna/react-dag-editor";
-import { nodeCanConnectToNode } from "../helpers";
+import { nodeCanConnectToNode } from "../../helpers/nodeHelpers";
 import { PortInner } from "./PortInner";
 
 export interface ICanvasPortCustomized extends ICanvasPort {

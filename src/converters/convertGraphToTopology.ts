@@ -3,18 +3,22 @@ import {
   MediaGraphProcessorUnion,
   MediaGraphSinkUnion,
   MediaGraphSourceUnion,
-  MediaGraphTopology
+  MediaGraphTopology,
 } from "../lva-sdk/lvaSDKtypes";
 import { GraphInfo, MediaGraphNodeType } from "../types/graphTypes";
+import { isEmptyObject } from "../helpers/helpers";
 
+// converts internal representation to topology that can be sent using a direct method call
 export function convertGraphToTopology(
   data: GraphInfo,
   graphInformation: MediaGraphTopology
 ) {
+  // the target format expects dividing up the nodes into these three types
   const sources: MediaGraphSourceUnion[] = [];
   const processors: MediaGraphProcessorUnion[] = [];
   const sinks: MediaGraphSinkUnion[] = [];
 
+  // helper method that converts a node ID -> name
   function getNodeName(nodeId: string) {
     for (const node of data.nodes) {
       if (node.id === nodeId) {
@@ -24,6 +28,7 @@ export function convertGraphToTopology(
     return null;
   }
 
+  // converts from edges (u, v) to an array of nodes [u] pointing to v
   function getNodeInputs(nodeId: string) {
     const inboundEdges = data.edges.filter((edge) => edge.target === nodeId);
     return inboundEdges.map((edge) => ({
@@ -35,14 +40,17 @@ export function convertGraphToTopology(
     const nodeData = node.data;
 
     if (nodeData) {
+      // only save used node properties i.e. those that match the selected types
       const properties = getTrimmedNodeProperties(nodeData.nodeProperties);
       properties.name = nodeData.nodeProperties.name;
 
+      // get nodes pointing to this node
       properties.inputs = getNodeInputs(node.id);
       if (properties.inputs.length === 0) {
         delete properties.inputs;
       }
 
+      // filter into three categories
       switch (nodeData.nodeType) {
         case MediaGraphNodeType.Source:
           sources.push(properties);
@@ -75,11 +83,6 @@ export function convertGraphToTopology(
   }
 
   return topology;
-}
-
-// checks if objects is {}
-function isEmptyObject(object: any) {
-  return Object.keys(object).length === 0;
 }
 
 /* To be able to switch between multiple different types of properties without
