@@ -119,6 +119,7 @@ function getTrimmedNodeProperties(nodeProperties: any): any {
     const propertyIsMissing = !usedProperties || isEmptyObject(usedProperties);
 
     if (isRequiredProperty && propertyIsMissing) {
+      // TODO bubble up and show with validation errors in interface
       console.log("Expected to see property", name);
     }
   }

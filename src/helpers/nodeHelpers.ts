@@ -31,7 +31,7 @@ export function getPorts(node: any, type?: MediaGraphNodeType): ICanvasPort[] {
       isInputDisabled: true,
       isOutputDisabled: false,
       name: `${node.name} input port`,
-      ariaLabel: `input port for ${node.name}`,
+      ariaLabel: `input port for ${node.name}`, // will be localized in topology converter
     });
   }
 
@@ -44,8 +44,7 @@ export function getPorts(node: any, type?: MediaGraphNodeType): ICanvasPort[] {
       shape: "modulePort",
       isInputDisabled: false,
       isOutputDisabled: true,
-      name: `${node.name} output port`,
-      ariaLabel: `output port for ${node.name}`,
+      name: `${node.name} output port`, // will be localized in topology converter
     });
   }
 

@@ -1,6 +1,7 @@
 import { Icon } from "office-ui-fabric-react";
 import * as React from "react";
 import PropertyNestedObject from "./PropertyNestedObject";
+import { localize } from "../../../localization";
 
 interface IPropertyEditFieldProps {
   name: string;
@@ -150,12 +151,12 @@ const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
           {valid ? (
             <>
               <Icon iconName="CheckMark" style={iconStyle} />
-              Valid
+              {localize("Valid")}
             </>
           ) : (
             <>
               <Icon iconName="WarningSolid" style={iconStyle} />
-              Parse error
+              {localize("Parse error")}
             </>
           )}
         </div>

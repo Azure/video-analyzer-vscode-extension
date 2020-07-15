@@ -31,10 +31,34 @@ class GraphEditorPanel {
   public static currentPanel: GraphEditorPanel | undefined;
 
   public static readonly viewType = "lvaTopologyEditor";
+  public static locStrings: Record<string, string>;
 
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionPath: string;
   private _disposables: vscode.Disposable[] = [];
+
+  public static loadLocalization(locale: string, extensionPath: string) {
+    let localizationFile = "package.nls.json";
+
+    if (locale != "en") {
+      localizationFile = `package.nls.${locale}.json`;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    try {
+      GraphEditorPanel.locStrings = require(path.join(
+        extensionPath,
+        localizationFile
+      ));
+    } catch {
+      // locale is not available, default to English
+      GraphEditorPanel.loadLocalization("en", extensionPath);
+    }
+  }
+
+  public static localize(key: string) {
+    return this.locStrings[key];
+  }
 
   public static createOrShow(extensionPath: string) {
     const column = vscode.window.activeTextEditor
@@ -50,7 +74,7 @@ class GraphEditorPanel {
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
       GraphEditorPanel.viewType,
-      "LVA Graph Topology",
+      GraphEditorPanel.localize("lva-edge.webview.title"),
       column || vscode.ViewColumn.One,
       {
         // Enable javascript in the webview
@@ -73,6 +97,9 @@ class GraphEditorPanel {
   private constructor(panel: vscode.WebviewPanel, extensionPath: string) {
     this._panel = panel;
     this._extensionPath = extensionPath;
+
+    const locale = JSON.parse(process.env.VSCODE_NLS_CONFIG || "{}")["locale"];
+    GraphEditorPanel.loadLocalization(locale, this._extensionPath);
 
     // Set the webview's initial html content
     this._update();
@@ -108,7 +135,7 @@ class GraphEditorPanel {
   }
 
   private _update() {
-    this._panel.title = "LVA Graph Topology";
+    this._panel.title = GraphEditorPanel.localize("lva-edge.webview.title");
     this._panel.webview.html = this._getHtmlForWebview();
   }
 
@@ -162,6 +189,12 @@ class GraphEditorPanel {
       (uri) => `<script nonce="${nonce}" src="${uri}"></script>`
     );
 
+    // The linter does not know of this since it is VS Code internal
+    // so we set a fallback value
+    const language = JSON.parse(process.env.VSCODE_NLS_CONFIG || "{}")[
+      "locale"
+    ];
+
     return `<!DOCTYPE html>
       <html lang="en">
       <head>
@@ -171,14 +204,23 @@ class GraphEditorPanel {
         Use a content security policy to only allow loading images from https or from our extension directory,
         and only allow scripts that have a specific nonce.
         -->
-        <meta http-equiv="Content-Security-Policy" content="img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
+        <meta http-equiv="Content-Security-Policy" content="img-src ${
+          webview.cspSource
+        } https:; script-src 'nonce-${nonce}';">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LVA Graph Topology</title>
+        <title>${GraphEditorPanel.localize("lva-edge.webview.title")}</title>
         ${stylesheetInjection}
       </head>
       <body>
         <div id="root"></div>
+        <script nonce="${nonce}">
+          __webpack_nonce__ = "${nonce}";
+          __webpack_public_path__ = "${webview.asWebviewUri(
+            vscode.Uri.file(path.join(this._extensionPath, "build"))
+          )}/";
+          window.language = "${language}";
+        </script>
         ${scriptInjection}
       </body>
       </html>`;

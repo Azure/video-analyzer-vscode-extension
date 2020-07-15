@@ -7,6 +7,7 @@ import {
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
 import { itemPanelNodes } from "../../definitions";
+import { localize } from "../../localization";
 
 interface IProps {
   hasNodeWithName: (name: string) => boolean;
@@ -59,6 +60,7 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
           children: [],
         };
       });
+      category.title = localize(category.searchKeys[0] as string);
       return {
         ...category,
         children,

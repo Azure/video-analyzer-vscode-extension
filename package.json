@@ -22,8 +22,8 @@
     "commands": [
       {
         "command": "lvaTopologyEditor.start",
-        "title": "Open sample graph in editor",
-        "category": "LVA Graph Topology Editor"
+        "title": "%lva-edge.command.openSampleGraph.title%",
+        "category": "%lva-edge.command.category%"
       }
     ]
   },

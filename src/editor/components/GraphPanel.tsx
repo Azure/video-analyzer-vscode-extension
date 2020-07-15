@@ -1,9 +1,9 @@
 import * as React from "react";
-import { localize } from "../../definitions";
+import { localize } from "../../localization";
 import {
   MediaGraphParameterDeclaration,
   MediaGraphParameterType,
-  MediaGraphTopology
+  MediaGraphTopology,
 } from "../../lva-sdk/lvaSDKtypes";
 
 export interface IGraphPanelProps {
@@ -21,10 +21,9 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
 
   return (
     <>
-      <h2>Export</h2>
-      <button onClick={props.exportGraph}>Export</button>
+      <button onClick={props.exportGraph}>{localize("Export")}</button>
 
-      <h2>Parameters</h2>
+      <h2>{localize("Parameters")}</h2>
       {parameters &&
         parameters.map((parameter) => {
           const key = "parameter-" + parameter.name;
@@ -86,7 +85,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
         type="text"
         id={keyName}
         value={defaultValue}
-        placeholder="Optional default value"
+        placeholder={localize("Optional default value")}
         onChange={handleChange}
       />
     </>

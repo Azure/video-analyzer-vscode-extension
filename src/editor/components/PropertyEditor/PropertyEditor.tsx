@@ -1,6 +1,7 @@
 import * as React from "react";
-import { getNodeDefinition, localize } from "../../../definitions";
+import { getNodeDefinition } from "../../../definitions";
 import PropertyEditField from "./PropertyEditField";
+import { localize } from "../../../localization";
 
 interface IPropertyEditorProps {
   nodeProperties: any;
@@ -37,20 +38,27 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
           {property.type === "object" && (
             <>
               {" "}
-              conforming to {property.parsedRef.replace("#/definitions/", "")}
+              {localize("conforming to {type}").format(
+                property.parsedRef.replace("#/definitions/", "")
+              )}
             </>
           )}
           {definition.required && definition.required.includes(name) && (
             <>
               {", "}
-              <strong>required</strong>
+              <strong>{localize("required")}</strong>
             </>
           )}
           )
         </label>
         <p>
           {property.description && localize(property.description)}
-          {property.example && <em> Example: {property.example}</em>}
+          {property.example && (
+            <em>
+              {" "}
+              {localize("Example")}: {property.example}
+            </em>
+          )}
         </p>
         <PropertyEditField
           name={name}

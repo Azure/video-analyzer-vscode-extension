@@ -16,10 +16,12 @@ import {
   RegisterPanel,
   TSetData,
   TSetZoomPanSettings,
-  usePropsAPI
+  usePropsAPI,
+  ICanvasEdge,
 } from "@vienna/react-dag-editor";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePanel } from "./NodePanel";
+import { localize } from "../../localization";
 
 export interface IInnerGraphProps {
   data: ICanvasData;
@@ -48,40 +50,48 @@ function getPortAriaLabel(
   node: ICanvasNode,
   port: ICanvasPort
 ): string {
-  const sourceEdges = data.edges.filter((it) => it.source === node.id);
-  const targetEdges = data.edges.filter((it) => it.target === node.id);
-  const sourceEdge = sourceEdges.find((it) => it.sourcePortId === port.id);
-  const targetEdge = targetEdges.find((it) => it.targetPortId === port.id);
-  let anotherNode: ICanvasNode | undefined;
-  let anotherPort: ICanvasPort | undefined;
-  if (sourceEdge) {
-    anotherNode = data.nodes.find((it) => it.id === sourceEdge.target);
-    anotherPort = anotherNode?.ports?.find(
-      (it) => it.id === sourceEdge.targetPortId
-    );
-  } else if (targetEdge) {
-    anotherNode = data.nodes.find((it) => it.id === targetEdge.source);
-    anotherPort = anotherNode?.ports?.find(
-      (it) => it.id === targetEdge.sourcePortId
-    );
+  const connectedNodeNames: string[] = [];
+  if (port.isInputDisabled) {
+    // for output ports we need to find all edges starting here and
+    // then get all nodes that are pointed to by the edge
+    data.edges
+      .filter((edge) => node.id === edge.source)
+      .map((edge) =>
+        data.nodes.filter((otherNode) => otherNode.id === edge.target)
+      )
+      .forEach((connectedNodes) => {
+        // we now have a list of nodes connected to this port, add their names
+        connectedNodeNames.push(
+          ...connectedNodes.map((node) => node.name || "")
+        );
+      });
+  } else {
+    // for input ports use the same approach, but vice versa
+    data.edges
+      .filter((edge) => node.id === edge.target)
+      .map((edge) =>
+        data.nodes.filter((otherNode) => otherNode.id === edge.source)
+      )
+      .forEach((connectedNodes) => {
+        connectedNodeNames.push(
+          ...connectedNodes.map((node) => node.name || "")
+        );
+      });
   }
-  const connectedTo =
-    anotherNode && anotherPort
-      ? `connected to ${anotherPort.name} of ${anotherNode.name}`
-      : "";
-  return `port ${port.name}. port type is ${port.shape ?? ""} parent node is: ${
-    node.name
-  } ${connectedTo}`;
+  return `${port.name}. ${
+    connectedNodeNames &&
+    localize("Connected to {node names}").format(connectedNodeNames.join(", "))
+  }`;
 }
 
 function getNodeAriaLabel(node: ICanvasNode): string {
   const portNames = node.ports?.length
-    ? `ports of the node are ${node.ports.map((it) => it.name).join(",")}`
+    ? node.ports.map((it) => it.name).join(", ")
     : "";
-  const status = node.data?.status
-    ? `current status is ${node.data.status}`
-    : "";
-  return `node ${node.name}. ${portNames} ${status}`;
+  return localize("Node named {name} with {ports}").format(
+    node.name,
+    portNames
+  );
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (

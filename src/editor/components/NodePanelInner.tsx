@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ICanvasNode } from "@vienna/react-dag-editor";
-import { getNodeDefinition, localize } from "../../definitions";
+import { getNodeDefinition } from "../../definitions";
 import PropertyEditor from "./PropertyEditor/PropertyEditor";
+import { localize } from "../../localization";
 
 interface INodePanelInnerProps {
   node: ICanvasNode;

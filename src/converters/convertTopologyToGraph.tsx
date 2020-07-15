@@ -7,6 +7,7 @@ import {
   getPorts,
 } from "../helpers/nodeHelpers";
 import { GraphInfo, MediaGraphNodeType } from "../types/graphTypes";
+import { localize } from "../localization";
 
 const nodeTypeList = [
   MediaGraphNodeType.Source,
@@ -24,16 +25,30 @@ export const convertTopologyToGraph = (topology: any): GraphInfo => {
   for (const nodeType of nodeTypeList) {
     const nodesForType = topology.properties[getNodeTypeTitle(nodeType)];
     for (const node of nodesForType) {
+      const ports = getPorts(node, nodeType).map((port) => {
+        const type = port.isOutputDisabled
+          ? localize("input")
+          : localize("output");
+        const name = localize("{node name} {type} port").format(
+          node.name,
+          type
+        );
+        return {
+          ...port,
+          name,
+          ariaLabel: name,
+        };
+      });
       nodes.push({
         id: uuid(),
         name: node.name,
-        ariaLabel: `Node named ${node.name}`,
+        ariaLabel: localize("Node named {name}").format(node.name),
         data: {
           ...getNodeProperties(nodeType),
           nodeProperties: node,
           nodeType: nodeType,
         },
-        ports: getPorts(node, nodeType),
+        ports: ports,
         x: 0,
         y: 0,
       });

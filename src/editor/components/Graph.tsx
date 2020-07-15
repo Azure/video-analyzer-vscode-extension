@@ -20,6 +20,7 @@ import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
+import { localize } from "../../localization";
 
 interface IGraphProps {
   initData: GraphInfo;
@@ -40,7 +41,7 @@ export const Graph: React.FunctionComponent<IGraphProps> = (props) => {
   }, [data, zoomPanSettings]);
 
   if (!isSupported()) {
-    return <h1>Browser not supported</h1>;
+    return <h1>{localize("Browser not supported")}</h1>;
   }
 
   // nodeNames maps an ID to a name, is updated on node add/remove
@@ -89,7 +90,7 @@ export const Graph: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <h2>Nodes</h2>
+          <h2>{localize("Nodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={data.meta} exportGraph={exportGraph} />
         </Stack.Item>
