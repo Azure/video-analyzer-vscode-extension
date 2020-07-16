@@ -6,8 +6,8 @@ import {
 } from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
-import { itemPanelNodes } from "../../definitions";
-import { localize } from "../../localization";
+import Definitions from "../../definitions";
+import Localizer from "../../localization";
 
 interface IProps {
   hasNodeWithName: (name: string) => boolean;
@@ -41,31 +41,40 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
   };
 
   if (treeData.length === 0) {
-    const treeNodes: ITreeNode[] = itemPanelNodes.map((category) => {
-      const children = category.children.map((node) => {
-        node.extra = node.extra as ICanvasNode;
+    const treeNodes: ITreeNode[] = Definitions.getItemPanelNodes().map(
+      (category) => {
+        const children = category.children.map((node) => {
+          const internalNode = node.extra as ICanvasNode;
+          return {
+            title: (
+              <Item
+                key={node.title as string}
+                model={internalNode}
+                nodeWillAdd={nodeWillAdd}
+                nodeDidAdd={nodeDidAdd}
+              >
+                <div
+                  title={
+                    internalNode.data &&
+                    Localizer.l(internalNode.data.nodeProperties.name)
+                  }
+                >
+                  {node.title}
+                </div>
+              </Item>
+            ),
+            id: uuid(),
+            searchKeys: [node.title as string],
+            children: [],
+          };
+        });
+        category.title = Localizer.l(category.searchKeys[0] as string);
         return {
-          title: (
-            <Item
-              key={node.title as string}
-              model={node.extra}
-              nodeWillAdd={nodeWillAdd}
-              nodeDidAdd={nodeDidAdd}
-            >
-              {node.title}
-            </Item>
-          ),
-          id: uuid(),
-          searchKeys: [node.title as string],
-          children: [],
+          ...category,
+          children,
         };
-      });
-      category.title = localize(category.searchKeys[0] as string);
-      return {
-        ...category,
-        children,
-      };
-    });
+      }
+    );
     setTreeData(treeNodes);
   }
 

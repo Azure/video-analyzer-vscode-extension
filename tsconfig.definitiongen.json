@@ -13,5 +13,5 @@
     "isolatedModules": true,
     "esModuleInterop": true
   },
-  "files": ["src/tools/definition-generator/generate.ts"]
+  "files": ["src/tools/definition-generator/entry.ts"]
 }

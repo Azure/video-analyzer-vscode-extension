@@ -5,33 +5,36 @@ import * as storedNodes from "./v1.0/nodes.json";
 const availableNodes: NodeDefinition[] = storedNodes.availableNodes;
 const itemPanelNodes: ITreeNode[] = storedNodes.itemPanelNodes;
 
-function getNodeDefinition(nodeProperties: any) {
-  return availableNodes.filter(
-    (x: any) =>
-      nodeProperties["@type"] &&
-      x.name === nodeProperties["@type"].replace("#Microsoft.Media.", "")
-  )[0];
-}
-
-function getCompatibleNodes(fullParentTypeRef: string) {
-  const compatibleNodes = [];
-  const parentType = fullParentTypeRef.replace("#/definitions/", "");
-
-  for (const candidateNode of availableNodes) {
-    const nodeInheritsFrom =
-      candidateNode.parsedAllOf &&
-      candidateNode.parsedAllOf.includes(fullParentTypeRef);
-    if (nodeInheritsFrom || candidateNode.name === parentType) {
-      compatibleNodes.push(candidateNode);
-    }
+export default class Definitions {
+  public static getNodeDefinition(nodeProperties: any) {
+    return availableNodes.filter(
+      (x: any) =>
+        nodeProperties["@type"] &&
+        x.name === nodeProperties["@type"].replace("#Microsoft.Media.", "")
+    )[0];
   }
 
-  return compatibleNodes;
-}
+  public static getCompatibleNodes(fullParentTypeRef: string) {
+    const compatibleNodes = [];
+    const parentType = fullParentTypeRef.replace("#/definitions/", "");
 
-export {
-  availableNodes,
-  itemPanelNodes,
-  getNodeDefinition,
-  getCompatibleNodes,
-};
+    for (const candidateNode of availableNodes) {
+      const nodeInheritsFrom =
+        candidateNode.parsedAllOf &&
+        candidateNode.parsedAllOf.includes(fullParentTypeRef);
+      if (nodeInheritsFrom || candidateNode.name === parentType) {
+        compatibleNodes.push(candidateNode);
+      }
+    }
+
+    return compatibleNodes;
+  }
+
+  public static getAllAvailableNodes() {
+    return availableNodes;
+  }
+
+  public static getItemPanelNodes() {
+    return itemPanelNodes;
+  }
+}

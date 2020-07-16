@@ -6,7 +6,6 @@ import {
   GraphNodeState,
   ICanvasData,
   ICanvasNode,
-  ICanvasPort,
   IGraphDataChangeEvent,
   IGraphStyles,
   IPoint,
@@ -17,11 +16,10 @@ import {
   TSetData,
   TSetZoomPanSettings,
   usePropsAPI,
-  ICanvasEdge,
 } from "@vienna/react-dag-editor";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePanel } from "./NodePanel";
-import { localize } from "../../localization";
+import Localizer from "../../localization";
 
 export interface IInnerGraphProps {
   data: ICanvasData;
@@ -43,55 +41,6 @@ function between(min: number, max: number, value: number): number {
     result = max;
   }
   return result;
-}
-
-function getPortAriaLabel(
-  data: ICanvasData,
-  node: ICanvasNode,
-  port: ICanvasPort
-): string {
-  const connectedNodeNames: string[] = [];
-  if (port.isInputDisabled) {
-    // for output ports we need to find all edges starting here and
-    // then get all nodes that are pointed to by the edge
-    data.edges
-      .filter((edge) => node.id === edge.source)
-      .map((edge) =>
-        data.nodes.filter((otherNode) => otherNode.id === edge.target)
-      )
-      .forEach((connectedNodes) => {
-        // we now have a list of nodes connected to this port, add their names
-        connectedNodeNames.push(
-          ...connectedNodes.map((node) => node.name || "")
-        );
-      });
-  } else {
-    // for input ports use the same approach, but vice versa
-    data.edges
-      .filter((edge) => node.id === edge.target)
-      .map((edge) =>
-        data.nodes.filter((otherNode) => otherNode.id === edge.source)
-      )
-      .forEach((connectedNodes) => {
-        connectedNodeNames.push(
-          ...connectedNodes.map((node) => node.name || "")
-        );
-      });
-  }
-  return `${port.name}. ${
-    connectedNodeNames &&
-    localize("Connected to {node names}").format(connectedNodeNames.join(", "))
-  }`;
-}
-
-function getNodeAriaLabel(node: ICanvasNode): string {
-  const portNames = node.ports?.length
-    ? node.ports.map((it) => it.name).join(", ")
-    : "";
-  return localize("Node named {name} with {ports}").format(
-    node.name,
-    portNames
-  );
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
@@ -192,8 +141,8 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         defaultEdgeShape="customEdge"
         canvasMouseMode={props.canvasMouseMode}
         getPositionFromEvent={getPositionFromEvent}
-        getNodeAriaLabel={getNodeAriaLabel}
-        getPortAriaLabel={getPortAriaLabel}
+        getNodeAriaLabel={Localizer.getNodeAriaLabel}
+        getPortAriaLabel={Localizer.getPortAriaLabel}
         isA11yEnable={true}
       />
     </>

@@ -9,5 +9,6 @@
   "importSorter.importStringConfiguration.tabSize": 2,
   "importSorter.importStringConfiguration.quoteMark": "double",
   "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
-  "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 0
+  "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 0,
+  "cSpell.words": ["localizable"]
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { getNodeDefinition } from "../../../definitions";
+import Definitions from "../../../definitions";
 import PropertyEditField from "./PropertyEditField";
-import { localize } from "../../../localization";
+import Localizer from "../../../localization";
 
 interface IPropertyEditorProps {
   nodeProperties: any;
@@ -11,7 +11,7 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
   props
 ) => {
   const { nodeProperties } = props;
-  const definition = getNodeDefinition(nodeProperties);
+  const definition = Definitions.getNodeDefinition(nodeProperties);
 
   if (!definition) {
     return null;
@@ -38,7 +38,7 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
           {property.type === "object" && (
             <>
               {" "}
-              {localize("conforming to {type}").format(
+              {Localizer.l("conforming to {type}").format(
                 property.parsedRef.replace("#/definitions/", "")
               )}
             </>
@@ -46,17 +46,17 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
           {definition.required && definition.required.includes(name) && (
             <>
               {", "}
-              <strong>{localize("required")}</strong>
+              <strong>{Localizer.l("required")}</strong>
             </>
           )}
           )
         </label>
         <p>
-          {property.description && localize(property.description)}
+          {property.description && Localizer.l(property.description)}
           {property.example && (
             <em>
               {" "}
-              {localize("Example")}: {property.example}
+              {Localizer.l("Example")}: {property.example}
             </em>
           )}
         </p>

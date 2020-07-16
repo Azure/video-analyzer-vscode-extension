@@ -1,11 +1,11 @@
-import { loadUserLanguage } from "../localization";
+import Localizer from "../localization";
 import { InitializationParameters } from "../types/vscodeDelegationTypes";
 
 // VS Code exposes this function: https://code.visualstudio.com/api/references/vscode-api#WebviewPanelSerializer
 declare const acquireVsCodeApi: any;
 
 export async function initalizeEnvironment(language: string) {
-  await loadUserLanguage(language);
+  await Localizer.loadUserLanguage(language);
 
   return new Promise(
     (resolve: (params: InitializationParameters) => void, reject) => {
@@ -22,7 +22,10 @@ export async function initalizeEnvironment(language: string) {
             // use message.command
           });
 
-          resolve({ state: oldState, vsCodeSetState: vscode.setState });
+          resolve({
+            state: oldState,
+            vsCodeSetState: vscode.setState,
+          });
         })();
       } else {
         // We won't save/restore state in browser, use noop function

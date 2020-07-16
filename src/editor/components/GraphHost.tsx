@@ -11,8 +11,6 @@ import {
   RegisterPort,
   withDefaultPortsPosition,
 } from "@vienna/react-dag-editor";
-import { convertGraphToTopology } from "../../converters/convertGraphToTopology";
-import { GraphInfo } from "../../types/graphTypes";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { GraphPanel } from "./GraphPanel";
@@ -20,28 +18,30 @@ import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
-import { localize } from "../../localization";
+import Localizer from "../../localization";
+import Graph from "../../graph";
 
 interface IGraphProps {
-  initData: GraphInfo;
-  initZoomPanSettings: IZoomPanSettings;
+  graph: Graph;
+  zoomPanSettings: IZoomPanSettings;
   vsCodeSetState: (state: any) => void;
 }
 
-export const Graph: React.FunctionComponent<IGraphProps> = (props) => {
-  const [data, setData] = React.useState<GraphInfo>(props.initData);
+export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
+  const graph = props.graph;
+  const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
-  >(props.initZoomPanSettings);
+  >(props.zoomPanSettings);
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
-    data.meta = props.initData.meta;
+    // data.meta = graph.meta;
     props.vsCodeSetState({ graphData: data, zoomPanSettings });
   }, [data, zoomPanSettings]);
 
   if (!isSupported()) {
-    return <h1>{localize("Browser not supported")}</h1>;
+    return <h1>{Localizer.l("Browser not supported")}</h1>;
   }
 
   // nodeNames maps an ID to a name, is updated on node add/remove
@@ -65,7 +65,8 @@ export const Graph: React.FunctionComponent<IGraphProps> = (props) => {
   };
 
   const exportGraph = () => {
-    const topology = convertGraphToTopology(data, props.initData.meta);
+    graph.setGraphDataFromICanvasData(data);
+    const topology = graph.getTopology();
     console.log(topology);
   };
 
@@ -90,16 +91,14 @@ export const Graph: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <h2>{localize("Nodes")}</h2>
+          <h2>{Localizer.l("Nodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
-          <GraphPanel data={data.meta} exportGraph={exportGraph} />
+          <GraphPanel data={graph.getGraphMeta()} exportGraph={exportGraph} />
         </Stack.Item>
         <Stack.Item grow>
           <InnerGraph
             data={data}
-            setData={
-              setData as React.Dispatch<React.SetStateAction<ICanvasData>>
-            }
+            setData={setData}
             zoomPanSettings={zoomPanSettings}
             setZoomPanSettings={setZoomPanSettings}
             canvasMouseMode={CanvasMouseMode.pan}

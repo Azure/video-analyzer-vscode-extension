@@ -7,7 +7,7 @@ import {
   ICanvasPort,
   IPortConfig,
 } from "@vienna/react-dag-editor";
-import { nodeCanConnectToNode } from "../../helpers/nodeHelpers";
+import NodeHelpers from "../../helpers/nodeHelpers";
 import { PortInner } from "./PortInner";
 
 export interface ICanvasPortCustomized extends ICanvasPort {
@@ -58,7 +58,7 @@ export const modulePort: IPortConfig = {
           // find the port being connected
           if (hasState(GraphPortState.connecting)(p.state)) {
             // check if we are connecting downstream
-            if (!nodeCanConnectToNode(node, parentNode)) {
+            if (!NodeHelpers.nodeCanConnectToNode(node, parentNode)) {
               return false;
             }
             // check if connecting to self

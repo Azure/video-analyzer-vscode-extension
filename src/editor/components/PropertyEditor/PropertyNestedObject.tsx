@@ -1,5 +1,5 @@
 import * as React from "react";
-import { getCompatibleNodes } from "../../../definitions";
+import Definitions from "../../../definitions";
 import PropertyEditor from "./PropertyEditor";
 
 interface IPropertyNestedObjectProps {
@@ -27,7 +27,7 @@ const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> 
     <>
       <select id={name} value={type} onChange={handleTypeChange}>
         <option key="undefined">undefined</option>
-        {getCompatibleNodes(property.parsedRef).map((node) => (
+        {Definitions.getCompatibleNodes(property.parsedRef).map((node) => (
           <option key={node.name}>{node.name}</option>
         ))}
       </select>

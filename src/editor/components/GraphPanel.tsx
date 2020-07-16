@@ -1,5 +1,5 @@
 import * as React from "react";
-import { localize } from "../../localization";
+import Localizer from "../../localization";
 import {
   MediaGraphParameterDeclaration,
   MediaGraphParameterType,
@@ -21,9 +21,9 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
 
   return (
     <>
-      <button onClick={props.exportGraph}>{localize("Export")}</button>
+      <button onClick={props.exportGraph}>{Localizer.l("Export")}</button>
 
-      <h2>{localize("Parameters")}</h2>
+      <h2>{Localizer.l("Parameters")}</h2>
       {parameters &&
         parameters.map((parameter) => {
           const key = "parameter-" + parameter.name;
@@ -37,7 +37,9 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
               <label htmlFor={key}>
                 <strong>{parameter.name}</strong>
               </label>
-              <p>{parameter.description && localize(parameter.description)}</p>
+              <p>
+                {parameter.description && Localizer.l(parameter.description)}
+              </p>
               <GraphPanelEditField parameter={parameter} keyName={key} />
             </div>
           );
@@ -85,7 +87,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
         type="text"
         id={keyName}
         value={defaultValue}
-        placeholder={localize("Optional default value")}
+        placeholder={Localizer.l("Optional default value")}
         onChange={handleChange}
       />
     </>

@@ -5,10 +5,9 @@ import {
   EdgeMenu,
   MultiMenu,
   NodeMenu,
-  PortMenu,
   usePropsAPI,
 } from "@vienna/react-dag-editor";
-import { localize } from "../../localization";
+import Localizer from "../../localization";
 
 export const ContextMenu: React.FunctionComponent = () => {
   const propsAPI = usePropsAPI();
@@ -27,28 +26,28 @@ export const ContextMenu: React.FunctionComponent = () => {
     <$ContextMenu className="context-menu">
       <NodeMenu>
         <div onClick={onCopyClick} role="button">
-          {localize("Copy")}
+          {Localizer.l("Copy")}
         </div>
         <div onClick={onDeleteClick} role="button">
-          {localize("Delete")}
+          {Localizer.l("Delete")}
         </div>
       </NodeMenu>
       <EdgeMenu>
         <div onClick={onDeleteClick} role="button">
-          {localize("Delete")}
+          {Localizer.l("Delete")}
         </div>
       </EdgeMenu>
       <MultiMenu>
         <div onClick={onCopyClick} role="button">
-          {localize("Copy selected")}
+          {Localizer.l("Copy selected")}
         </div>
         <div onClick={onDeleteClick} role="button">
-          {localize("Delete selected")}
+          {Localizer.l("Delete selected")}
         </div>
       </MultiMenu>
       <CanvasMenu>
         <div onClick={onPasteClick} role="button">
-          {localize("Paste")}
+          {Localizer.l("Paste")}
         </div>
       </CanvasMenu>
     </$ContextMenu>

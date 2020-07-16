@@ -34,7 +34,7 @@
     "compile-ext": "tsc -p tsconfig.ext.json",
     "dev": "react-scripts start",
     "lint": "eslint . --ext .ts,.tsx",
-    "create-definitions": "tsc -p tsconfig.definitiongen.json && node ./definition-generator/tools/definition-generator/generate.js"
+    "create-definitions": "tsc -p tsconfig.definitiongen.json && node ./definition-generator/tools/definition-generator/entry.js"
   },
   "dependencies": {
     "@vienna/react-dag-editor": "^1.45.1",
