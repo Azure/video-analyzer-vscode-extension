@@ -55,7 +55,7 @@ export default class Graph {
     // go through all the sources, processors, and sinks we are given and flatten them into nodes
     for (const nodeType of Graph.nodeTypeList) {
       const nodesForType =
-        topology.properties[NodeHelpers.getNodeTypeTitle(nodeType)];
+        topology.properties[NodeHelpers.getNodeTypeKey(nodeType)];
       for (const node of nodesForType) {
         const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
           const label = this.getPortAriaLabel(node, port);
@@ -261,7 +261,7 @@ export default class Graph {
         for (const node of (this.graphInformation.properties as Record<
           string,
           any[]
-        >)[NodeHelpers.getNodeTypeTitle(nodeType)]) {
+        >)[NodeHelpers.getNodeTypeKey(nodeType)]) {
           if (node.inputs) {
             for (const input of node.inputs) {
               callback(node, input);

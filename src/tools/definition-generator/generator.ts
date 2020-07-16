@@ -93,9 +93,9 @@ export default class DefinitionGenerator {
   private generateItemPanelNodeList() {
     // generate nodes shown in the drag-and-droppable item panel on the left
     this.itemPanelNodes = DefinitionGenerator.nodeTypeList.map((nodeType) => ({
-      title: HodeHelpers.getNodeTypeTitle(nodeType),
-      id: HodeHelpers.getNodeTypeTitle(nodeType),
-      searchKeys: [HodeHelpers.getNodeTypeTitle(nodeType)],
+      title: HodeHelpers.getNodeTypeKey(nodeType),
+      id: HodeHelpers.getNodeTypeKey(nodeType),
+      searchKeys: [HodeHelpers.getNodeTypeKey(nodeType)],
       children: this.availableNodes
         .filter((node) => node.nodeType === nodeType)
         .map((node) => {
