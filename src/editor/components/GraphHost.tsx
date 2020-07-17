@@ -36,8 +36,10 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
-    // data.meta = graph.meta;
-    props.vsCodeSetState({ graphData: data, zoomPanSettings });
+    props.vsCodeSetState({
+      graphData: { ...data, meta: graph.getTopology() },
+      zoomPanSettings,
+    });
   }, [data, zoomPanSettings]);
 
   if (!isSupported()) {
@@ -93,7 +95,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
         <Stack.Item styles={panelStyles}>
           <h2>{Localizer.l("Nodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
-          <GraphPanel data={graph.getGraphMeta()} exportGraph={exportGraph} />
+          <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>
         <Stack.Item grow>
           <InnerGraph

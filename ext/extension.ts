@@ -44,7 +44,6 @@ class GraphEditorPanel {
       localizationFile = `package.nls.${locale}.json`;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     try {
       GraphEditorPanel.locStrings = require(path.join(
         extensionPath,

@@ -165,18 +165,9 @@ export default class Graph {
     };
   }
 
-  public getGraphMeta(): MediaGraphTopology {
-    return {
-      name: this.graphInformation.name,
-      apiVersion: (this.graphInformation as any)["@apiVersion"], // AutoRest removes the @
-      systemData: this.graphInformation.systemData,
-      properties: {},
-    };
-  }
-
   public getGraphInfo(): GraphInfo {
     const graphInfo = {
-      meta: this.getGraphMeta(),
+      meta: this.getTopology(),
       nodes: this.nodes,
       edges: this.edges,
     };

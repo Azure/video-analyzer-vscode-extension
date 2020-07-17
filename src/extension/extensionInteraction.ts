@@ -12,7 +12,6 @@ export async function initalizeEnvironment(language: string) {
       // Check if this is running in VS Code (might be developing in React)
       if (typeof acquireVsCodeApi === "function") {
         (function () {
-          // eslint-disable-next-line no-undef
           const vscode = acquireVsCodeApi();
           const oldState = vscode.getState() || {};
 
