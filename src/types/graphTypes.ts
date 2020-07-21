@@ -23,3 +23,16 @@ export interface NodeDefinition {
   required?: string[];
   parsedAllOf?: string[];
 }
+
+export interface ValidationError {
+  description: string;
+  type: ValidationErrorType;
+  property?: string[];
+  nodeType?: string;
+}
+
+export enum ValidationErrorType {
+  NotConnected,
+  MissingProperty,
+  NodeCountLimit,
+}

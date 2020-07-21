@@ -22,5 +22,8 @@
   "Node named {name}": "Node named {0}",
   "{node name} {type} port": "{0} {1} port",
   "input": "input",
-  "output": "output"
+  "output": "output",
+  "Missing property {property name}": "Missing property {0}",
+  "Graph is not connected": "Graph is not connected (contains orphaned nodes)",
+  "Errors": "Errors"
 }

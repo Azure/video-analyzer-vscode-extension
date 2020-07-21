@@ -15,7 +15,12 @@ import {
   MediaGraphSourceUnion,
   MediaGraphTopology,
 } from "../lva-sdk/lvaSDKtypes";
-import { GraphInfo, MediaGraphNodeType } from "../types/graphTypes";
+import {
+  GraphInfo,
+  MediaGraphNodeType,
+  ValidationError,
+  ValidationErrorType,
+} from "../types/graphTypes";
 import Localizer from "../localization";
 
 export default class Graph {
@@ -100,6 +105,136 @@ export default class Graph {
     });
 
     this.layoutGraph();
+  }
+
+  public validate(): ValidationError[] {
+    const errors: ValidationError[] = [];
+
+    if (!this.isGraphConnected()) {
+      errors.push({
+        // localized later
+        description: "Graph is not connected",
+        type: ValidationErrorType.NotConnected,
+      });
+    }
+
+    const typeCount: Record<string, number> = {};
+
+    for (const node of this.nodes) {
+      const nodeData = node.data;
+
+      if (nodeData) {
+        const properties = this.getTrimmedNodeProperties(
+          nodeData.nodeProperties
+        );
+        const missingProperties = this.recursiveCheckForMissingProperties(
+          properties,
+          [] /* path to the property, this is root, so empty array */,
+          [] /* this array will recursively fill with errors */
+        );
+        errors.push(...missingProperties);
+
+        if (!(properties.type in typeCount)) {
+          typeCount[properties.type] = 0;
+        }
+        typeCount[properties.type]++;
+      }
+    }
+
+    for (const nodeType in typeCount) {
+      const count = typeCount[nodeType];
+
+      if (
+        [
+          "#Microsoft.Media.MediaGraphRtspSource",
+          "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
+          "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
+        ].includes(nodeType) &&
+        count > 1
+      ) {
+        errors.push({
+          description: "More than one {node type}",
+          type: ValidationErrorType.NodeCountLimit,
+          nodeType,
+        });
+      }
+    }
+
+    for (const edge of this.edges) {
+      for (const node of this.nodes) {
+        if (node.id === edge.source) {
+          return node;
+        }
+      }
+    }
+
+    return errors;
+  }
+
+  private isNodeOfTypeChildOf(nodeType: string, nodeId: string) {
+    for (const edge of this.edges) {
+      for (const node of this.nodes) {
+        if (node.id === edge.source) {
+          const pointingAt = this.getNodeTypeFromId(edge.target);
+          if (pointingAt == nodeType) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private isNodeOfTypeDownstreamOf(nodeType: string, nodeId: string) {}
+
+  private getNodeTypeFromId(nodeId: string): string | undefined {
+    for (const node of this.nodes) {
+      if (node.id === nodeId) {
+        return node.data && node.data.nodeProperties.type;
+      }
+    }
+  }
+
+  private recursiveCheckForMissingProperties(
+    nodeProperties: any,
+    path: string[],
+    errors: ValidationError[]
+  ): ValidationError[] {
+    const definition = Definitions.getNodeDefinition(nodeProperties);
+
+    if (!definition) {
+      return errors;
+    }
+
+    // validate if any required properties are missing
+    for (const name in definition.properties) {
+      const property = definition.properties[name];
+      const isRequiredProperty = definition.required?.includes(name);
+      const nestedProperties = nodeProperties[name];
+      const propertyIsMissing =
+        !nestedProperties || Helpers.isEmptyObject(nestedProperties);
+      const thisPropertyPath = [...path, name];
+
+      if (isRequiredProperty && propertyIsMissing) {
+        errors.push({
+          // localized later
+          description: "Missing property {property name}",
+          type: ValidationErrorType.MissingProperty,
+          property: thisPropertyPath,
+        });
+      } else if (
+        property.type === "object" &&
+        !Helpers.isEmptyObject(nestedProperties)
+      ) {
+        this.recursiveCheckForMissingProperties(
+          nestedProperties,
+          thisPropertyPath,
+          errors
+        );
+      }
+    }
+
+    return errors;
   }
 
   public getTopology() {
@@ -292,19 +427,6 @@ export default class Graph {
       }
     }
 
-    // validate if any required properties are missing
-    for (const name in definition.properties) {
-      const isRequiredProperty = definition.required?.includes(name);
-      const usedProperties = neededProperties[name];
-      const propertyIsMissing =
-        !usedProperties || Helpers.isEmptyObject(usedProperties);
-
-      if (isRequiredProperty && propertyIsMissing) {
-        // TODO bubble up and show with validation errors in interface
-        console.log("Expected to see property", name);
-      }
-    }
-
     return {
       "@type": nodeProperties["@type"],
       ...neededProperties,
@@ -327,5 +449,44 @@ export default class Graph {
     return inboundEdges.map((edge) => ({
       nodeName: this.getNodeName(edge.source),
     }));
+  }
+
+  private isGraphConnected() {
+    if (this.nodes.length == 0) {
+      return true;
+    }
+    // maps a node ID to a boolean that indicates if we saw it
+    const hasNodeBeenReached: Record<string, boolean> = {};
+    for (const node of this.nodes) {
+      hasNodeBeenReached[node.id] = false;
+    }
+    // pick an arbitrary node
+    const nodesToCheck = [this.nodes[0].id];
+    // and follow its adjacent nodes and mark them as seen, repeat for their adjacent nodes and so on
+    while (nodesToCheck.length > 0) {
+      const nodeToCheck = nodesToCheck.pop() || "";
+      if (!hasNodeBeenReached[nodeToCheck]) {
+        hasNodeBeenReached[nodeToCheck] = true;
+        nodesToCheck.push(...this.getConnectedNodes(nodeToCheck));
+      }
+    }
+    // if any node hasn't been seen at this point, not all nodes are connected
+    for (const nodeId in hasNodeBeenReached) {
+      if (!hasNodeBeenReached[nodeId]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // gets all nodes connected in either direction to a node
+  private getConnectedNodes(nodeId: string) {
+    const pointedAtBy = this.edges
+      .filter((edge) => edge.target === nodeId)
+      .map((edge) => edge.source);
+    const pointingTo = this.edges
+      .filter((edge) => edge.source === nodeId)
+      .map((edge) => edge.target);
+    return [...pointedAtBy, ...pointingTo];
   }
 }

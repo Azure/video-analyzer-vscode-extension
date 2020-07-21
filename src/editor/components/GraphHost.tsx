@@ -16,10 +16,12 @@ import { ContextMenu } from "./ContextMenu";
 import { GraphPanel } from "./GraphPanel";
 import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
+import { ErrorPanel } from "./ErrorPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization";
 import Graph from "../../graph";
+import { ValidationError } from "../../types/graphTypes";
 
 interface IGraphProps {
   graph: Graph;
@@ -33,6 +35,9 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
+  const [validationErrors, setValidationErrors] = React.useState<
+    ValidationError[]
+  >([]);
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
@@ -68,8 +73,14 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
 
   const exportGraph = () => {
     graph.setGraphDataFromICanvasData(data);
-    const topology = graph.getTopology();
-    console.log(topology);
+
+    const validationErrors = graph.validate();
+    if (validationErrors.length > 0) {
+      setValidationErrors(validationErrors);
+    } else {
+      const topology = graph.getTopology();
+      console.log(topology);
+    }
   };
 
   const panelStyles = {
@@ -93,6 +104,12 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
+          {validationErrors.length > 0 && (
+            <>
+              <h2>{Localizer.l("Errors")}</h2>
+              <ErrorPanel validationErrors={validationErrors} />
+            </>
+          )}
           <h2>{Localizer.l("Nodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
