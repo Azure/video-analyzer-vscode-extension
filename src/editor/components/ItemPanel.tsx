@@ -6,7 +6,7 @@ import {
 } from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
-import Definitions from "../../definitions";
+import Definitions from "../../definitions/definitions";
 import Localizer from "../../localization";
 
 interface IProps {

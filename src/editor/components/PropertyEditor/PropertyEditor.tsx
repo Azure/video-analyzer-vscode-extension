@@ -1,5 +1,5 @@
 import * as React from "react";
-import Definitions from "../../../definitions";
+import Definitions from "../../../definitions/definitions";
 import PropertyEditField from "./PropertyEditField";
 import Localizer from "../../../localization";
 

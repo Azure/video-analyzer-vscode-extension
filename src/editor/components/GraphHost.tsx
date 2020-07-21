@@ -20,7 +20,7 @@ import { ErrorPanel } from "./ErrorPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization";
-import Graph from "../../graph";
+import Graph from "../../graph/graph";
 import { ValidationError } from "../../types/graphTypes";
 
 interface IGraphProps {

@@ -1,6 +1,8 @@
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, ICanvasPort } from "@vienna/react-dag-editor";
 import { MediaGraphNodeType } from "../types/graphTypes";
+import Definitions from "../definitions/definitions";
+import Helpers from "./helpers";
 
 export default class NodeHelpers {
   // maps a MediaGraphNodeType to a string to index into the topology JSON
@@ -99,5 +101,40 @@ export default class NodeHelpers {
       }
     }
     return true;
+  }
+
+  /* To be able to switch between multiple different types of properties without
+	loosing the values or properties not needed for the selected type, properties
+	that might not be needed are retained. We can remove these when exporting. */
+  static getTrimmedNodeProperties(nodeProperties: any): any {
+    const definition = Definitions.getNodeDefinition(nodeProperties);
+    const neededProperties: any = {};
+
+    if (!definition) {
+      return {};
+    }
+
+    // copy over only properties as needed (determined by definition)
+    for (const name in definition.properties) {
+      const property = definition.properties[name];
+      const nestedProperties = nodeProperties[name];
+
+      if (nestedProperties) {
+        if (property.type === "object") {
+          if (!Helpers.isEmptyObject(nestedProperties)) {
+            neededProperties[name] = this.getTrimmedNodeProperties(
+              nestedProperties
+            );
+          }
+        } else {
+          neededProperties[name] = nestedProperties;
+        }
+      }
+    }
+
+    return {
+      "@type": nodeProperties["@type"],
+      ...neededProperties,
+    };
   }
 }

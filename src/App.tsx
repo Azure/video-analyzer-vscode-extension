@@ -6,7 +6,7 @@ import { IZoomPanSettings } from "@vienna/react-dag-editor";
 import { sampleTopology } from "./dev/sampleTopologies.js";
 import { GraphHost } from "./editor/components/GraphHost";
 import { GraphInfo } from "./types/graphTypes";
-import Graph from "./graph";
+import Graph from "./graph/graph";
 
 initializeIcons();
 loadTheme({

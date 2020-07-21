@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ICanvasNode } from "@vienna/react-dag-editor";
-import Definitions from "../../definitions";
+import Definitions from "../../definitions/definitions";
 import PropertyEditor from "./PropertyEditor/PropertyEditor";
 import Localizer from "../../localization";
 
