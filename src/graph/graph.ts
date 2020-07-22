@@ -88,9 +88,9 @@ export default class Graph {
 
     const edges: ICanvasEdge[] = [];
     this.forEachNodeInput((node: any, input: any) => {
-      const sourceNode = this.nodesAndEdges.getNode(input.nodeName);
+      const sourceNode = this.nodesAndEdges.getNodeByName(input.nodeName);
       const sourcePort = this.nodesAndEdges.getPort(input.nodeName, false);
-      const targetNode = this.nodesAndEdges.getNode(node.name);
+      const targetNode = this.nodesAndEdges.getNodeByName(node.name);
       const targetPort = this.nodesAndEdges.getPort(node.name, true);
 
       // since we know all of the inputs for node, we can form edges (input, node)

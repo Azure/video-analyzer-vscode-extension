@@ -78,6 +78,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
     if (validationErrors.length > 0) {
       setValidationErrors(validationErrors);
     } else {
+      setValidationErrors([]);
       const topology = graph.getTopology();
       console.log(topology);
     }

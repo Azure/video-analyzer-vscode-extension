@@ -1,4 +1,9 @@
-import { ICanvasNode, ICanvasEdge } from "@vienna/react-dag-editor";
+import {
+  ICanvasNode,
+  ICanvasEdge,
+  ICanvasPort,
+} from "@vienna/react-dag-editor";
+import NodeHelpers from "../helpers/nodeHelpers";
 
 export default class GraphData {
   private nodes: ICanvasNode[] = [];
@@ -77,8 +82,7 @@ export default class GraphData {
     return [...pointedAtBy, ...pointingTo];
   }
 
-  // helper that gets a node object from its string
-  public getNode(nodeName: string) {
+  public getNodeByName(nodeName: string) {
     for (const node of this.nodes) {
       if (node.name === nodeName) {
         return node;
@@ -87,9 +91,18 @@ export default class GraphData {
     return null;
   }
 
+  public getNodeById(nodeId: string) {
+    for (const node of this.nodes) {
+      if (node.id === nodeId) {
+        return node;
+      }
+    }
+    return null;
+  }
+
   // get the input or output port for a node named nodeName
-  public getPort(nodeName: string, input: boolean) {
-    const node = this.getNode(nodeName);
+  public getPort(nodeName: string, input: boolean): ICanvasPort | undefined {
+    const node = this.getNodeByName(nodeName);
     if (node && node.ports) {
       for (const port of node.ports) {
         if (port.isOutputDisabled === input) {
@@ -97,32 +110,39 @@ export default class GraphData {
         }
       }
     }
-    return null;
+    return undefined;
   }
 
-  public isNodeOfTypeChildOf(nodeType: string, nodeId: string) {
-    for (const edge of this.edges) {
-      for (const node of this.nodes) {
-        if (node.id === edge.source) {
-          const pointingAt = this.getNodeTypeFromId(edge.target);
-          if (pointingAt == nodeType) {
-            return true;
-          }
+  public getAllParentsOfNodeById(nodeId: string): ICanvasNode[] {
+    const parents: ICanvasNode[] = this.getDirectParentsOfNodeById(nodeId);
+    const nodesToCrawl = parents;
+    while (nodesToCrawl.length > 0) {
+      const node = nodesToCrawl.pop();
+      // TS complains that node might be undefined, so do an explicit check
+      if (!node) {
+        continue;
+      }
+      const thisNodesParents = this.getDirectParentsOfNodeById(node.id);
+      for (const newParent of thisNodesParents) {
+        if (!NodeHelpers.nodeArrayContainsNodeId(parents, newParent.id)) {
+          parents.push(newParent);
+          nodesToCrawl.push(newParent);
         }
       }
     }
-    return false;
+    return parents;
   }
 
-  public isNodeOfTypeDownstreamOf(nodeType: string, nodeId: string) {
-    //
-  }
-
-  private getNodeTypeFromId(nodeId: string): string | undefined {
-    for (const node of this.nodes) {
-      if (node.id === nodeId) {
-        return node.data && node.data.nodeProperties.type;
+  public getDirectParentsOfNodeById(nodeId: string): ICanvasNode[] {
+    const parents: ICanvasNode[] = [];
+    for (const edge of this.edges) {
+      if (edge.target === nodeId) {
+        const node = this.getNodeById(edge.source);
+        if (node) {
+          parents.push(node);
+        }
       }
     }
+    return parents;
   }
 }

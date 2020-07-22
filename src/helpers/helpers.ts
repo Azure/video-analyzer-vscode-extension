@@ -1,6 +1,9 @@
 export default class Helpers {
   // checks if an object is {}
   static isEmptyObject(object: any) {
+    if (!object) {
+      return true;
+    }
     return Object.keys(object).length === 0;
   }
 

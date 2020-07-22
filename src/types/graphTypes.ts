@@ -27,12 +27,19 @@ export interface NodeDefinition {
 export interface ValidationError {
   description: string;
   type: ValidationErrorType;
+  // if a property is missing
   property?: string[];
+  // node count limits and required relations
   nodeType?: string;
+  // the type that was expected as parent
+  parentType?: string[];
 }
 
 export enum ValidationErrorType {
   NotConnected,
   MissingProperty,
   NodeCountLimit,
+  RequiredDirectlyDownstream,
+  ProhibitedDirectlyDownstream,
+  ProhibitedAnyDownstream,
 }

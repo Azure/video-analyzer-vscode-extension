@@ -137,4 +137,25 @@ export default class NodeHelpers {
       ...neededProperties,
     };
   }
+
+  static nodeArrayContainsNodeId(
+    nodes: ICanvasNode[],
+    nodeId: string
+  ): boolean {
+    for (const node of nodes) {
+      if (node.id === nodeId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static nodeArrayContainsNodeOfType(nodes: ICanvasNode[], nodeType: string) {
+    for (const node of nodes) {
+      if (node.data && node.data.nodeProperties["@type"] === nodeType) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
