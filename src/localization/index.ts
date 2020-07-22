@@ -72,9 +72,7 @@ export default class Localizer {
     }
     return `${port.name}. ${
       connectedNodeNames &&
-      Localizer.l("Connected to {node names}").format(
-        connectedNodeNames.join(", ")
-      )
+      Localizer.l("connectedToNodes").format(connectedNodeNames.join(", "))
     }`;
   }
 
@@ -82,9 +80,6 @@ export default class Localizer {
     const portNames = node.ports?.length
       ? node.ports.map((it) => it.name).join(", ")
       : "";
-    return Localizer.l("Node named {name} with {ports}").format(
-      node.name,
-      portNames
-    );
+    return Localizer.l("nodeNameWithPorts").format(node.name, portNames);
   }
 }

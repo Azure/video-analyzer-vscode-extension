@@ -68,7 +68,7 @@ export default class Graph {
         this.nodes.push({
           id: uuid(),
           name: node.name,
-          ariaLabel: Localizer.l("Node named {name}").format(node.name),
+          ariaLabel: Localizer.l("nodeNamed").format(node.name),
           data: {
             ...NodeHelpers.getNodeProperties(nodeType),
             nodeProperties: node,
@@ -219,7 +219,7 @@ export default class Graph {
     const type = port.isOutputDisabled
       ? Localizer.l("input")
       : Localizer.l("output");
-    return Localizer.l("{node name} {type} port").format(node.name, type);
+    return Localizer.l("nodePortDescription").format(node.name, type);
   }
 
   // helper that gets a node object from its string

@@ -38,7 +38,7 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
           {property.type === "object" && (
             <>
               {" "}
-              {Localizer.l("conforming to {type}").format(
+              {Localizer.l("conformingToType").format(
                 property.parsedRef.replace("#/definitions/", "")
               )}
             </>
@@ -56,7 +56,7 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
           {property.example && (
             <em>
               {" "}
-              {Localizer.l("Example")}: {property.example}
+              {Localizer.l("example")}: {property.example}
             </em>
           )}
         </p>
