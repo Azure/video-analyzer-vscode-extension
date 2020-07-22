@@ -93,7 +93,7 @@ export default class GraphValidator {
     if (!nodesAndEdges.isGraphConnected()) {
       errors.push({
         // localized later
-        description: "Graph is not connected",
+        description: "graphNotConnected",
         type: ValidationErrorType.NotConnected,
       });
     }
@@ -125,7 +125,7 @@ export default class GraphValidator {
       // only one of these nodes is allowed per graph
       if (GraphValidator.limitOnePerGraph.includes(nodeType) && count > 1) {
         errors.push({
-          description: "Only one node of type allowed",
+          description: "onlyOneNodeOfTypeAllowed",
           type: ValidationErrorType.NodeCountLimit,
           nodeType,
         });
@@ -185,7 +185,7 @@ export default class GraphValidator {
 
         if (!foundMatchingParent) {
           errors.push({
-            description: "Nodes have to be directly downstream",
+            description: "nodesHaveToBeDirectlyDownstream",
             type: ValidationErrorType.RequiredDirectlyDownstream,
             nodeType: matchingChildType,
             parentType: expectedParentTypes,
@@ -212,7 +212,7 @@ export default class GraphValidator {
           )
         ) {
           errors.push({
-            description: "Nodes cannot be directly downstream",
+            description: "nodesCannotBeDirectlyDownstream",
             type: ValidationErrorType.ProhibitedDirectlyDownstream,
             nodeType: matchingChildType,
             parentType: [forbiddenParentType],
@@ -239,7 +239,7 @@ export default class GraphValidator {
           )
         ) {
           errors.push({
-            description: "Nodes cannot be anywhere downstream",
+            description: "nodesCannotBeAnywhereDownstream",
             type: ValidationErrorType.ProhibitedAnyDownstream,
             nodeType: matchingChildType,
             parentType: [forbiddenParentType],
@@ -281,7 +281,7 @@ export default class GraphValidator {
       if (isRequiredProperty && propertyIsMissing) {
         errors.push({
           // localized later
-          description: "Missing property",
+          description: "missingProperty",
           type: ValidationErrorType.MissingProperty,
           property: thisPropertyPath,
         });

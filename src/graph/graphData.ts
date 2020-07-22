@@ -44,7 +44,7 @@ export default class GraphData {
   }
 
   public isGraphConnected() {
-    if (this.nodes.length == 0) {
+    if (this.nodes.length === 0) {
       return true;
     }
     // maps a node ID to a boolean that indicates if we saw it

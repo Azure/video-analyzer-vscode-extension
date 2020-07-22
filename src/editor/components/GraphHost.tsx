@@ -107,7 +107,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
         <Stack.Item styles={panelStyles}>
           {validationErrors.length > 0 && (
             <>
-              <h2>{Localizer.l("Errors")}</h2>
+              <h2>{Localizer.l("errors")}</h2>
               <ErrorPanel validationErrors={validationErrors} />
             </>
           )}
