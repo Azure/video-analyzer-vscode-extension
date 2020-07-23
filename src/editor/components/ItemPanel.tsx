@@ -76,6 +76,7 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
         };
       }
     );
+    // collapse all except first by default
     treeNodes[0].expanded = true;
     setTreeData(treeNodes);
   }
