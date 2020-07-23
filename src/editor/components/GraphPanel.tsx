@@ -5,6 +5,7 @@ import {
   MediaGraphParameterType,
   MediaGraphTopology,
 } from "../../lva-sdk/lvaSDKtypes";
+import { PrimaryButton } from "office-ui-fabric-react";
 
 export interface IGraphPanelProps {
   exportGraph: () => void;
@@ -21,7 +22,7 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
 
   return (
     <>
-      <button onClick={props.exportGraph}>{Localizer.l("Export")}</button>
+      <PrimaryButton text={Localizer.l("Export")} onClick={props.exportGraph} />
 
       <h2>{Localizer.l("Parameters")}</h2>
       {parameters &&

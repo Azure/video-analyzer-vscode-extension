@@ -1,18 +1,27 @@
-import { Icon } from "office-ui-fabric-react";
+import {
+  Icon,
+  TextField,
+  Dropdown,
+  IDropdownOption,
+  ChoiceGroup,
+  IChoiceGroupOption,
+} from "office-ui-fabric-react";
 import * as React from "react";
 import PropertyNestedObject from "./PropertyNestedObject";
+import PropertyDescription from "./PropertyDescription";
 import Localizer from "../../../localization";
 
 interface IPropertyEditFieldProps {
   name: string;
   property: any;
   nodeProperties: any;
+  required: boolean;
 }
 
 const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
   props
 ) => {
-  const { name, property, nodeProperties } = props;
+  const { name, property, nodeProperties, required } = props;
   const [valid, setValid] = React.useState<boolean>(true);
 
   let initValue = nodeProperties[name];
@@ -21,8 +30,28 @@ const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
   }
   const [value, setValue] = React.useState<string>(initValue);
 
-  function handleChange(e: React.FormEvent) {
-    const newValue = (e.target as any).value;
+  function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
+    if (item) {
+      setNewValue(item.key as string);
+    }
+  }
+
+  function handleTextFieldChange(e: React.FormEvent, newValue?: string) {
+    if (newValue) {
+      setNewValue(newValue);
+    }
+  }
+
+  function handleChoiceGroupChange(
+    e?: React.FormEvent,
+    option?: IChoiceGroupOption
+  ) {
+    if (option) {
+      setNewValue(option.key as string);
+    }
+  }
+
+  function setNewValue(newValue: string) {
     setValue(newValue);
 
     switch (property.type) {
@@ -59,62 +88,68 @@ const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
   }
 
   if (property.type === "string" && property.enum) {
+    const options: IDropdownOption[] = [
+      {
+        key: "",
+        text: "undefined",
+      },
+      ...property.enum.map((value: string) => ({
+        key: value,
+        text: value,
+      })),
+    ];
     return (
-      <select id={name} value={value} onChange={handleChange}>
-        <option key={"undefined"} value="">
-          undefined
-        </option>
-        {property.enum.map((value: string) => (
-          <option key={value}>{value}</option>
-        ))}
-      </select>
+      <>
+        <Dropdown
+          label={name}
+          options={options}
+          defaultSelectedKey={value || ""}
+          onChange={handleDropdownChange}
+          required={required}
+        />
+        <PropertyDescription property={property} />
+      </>
     );
   } else if (property.type === "string") {
     return (
-      <input
-        type="text"
-        id={name}
-        value={value}
-        placeholder="undefined"
-        onChange={handleChange}
-      />
+      <>
+        <TextField
+          label={name}
+          type="text"
+          id={name}
+          value={value}
+          placeholder={property.example}
+          onChange={handleTextFieldChange}
+          required={required}
+        />
+        <PropertyDescription property={property} />
+      </>
     );
   } else if (property.type === "boolean") {
+    const options: IChoiceGroupOption[] = [
+      {
+        key: "undefined",
+        text: "undefined",
+      },
+      {
+        key: "true",
+        text: "true",
+      },
+      {
+        key: "false",
+        text: "false",
+      },
+    ];
     return (
       <>
-        <label htmlFor={`${name}-undefined`}>
-          <input
-            type="radio"
-            id={`${name}-undefined`}
-            name={name}
-            value="undefined"
-            checked={!value || value === "undefined"}
-            onChange={handleChange}
-          />
-          undefined
-        </label>
-        <label htmlFor={`${name}-true`}>
-          <input
-            type="radio"
-            id={`${name}-true`}
-            name={name}
-            value="true"
-            checked={value === "true"}
-            onChange={handleChange}
-          />
-          true
-        </label>
-        <label htmlFor={`${name}-false`}>
-          <input
-            type="radio"
-            id={`${name}-false`}
-            name={name}
-            value="false"
-            checked={value === "false"}
-            onChange={handleChange}
-          />
-          false
-        </label>
+        <ChoiceGroup
+          label={name}
+          defaultSelectedKey={value + ""}
+          options={options}
+          onChange={handleChoiceGroupChange}
+          required={required}
+        />
+        <PropertyDescription property={property} />
       </>
     );
   } else if (property.type === "object") {
@@ -127,6 +162,7 @@ const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
         name={name}
         property={property}
         nodeProperties={nodeProperties[name]}
+        required={required}
       />
     );
   } else {
@@ -135,11 +171,14 @@ const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
     };
     return (
       <>
-        <textarea
-          id={name}
-          value={value}
-          placeholder="undefined"
-          onChange={handleChange}
+        <TextField
+          label={name}
+          multiline
+          autoAdjustHeight
+          defaultValue={value}
+          placeholder={property.example}
+          onChange={handleTextFieldChange}
+          required={required}
         />
         <div
           style={{
@@ -160,6 +199,7 @@ const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
             </>
           )}
         </div>
+        <PropertyDescription property={property} />
       </>
     );
   }
