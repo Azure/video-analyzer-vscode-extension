@@ -106,6 +106,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
             canvasMouseMode={CanvasMouseMode.pan}
             onNodeAdded={nodeAdded}
             onNodeRemoved={nodesRemoved}
+            isHorizontal={true}
           />
         </Stack.Item>
       </Stack>

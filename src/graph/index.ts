@@ -188,6 +188,7 @@ export default class Graph {
     g.setGraph({
       marginx: 30,
       marginy: 30,
+      rankdir: "LR",
     });
     g.setDefaultEdgeLabel(function () {
       return {};
