@@ -71,10 +71,12 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
         category.title = Localizer.l(category.searchKeys[0] as string);
         return {
           ...category,
+          expanded: false,
           children,
         };
       }
     );
+    treeNodes[0].expanded = true;
     setTreeData(treeNodes);
   }
 
