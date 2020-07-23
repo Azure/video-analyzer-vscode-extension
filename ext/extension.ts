@@ -1,7 +1,11 @@
 import * as path from "path";
 import * as vscode from "vscode";
+import Localizer from "./localizer";
 
 export function activate(context: vscode.ExtensionContext) {
+  const locale = JSON.parse(process.env.VSCODE_NLS_CONFIG || "{}")["locale"];
+  Localizer.loadLocalization(locale, context.extensionPath);
+
   context.subscriptions.push(
     vscode.commands.registerCommand("lvaTopologyEditor.start", () => {
       GraphEditorPanel.createOrShow(context.extensionPath);
@@ -31,33 +35,10 @@ class GraphEditorPanel {
   public static currentPanel: GraphEditorPanel | undefined;
 
   public static readonly viewType = "lvaTopologyEditor";
-  public static locStrings: Record<string, string>;
 
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionPath: string;
   private _disposables: vscode.Disposable[] = [];
-
-  public static loadLocalization(locale: string, extensionPath: string) {
-    let localizationFile = "package.nls.json";
-
-    if (locale != "en") {
-      localizationFile = `package.nls.${locale}.json`;
-    }
-
-    try {
-      GraphEditorPanel.locStrings = require(path.join(
-        extensionPath,
-        localizationFile
-      ));
-    } catch {
-      // locale is not available, default to English
-      GraphEditorPanel.loadLocalization("en", extensionPath);
-    }
-  }
-
-  public static localize(key: string) {
-    return this.locStrings[key];
-  }
 
   public static createOrShow(extensionPath: string) {
     const column = vscode.window.activeTextEditor
@@ -73,7 +54,7 @@ class GraphEditorPanel {
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
       GraphEditorPanel.viewType,
-      GraphEditorPanel.localize("lva-edge.webview.title"),
+      Localizer.localize("lva-edge.webview.title"),
       column || vscode.ViewColumn.One,
       {
         // Enable javascript in the webview
@@ -96,9 +77,6 @@ class GraphEditorPanel {
   private constructor(panel: vscode.WebviewPanel, extensionPath: string) {
     this._panel = panel;
     this._extensionPath = extensionPath;
-
-    const locale = JSON.parse(process.env.VSCODE_NLS_CONFIG || "{}")["locale"];
-    GraphEditorPanel.loadLocalization(locale, this._extensionPath);
 
     // Set the webview's initial html content
     this._update();
@@ -134,7 +112,7 @@ class GraphEditorPanel {
   }
 
   private _update() {
-    this._panel.title = GraphEditorPanel.localize("lva-edge.webview.title");
+    this._panel.title = Localizer.localize("lva-edge.webview.title");
     this._panel.webview.html = this._getHtmlForWebview();
   }
 
@@ -208,7 +186,7 @@ class GraphEditorPanel {
         } https:; script-src 'nonce-${nonce}';">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${GraphEditorPanel.localize("lva-edge.webview.title")}</title>
+        <title>${Localizer.localize("lva-edge.webview.title")}</title>
         ${stylesheetInjection}
       </head>
       <body>
