@@ -2653,17 +2653,16 @@
         {
           "title": "rtspSource",
           "extra": {
-            "id": "2c4d9a7a-c530-4065-a9cc-48480480e69e",
+            "id": "8ef70957-fad4-45ae-9737-b3997fe87f0a",
             "name": "rtspSource",
             "shape": "module",
             "ports": [
               {
-                "id": "fb69ee91-f36a-4429-847d-81e014e09b90",
+                "id": "f57f34b0-3ac1-4639-b81f-576d3d690e0c",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphRtspSource input port",
-                "ariaLabel": "input port for MediaGraphRtspSource"
+                "name": "MediaGraphRtspSource output port"
               }
             ],
             "data": {
@@ -2677,7 +2676,7 @@
               "nodeType": 0
             }
           },
-          "id": "9b4a4939-91d1-4eae-bc73-a34eff2d2341",
+          "id": "3d34a231-fdb0-458c-aeb8-4aced7097a90",
           "searchKeys": [
             "rtspSource"
           ],
@@ -2686,17 +2685,16 @@
         {
           "title": "ioTHubMessageSource",
           "extra": {
-            "id": "66692bd9-0115-4009-83d2-0ebb70a8d05a",
+            "id": "f23f0492-2ad5-4145-ba20-ab447fd02a77",
             "name": "ioTHubMessageSource",
             "shape": "module",
             "ports": [
               {
-                "id": "0356c779-c485-4091-a61e-b97aed88dc61",
+                "id": "9453c89b-2f0a-4380-a552-c32d09594c3b",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphIoTHubMessageSource input port",
-                "ariaLabel": "input port for MediaGraphIoTHubMessageSource"
+                "name": "MediaGraphIoTHubMessageSource output port"
               }
             ],
             "data": {
@@ -2710,7 +2708,7 @@
               "nodeType": 0
             }
           },
-          "id": "5286c387-1966-428d-9d01-b0f5878a6a4c",
+          "id": "25873bf2-a494-42c0-be0f-f89a24782f21",
           "searchKeys": [
             "ioTHubMessageSource"
           ],
@@ -2729,24 +2727,23 @@
         {
           "title": "motionDetectionProcessor",
           "extra": {
-            "id": "b3239b31-9d95-4885-8006-e0b78943e7c0",
+            "id": "cccbcb78-2a4f-4f1c-8967-42312a834c7d",
             "name": "motionDetectionProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "3bf85f28-4293-45cf-8b63-baa12e32dc59",
+                "id": "3d39da65-1e51-47e4-a099-109d66ac48c7",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphMotionDetectionProcessor input port",
-                "ariaLabel": "input port for MediaGraphMotionDetectionProcessor"
+                "name": "MediaGraphMotionDetectionProcessor output port"
               },
               {
-                "id": "e3cbeee7-a52a-4855-bff0-b8b2829e8234",
+                "id": "aa531b15-c798-4425-8322-ed929ab7c3b7",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphMotionDetectionProcessor output port"
+                "name": "MediaGraphMotionDetectionProcessor input port"
               }
             ],
             "data": {
@@ -2760,7 +2757,7 @@
               "nodeType": 1
             }
           },
-          "id": "91827103-0f51-4dff-932d-5f238d1163fc",
+          "id": "e0d52d62-5f83-4c5e-bb17-936d60048d81",
           "searchKeys": [
             "motionDetectionProcessor"
           ],
@@ -2769,24 +2766,23 @@
         {
           "title": "extensionProcessorBase",
           "extra": {
-            "id": "428ec1b4-c421-4265-8c72-87ec42ff71c1",
+            "id": "36335090-c14b-4ad6-b8c7-31526958911c",
             "name": "extensionProcessorBase",
             "shape": "module",
             "ports": [
               {
-                "id": "64b15099-52de-4ba9-96b1-031914acedd3",
+                "id": "603679a4-72e2-4bf8-ad0f-7bc2d71c68f4",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphExtensionProcessorBase input port",
-                "ariaLabel": "input port for MediaGraphExtensionProcessorBase"
+                "name": "MediaGraphExtensionProcessorBase output port"
               },
               {
-                "id": "e50a6826-f0e6-4287-89fa-9f95fa5e7151",
+                "id": "3bbd47c1-fa8d-4920-a3d1-2681a5e92b17",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphExtensionProcessorBase output port"
+                "name": "MediaGraphExtensionProcessorBase input port"
               }
             ],
             "data": {
@@ -2800,7 +2796,7 @@
               "nodeType": 1
             }
           },
-          "id": "1e79ea71-2be0-4a31-8fb4-c649048fc1a7",
+          "id": "02653945-9dcb-4aa7-ba1d-16125129036b",
           "searchKeys": [
             "extensionProcessorBase"
           ],
@@ -2809,24 +2805,23 @@
         {
           "title": "signalGateProcessor",
           "extra": {
-            "id": "0ab40d7d-7f89-4ed0-adc7-90d339806b75",
+            "id": "b43301a9-ede2-4e89-b300-e7e04f4fd911",
             "name": "signalGateProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "eb38ac87-7f5a-40ce-ad43-2b371145cf39",
+                "id": "e19188ce-2da0-4096-8cda-510204b73397",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphSignalGateProcessor input port",
-                "ariaLabel": "input port for MediaGraphSignalGateProcessor"
+                "name": "MediaGraphSignalGateProcessor output port"
               },
               {
-                "id": "f37fe6e9-5d1b-44df-8141-b80fac2fc1ef",
+                "id": "7fc2ed0f-00ac-4af2-b081-535b8e58d7c5",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphSignalGateProcessor output port"
+                "name": "MediaGraphSignalGateProcessor input port"
               }
             ],
             "data": {
@@ -2840,7 +2835,7 @@
               "nodeType": 1
             }
           },
-          "id": "6522f7e5-7dfd-48aa-a3ee-83c59d93efd9",
+          "id": "74b2cfac-4b58-45ab-8f79-56d000d6dec0",
           "searchKeys": [
             "signalGateProcessor"
           ],
@@ -2849,24 +2844,23 @@
         {
           "title": "frameRateFilterProcessor",
           "extra": {
-            "id": "69d54d2a-3b6a-4d71-91c1-40ccd90bec35",
+            "id": "ffd143f7-1e63-41ab-a250-f4f53172e47b",
             "name": "frameRateFilterProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "88c4138d-dead-4d2b-8957-290ef0465b5e",
+                "id": "4cce8c84-bd58-472a-b102-116a223ff56e",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphFrameRateFilterProcessor input port",
-                "ariaLabel": "input port for MediaGraphFrameRateFilterProcessor"
+                "name": "MediaGraphFrameRateFilterProcessor output port"
               },
               {
-                "id": "2df01761-48f2-485e-9452-5a085306b49a",
+                "id": "c6113a06-a889-460a-85f8-d1864f1f26ac",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphFrameRateFilterProcessor output port"
+                "name": "MediaGraphFrameRateFilterProcessor input port"
               }
             ],
             "data": {
@@ -2880,7 +2874,7 @@
               "nodeType": 1
             }
           },
-          "id": "c6ee219d-cc45-427a-9013-ec0493688060",
+          "id": "537c3e5f-870c-4687-ba64-155cab521a10",
           "searchKeys": [
             "frameRateFilterProcessor"
           ],
@@ -2899,16 +2893,16 @@
         {
           "title": "ioTHubMessageSink",
           "extra": {
-            "id": "5d1b2e02-3849-4cba-9f1c-ee6709bab436",
+            "id": "39d1d2e5-05e0-4412-b971-2f3df5b68c84",
             "name": "ioTHubMessageSink",
             "shape": "module",
             "ports": [
               {
-                "id": "85a50d66-f3e9-462b-923b-248f32987f24",
+                "id": "71bf7f38-9f85-43e8-9d47-f5f3276d641b",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphIoTHubMessageSink output port"
+                "name": "MediaGraphIoTHubMessageSink input port"
               }
             ],
             "data": {
@@ -2922,7 +2916,7 @@
               "nodeType": 2
             }
           },
-          "id": "2dd5af46-ac77-45c1-9bf3-9bbd4046dce1",
+          "id": "ba71b081-8f02-4e36-89e2-334b51505e42",
           "searchKeys": [
             "ioTHubMessageSink"
           ],
@@ -2931,16 +2925,16 @@
         {
           "title": "fileSink",
           "extra": {
-            "id": "5a712553-2812-4245-9708-873fbef14e5d",
+            "id": "c1048086-cf93-4151-92cd-d0eb45949eb5",
             "name": "fileSink",
             "shape": "module",
             "ports": [
               {
-                "id": "95079d37-f3eb-488d-b8e6-bd52ffdcfbed",
+                "id": "cd092922-d6ce-4b10-9dfb-c0eb3535cc8a",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphFileSink output port"
+                "name": "MediaGraphFileSink input port"
               }
             ],
             "data": {
@@ -2954,7 +2948,7 @@
               "nodeType": 2
             }
           },
-          "id": "063a7897-da65-4e82-9040-45d0cb7d68d4",
+          "id": "d9578e70-5617-451e-81c3-e10b26a8b981",
           "searchKeys": [
             "fileSink"
           ],
@@ -2963,16 +2957,16 @@
         {
           "title": "assetSink",
           "extra": {
-            "id": "7cff1f25-9ae9-48e9-97a3-8d47facf2ff1",
+            "id": "ef307c01-99f7-4782-a8c5-b3a67ccf04b2",
             "name": "assetSink",
             "shape": "module",
             "ports": [
               {
-                "id": "80581a39-f74f-4bc2-9e69-d02730d6aa88",
+                "id": "8297f652-667f-4a9d-9f80-f91c51ab6a95",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphAssetSink output port"
+                "name": "MediaGraphAssetSink input port"
               }
             ],
             "data": {
@@ -2986,7 +2980,7 @@
               "nodeType": 2
             }
           },
-          "id": "5d7d27a2-97cb-4dd0-8521-b5ffdcf83cee",
+          "id": "53fa1301-ae5b-4344-8e8f-165759274b9b",
           "searchKeys": [
             "assetSink"
           ],

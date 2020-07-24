@@ -32,8 +32,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: true,
         isOutputDisabled: false,
-        name: `${node.name} input port`,
-        ariaLabel: `input port for ${node.name}`, // will be localized in topology converter
+        name: `${node.name} output port`,
       });
     }
 
@@ -46,7 +45,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: false,
         isOutputDisabled: true,
-        name: `${node.name} output port`, // will be localized in topology converter
+        name: `${node.name} input port`,
       });
     }
 

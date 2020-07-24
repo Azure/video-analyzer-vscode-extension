@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 import {
   ICanvasEdge,
   ICanvasNode,
-  ICanvasPort,
   ICanvasData,
 } from "@vienna/react-dag-editor";
 import Definitions from "../definitions";
@@ -58,7 +57,11 @@ export default class Graph {
         topology.properties[NodeHelpers.getNodeTypeKey(nodeType)];
       for (const node of nodesForType) {
         const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
-          const label = this.getPortAriaLabel(node, port);
+          const label = Localizer.getPortAriaLabel(
+            this.getICanvasData(),
+            node,
+            port
+          );
           return {
             ...port,
             name: label,
@@ -213,13 +216,6 @@ export default class Graph {
       x: g.node(node.id).x - width / 2,
       y: g.node(node.id).y - height / 2,
     }));
-  }
-
-  private getPortAriaLabel(node: ICanvasNode, port: ICanvasPort) {
-    const type = port.isOutputDisabled
-      ? Localizer.l("input")
-      : Localizer.l("output");
-    return Localizer.l("nodePortDescription").format(node.name, type);
   }
 
   // helper that gets a node object from its string

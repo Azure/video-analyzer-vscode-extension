@@ -20,7 +20,8 @@
   "connectedToNodes": "Connected to {0}",
   "nodeNameWithPorts": "Node named {0} with {1}",
   "nodeNamed": "Node named {0}",
-  "nodePortDescription": "{0} {1} port",
+  "inputPortDescription": "Input port of {0}",
+  "outputPortDescription": "Output port of {0}",
   "input": "input",
   "output": "output"
 }

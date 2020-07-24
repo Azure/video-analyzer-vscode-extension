@@ -43,7 +43,8 @@ export default class Localizer {
     port: ICanvasPort
   ): string {
     const connectedNodeNames: string[] = [];
-    if (port.isInputDisabled) {
+    const isOutputPort = port.isInputDisabled;
+    if (isOutputPort) {
       // for output ports we need to find all edges starting here and
       // then get all nodes that are pointed to by the edge
       data.edges
@@ -70,7 +71,10 @@ export default class Localizer {
           );
         });
     }
-    return `${port.name}. ${
+    const typeAsString = isOutputPort ? "output" : "input";
+    return `${Localizer.l(typeAsString + "PortDescription").format(
+      node.name
+    )}. ${
       connectedNodeNames &&
       Localizer.l("connectedToNodes").format(connectedNodeNames.join(", "))
     }`;
