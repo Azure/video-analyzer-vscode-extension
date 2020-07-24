@@ -37,6 +37,12 @@ export default class Localizer {
     return this.localized[key];
   }
 
+  static getPortName(node: ICanvasNode, port: ICanvasPort) {
+    const isOutputPort = port.isInputDisabled;
+    const typeAsString = isOutputPort ? "output" : "input";
+    return `${Localizer.l(typeAsString + "PortDescription").format(node.name)}`;
+  }
+
   static getPortAriaLabel(
     data: ICanvasData,
     node: ICanvasNode,
@@ -72,9 +78,7 @@ export default class Localizer {
         });
     }
     const typeAsString = isOutputPort ? "output" : "input";
-    return `${Localizer.l(typeAsString + "PortDescription").format(
-      node.name
-    )}. ${
+    return `${Localizer.getPortName(node, port)}. ${
       connectedNodeNames &&
       Localizer.l("connectedToNodes").format(connectedNodeNames.join(", "))
     }`;

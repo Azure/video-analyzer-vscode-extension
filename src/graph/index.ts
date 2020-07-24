@@ -57,15 +57,14 @@ export default class Graph {
         topology.properties[NodeHelpers.getNodeTypeKey(nodeType)];
       for (const node of nodesForType) {
         const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
-          const label = Localizer.getPortAriaLabel(
-            this.getICanvasData(),
-            node,
-            port
-          );
           return {
             ...port,
-            name: label,
-            ariaLabel: label,
+            name: Localizer.getPortName(node, port),
+            ariaLabel: Localizer.getPortAriaLabel(
+              this.getICanvasData(),
+              node,
+              port
+            ),
           };
         });
         this.nodes.push({
