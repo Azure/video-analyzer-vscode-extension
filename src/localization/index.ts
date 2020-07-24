@@ -77,7 +77,6 @@ export default class Localizer {
           );
         });
     }
-    const typeAsString = isOutputPort ? "output" : "input";
     return `${Localizer.getPortName(node, port)}. ${
       connectedNodeNames &&
       Localizer.l("connectedToNodes").format(connectedNodeNames.join(", "))
