@@ -1,9 +1,6 @@
 {
   "Valid": "Valid",
   "Parse error": "Parse error",
-  "conforming to {type}": "conforming to {0}",
-  "required": "required",
-  "Example": "Example",
   "Copy": "Copy",
   "Delete": "Delete",
   "Copy selected": "Copy selected",
