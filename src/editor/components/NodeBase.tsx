@@ -9,7 +9,8 @@ import {
   IItemConfigArgs,
   IRectConfig,
   isNodeEditing,
-  ITheme
+  ITheme,
+  ICanvasPort,
 } from "@vienna/react-dag-editor";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
@@ -102,4 +103,19 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
       },
     };
   };
+
+  public getPorts(args: { model: ICanvasNode }): ICanvasPort[] {
+    const ports = args.model.ports;
+
+    if (!ports) {
+      return [];
+    }
+
+    return ports.map((port) => {
+      return {
+        ...port,
+        position: [port.isInputDisabled ? 1 : 0, 0.5],
+      };
+    });
+  }
 }

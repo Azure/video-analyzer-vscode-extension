@@ -7,7 +7,7 @@ import {
   IEdgeConfig,
   IEdgeDrawArgs,
   IPropsAPI,
-  ITheme
+  ITheme,
 } from "@vienna/react-dag-editor";
 
 export class CustomEdgeConfig implements IEdgeConfig {
@@ -37,9 +37,19 @@ export class CustomEdgeConfig implements IEdgeConfig {
 
     return (
       <>
-        <path
+        {/* <path
           key={edge.id}
           d={getCurvePathD(args.x2, args.x1, args.y2, args.y1)}
+          fill="none"
+          style={style}
+          id={`edge${edge.id}`}
+        /> */}
+        <line
+          key={edge.id}
+          x1={args.x1}
+          y1={args.y1}
+          x2={args.x2}
+          y2={args.y2}
           fill="none"
           style={style}
           id={`edge${edge.id}`}

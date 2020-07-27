@@ -9,7 +9,6 @@ import {
   ReactDagEditor,
   RegisterNode,
   RegisterPort,
-  withDefaultPortsPosition,
 } from "@vienna/react-dag-editor";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
@@ -86,10 +85,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
 
   return (
     <ReactDagEditor theme={theme}>
-      <RegisterNode
-        name="module"
-        config={withDefaultPortsPosition(new NodeBase())}
-      />
+      <RegisterNode name="module" config={new NodeBase()} />
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>

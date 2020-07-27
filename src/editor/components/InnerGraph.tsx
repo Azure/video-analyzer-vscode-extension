@@ -133,8 +133,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         zoomPanSettings={props.zoomPanSettings}
         setPanZoomPanSettings={props.setZoomPanSettings}
         onNodeClick={onNodeClick}
-        isAutoFitDisabled={true}
-        isKeyboardConnectingEnable={true}
         onChange={onChange}
         defaultNodeShape="module"
         defaultPortShape="modulePort"
@@ -143,7 +141,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         getPositionFromEvent={getPositionFromEvent}
         getNodeAriaLabel={Localizer.getNodeAriaLabel}
         getPortAriaLabel={Localizer.getPortAriaLabel}
-        isA11yEnable={true}
       />
     </>
   );
