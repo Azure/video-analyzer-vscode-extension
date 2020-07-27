@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import Helpers from "../../helpers/helpers";
 import HodeHelpers from "../../helpers/nodeHelpers";
 import { MediaGraphNodeType } from "../../types/graphTypes";
+import NodeHelpers from "../../helpers/nodeHelpers";
 
 export default class DefinitionGenerator {
   private apiDefinition: any;
@@ -14,6 +15,7 @@ export default class DefinitionGenerator {
   private localizable: Record<string, string> = {};
   private availableNodes: any[] = [];
   private itemPanelNodes: any[] = [];
+  private usableNodes: Record<string, string[]> = {};
 
   private static readonly nodeTypeList = [
     MediaGraphNodeType.Source,
@@ -25,19 +27,35 @@ export default class DefinitionGenerator {
     return path.join(__dirname, "/../../../src", filePath);
   }
 
-  public constructor(sourceFile: string, outputFolder: string) {
+  public constructor(version: string, outputFolder: string) {
     this.apiDefinition = JSON.parse(
       fs.readFileSync(
         DefinitionGenerator.resolveFile(
-          "tools/definition-generator/" + sourceFile
+          `tools/definition-generator/v${version}/LiveVideoAnalytics.json`
         ),
         "utf8"
       )
     );
-    this.outputFolder = outputFolder;
+    this.usableNodes = JSON.parse(
+      fs.readFileSync(
+        DefinitionGenerator.resolveFile(
+          `tools/definition-generator/v${version}/usableNodes.json`
+        ),
+        "utf8"
+      )
+    );
 
+    this.outputFolder = outputFolder;
     this.definitions = this.apiDefinition["definitions"] as any;
-    this.version = this.apiDefinition["info"]["version"] as string;
+    this.version = version;
+
+    const detectedVersion = this.apiDefinition["info"]["version"] as string;
+
+    if (detectedVersion !== version) {
+      console.warn(
+        `Warning: file version ${detectedVersion} does not match expected version ${version}. Will continue to generate as ${version}.`
+      );
+    }
 
     this.extractLocalizable();
     this.recursivelyExpandAllNodes();
@@ -157,20 +175,18 @@ export default class DefinitionGenerator {
 
   // returns the MediaGraphNodeType given a node definition
   private getNodeType(definition: any): MediaGraphNodeType {
-    if (!definition.allOf) {
-      return MediaGraphNodeType.Other;
+    const discriminatorValue = definition["x-ms-discriminator-value"];
+
+    if (discriminatorValue) {
+      for (const type of DefinitionGenerator.nodeTypeList) {
+        const key = NodeHelpers.getNodeTypeKey(type);
+        if (this.usableNodes[key].includes(discriminatorValue)) {
+          return type;
+        }
+      }
     }
 
-    switch (definition.allOf[0]["$ref"]) {
-      case "#/definitions/MediaGraphSink":
-        return MediaGraphNodeType.Sink;
-      case "#/definitions/MediaGraphProcessor":
-        return MediaGraphNodeType.Processor;
-      case "#/definitions/MediaGraphSource":
-        return MediaGraphNodeType.Source;
-      default:
-        return MediaGraphNodeType.Other;
-    }
+    return MediaGraphNodeType.Other;
   }
 
   // inline all inherited properties
