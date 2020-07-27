@@ -22,7 +22,10 @@ export default class Localizer {
   }
 
   static async loadUserLanguage(forceLang?: string) {
-    let language = forceLang || navigator.language || navigator.languages[0];
+    let language = forceLang || "en";
+    if (!forceLang && navigator) {
+      language = navigator.language || navigator.languages[0];
+    }
     language = language.toLowerCase().split("-")[0]; // en-US -> en
 
     try {
