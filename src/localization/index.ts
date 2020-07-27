@@ -23,7 +23,8 @@ export default class Localizer {
 
   static async loadUserLanguage(forceLang?: string) {
     let language = forceLang || "en";
-    if (!forceLang && navigator) {
+    // navigator might not be set, for example when running tests
+    if (!forceLang && typeof navigator !== "undefined") {
       language = navigator.language || navigator.languages[0];
     }
     language = language.toLowerCase().split("-")[0]; // en-US -> en
