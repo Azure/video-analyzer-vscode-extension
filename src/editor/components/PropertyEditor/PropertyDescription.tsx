@@ -6,7 +6,7 @@ interface IPropertyDescriptionProps {
   property: any;
 }
 
-const PropertyDescription: React.FunctionComponent<IPropertyDescriptionProps> = (
+export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionProps> = (
   props
 ) => {
   const { property } = props;
@@ -16,5 +16,3 @@ const PropertyDescription: React.FunctionComponent<IPropertyDescriptionProps> = 
     </Text>
   );
 };
-
-export default PropertyDescription;

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Dropdown, IDropdownOption } from "office-ui-fabric-react";
 import Definitions from "../../../definitions";
-import PropertyEditor from "./PropertyEditor";
-import PropertyDescription from "./PropertyDescription";
+import { PropertyEditor } from "./PropertyEditor";
+import { PropertyDescription } from "./PropertyDescription";
 
 interface IPropertyNestedObjectProps {
   name: string;
@@ -11,7 +11,7 @@ interface IPropertyNestedObjectProps {
   required: boolean;
 }
 
-const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (
+export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (
   props
 ) => {
   const { name, property, nodeProperties, required } = props;
@@ -62,5 +62,3 @@ const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> 
     </>
   );
 };
-
-export default PropertyNestedObject;

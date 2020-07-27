@@ -7,8 +7,8 @@ import {
   IChoiceGroupOption,
 } from "office-ui-fabric-react";
 import * as React from "react";
-import PropertyNestedObject from "./PropertyNestedObject";
-import PropertyDescription from "./PropertyDescription";
+import { PropertyNestedObject } from "./PropertyNestedObject";
+import { PropertyDescription } from "./PropertyDescription";
 import Localizer from "../../../localization";
 
 interface IPropertyEditFieldProps {
@@ -18,7 +18,7 @@ interface IPropertyEditFieldProps {
   required: boolean;
 }
 
-const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
+export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
   props
 ) => {
   const { name, property, nodeProperties, required } = props;
@@ -204,5 +204,3 @@ const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
     );
   }
 };
-
-export default PropertyEditField;

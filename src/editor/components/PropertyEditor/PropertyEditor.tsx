@@ -1,12 +1,12 @@
 import * as React from "react";
 import Definitions from "../../../definitions";
-import PropertyEditField from "./PropertyEditField";
+import { PropertyEditField } from "./PropertyEditField";
 
 interface IPropertyEditorProps {
   nodeProperties: any;
 }
 
-const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
+export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
   props
 ) => {
   const { nodeProperties } = props;
@@ -47,5 +47,3 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
 
   return <>{propertyFields}</>;
 };
-
-export default PropertyEditor;
