@@ -22,6 +22,8 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
   for (const name in definition.properties) {
     const property = definition.properties[name];
 
+    if (!property) continue;
+
     // skip the type field (already shown as dropdown by PropertyNestedObject)
     if (name === "@type") continue;
 
@@ -35,7 +37,7 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
       >
         <label htmlFor={name}>
           <strong>{name}</strong> ({property.type}
-          {property.type === "object" && (
+          {property.type === "object" && property.parsedRef && (
             <>
               {" "}
               {Localizer.l("conforming to {type}").format(

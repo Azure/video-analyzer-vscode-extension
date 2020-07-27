@@ -3,7 +3,7 @@ import * as path from "path";
 import { v4 as uuid } from "uuid";
 import Helpers from "../../helpers/helpers";
 import HodeHelpers from "../../helpers/nodeHelpers";
-import { MediaGraphNodeType } from "../../types/graphTypes";
+import { MediaGraphNodeType, NodeDefinition } from "../../types/graphTypes";
 
 export default class DefinitionGenerator {
   private apiDefinition: any;
@@ -12,7 +12,7 @@ export default class DefinitionGenerator {
   private definitions: any;
 
   private localizable: Record<string, string> = {};
-  private availableNodes: any[] = [];
+  private availableNodes: NodeDefinition[] = [];
   private itemPanelNodes: any[] = [];
 
   private static readonly nodeTypeList = [
