@@ -26,28 +26,28 @@ export const ContextMenu: React.FunctionComponent = () => {
     <$ContextMenu className="context-menu">
       <NodeMenu>
         <div onClick={onCopyClick} role="button">
-          {Localizer.l("Copy")}
+          {Localizer.l("copy")}
         </div>
         <div onClick={onDeleteClick} role="button">
-          {Localizer.l("Delete")}
+          {Localizer.l("delete")}
         </div>
       </NodeMenu>
       <EdgeMenu>
         <div onClick={onDeleteClick} role="button">
-          {Localizer.l("Delete")}
+          {Localizer.l("delete")}
         </div>
       </EdgeMenu>
       <MultiMenu>
         <div onClick={onCopyClick} role="button">
-          {Localizer.l("Copy selected")}
+          {Localizer.l("copySelected")}
         </div>
         <div onClick={onDeleteClick} role="button">
-          {Localizer.l("Delete selected")}
+          {Localizer.l("deleteSelected")}
         </div>
       </MultiMenu>
       <CanvasMenu>
         <div onClick={onPasteClick} role="button">
-          {Localizer.l("Paste")}
+          {Localizer.l("paste")}
         </div>
       </CanvasMenu>
     </$ContextMenu>
