@@ -1,5 +1,8 @@
 import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
-import { MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
+import {
+  MediaGraphTopology,
+  MediaGraphNodeInput,
+} from "../lva-sdk/lvaSDKtypes";
 
 export enum MediaGraphNodeType {
   Source,
@@ -14,12 +17,34 @@ export interface GraphInfo {
   edges: ICanvasEdge[];
 }
 
-export interface NodeDefinition {
-  description: string;
+export interface NodeDefinitionProperty {
+  type?: string;
+  parsedRef?: string;
+  format?: string;
+  properties?: Record<string, NodeDefinitionProperty | undefined>;
+  description?: string;
+  required?: string[];
+  enum?: string[];
+  example?: string;
+  "x-ms-discriminator-value"?: string;
+}
+
+export interface NodeDefinition extends NodeDefinitionProperty {
   name: string;
   nodeType: MediaGraphNodeType;
-  properties: any;
-  type?: string;
-  required?: string[];
   parsedAllOf?: string[];
+}
+
+export interface CanvasNodeProperties {
+  "@type": string;
+  inputs?: MediaGraphNodeInput[];
+  name: string;
+}
+
+export interface CanvasNodeData {
+  color: string;
+  colorAlt: string;
+  iconName: string;
+  nodeProperties: CanvasNodeProperties | Record<string, any>;
+  nodeType: MediaGraphNodeType;
 }

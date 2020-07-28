@@ -2,9 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
 import Helpers from "../../helpers/helpers";
-import HodeHelpers from "../../helpers/nodeHelpers";
-import { MediaGraphNodeType } from "../../types/graphTypes";
 import NodeHelpers from "../../helpers/nodeHelpers";
+import { MediaGraphNodeType, NodeDefinition } from "../../types/graphTypes";
 
 export default class DefinitionGenerator {
   private apiDefinition: any;
@@ -13,7 +12,7 @@ export default class DefinitionGenerator {
   private definitions: any;
 
   private localizable: Record<string, string> = {};
-  private availableNodes: any[] = [];
+  private availableNodes: NodeDefinition[] = [];
   private itemPanelNodes: any[] = [];
   private usableNodes: Record<string, string[]> = {};
 
@@ -111,9 +110,9 @@ export default class DefinitionGenerator {
   private generateItemPanelNodeList() {
     // generate nodes shown in the drag-and-droppable item panel on the left
     this.itemPanelNodes = DefinitionGenerator.nodeTypeList.map((nodeType) => ({
-      title: HodeHelpers.getNodeTypeKey(nodeType),
-      id: HodeHelpers.getNodeTypeKey(nodeType),
-      searchKeys: [HodeHelpers.getNodeTypeKey(nodeType)],
+      title: NodeHelpers.getNodeTypeKey(nodeType),
+      id: NodeHelpers.getNodeTypeKey(nodeType),
+      searchKeys: [NodeHelpers.getNodeTypeKey(nodeType)],
       children: this.availableNodes
         .filter((node) => node.nodeType === nodeType)
         .map((node) => {
@@ -121,9 +120,9 @@ export default class DefinitionGenerator {
             id: uuid(),
             name: Helpers.lowercaseFirstCharacter(node.name),
             shape: "module",
-            ports: HodeHelpers.getPorts(node),
+            ports: NodeHelpers.getPorts(node),
             data: {
-              ...HodeHelpers.getNodeProperties(node.nodeType),
+              ...NodeHelpers.getNodeProperties(node.nodeType),
               nodeProperties: {
                 "@type": node["x-ms-discriminator-value"],
                 name: node.name,
