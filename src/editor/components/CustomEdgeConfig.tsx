@@ -7,7 +7,7 @@ import {
   IEdgeConfig,
   IEdgeDrawArgs,
   IPropsAPI,
-  ITheme
+  ITheme,
 } from "@vienna/react-dag-editor";
 
 export class CustomEdgeConfig implements IEdgeConfig {
@@ -17,32 +17,52 @@ export class CustomEdgeConfig implements IEdgeConfig {
     this.propsAPI = propsAPI;
   }
 
+  private isSelected(edge: ICanvasEdge) {
+    return hasState(
+      GraphEdgeState.selected |
+        GraphEdgeState.activated |
+        GraphEdgeState.connectedToSelected
+    )(edge.state);
+  }
+
+  private getColor(edge: ICanvasEdge, theme: ITheme) {
+    return this.isSelected(edge) ? theme.edgeColorSelected : theme.edgeColor;
+  }
+
   public getStyle(edge: ICanvasEdge, theme: ITheme): React.CSSProperties {
     return {
       cursor: "pointer",
-      stroke: hasState(
-        GraphEdgeState.selected |
-          GraphEdgeState.activated |
-          GraphEdgeState.connectedToSelected
-      )(edge.state)
-        ? theme.edgeColorSelected
-        : theme.edgeColor,
-      strokeWidth: "5",
+      stroke: this.getColor(edge, theme),
+      strokeWidth: this.isSelected(edge) ? 3 : 2,
     };
   }
 
   public render(args: IEdgeDrawArgs): React.ReactNode {
-    const edge = args.model;
+    const { theme, model: edge, x1, x2, y1, y2 } = args;
     const style = this.getStyle ? this.getStyle(edge, args.theme) : {};
+
+    const fixedY2 = y2 - 12;
+    const triangleHeadPoints = `${x2 - 3} ${fixedY2}, ${
+      x2 + 3
+    } ${fixedY2}, ${x2} ${fixedY2 + 6}`;
+    const color = this.getColor(edge, theme);
 
     return (
       <>
         <path
           key={edge.id}
-          d={getCurvePathD(args.x2, args.x1, args.y2, args.y1)}
+          d={getCurvePathD(x2, x1, fixedY2, y1)}
           fill="none"
           style={style}
           id={`edge${edge.id}`}
+        />
+        <polygon
+          points={triangleHeadPoints}
+          style={{
+            stroke: color,
+            fill: color,
+            strokeWidth: this.isSelected(edge) ? 3 : 2,
+          }}
         />
       </>
     );
