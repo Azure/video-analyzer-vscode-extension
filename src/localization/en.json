@@ -15,7 +15,7 @@
   "sources": "Sources",
   "processors": "Processors",
   "sinks": "Sinks",
-  "export": "Export",
+  "saveButtonText": "Save",
   "optionalDefaultValue": "Optional default value",
   "ariaPortLabelConnectedToNodes": "Connected to {0}",
   "ariaNodeLabelNodeNameWithPorts": "Node named {0} with {1}",

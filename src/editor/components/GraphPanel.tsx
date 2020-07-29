@@ -21,7 +21,9 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
 
   return (
     <>
-      <button onClick={props.exportGraph}>{Localizer.l("export")}</button>
+      <button onClick={props.exportGraph}>
+        {Localizer.l("saveButtonText")}
+      </button>
 
       <h2>{Localizer.l("sidebarHeadingParameters")}</h2>
       {parameters &&
