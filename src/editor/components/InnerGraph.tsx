@@ -30,6 +30,7 @@ export interface IInnerGraphProps {
   isHorizontal?: boolean;
   onNodeAdded?: (node: ICanvasNode) => void;
   onNodeRemoved?: (nodes: Set<string>) => void;
+  onChange?: (evt: IGraphDataChangeEvent) => void;
 }
 
 function between(min: number, max: number, value: number): number {
@@ -77,6 +78,9 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
     evt: IGraphDataChangeEvent,
     ref: React.RefObject<SVGSVGElement>
   ) => {
+    if (props.onChange) {
+      props.onChange(evt);
+    }
     switch (evt.type) {
       case GraphDataChangeType.addNode:
         onAddNode(evt.payload);

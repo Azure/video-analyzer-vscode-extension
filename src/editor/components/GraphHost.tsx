@@ -20,6 +20,7 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization";
 import Graph from "../../graph";
+import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 
 interface IGraphProps {
   graph: Graph;
@@ -28,15 +29,16 @@ interface IGraphProps {
 }
 
 export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
-  const graph = props.graph;
+  const { graph, vsCodeSetState } = props;
   const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
+  const [dirty, setDirty] = React.useState<boolean>(false);
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
-    props.vsCodeSetState({
+    vsCodeSetState({
       graphData: { ...data, meta: graph.getTopology() },
       zoomPanSettings,
     });
@@ -44,6 +46,16 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
 
   if (!isSupported()) {
     return <h1>{Localizer.l("browserNotSupported")}</h1>;
+  }
+
+  function setTopology(topology: any) {
+    graph.setTopology(topology);
+    setData(graph.getICanvasData());
+    setDirty(false);
+  }
+
+  function onChange() {
+    setDirty(true);
   }
 
   // nodeNames maps an ID to a name, is updated on node add/remove
@@ -95,6 +107,10 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
         <Stack.Item styles={panelStyles}>
           <h2>{Localizer.l("nodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
+          <SampleSelectorTrigger
+            setTopology={setTopology}
+            hasUnsavedChanges={dirty}
+          />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>
         <Stack.Item grow>
@@ -106,6 +122,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
             canvasMouseMode={CanvasMouseMode.pan}
             onNodeAdded={nodeAdded}
             onNodeRemoved={nodesRemoved}
+            onChange={onChange}
           />
         </Stack.Item>
       </Stack>
