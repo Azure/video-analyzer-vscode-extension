@@ -5,22 +5,12 @@ import {
   DialogFooter,
   PrimaryButton,
   DefaultButton,
-  hiddenContentStyle,
-  mergeStyles,
   Dropdown,
   IDropdownOption,
 } from "office-ui-fabric-react";
-import { useId } from "@uifabric/react-hooks";
 import { sampleOptionsList } from "./sampleList";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
-
-const screenReaderOnly = mergeStyles(hiddenContentStyle);
-const dialogContentProps = {
-  type: DialogType.normal,
-  title: "Select a Sample Topology",
-  closeButtonAriaLabel: "Close",
-  subText: "Jumpstart your topology creation with our built-in samples.",
-};
+import Localizer from "../../../localization";
 
 enum Status {
   NoDisplay,
@@ -42,17 +32,17 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
 
   const [topology, setTopology] = React.useState<any>({});
   const [status, setStatus] = React.useState<Status>(Status.SelectSample);
-  const labelId: string = useId("dialogLabel");
-  const subTextId: string = useId("subTextLabel");
 
-  const modalProps = React.useMemo(
-    () => ({
-      titleAriaId: labelId,
-      subtitleAriaId: subTextId,
-      isBlocking: false,
-    }),
-    [labelId, subTextId]
-  );
+  const dialogContentProps = {
+    type: DialogType.close,
+    closeButtonAriaLabel: Localizer.l("dialogCloseButtonAriaLabel"),
+    title: Localizer.l("sampleSelectorTitle"),
+    subText: Localizer.l("sampleSelectorText"),
+  };
+
+  const modalProps = {
+    isBlocking: false,
+  };
 
   let selectedSampleApiUrl = "";
 
@@ -99,13 +89,6 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
 
   return (
     <>
-      <label id={labelId} className={screenReaderOnly}>
-        My sample label
-      </label>
-      <label id={subTextId} className={screenReaderOnly}>
-        My sample description
-      </label>
-
       <Dialog
         hidden={status !== Status.SelectSample}
         onDismiss={dismissSelector}
@@ -113,14 +96,20 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
         modalProps={modalProps}
       >
         <Dropdown
-          placeholder="Select an option"
-          label="Topology Name"
+          placeholder={Localizer.l("sampleSelectorDropdownPlaceholderText")}
+          label={Localizer.l("sampleSelectorDropdownLabel")}
           options={sampleOptionsList}
           onChange={onChange}
         />
         <DialogFooter>
-          <PrimaryButton onClick={confirmSelection} text="Load Sample" />
-          <DefaultButton onClick={dismissSelector} text="Cancel" />
+          <PrimaryButton
+            onClick={confirmSelection}
+            text={Localizer.l("sampleSelectorLoadSampleButtonText")}
+          />
+          <DefaultButton
+            onClick={dismissSelector}
+            text={Localizer.l("cancelButtonText")}
+          />
         </DialogFooter>
       </Dialog>
 

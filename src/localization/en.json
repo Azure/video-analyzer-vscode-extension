@@ -23,5 +23,17 @@
   "inputPortDescription": "Input port of {0}",
   "outputPortDescription": "Output port of {0}",
   "input": "input",
-  "output": "output"
+  "output": "output",
+  "cancelButtonText": "Cancel",
+  "dialogCloseButtonAriaLabel": "Close",
+  "sampleSelectorButtonText": "Select Sample",
+  "sampleSelectorTitle": "Select a Sample Topology",
+  "sampleSelectorText": "Jumpstart your topology creation with our built-in samples.",
+  "sampleSelectorDropdownLabel": "Topology Name",
+  "sampleSelectorDropdownPlaceholderText": "Select a sample topology",
+  "sampleSelectorLoadSampleButtonText": "Load Sample",
+  "sampleSelectorOverwriteConfirmationTitle": "Existing Changes",
+  "sampleSelectorOverwriteConfirmationText": "Your existing changes will be lost if you continue. Do you want to overwrite or keep your changes?",
+  "sampleSelectorOverwriteConfirmButtonText": "Overwrite",
+  "sampleSelectorOverwriteKeepButtonText": "Keep"
 }
