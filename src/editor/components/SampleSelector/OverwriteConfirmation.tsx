@@ -5,12 +5,8 @@ import {
   DialogFooter,
   PrimaryButton,
   DefaultButton,
-  hiddenContentStyle,
-  mergeStyles,
 } from "office-ui-fabric-react";
 import Localizer from "../../../localization";
-
-const screenReaderOnly = mergeStyles(hiddenContentStyle);
 
 interface IOverwriteConfirmationProps {
   shown: boolean;
