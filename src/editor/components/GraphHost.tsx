@@ -93,7 +93,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <h2>{Localizer.l("nodes")}</h2>
+          <h2>{Localizer.l("sidebarHeadingNodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>

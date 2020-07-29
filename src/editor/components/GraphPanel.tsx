@@ -23,7 +23,7 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
     <>
       <button onClick={props.exportGraph}>{Localizer.l("export")}</button>
 
-      <h2>{Localizer.l("parameters")}</h2>
+      <h2>{Localizer.l("sidebarHeadingParameters")}</h2>
       {parameters &&
         parameters.map((parameter) => {
           const key = "parameter-" + parameter.name;

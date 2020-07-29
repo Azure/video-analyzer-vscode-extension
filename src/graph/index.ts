@@ -22,6 +22,7 @@ import {
   CanvasNodeProperties,
 } from "../types/graphTypes";
 import Localizer from "../localization";
+import AriaLocalizer from "../localization/ariaLocalizer";
 
 export default class Graph {
   private static readonly nodeTypeList = [
@@ -65,8 +66,8 @@ export default class Graph {
         const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
           return {
             ...port,
-            name: Localizer.getPortName(node, port),
-            ariaLabel: Localizer.getPortAriaLabel(
+            name: AriaLocalizer.getPortName(node, port),
+            ariaLabel: AriaLocalizer.getPortAriaLabel(
               this.getICanvasData(),
               node,
               port
@@ -76,7 +77,9 @@ export default class Graph {
         this.nodes.push({
           id: uuid(),
           name: node.name,
-          ariaLabel: Localizer.l("nodeNamed").format(node.name),
+          ariaLabel: Localizer.l("ariaNodeLabelNodeDescription").format(
+            node.name
+          ),
           data: {
             ...NodeHelpers.getNodeProperties(nodeType),
             nodeProperties: node,
