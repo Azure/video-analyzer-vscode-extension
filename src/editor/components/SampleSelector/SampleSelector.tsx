@@ -18,17 +18,15 @@ enum Status {
   ConfirmOverwrite,
   LoadingSample,
 }
-
 interface ISampleSelectorProps {
   loadTopology: (topology: any) => void;
-  noSelection: () => void;
   hasUnsavedChanges: boolean;
 }
 
 export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
   props
 ) => {
-  const { loadTopology, noSelection, hasUnsavedChanges } = props;
+  const { loadTopology, hasUnsavedChanges } = props;
 
   const [topology, setTopology] = React.useState<any>({});
   const [status, setStatus] = React.useState<Status>(Status.SelectSample);
@@ -44,14 +42,14 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
     isBlocking: false,
   };
 
-  let selectedSampleApiUrl = "";
+  let selectedSampleName = "";
 
   function onChange(
     event: React.FormEvent<HTMLDivElement>,
     option?: IDropdownOption
   ) {
     if (option) {
-      selectedSampleApiUrl = option.key as string;
+      selectedSampleName = option.key as string;
     }
   }
 
@@ -62,7 +60,17 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
       setStatus(Status.LoadingSample);
     }
 
-    fetch(selectedSampleApiUrl)
+    fetch(
+      "https://api.github.com/repos/Azure/live-video-analytics/git/trees/master?recursive=1"
+    )
+      .then((response) => response.json() as any)
+      .then(
+        (data) =>
+          data.tree.filter((entry: any) =>
+            entry.path.endsWith(selectedSampleName + "/topology.json")
+          )[0].url
+      )
+      .then((apiUrl) => fetch(apiUrl))
       .then((response) => response.json() as any)
       .then((data) => atob(data.content))
       .then((topology) => {
@@ -72,9 +80,6 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
         } else {
           setTopology(JSON.parse(topology));
         }
-      })
-      .catch((error) => {
-        noSelection();
       });
   }
 
@@ -100,6 +105,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
           label={Localizer.l("sampleSelectorDropdownLabel")}
           options={sampleOptionsList}
           onChange={onChange}
+          dropdownWidth={700}
         />
         <DialogFooter>
           <PrimaryButton
