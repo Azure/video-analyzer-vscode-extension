@@ -34,13 +34,14 @@
     "compile-ext": "tsc -p tsconfig.ext.json",
     "dev": "react-scripts start",
     "lint": "eslint . --ext .ts,.tsx",
-    "create-definitions": "tsc -p tsconfig.definitiongen.json && node ./definition-generator/tools/definition-generator/entry.js"
+    "create-definitions": "tsc -p tsconfig.definitiongen.json && node ./definition-generator/tools/definition-generator/entry.js",
+    "refreshVSToken": "vsts-npm-auth -config .npmrc"
   },
   "dependencies": {
     "@vienna/react-dag-editor": "^1.45.1",
     "dagre": "^0.8.5",
     "eslint": "^6.8.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "office-ui-fabric-react": "^7.117.1",
     "react": "^16.13.1",
     "react-accessible-tree": "^1.0.3",

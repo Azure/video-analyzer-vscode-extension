@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, ICanvasPort } from "@vienna/react-dag-editor";
-import { MediaGraphNodeType } from "../types/graphTypes";
+import { MediaGraphNodeType, NodeDefinition } from "../types/graphTypes";
 
 export default class NodeHelpers {
   // maps a MediaGraphNodeType to a string to index into the topology JSON
@@ -18,7 +18,10 @@ export default class NodeHelpers {
   }
 
   // returns the appropriate ports for a node (proper input and input according to type)
-  static getPorts(node: any, type?: MediaGraphNodeType): ICanvasPort[] {
+  static getPorts(
+    node: NodeDefinition,
+    type?: MediaGraphNodeType
+  ): ICanvasPort[] {
     const ports = [];
     // type might be a value of MediaGraphNodeType that maps to 0, which is falsy
     const nodeType = typeof type === "undefined" ? node.nodeType : type;
@@ -32,8 +35,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: true,
         isOutputDisabled: false,
-        name: `${node.name} input port`,
-        ariaLabel: `input port for ${node.name}`, // will be localized in topology converter
+        name: `${node.name} output port`,
       });
     }
 
@@ -46,7 +48,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: false,
         isOutputDisabled: true,
-        name: `${node.name} output port`, // will be localized in topology converter
+        name: `${node.name} input port`,
       });
     }
 

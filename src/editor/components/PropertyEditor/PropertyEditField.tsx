@@ -190,12 +190,12 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
           {valid ? (
             <>
               <Icon iconName="CheckMark" style={iconStyle} />
-              {Localizer.l("Valid")}
+              {Localizer.l("valid")}
             </>
           ) : (
             <>
               <Icon iconName="WarningSolid" style={iconStyle} />
-              {Localizer.l("Parse error")}
+              {Localizer.l("parseError")}
             </>
           )}
         </div>

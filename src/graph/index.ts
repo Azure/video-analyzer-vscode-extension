@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 import {
   ICanvasEdge,
   ICanvasNode,
-  ICanvasPort,
   ICanvasData,
 } from "@vienna/react-dag-editor";
 import Definitions from "../definitions";
@@ -14,8 +13,14 @@ import {
   MediaGraphSinkUnion,
   MediaGraphSourceUnion,
   MediaGraphTopology,
+  MediaGraphNodeInput,
 } from "../lva-sdk/lvaSDKtypes";
-import { GraphInfo, MediaGraphNodeType } from "../types/graphTypes";
+import {
+  GraphInfo,
+  MediaGraphNodeType,
+  CanvasNodeData,
+  CanvasNodeProperties,
+} from "../types/graphTypes";
 import Localizer from "../localization";
 
 export default class Graph {
@@ -34,7 +39,7 @@ export default class Graph {
   private sinks: MediaGraphSinkUnion[] = [];
 
   // output is a list of nodes, edges, and some metadata
-  private nodes: ICanvasNode[] = [];
+  private nodes: ICanvasNode<CanvasNodeData>[] = [];
   private edges: ICanvasEdge[] = [];
 
   public setGraphData(graphInfo: GraphInfo) {
@@ -58,22 +63,25 @@ export default class Graph {
         topology.properties[NodeHelpers.getNodeTypeKey(nodeType)];
       for (const node of nodesForType) {
         const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
-          const label = this.getPortAriaLabel(node, port);
           return {
             ...port,
-            name: label,
-            ariaLabel: label,
+            name: Localizer.getPortName(node, port),
+            ariaLabel: Localizer.getPortAriaLabel(
+              this.getICanvasData(),
+              node,
+              port
+            ),
           };
         });
         this.nodes.push({
           id: uuid(),
           name: node.name,
-          ariaLabel: Localizer.l("Node named {name}").format(node.name),
+          ariaLabel: Localizer.l("nodeNamed").format(node.name),
           data: {
             ...NodeHelpers.getNodeProperties(nodeType),
             nodeProperties: node,
             nodeType: nodeType,
-          },
+          } as CanvasNodeData,
           ports: ports,
           x: 0,
           y: 0,
@@ -81,23 +89,25 @@ export default class Graph {
       }
     }
 
-    this.forEachNodeInput((node: any, input: any) => {
-      const sourceNode = this.getNode(input.nodeName);
-      const sourcePort = this.getPort(input.nodeName, false);
-      const targetNode = this.getNode(node.name);
-      const targetPort = this.getPort(node.name, true);
+    this.forEachNodeInput(
+      (node: CanvasNodeProperties, input: MediaGraphNodeInput) => {
+        const sourceNode = this.getNode(input.nodeName || "");
+        const sourcePort = this.getPort(input.nodeName || "", false);
+        const targetNode = this.getNode(node.name);
+        const targetPort = this.getPort(node.name, true);
 
-      // since we know all of the inputs for node, we can form edges (input, node)
-      if (sourceNode && sourcePort && targetNode && targetPort) {
-        this.edges.push({
-          source: sourceNode.id,
-          target: targetNode.id,
-          sourcePortId: sourcePort.id,
-          targetPortId: targetPort.id,
-          id: uuid(),
-        });
+        // since we know all of the inputs for node, we can form edges (input, node)
+        if (sourceNode && sourcePort && targetNode && targetPort) {
+          this.edges.push({
+            source: sourceNode.id,
+            target: targetNode.id,
+            sourcePortId: sourcePort.id,
+            targetPortId: targetPort.id,
+            id: uuid(),
+          });
+        }
       }
-    });
+    );
 
     this.layoutGraph();
   }
@@ -113,7 +123,7 @@ export default class Graph {
       if (nodeData) {
         // only save used node properties i.e. those that match the selected types
         const properties = this.getTrimmedNodeProperties(
-          nodeData.nodeProperties
+          nodeData.nodeProperties as CanvasNodeProperties
         );
         properties.name = nodeData.nodeProperties.name;
 
@@ -126,13 +136,13 @@ export default class Graph {
         // filter into three categories
         switch (nodeData.nodeType) {
           case MediaGraphNodeType.Source:
-            this.sources.push(properties);
+            this.sources.push(properties as any);
             break;
           case MediaGraphNodeType.Processor:
-            this.processors.push(properties);
+            this.processors.push(properties as any);
             break;
           case MediaGraphNodeType.Sink:
-            this.sinks.push(properties);
+            this.sinks.push(properties as any);
             break;
         }
       }
@@ -215,13 +225,6 @@ export default class Graph {
     }));
   }
 
-  private getPortAriaLabel(node: ICanvasNode, port: ICanvasPort) {
-    const type = port.isOutputDisabled
-      ? Localizer.l("input")
-      : Localizer.l("output");
-    return Localizer.l("{node name} {type} port").format(node.name, type);
-  }
-
   // helper that gets a node object from its string
   private getNode(nodeName: string) {
     for (const node of this.nodes) {
@@ -246,12 +249,14 @@ export default class Graph {
   }
 
   // helper to loop through all inputs for all nodes
-  private forEachNodeInput(callback: (node: any, input: any) => void) {
+  private forEachNodeInput(
+    callback: (node: CanvasNodeProperties, input: MediaGraphNodeInput) => void
+  ) {
     if (this.graphInformation && this.graphInformation.properties) {
       for (const nodeType of Graph.nodeTypeList) {
         for (const node of (this.graphInformation.properties as Record<
           string,
-          any[]
+          CanvasNodeProperties[]
         >)[NodeHelpers.getNodeTypeKey(nodeType)]) {
           if (node.inputs) {
             for (const input of node.inputs) {
@@ -266,21 +271,26 @@ export default class Graph {
   /* To be able to switch between multiple different types of properties without
 	loosing the values or properties not needed for the selected type, properties
 	that might not be needed are retained. We can remove these when exporting. */
-  private getTrimmedNodeProperties(nodeProperties: any): any {
+  private getTrimmedNodeProperties(
+    nodeProperties: CanvasNodeProperties
+  ): CanvasNodeProperties {
     const definition = Definitions.getNodeDefinition(nodeProperties);
     const neededProperties: any = {};
 
     if (!definition) {
-      return {};
+      return {
+        "@type": nodeProperties["@type"],
+        name: nodeProperties.name,
+      };
     }
 
     // copy over only properties as needed (determined by definition)
     for (const name in definition.properties) {
       const property = definition.properties[name];
-      const nestedProperties = nodeProperties[name];
+      const nestedProperties = (nodeProperties as any)[name];
 
       if (nestedProperties) {
-        if (property.type === "object") {
+        if (property && property.type === "object") {
           if (!Helpers.isEmptyObject(nestedProperties)) {
             neededProperties[name] = this.getTrimmedNodeProperties(
               nestedProperties
@@ -324,8 +334,11 @@ export default class Graph {
   // converts from edges (u, v) to an array of nodes [u] pointing to v
   private getNodeInputs(nodeId: string) {
     const inboundEdges = this.edges.filter((edge) => edge.target === nodeId);
-    return inboundEdges.map((edge) => ({
-      nodeName: this.getNodeName(edge.source),
-    }));
+    return inboundEdges.map(
+      (edge) =>
+        ({
+          nodeName: this.getNodeName(edge.source),
+        } as MediaGraphNodeInput)
+    );
   }
 }

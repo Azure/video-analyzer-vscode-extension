@@ -33,14 +33,13 @@ export interface IInnerGraphProps {
 }
 
 function between(min: number, max: number, value: number): number {
-  let result = value;
-  if (min > result) {
-    result = min;
+  if (min > value) {
+    return min;
   }
-  if (max < result) {
-    result = max;
+  if (max < value) {
+    return max;
   }
-  return result;
+  return value;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (

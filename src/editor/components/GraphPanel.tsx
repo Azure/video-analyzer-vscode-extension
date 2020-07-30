@@ -22,9 +22,9 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
 
   return (
     <>
-      <PrimaryButton text={Localizer.l("Export")} onClick={props.exportGraph} />
+      <PrimaryButton text={Localizer.l("export")} onClick={props.exportGraph} />
 
-      <h2>{Localizer.l("Parameters")}</h2>
+      <h2>{Localizer.l("parameters")}</h2>
       {parameters &&
         parameters.map((parameter) => {
           const key = "parameter-" + parameter.name;
@@ -88,7 +88,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
         type="text"
         id={keyName}
         value={defaultValue}
-        placeholder={Localizer.l("Optional default value")}
+        placeholder={Localizer.l("optionalDefaultValue")}
         onChange={handleChange}
       />
     </>

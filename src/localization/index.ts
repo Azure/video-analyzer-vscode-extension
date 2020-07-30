@@ -22,7 +22,11 @@ export default class Localizer {
   }
 
   static async loadUserLanguage(forceLang?: string) {
-    let language = forceLang || navigator.language || navigator.languages[0];
+    let language = forceLang || "en";
+    // navigator might not be set, for example when running tests
+    if (!forceLang && typeof navigator !== "undefined") {
+      language = navigator.language || navigator.languages[0];
+    }
     language = language.toLowerCase().split("-")[0]; // en-US -> en
 
     try {
@@ -37,13 +41,20 @@ export default class Localizer {
     return this.localized[key];
   }
 
+  static getPortName(node: ICanvasNode, port: ICanvasPort) {
+    const isOutputPort = port.isInputDisabled;
+    const typeAsString = isOutputPort ? "output" : "input";
+    return `${Localizer.l(typeAsString + "PortDescription").format(node.name)}`;
+  }
+
   static getPortAriaLabel(
     data: ICanvasData,
     node: ICanvasNode,
     port: ICanvasPort
   ): string {
     const connectedNodeNames: string[] = [];
-    if (port.isInputDisabled) {
+    const isOutputPort = port.isInputDisabled;
+    if (isOutputPort) {
       // for output ports we need to find all edges starting here and
       // then get all nodes that are pointed to by the edge
       data.edges
@@ -70,11 +81,9 @@ export default class Localizer {
           );
         });
     }
-    return `${port.name}. ${
+    return `${Localizer.getPortName(node, port)}. ${
       connectedNodeNames &&
-      Localizer.l("Connected to {node names}").format(
-        connectedNodeNames.join(", ")
-      )
+      Localizer.l("connectedToNodes").format(connectedNodeNames.join(", "))
     }`;
   }
 
@@ -82,9 +91,6 @@ export default class Localizer {
     const portNames = node.ports?.length
       ? node.ports.map((it) => it.name).join(", ")
       : "";
-    return Localizer.l("Node named {name} with {ports}").format(
-      node.name,
-      portNames
-    );
+    return Localizer.l("nodeNameWithPorts").format(node.name, portNames);
   }
 }

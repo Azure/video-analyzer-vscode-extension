@@ -43,7 +43,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
   }, [data, zoomPanSettings]);
 
   if (!isSupported()) {
-    return <h1>{Localizer.l("Browser not supported")}</h1>;
+    return <h1>{Localizer.l("browserNotSupported")}</h1>;
   }
 
   // nodeNames maps an ID to a name, is updated on node add/remove
@@ -93,7 +93,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <h2>{Localizer.l("Nodes")}</h2>
+          <h2>{Localizer.l("nodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>
