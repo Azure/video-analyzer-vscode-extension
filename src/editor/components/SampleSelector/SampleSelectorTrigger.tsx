@@ -14,10 +14,10 @@ export const SampleSelectorTrigger: React.FunctionComponent<ISampleSelectorTrigg
 ) => {
   const [showSelector, { toggle: toggleSelector }] = useBoolean(false);
 
-  function loadTopology(topology: any) {
+  const loadTopology = (topology: any) => {
     toggleSelector();
     props.setTopology(topology);
-  }
+  };
 
   return (
     <>

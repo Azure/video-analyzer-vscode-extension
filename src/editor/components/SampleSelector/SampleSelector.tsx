@@ -9,12 +9,10 @@ import {
   IDropdownOption,
   SpinnerSize,
   Spinner,
-  Stack,
 } from "office-ui-fabric-react";
 import { sampleOptionsList } from "./sampleList";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
 import Localizer from "../../../localization";
-import { sample } from "lodash";
 
 enum Status {
   NoDisplay,
@@ -47,18 +45,17 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
   };
 
   let selectedSampleName = "";
-  let sampleHasLoaded = false;
 
-  function onChange(
+  const onChange = (
     event: React.FormEvent<HTMLDivElement>,
     option?: IDropdownOption
-  ) {
+  ) => {
     if (option) {
       selectedSampleName = option.key as string;
     }
-  }
+  };
 
-  function confirmSelection() {
+  const confirmSelection = () => {
     setStatus(Status.WaitingOnSampleLoad);
 
     fetch(
@@ -83,16 +80,16 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
           dismissSelector();
         }
       });
-  }
+  };
 
-  function dismissSelector() {
+  const dismissSelector = () => {
     setStatus(Status.NoDisplay);
-  }
+  };
 
-  function confirmedOverwrite() {
+  const confirmedOverwrite = () => {
     loadTopology(topology);
     dismissSelector();
-  }
+  };
 
   return (
     <>
