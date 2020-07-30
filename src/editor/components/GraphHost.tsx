@@ -20,6 +20,7 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization";
 import Graph from "../../graph";
+import { GraphMetaEditor } from "./GraphMetaEditor";
 
 interface IGraphProps {
   graph: Graph;
@@ -33,6 +34,10 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
+  const [graphName, setGraphName] = React.useState<string>(graph.getName());
+  const [graphDescription, setGraphDescription] = React.useState<string>(
+    graph.getDescription() || ""
+  );
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
@@ -67,6 +72,8 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
   };
 
   const exportGraph = () => {
+    graph.setName(graphName);
+    graph.setDescription(graphDescription);
     graph.setGraphDataFromICanvasData(data);
     const topology = graph.getTopology();
     console.log(topology);
@@ -74,6 +81,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
 
   const panelStyles = {
     root: {
+      boxSizing: "border-box" as const,
       padding: 10,
       overflowY: "auto" as const,
       willChange: "transform",
@@ -93,7 +101,12 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <h2>{Localizer.l("nodes")}</h2>
+          <GraphMetaEditor
+            name={graphName}
+            description={graphDescription}
+            setName={setGraphName}
+            setDescription={setGraphDescription}
+          />
           <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>

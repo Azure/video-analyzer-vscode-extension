@@ -1,4 +1,3 @@
-import { Icon, IStackStyles, Stack } from "office-ui-fabric-react";
 import * as React from "react";
 import {
   getRectHeight,
@@ -8,15 +7,15 @@ import {
   ICanvasNode,
   IItemConfigArgs,
   IRectConfig,
-  isNodeEditing,
-  ITheme
+  ITheme,
 } from "@vienna/react-dag-editor";
+import { IStackStyles } from "office-ui-fabric-react";
+import { NodeContainer } from "./NodeContainer";
+import Localizer from "../../localization";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
   public getMinHeight = (curNode: ICanvasNode): number => {
-    return (curNode.data && curNode.data.comment) || isNodeEditing(curNode)
-      ? 86
-      : 56;
+    return 50;
   };
 
   public getMinWidth = (): number => {
@@ -26,23 +25,9 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
   public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
     const node = args.model;
 
-    const containerStyles = this.getNodeStyle(node, args.theme);
-
-    const mainContainerStyles = {
-      root: {
-        marginTop: 6,
-        userSelect: "none" as const,
-      },
-    };
-
     const iconName = node.data && node.data.iconName;
-    const iconStyles = {
-      root: {
-        marginLeft: 8,
-        marginRight: 12,
-        color: node.data ? node.data.color : args.theme.primaryColor,
-      },
-    };
+    const nodeType = node.data && node.data.nodeProperties["@type"];
+    const description = Localizer.l(nodeType.split(".").pop());
 
     const rectHeight = getRectHeight<ICanvasNode>(this, node);
     const rectWidth = getRectWidth<ICanvasNode>(this, node);
@@ -56,25 +41,15 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         height={rectHeight}
         width={rectWidth}
         opacity={opacity}
+        overflow="visible"
       >
-        <Stack styles={containerStyles} draggable={true}>
-          <Stack
-            horizontal={true}
-            verticalAlign="center"
-            styles={mainContainerStyles}
-          >
-            <Stack.Item>
-              <Icon iconName={iconName} styles={iconStyles} />
-            </Stack.Item>
-            <Stack.Item
-              grow={true}
-              disableShrink={true}
-              styles={{ root: { width: 200, marginBottom: 5 } }}
-            >
-              {node.name}
-            </Stack.Item>
-          </Stack>
-        </Stack>
+        <NodeContainer
+          heading={node.name as string}
+          iconName={iconName}
+          title={description}
+          selected={hasState(GraphNodeState.selected)(node.state)}
+          hovered={hasState(GraphNodeState.activated)(node.state)}
+        ></NodeContainer>
       </foreignObject>
     );
   };

@@ -112,6 +112,33 @@ export default class Graph {
     this.layoutGraph();
   }
 
+  public setName(name: string) {
+    this.graphInformation.name = name;
+  }
+
+  public setDescription(description: string) {
+    if (!this.graphInformation.properties) {
+      this.graphInformation.properties = {};
+    }
+    if (description === "") {
+      delete this.graphInformation.properties.description;
+    } else {
+      this.graphInformation.properties.description = description;
+    }
+  }
+
+  public getName(): string {
+    return this.graphInformation.name;
+  }
+
+  public getDescription(): string | undefined {
+    if (this.graphInformation.properties) {
+      return this.graphInformation.properties.description;
+    } else {
+      return undefined;
+    }
+  }
+
   public getTopology() {
     this.sources = [];
     this.processors = [];
