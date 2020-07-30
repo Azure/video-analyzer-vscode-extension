@@ -29,7 +29,6 @@ export const SampleSelectorTrigger: React.FunctionComponent<ISampleSelectorTrigg
       {showSelector && (
         <SampleSelector
           loadTopology={loadTopology}
-          noSelection={() => null}
           hasUnsavedChanges={props.hasUnsavedChanges}
         />
       )}

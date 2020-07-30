@@ -7,16 +7,20 @@ import {
   DefaultButton,
   Dropdown,
   IDropdownOption,
+  SpinnerSize,
+  Spinner,
+  Stack,
 } from "office-ui-fabric-react";
 import { sampleOptionsList } from "./sampleList";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
 import Localizer from "../../../localization";
+import { sample } from "lodash";
 
 enum Status {
   NoDisplay,
   SelectSample,
   ConfirmOverwrite,
-  LoadingSample,
+  WaitingOnSampleLoad,
 }
 interface ISampleSelectorProps {
   loadTopology: (topology: any) => void;
@@ -28,7 +32,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
 ) => {
   const { loadTopology, hasUnsavedChanges } = props;
 
-  const [topology, setTopology] = React.useState<any>({});
+  const [topology, storeTopology] = React.useState<any>({});
   const [status, setStatus] = React.useState<Status>(Status.SelectSample);
 
   const dialogContentProps = {
@@ -43,6 +47,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
   };
 
   let selectedSampleName = "";
+  let sampleHasLoaded = false;
 
   function onChange(
     event: React.FormEvent<HTMLDivElement>,
@@ -54,11 +59,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
   }
 
   function confirmSelection() {
-    if (hasUnsavedChanges) {
-      setStatus(Status.ConfirmOverwrite);
-    } else {
-      setStatus(Status.LoadingSample);
-    }
+    setStatus(Status.WaitingOnSampleLoad);
 
     fetch(
       "https://api.github.com/repos/Azure/live-video-analytics/git/trees/master?recursive=1"
@@ -74,11 +75,12 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
       .then((response) => response.json() as any)
       .then((data) => atob(data.content))
       .then((topology) => {
-        if (!hasUnsavedChanges) {
+        if (hasUnsavedChanges) {
+          setStatus(Status.ConfirmOverwrite);
+          storeTopology(JSON.parse(topology));
+        } else {
           loadTopology(JSON.parse(topology));
           dismissSelector();
-        } else {
-          setTopology(JSON.parse(topology));
         }
       });
   }
@@ -87,7 +89,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
     setStatus(Status.NoDisplay);
   }
 
-  function selectSample() {
+  function confirmedOverwrite() {
     loadTopology(topology);
     dismissSelector();
   }
@@ -95,24 +97,33 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
   return (
     <>
       <Dialog
-        hidden={status !== Status.SelectSample}
+        hidden={
+          status === Status.NoDisplay || status === Status.ConfirmOverwrite
+        }
         onDismiss={dismissSelector}
         dialogContentProps={dialogContentProps}
         modalProps={modalProps}
       >
-        <Dropdown
-          placeholder={Localizer.l("sampleSelectorDropdownPlaceholderText")}
-          label={Localizer.l("sampleSelectorDropdownLabel")}
-          options={sampleOptionsList}
-          onChange={onChange}
-          dropdownWidth={700}
-        />
+        {status === Status.WaitingOnSampleLoad ? (
+          <Spinner size={SpinnerSize.large} />
+        ) : (
+          <Dropdown
+            placeholder={Localizer.l("sampleSelectorDropdownPlaceholderText")}
+            label={Localizer.l("sampleSelectorDropdownLabel")}
+            options={sampleOptionsList}
+            onChange={onChange}
+            dropdownWidth={700}
+          />
+        )}
+
         <DialogFooter>
           <PrimaryButton
+            disabled={status === Status.WaitingOnSampleLoad}
             onClick={confirmSelection}
             text={Localizer.l("sampleSelectorLoadSampleButtonText")}
           />
           <DefaultButton
+            disabled={status === Status.WaitingOnSampleLoad}
             onClick={dismissSelector}
             text={Localizer.l("cancelButtonText")}
           />
@@ -121,7 +132,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
 
       <OverwriteConfirmation
         shown={status === Status.ConfirmOverwrite}
-        confirm={selectSample}
+        confirm={confirmedOverwrite}
         dismiss={dismissSelector}
       />
     </>
