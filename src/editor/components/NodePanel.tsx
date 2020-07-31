@@ -1,7 +1,8 @@
-import { Icon } from "office-ui-fabric-react";
+import { Stack, IconButton } from "office-ui-fabric-react";
 import * as React from "react";
 import { IPanelConfig, IPropsAPI } from "@vienna/react-dag-editor";
 import { NodePanelInner } from "./NodePanelInner";
+import Localizer from "../../localization/Localizer";
 
 export class NodePanel implements IPanelConfig {
   private readonly _propsAPI: IPropsAPI;
@@ -26,9 +27,21 @@ export class NodePanel implements IPanelConfig {
 
     return (
       <div style={panelStyle}>
-        <div style={{ textAlign: "right" }} onClick={this._dismissPanel}>
-          <Icon iconName="Clear" onClick={this._dismissPanel} />
-        </div>
+        <Stack
+          horizontal
+          horizontalAlign="space-between"
+          tokens={{ childrenGap: "s1" }}
+        >
+          <h2 style={{ margin: 0 }}>{data.name}</h2>
+          <IconButton
+            iconProps={{
+              iconName: "Clear",
+            }}
+            title={Localizer.l("closeButtonText")}
+            ariaLabel={Localizer.l("propertyEditorCloseButtonAriaLabel")}
+            onClick={this._dismissPanel}
+          />
+        </Stack>
         <NodePanelInner node={data} />
       </div>
     );
@@ -36,5 +49,6 @@ export class NodePanel implements IPanelConfig {
 
   private readonly _dismissPanel = () => {
     this._propsAPI.dismissSidePanel();
+    this._propsAPI.selectNodeById([]);
   };
 }

@@ -14,6 +14,7 @@ import {
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { GraphPanel } from "./GraphPanel";
+import { Toolbar } from "./Toolbar";
 import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
@@ -98,15 +99,24 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>
         <Stack.Item grow>
-          <InnerGraph
-            data={data}
-            setData={setData}
-            zoomPanSettings={zoomPanSettings}
-            setZoomPanSettings={setZoomPanSettings}
-            canvasMouseMode={CanvasMouseMode.pan}
-            onNodeAdded={nodeAdded}
-            onNodeRemoved={nodesRemoved}
+          <Toolbar
+            data={graph.getTopology()}
+            exportGraph={exportGraph}
+            closeEditor={() => {
+              alert("TODO: Close editor");
+            }}
           />
+          <Stack.Item grow>
+            <InnerGraph
+              data={data}
+              setData={setData}
+              zoomPanSettings={zoomPanSettings}
+              setZoomPanSettings={setZoomPanSettings}
+              canvasMouseMode={CanvasMouseMode.pan}
+              onNodeAdded={nodeAdded}
+              onNodeRemoved={nodesRemoved}
+            />
+          </Stack.Item>
         </Stack.Item>
       </Stack>
       <ContextMenu />

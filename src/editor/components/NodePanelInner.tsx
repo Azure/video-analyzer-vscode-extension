@@ -18,7 +18,6 @@ export const NodePanelInner: React.FunctionComponent<INodePanelInnerProps> = (
 
   return (
     <>
-      <h2>{props.node.name}</h2>
       {definition.description && <p>{Localizer.l(definition.description)}</p>}
       <PropertyEditor nodeProperties={nodeProperties} />
     </>

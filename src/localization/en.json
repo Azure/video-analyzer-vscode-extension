@@ -1,6 +1,4 @@
 {
-  "jsonParseValid": "Valid",
-  "jsonParseError": "Parse error",
   "conformingToType": "conforming to {0}",
   "required": "required",
   "example": "Example",
@@ -24,5 +22,14 @@
   "ariaHasOutputPortLabel": "output port",
   "ariaHasBothPortsLabel": "input and output port",
   "ariaInputPortDescription": "Input port of {0}",
-  "ariaOutputPortDescription": "Output port of {0}"
+  "ariaOutputPortDescription": "Output port of {0}",
+  "cancelButtonText": "Cancel",
+  "closeButtonText": "Close",
+  "propertyEditorCloseButtonAriaLabel": "Click to close the property editor.",
+  "propertyEditorInfoButtonTitle": "Show more information",
+  "propertyEditorInfoButtonAriaLabel": "Click to view more information about this property.",
+  "propertyEditorValidationUndefined": "This value cannot be undefined.",
+  "propertyEditorValidationEmpty": "This value cannot be empty.",
+  "propertyEditorValidationUndefinedOrEmpty": "This value cannot be undefined or empty.",
+  "propertyEditorValidationInvalidJSON": "The entered JSON does not validate."
 }
