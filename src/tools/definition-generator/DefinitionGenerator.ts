@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
-import Helpers from "../../helpers/helpers";
-import NodeHelpers from "../../helpers/nodeHelpers";
+import Helpers from "../../helpers/Helpers";
+import NodeHelpers from "../../helpers/NodeHelpers";
 import { MediaGraphNodeType, NodeDefinition } from "../../types/graphTypes";
 
 export default class DefinitionGenerator {

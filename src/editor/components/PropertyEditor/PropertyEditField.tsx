@@ -7,9 +7,9 @@ import {
   IChoiceGroupOption,
 } from "office-ui-fabric-react";
 import * as React from "react";
+import Localizer from "../../../localization/Localizer";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 import { PropertyDescription } from "./PropertyDescription";
-import Localizer from "../../../localization";
 
 interface IPropertyEditFieldProps {
   name: string;
@@ -190,12 +190,12 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
           {valid ? (
             <>
               <Icon iconName="CheckMark" style={iconStyle} />
-              {Localizer.l("valid")}
+              {Localizer.l("jsonParseValid")}
             </>
           ) : (
             <>
               <Icon iconName="WarningSolid" style={iconStyle} />
-              {Localizer.l("parseError")}
+              {Localizer.l("jsonParseError")}
             </>
           )}
         </div>

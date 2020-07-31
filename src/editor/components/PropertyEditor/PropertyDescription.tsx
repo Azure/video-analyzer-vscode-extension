@@ -1,6 +1,6 @@
-import { Text } from "office-ui-fabric-react/lib/Text";
 import * as React from "react";
-import Localizer from "../../../localization";
+import { Text } from "office-ui-fabric-react/lib/Text";
+import Localizer from "../../../localization/Localizer";
 
 interface IPropertyDescriptionProps {
   property: any;

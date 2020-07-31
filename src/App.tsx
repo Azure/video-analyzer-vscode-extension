@@ -2,13 +2,13 @@ import "./App.css";
 import React from "react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import { ITheme } from "office-ui-fabric-react";
-import ThemeHelpers from "./helpers/themeHelpers";
+import ThemeHelpers from "./helpers/ThemeHelpers";
 import { initializeIcons } from "@uifabric/icons";
 import { IZoomPanSettings } from "@vienna/react-dag-editor";
 import { sampleTopology } from "./dev/sampleTopologies.js";
 import { GraphHost } from "./editor/components/GraphHost";
 import { GraphInfo } from "./types/graphTypes";
-import Graph from "./graph";
+import Graph from "./graph/Graph";
 
 initializeIcons();
 

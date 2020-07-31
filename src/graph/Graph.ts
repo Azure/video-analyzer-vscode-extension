@@ -5,9 +5,9 @@ import {
   ICanvasNode,
   ICanvasData,
 } from "@vienna/react-dag-editor";
-import Definitions from "../definitions";
-import Helpers from "../helpers/helpers";
-import NodeHelpers from "../helpers/nodeHelpers";
+import Definitions from "../definitions/Definitions";
+import Helpers from "../helpers/Helpers";
+import NodeHelpers from "../helpers/NodeHelpers";
 import {
   MediaGraphProcessorUnion,
   MediaGraphSinkUnion,
@@ -21,7 +21,8 @@ import {
   CanvasNodeData,
   CanvasNodeProperties,
 } from "../types/graphTypes";
-import Localizer from "../localization";
+import Localizer from "../localization/Localizer";
+import LocalizerHelpers from "../helpers/LocalizerHelpers";
 
 export default class Graph {
   private static readonly nodeTypeList = [
@@ -65,8 +66,8 @@ export default class Graph {
         const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
           return {
             ...port,
-            name: Localizer.getPortName(node, port),
-            ariaLabel: Localizer.getPortAriaLabel(
+            name: LocalizerHelpers.getPortName(node, port),
+            ariaLabel: LocalizerHelpers.getPortAriaLabel(
               this.getICanvasData(),
               node,
               port
@@ -76,7 +77,9 @@ export default class Graph {
         this.nodes.push({
           id: uuid(),
           name: node.name,
-          ariaLabel: Localizer.l("nodeNamed").format(node.name),
+          ariaLabel: Localizer.l("ariaNodeLabelNodeDescription").format(
+            node.name
+          ),
           data: {
             ...NodeHelpers.getNodeProperties(nodeType),
             nodeProperties: node,

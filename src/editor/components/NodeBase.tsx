@@ -11,7 +11,7 @@ import {
 } from "@vienna/react-dag-editor";
 import { IStackStyles } from "office-ui-fabric-react";
 import { NodeContainer } from "./NodeContainer";
-import Localizer from "../../localization";
+import Localizer from "../../localization/Localizer";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
   public getMinHeight = (curNode: ICanvasNode): number => {

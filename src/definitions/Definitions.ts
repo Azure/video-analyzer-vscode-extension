@@ -2,7 +2,7 @@ import { ITreeNode } from "react-accessible-tree";
 import { NodeDefinition, CanvasNodeProperties } from "../types/graphTypes";
 import * as storedNodes from "./v1.0/nodes.json";
 
-const availableNodes: NodeDefinition[] = storedNodes.availableNodes;
+const availableNodes: NodeDefinition[] = storedNodes.availableNodes as NodeDefinition[];
 const itemPanelNodes: ITreeNode[] = storedNodes.itemPanelNodes;
 
 export default class Definitions {

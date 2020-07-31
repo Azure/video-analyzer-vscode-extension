@@ -35,7 +35,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: true,
         isOutputDisabled: false,
-        name: `${node.name} output port`,
+        name: "", // will be localized later
       });
     }
 
@@ -48,7 +48,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: false,
         isOutputDisabled: true,
-        name: `${node.name} input port`,
+        name: "", // will be localized later
       });
     }
 

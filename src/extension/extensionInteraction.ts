@@ -1,4 +1,4 @@
-import Localizer from "../localization";
+import Localizer from "../localization/Localizer";
 import { InitializationParameters } from "../types/vscodeDelegationTypes";
 
 // VS Code exposes this function: https://code.visualstudio.com/api/references/vscode-api#WebviewPanelSerializer

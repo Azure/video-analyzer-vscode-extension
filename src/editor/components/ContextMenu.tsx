@@ -7,7 +7,7 @@ import {
   NodeMenu,
   usePropsAPI,
 } from "@vienna/react-dag-editor";
-import Localizer from "../../localization";
+import Localizer from "../../localization/Localizer";
 
 export const ContextMenu: React.FunctionComponent = () => {
   const propsAPI = usePropsAPI();

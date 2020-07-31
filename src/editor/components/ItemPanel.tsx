@@ -6,10 +6,10 @@ import {
 } from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
-import Definitions from "../../definitions";
-import Localizer from "../../localization";
-import { NodeContainer } from "./NodeContainer";
 import { FontIcon, Text, Stack } from "office-ui-fabric-react";
+import Definitions from "../../definitions/Definitions";
+import Localizer from "../../localization/Localizer";
+import { NodeContainer } from "./NodeContainer";
 
 interface IProps {
   hasNodeWithName: (name: string) => boolean;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TextField } from "office-ui-fabric-react";
-import Localizer from "../../localization";
+import Localizer from "../../localization/Localizer";
 
 interface IGraphMetaEditorProps {
   name: string;

@@ -5,10 +5,10 @@ import {
 } from "../lva-sdk/lvaSDKtypes";
 
 export enum MediaGraphNodeType {
-  Source,
-  Processor,
-  Sink,
-  Other,
+  Source = "source",
+  Processor = "processor",
+  Sink = "sink",
+  Other = "other",
 }
 
 export interface GraphInfo {

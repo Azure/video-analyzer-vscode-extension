@@ -1,5 +1,5 @@
 import * as React from "react";
-import Localizer from "../../localization";
+import Localizer from "../../localization/Localizer";
 import {
   MediaGraphParameterDeclaration,
   MediaGraphParameterType,
@@ -22,9 +22,12 @@ export const GraphPanel: React.FunctionComponent<IGraphPanelProps> = (
 
   return (
     <>
-      <PrimaryButton text={Localizer.l("export")} onClick={props.exportGraph} />
+      <PrimaryButton
+        text={Localizer.l("saveButtonText")}
+        onClick={props.exportGraph}
+      />
 
-      <h2>{Localizer.l("parameters")}</h2>
+      <h2>{Localizer.l("sidebarHeadingParameters")}</h2>
       {parameters &&
         parameters.map((parameter) => {
           const key = "parameter-" + parameter.name;
