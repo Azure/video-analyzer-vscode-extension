@@ -1,13 +1,12 @@
 import * as React from "react";
 import Definitions from "../../../definitions/Definitions";
-import PropertyEditField from "./PropertyEditField";
-import Localizer from "../../../localization/Localizer";
+import { PropertyEditField } from "./PropertyEditField";
 
 interface IPropertyEditorProps {
   nodeProperties: any;
 }
 
-const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
+export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
   props
 ) => {
   const { nodeProperties } = props;
@@ -35,37 +34,14 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
           marginTop: 20,
         }}
       >
-        <label htmlFor={name}>
-          <strong>{name}</strong> ({property.type}
-          {property.type === "object" && property.parsedRef && (
-            <>
-              {" "}
-              {Localizer.l("conformingToType").format(
-                property.parsedRef.replace("#/definitions/", "")
-              )}
-            </>
-          )}
-          {definition.required && definition.required.includes(name) && (
-            <>
-              {", "}
-              <strong>{Localizer.l("required")}</strong>
-            </>
-          )}
-          )
-        </label>
-        <p>
-          {property.description && Localizer.l(property.description)}
-          {property.example && (
-            <em>
-              {" "}
-              {Localizer.l("example")}: {property.example}
-            </em>
-          )}
-        </p>
         <PropertyEditField
           name={name}
           property={property}
           nodeProperties={nodeProperties}
+          required={
+            (definition.required &&
+              definition.required.includes(name)) as boolean
+          }
         />
       </div>
     );
@@ -73,5 +49,3 @@ const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
 
   return <>{propertyFields}</>;
 };
-
-export default PropertyEditor;
