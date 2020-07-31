@@ -3,9 +3,9 @@ import {
   ICanvasNode,
   ICanvasPort,
 } from "@vienna/react-dag-editor";
-import Localizer from ".";
+import Localizer from "../localization/Localizer";
 
-export default class AriaLocalizer {
+export default class LocalizerHelpers {
   static getPortName(node: ICanvasNode, port: ICanvasPort) {
     const isOutputPort = port.isInputDisabled;
     const localizationKey = isOutputPort
@@ -49,11 +49,11 @@ export default class AriaLocalizer {
         });
     }
     if (connectedNodeNames.length > 0) {
-      return `${AriaLocalizer.getPortName(node, port)}. ${Localizer.l(
+      return `${LocalizerHelpers.getPortName(node, port)}. ${Localizer.l(
         "ariaPortLabelConnectedToNodes"
       ).format(connectedNodeNames.join(", "))}`;
     } else {
-      return AriaLocalizer.getPortName(node, port);
+      return LocalizerHelpers.getPortName(node, port);
     }
   }
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Localizer from "../../localization";
+import Localizer from "../../localization/Localizer";
 import {
   MediaGraphParameterDeclaration,
   MediaGraphParameterType,

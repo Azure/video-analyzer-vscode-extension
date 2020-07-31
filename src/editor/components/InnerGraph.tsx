@@ -19,7 +19,7 @@ import {
 } from "@vienna/react-dag-editor";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePanel } from "./NodePanel";
-import AriaLocalizer from "../../localization/ariaLocalizer";
+import LocalizerHelpers from "../../helpers/LocalizerHelpers";
 
 export interface IInnerGraphProps {
   data: ICanvasData;
@@ -138,8 +138,8 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         defaultEdgeShape="customEdge"
         canvasMouseMode={props.canvasMouseMode}
         getPositionFromEvent={getPositionFromEvent}
-        getNodeAriaLabel={AriaLocalizer.getNodeAriaLabel}
-        getPortAriaLabel={AriaLocalizer.getPortAriaLabel}
+        getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
+        getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
       />
     </>
   );

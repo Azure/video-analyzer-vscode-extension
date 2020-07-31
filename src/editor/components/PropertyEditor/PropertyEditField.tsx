@@ -1,7 +1,7 @@
 import { Icon } from "office-ui-fabric-react";
 import * as React from "react";
 import PropertyNestedObject from "./PropertyNestedObject";
-import Localizer from "../../../localization";
+import Localizer from "../../../localization/Localizer";
 
 interface IPropertyEditFieldProps {
   name: string;

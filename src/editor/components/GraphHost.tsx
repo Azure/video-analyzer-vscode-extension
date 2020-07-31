@@ -18,8 +18,8 @@ import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
-import Localizer from "../../localization";
-import Graph from "../../graph";
+import Localizer from "../../localization/Localizer";
+import Graph from "../../graph/Graph";
 
 interface IGraphProps {
   graph: Graph;

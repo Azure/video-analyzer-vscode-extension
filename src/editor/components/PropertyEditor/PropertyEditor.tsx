@@ -1,7 +1,7 @@
 import * as React from "react";
-import Definitions from "../../../definitions";
+import Definitions from "../../../definitions/Definitions";
 import PropertyEditField from "./PropertyEditField";
-import Localizer from "../../../localization";
+import Localizer from "../../../localization/Localizer";
 
 interface IPropertyEditorProps {
   nodeProperties: any;
