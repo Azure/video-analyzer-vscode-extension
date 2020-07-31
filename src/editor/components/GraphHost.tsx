@@ -18,8 +18,8 @@ import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
-import Localizer from "../../localization";
-import Graph from "../../graph";
+import Localizer from "../../localization/Localizer";
+import Graph from "../../graph/Graph";
 
 interface IGraphProps {
   graph: Graph;
@@ -93,7 +93,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <h2>{Localizer.l("nodes")}</h2>
+          <h2>{Localizer.l("sidebarHeadingNodes")}</h2>
           <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>

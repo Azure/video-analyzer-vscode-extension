@@ -6,8 +6,8 @@ import {
 } from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
-import Definitions from "../../definitions";
-import Localizer from "../../localization";
+import Definitions from "../../definitions/Definitions";
+import Localizer from "../../localization/Localizer";
 
 interface IProps {
   hasNodeWithName: (name: string) => boolean;

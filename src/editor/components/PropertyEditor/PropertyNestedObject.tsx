@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dropdown, IDropdownOption } from "office-ui-fabric-react";
-import Definitions from "../../../definitions";
+import Definitions from "../../../definitions/Definitions";
 import { PropertyEditor } from "./PropertyEditor";
 import { PropertyDescription } from "./PropertyDescription";
 
