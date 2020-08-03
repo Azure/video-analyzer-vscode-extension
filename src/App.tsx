@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import { ITheme } from "office-ui-fabric-react";
 import ThemeHelpers from "./helpers/ThemeHelpers";
@@ -22,8 +22,15 @@ export const App: React.FunctionComponent<IProps> = (props) => {
   const [theme, setTheme] = React.useState<ITheme>(
     ThemeHelpers.getAdaptedTheme()
   );
-  ThemeHelpers.attachHtmlStyleAttrListener(() => {
+  const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
     setTheme(ThemeHelpers.getAdaptedTheme());
+  });
+
+  // when unmounting, disconnect the observer to prevent leaked references
+  useEffect(() => {
+    return () => {
+      observer.disconnect();
+    };
   });
 
   const graph = new Graph();
