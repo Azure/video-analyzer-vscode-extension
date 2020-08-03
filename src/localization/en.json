@@ -18,7 +18,7 @@
   "optionalDefaultValue": "Optional default value",
   "sidebarTopologyComponentTitle": "Topology Components",
   "sidebarTopologyComponentText": "Select a source, processor, and sink to build a topology.",
-  "sidebarGraphNameLabel": "Topology name",
+  "sidebarGraphTopologyNameLabel": "Topology name",
   "sidebarGraphNamePlaceholder": "Enter a name",
   "sidebarGraphDescriptionLabel": "Description",
   "sidebarGraphDescriptionPlaceholder": "Enter a description",

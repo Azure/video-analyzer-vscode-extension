@@ -1,4 +1,4 @@
-import { Stack } from "office-ui-fabric-react";
+import { Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
   CanvasMouseMode,
@@ -20,7 +20,6 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization/Localizer";
 import Graph from "../../graph/Graph";
-import { GraphMetaEditor } from "./GraphMetaEditor";
 
 interface IGraphProps {
   graph: Graph;
@@ -79,6 +78,18 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
     console.log(topology);
   };
 
+  const onNameChange = (event: React.FormEvent, newValue?: string) => {
+    if (newValue) {
+      setGraphName(newValue);
+    }
+  };
+
+  const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
+    if (typeof newValue !== "undefined") {
+      setGraphDescription(newValue);
+    }
+  };
+
   const panelStyles = {
     root: {
       boxSizing: "border-box" as const,
@@ -101,11 +112,18 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <GraphMetaEditor
-            name={graphName}
-            description={graphDescription}
-            setName={setGraphName}
-            setDescription={setGraphDescription}
+          <TextField
+            label={Localizer.l("sidebarGraphTopologyNameLabel")}
+            required
+            defaultValue={graphName}
+            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+            onChange={onNameChange}
+          />
+          <TextField
+            label={Localizer.l("sidebarGraphDescriptionLabel")}
+            defaultValue={graphDescription}
+            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+            onChange={onDescriptionChange}
           />
           <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
