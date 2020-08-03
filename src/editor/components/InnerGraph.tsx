@@ -15,6 +15,8 @@ import {
   TSetData,
   TSetZoomPanSettings,
   usePropsAPI,
+  previewMode,
+  GraphFeatures,
 } from "@vienna/react-dag-editor";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePanel } from "./NodePanel";
@@ -29,6 +31,7 @@ export interface IInnerGraphProps {
   isHorizontal?: boolean;
   onNodeAdded?: (node: ICanvasNode) => void;
   onNodeRemoved?: (nodes: Set<string>) => void;
+  readOnly?: boolean;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
@@ -88,6 +91,16 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
     },
   };
 
+  const readOnlyFeatures = new Set([
+    "a11yFeatures",
+    "canvasScrollable",
+    "panCanvas",
+    "clickNodeToSelect",
+    "sidePanel",
+    "editNode",
+    "nodeHoverView",
+  ]) as Set<GraphFeatures>;
+
   return (
     <>
       <RegisterPanel name={"node"} config={new NodePanel(propsApi)} />
@@ -112,6 +125,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         canvasMouseMode={props.canvasMouseMode}
         getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
         getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
+        features={props.readOnly ? readOnlyFeatures : undefined}
       />
     </>
   );

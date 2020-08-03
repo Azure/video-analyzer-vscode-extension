@@ -15,19 +15,20 @@ import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { GraphPanel } from "./GraphPanel";
 import { InnerGraph } from "./InnerGraph";
-import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization/Localizer";
 import Graph from "../../graph/Graph";
 
-interface IGraphProps {
+interface IGraphInstanceProps {
   graph: Graph;
   zoomPanSettings: IZoomPanSettings;
   vsCodeSetState: (state: any) => void;
 }
 
-export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
+export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (
+  props
+) => {
   const graph = props.graph;
   const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
@@ -49,26 +50,6 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
   if (!isSupported()) {
     return <h1>{Localizer.l("browserNotSupported")}</h1>;
   }
-
-  // nodeNames maps an ID to a name, is updated on node add/remove
-  const nodeNames: Record<string, string> = {};
-  data.nodes.forEach((node) => {
-    nodeNames[node.id] = node.name || "";
-  });
-  const nodeAdded = (node: ICanvasNode) => {
-    nodeNames[node.id] = node.name || "";
-  };
-  const nodesRemoved = (nodes: Set<string>) => {
-    nodes.forEach((nodeId) => delete nodeNames[nodeId]);
-  };
-  const hasNodeWithName = (name: string) => {
-    for (const nodeId in nodeNames) {
-      if (nodeNames[nodeId] === name) {
-        return true;
-      }
-    }
-    return false;
-  };
 
   const exportGraph = () => {
     graph.setName(graphName);
@@ -113,7 +94,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
           <TextField
-            label={Localizer.l("sidebarGraphTopologyNameLabel")}
+            label={Localizer.l("sidebarGraphInstanceNameLabel")}
             required
             defaultValue={graphName}
             placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
@@ -125,7 +106,6 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
             placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
             onChange={onDescriptionChange}
           />
-          <ItemPanel hasNodeWithName={hasNodeWithName} />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>
         <Stack.Item grow>
@@ -135,8 +115,7 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
             zoomPanSettings={zoomPanSettings}
             setZoomPanSettings={setZoomPanSettings}
             canvasMouseMode={CanvasMouseMode.pan}
-            onNodeAdded={nodeAdded}
-            onNodeRemoved={nodesRemoved}
+            readOnly
           />
         </Stack.Item>
       </Stack>

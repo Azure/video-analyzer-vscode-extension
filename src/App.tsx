@@ -6,7 +6,8 @@ import ThemeHelpers from "./helpers/ThemeHelpers";
 import IconSetupHelpers from "./helpers/IconSetupHelpers";
 import { IZoomPanSettings } from "@vienna/react-dag-editor";
 import { sampleTopology } from "./dev/sampleTopologies.js";
-import { GraphHost } from "./editor/components/GraphHost";
+import { GraphTopology } from "./editor/components/GraphTopology";
+import { GraphInstance } from "./editor/components/GraphInstance";
 import { GraphInfo } from "./types/graphTypes";
 import Graph from "./graph/Graph";
 
@@ -33,6 +34,8 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     };
   });
 
+  const editingTopology = false;
+
   const graph = new Graph();
 
   if (props.graphData) {
@@ -46,13 +49,23 @@ export const App: React.FunctionComponent<IProps> = (props) => {
   // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
   return (
     <ThemeProvider theme={theme}>
-      <GraphHost
-        graph={graph}
-        zoomPanSettings={
-          props.zoomPanSettings || { transformMatrix: [1, 0, 0, 1, 0, 0] }
-        }
-        vsCodeSetState={props.vsCodeSetState}
-      />
+      {editingTopology ? (
+        <GraphTopology
+          graph={graph}
+          zoomPanSettings={
+            props.zoomPanSettings || { transformMatrix: [1, 0, 0, 1, 0, 0] }
+          }
+          vsCodeSetState={props.vsCodeSetState}
+        />
+      ) : (
+        <GraphInstance
+          graph={graph}
+          zoomPanSettings={
+            props.zoomPanSettings || { transformMatrix: [1, 0, 0, 1, 0, 0] }
+          }
+          vsCodeSetState={props.vsCodeSetState}
+        />
+      )}
     </ThemeProvider>
   );
 };

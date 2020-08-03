@@ -19,6 +19,7 @@
   "sidebarTopologyComponentTitle": "Topology Components",
   "sidebarTopologyComponentText": "Select a source, processor, and sink to build a topology.",
   "sidebarGraphTopologyNameLabel": "Topology name",
+  "sidebarGraphInstanceNameLabel": "Instance name",
   "sidebarGraphNamePlaceholder": "Enter a name",
   "sidebarGraphDescriptionLabel": "Description",
   "sidebarGraphDescriptionPlaceholder": "Enter a description",
