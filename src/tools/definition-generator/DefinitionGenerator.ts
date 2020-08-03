@@ -122,7 +122,7 @@ export default class DefinitionGenerator {
             shape: "module",
             ports: NodeHelpers.getPorts(node),
             data: {
-              ...NodeHelpers.getNodeProperties(node.nodeType),
+              ...NodeHelpers.getNodeAppearance(node.nodeType),
               nodeProperties: {
                 "@type": node["x-ms-discriminator-value"],
                 name: node.name,

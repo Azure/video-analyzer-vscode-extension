@@ -6,8 +6,11 @@ import {
 } from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
+import { FontIcon, Text, Stack } from "office-ui-fabric-react";
 import Definitions from "../../definitions/Definitions";
 import Localizer from "../../localization/Localizer";
+import { NodeContainer } from "./NodeContainer";
+import NodeHelpers from "../../helpers/NodeHelpers";
 
 interface IProps {
   hasNodeWithName: (name: string) => boolean;
@@ -40,11 +43,40 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
     propsAPI.selectNodeById(node.id);
   };
 
+  const generateAccordionTitle = (node: ITreeNode) => {
+    const nodeTypeStringKey = node.searchKeys[0] as string;
+    const styles = NodeHelpers.getNodeAppearance(
+      NodeHelpers.getNodeTypeFromString(nodeTypeStringKey)
+    );
+    return (
+      <Stack
+        horizontal
+        verticalAlign="center"
+        tokens={{ childrenGap: "s1" }}
+        style={{ cursor: "pointer" }}
+      >
+        <FontIcon
+          iconName={node.expanded ? "CaretSolidDown" : "CaretSolidRight"}
+        />
+        <FontIcon iconName={styles.iconName} />
+        <Text variant="medium">
+          {Localizer.l(nodeTypeStringKey)} ({node.children.length})
+        </Text>
+      </Stack>
+    );
+  };
+
   if (treeData.length === 0) {
     const treeNodes: ITreeNode[] = Definitions.getItemPanelNodes().map(
-      (category) => {
+      (category, index) => {
         const children = category.children.map((node) => {
           const internalNode = node.extra as ICanvasNode;
+          const description = Localizer.l(
+            internalNode.data!.nodeProperties.name
+          );
+          const styles = NodeHelpers.getNodeAppearance(
+            internalNode.data!.nodeType
+          );
           return {
             title: (
               <Item
@@ -53,14 +85,25 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
                 nodeWillAdd={nodeWillAdd}
                 nodeDidAdd={nodeDidAdd}
               >
-                <div
-                  title={
-                    internalNode.data &&
-                    Localizer.l(internalNode.data.nodeProperties.name)
-                  }
+                <NodeContainer
+                  heading={node.title as string}
+                  iconName={styles.iconName!}
+                  title={description}
+                  background="var(--vscode-editor-background)"
                 >
-                  {node.title}
-                </div>
+                  <Text
+                    variant="small"
+                    style={{
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      // these properties aren't recognized
+                      ["-webkit-line-clamp" as any]: "2",
+                      ["-webkit-box-orient" as any]: "vertical",
+                    }}
+                  >
+                    {description}
+                  </Text>
+                </NodeContainer>
               </Item>
             ),
             id: uuid(),
@@ -68,20 +111,22 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
             children: [],
           };
         });
-        category.title = Localizer.l(category.searchKeys[0] as string);
+        // collapse all except first by default
+        category.expanded = index === 0;
+        category.title = generateAccordionTitle(category);
         return {
           ...category,
-          expanded: false,
           children,
         };
       }
     );
-    // collapse all except first by default
-    treeNodes[0].expanded = true;
     setTreeData(treeNodes);
   }
 
   const onChange = (nextData: ITreeNode[]) => {
+    nextData.forEach((category) => {
+      category.title = generateAccordionTitle(category);
+    });
     setTreeData(nextData);
   };
 
@@ -92,19 +137,23 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
     },
     group: {
       paddingTop: 5,
-      paddingLeft: 10,
+      paddingLeft: 0,
     },
     item: {
       listStyle: "none",
-      padding: 5,
+      padding: "5px 0",
     },
   };
 
   return (
-    <ReactAccessibleTree
-      treeData={treeData}
-      onChange={onChange}
-      styles={treeViewStyles}
-    />
+    <>
+      <h2>{Localizer.l("sidebarTopologyComponentTitle")}</h2>
+      <p>{Localizer.l("sidebarTopologyComponentText")}</p>
+      <ReactAccessibleTree
+        treeData={treeData}
+        onChange={onChange}
+        styles={treeViewStyles}
+      />
+    </>
   );
 };
