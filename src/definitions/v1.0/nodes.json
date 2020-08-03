@@ -2653,12 +2653,12 @@
         {
           "title": "rtspSource",
           "extra": {
-            "id": "d6775654-e1f6-4df2-93d0-80e893b7cbaf",
+            "id": "dd588860-0182-44dd-b030-1a0b0c33bcfa",
             "name": "rtspSource",
             "shape": "module",
             "ports": [
               {
-                "id": "3646ad9c-75b9-42d5-a854-0025e5fb18c4",
+                "id": "0d1160b2-e83b-4d41-9e71-976c18ace4f6",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2666,7 +2666,7 @@
               }
             ],
             "data": {
-              "iconName": "Upload",
+              "iconName": "SecurityCamera",
               "color": "var(--vscode-terminal-ansiBrightBlue)",
               "colorAlt": "var(--vscode-terminal-ansiBlue)",
               "nodeProperties": {
@@ -2676,7 +2676,7 @@
               "nodeType": "source"
             }
           },
-          "id": "ef34b414-0750-4fd9-9f5d-a4533a20091f",
+          "id": "08f4fc21-0b06-4df0-931b-b58812c29600",
           "searchKeys": [
             "rtspSource"
           ],
@@ -2685,12 +2685,12 @@
         {
           "title": "ioTHubMessageSource",
           "extra": {
-            "id": "78ce60ec-9dca-459e-a3c0-d4f257dfca2d",
+            "id": "65a8d717-2aee-4bb8-81e2-65b2668f77ed",
             "name": "ioTHubMessageSource",
             "shape": "module",
             "ports": [
               {
-                "id": "73e426b0-c03d-45fa-b85e-ad4d6c7223ec",
+                "id": "f5acb217-f3f5-440e-a212-e72f264fe9ca",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2698,7 +2698,7 @@
               }
             ],
             "data": {
-              "iconName": "Upload",
+              "iconName": "SecurityCamera",
               "color": "var(--vscode-terminal-ansiBrightBlue)",
               "colorAlt": "var(--vscode-terminal-ansiBlue)",
               "nodeProperties": {
@@ -2708,7 +2708,7 @@
               "nodeType": "source"
             }
           },
-          "id": "4935c6d4-67c5-4b9b-a669-36ed53863ee4",
+          "id": "7aaa2759-f973-451e-9b7c-5326d9a15d54",
           "searchKeys": [
             "ioTHubMessageSource"
           ],
@@ -2727,19 +2727,19 @@
         {
           "title": "motionDetectionProcessor",
           "extra": {
-            "id": "b5a7e5ff-a370-4ace-a064-bb820e204502",
+            "id": "738f31f2-4fa2-465b-9dfc-fec31e5126be",
             "name": "motionDetectionProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "c2b29762-94e2-4708-bd4b-5dbc6abca6bb",
+                "id": "f6f4375e-4d12-4c12-809d-ee6a42bffc44",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "7ec397ca-8046-4fda-969a-44c06c2c13cd",
+                "id": "7bcafe0f-fc47-4d95-b6f8-e8b9b229fca5",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2747,7 +2747,7 @@
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
@@ -2757,7 +2757,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "19aee27b-c1f5-4221-95d8-2843149e2718",
+          "id": "bd7d50ac-90ef-4797-b504-6bf382ea8730",
           "searchKeys": [
             "motionDetectionProcessor"
           ],
@@ -2766,19 +2766,19 @@
         {
           "title": "httpExtension",
           "extra": {
-            "id": "9029d948-020d-416f-84ed-0a038541043c",
+            "id": "c716772c-8018-472c-b7ab-eb7b9b54dc1e",
             "name": "httpExtension",
             "shape": "module",
             "ports": [
               {
-                "id": "2acddb59-34fd-4295-a1fc-0432709b8d65",
+                "id": "c5e43139-b7b0-4c62-824b-72cb44fcc78f",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "6a5333c8-84b2-40b3-8910-8e157655c931",
+                "id": "01bbb991-349f-4355-909c-84fc6a7b90fd",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2786,7 +2786,7 @@
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
@@ -2796,7 +2796,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "d0b272e5-d9db-4529-85a4-28ea24d82406",
+          "id": "32bb92da-c434-440e-87e4-b0b3a2098491",
           "searchKeys": [
             "httpExtension"
           ],
@@ -2805,19 +2805,19 @@
         {
           "title": "signalGateProcessor",
           "extra": {
-            "id": "24fb408e-474b-4a08-8b96-9025d01bf8e8",
+            "id": "62f6237f-cf98-43b9-b9d2-880fd231b03e",
             "name": "signalGateProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "66fbf60e-ddc0-46cd-b0bd-74bf60557cab",
+                "id": "7b9aadc7-082c-4ec8-8564-5e226e7a7f49",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "20590f13-2acf-4c51-bf25-e49c44c86d65",
+                "id": "ba260231-f231-406a-bc0e-7bc950f068c2",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2825,7 +2825,7 @@
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
@@ -2835,7 +2835,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "3ab40683-6053-47f0-9052-95dd742637ec",
+          "id": "603c1a8c-80d9-4863-98d6-24c79ff2c353",
           "searchKeys": [
             "signalGateProcessor"
           ],
@@ -2844,19 +2844,19 @@
         {
           "title": "frameRateFilterProcessor",
           "extra": {
-            "id": "fc3ac28a-9d90-42ed-8f6c-3ba08f3ae03d",
+            "id": "da1ccfc8-6f03-48f2-b027-3f3c69596367",
             "name": "frameRateFilterProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "bbb4648e-d759-4c59-8a50-363c0b090fd5",
+                "id": "a84d99a3-182a-4fa2-8bf9-c8b41b2a8735",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "07550602-c379-43eb-a86b-8656e97e834c",
+                "id": "12247ebf-76a9-4f2c-9e71-b75370beedda",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2864,7 +2864,7 @@
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
@@ -2874,7 +2874,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "ff1dfcb2-5b69-4208-ae14-371a540aaeb7",
+          "id": "9d200d03-1740-40c2-b7f0-c5ba22a02de6",
           "searchKeys": [
             "frameRateFilterProcessor"
           ],
@@ -2893,12 +2893,12 @@
         {
           "title": "ioTHubMessageSink",
           "extra": {
-            "id": "edc4d80e-a354-4d5e-826b-5bad009ea559",
+            "id": "5789d757-52ed-48c2-9081-4019de81870d",
             "name": "ioTHubMessageSink",
             "shape": "module",
             "ports": [
               {
-                "id": "b5465a23-cd12-4dc4-aaff-0cacd7716e1f",
+                "id": "673af74a-2db1-4a38-903e-c83d3fd06c39",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2906,7 +2906,7 @@
               }
             ],
             "data": {
-              "iconName": "Download",
+              "iconName": "CloudImportExport",
               "color": "var(--vscode-terminal-ansiBrightYellow)",
               "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
@@ -2916,7 +2916,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "775e2654-b3d7-45fd-a691-56b4683d6910",
+          "id": "269ae13f-5828-4754-a6a8-99e1f797735b",
           "searchKeys": [
             "ioTHubMessageSink"
           ],
@@ -2925,12 +2925,12 @@
         {
           "title": "fileSink",
           "extra": {
-            "id": "85639a71-bb27-44c7-8283-6e0099f9fb72",
+            "id": "5ba7b0dd-ae96-484b-bc2c-b5d144ca99cc",
             "name": "fileSink",
             "shape": "module",
             "ports": [
               {
-                "id": "840a0f87-b161-4a3d-9543-95ece5b0b0c9",
+                "id": "8311ff2b-4824-4a42-844a-cd2dbf96a5b9",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2938,7 +2938,7 @@
               }
             ],
             "data": {
-              "iconName": "Download",
+              "iconName": "CloudImportExport",
               "color": "var(--vscode-terminal-ansiBrightYellow)",
               "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
@@ -2948,7 +2948,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "eaceebd0-b593-4668-b222-19515e916625",
+          "id": "9daf368e-e204-4798-90ef-c4db090bdeb6",
           "searchKeys": [
             "fileSink"
           ],
@@ -2957,12 +2957,12 @@
         {
           "title": "assetSink",
           "extra": {
-            "id": "783783ed-2c87-40bc-b5af-3a18766e79f7",
+            "id": "1d77df1c-0467-4246-8b23-663a78f2da43",
             "name": "assetSink",
             "shape": "module",
             "ports": [
               {
-                "id": "4c5ab05a-224c-48d0-9c58-cdd1d7ecfa3d",
+                "id": "27407ce8-ad84-4f34-b2dd-775fdfb2a1d7",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2970,7 +2970,7 @@
               }
             ],
             "data": {
-              "iconName": "Download",
+              "iconName": "CloudImportExport",
               "color": "var(--vscode-terminal-ansiBrightYellow)",
               "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
@@ -2980,7 +2980,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "187b9ffc-eb53-45bd-846e-441b74082d8b",
+          "id": "86a93d19-3ca0-4f0e-b071-79f00817f315",
           "searchKeys": [
             "assetSink"
           ],

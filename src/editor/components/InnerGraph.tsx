@@ -8,7 +8,6 @@ import {
   ICanvasNode,
   IGraphDataChangeEvent,
   IGraphStyles,
-  IPoint,
   IPropsAPI,
   IZoomPanSettings,
   RegisterEdge,
@@ -16,6 +15,8 @@ import {
   TSetData,
   TSetZoomPanSettings,
   usePropsAPI,
+  previewMode,
+  GraphFeatures,
 } from "@vienna/react-dag-editor";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePanel } from "./NodePanel";
@@ -30,16 +31,7 @@ export interface IInnerGraphProps {
   isHorizontal?: boolean;
   onNodeAdded?: (node: ICanvasNode) => void;
   onNodeRemoved?: (nodes: Set<string>) => void;
-}
-
-function between(min: number, max: number, value: number): number {
-  if (min > value) {
-    return min;
-  }
-  if (max < value) {
-    return max;
-  }
-  return value;
+  readOnly?: boolean;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
@@ -100,21 +92,15 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
     },
   };
 
-  const getPositionFromEvent = (ev: MouseEvent): IPoint => {
-    const e = (ev as unknown) as React.MouseEvent;
-    const svg = svgRef.current as any;
-    const rect = svg.getBoundingClientRect();
-    if (!rect) {
-      return {
-        x: e.clientX,
-        y: e.clientY,
-      };
-    }
-    return {
-      x: between(rect.left + 100, rect.right - 100, e.clientX),
-      y: between(rect.top + 30, rect.bottom - 30, e.clientY),
-    };
-  };
+  const readOnlyFeatures = new Set([
+    "a11yFeatures",
+    "canvasScrollable",
+    "panCanvas",
+    "clickNodeToSelect",
+    "sidePanel",
+    "editNode",
+    "nodeHoverView",
+  ]) as Set<GraphFeatures>;
 
   return (
     <>
@@ -138,9 +124,9 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         defaultPortShape="modulePort"
         defaultEdgeShape="customEdge"
         canvasMouseMode={props.canvasMouseMode}
-        getPositionFromEvent={getPositionFromEvent}
         getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
         getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
+        features={props.readOnly ? readOnlyFeatures : undefined}
       />
     </>
   );
