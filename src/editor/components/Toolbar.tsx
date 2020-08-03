@@ -4,9 +4,9 @@ import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
 import { PrimaryButton, Stack, DefaultButton } from "office-ui-fabric-react";
 
 export interface IGraphPanelProps {
+  name: string;
   closeEditor: () => void;
   exportGraph: () => void;
-  data: MediaGraphTopology;
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
@@ -24,7 +24,7 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
       tokens={{ childrenGap: "s1" }}
       style={toolbarStyles}
     >
-      <div>{props.data.name}</div>
+      <div>{props.name}</div>
       <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
         <DefaultButton
           text={Localizer.l("cancelButtonText")}

@@ -35,7 +35,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
-  const [graphName, setGraphName] = React.useState<string>(graph.getName());
+  const [graphTopologyName, setGraphTopologyName] = React.useState<string>(
+    graph.getName()
+  );
   const [graphDescription, setGraphDescription] = React.useState<string>(
     graph.getDescription() || ""
   );
@@ -73,7 +75,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   };
 
   const exportGraph = () => {
-    graph.setName(graphName);
+    graph.setName(graphTopologyName);
     graph.setDescription(graphDescription);
     graph.setGraphDataFromICanvasData(data);
     const topology = graph.getTopology();
@@ -82,7 +84,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
 
   const onNameChange = (event: React.FormEvent, newValue?: string) => {
     if (newValue) {
-      setGraphName(newValue);
+      setGraphTopologyName(newValue);
     }
   };
 
@@ -117,8 +119,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
           <TextField
             label={Localizer.l("sidebarGraphTopologyNameLabel")}
             required
-            defaultValue={graphName}
-            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+            defaultValue={graphTopologyName}
+            placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
             onChange={onNameChange}
           />
           <TextField
@@ -131,7 +133,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
         </Stack.Item>
         <Stack.Item grow>
           <Toolbar
-            data={graph.getTopology()}
+            name={graphTopologyName}
             exportGraph={exportGraph}
             closeEditor={() => {
               alert("TODO: Close editor");
