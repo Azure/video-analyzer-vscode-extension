@@ -43,12 +43,14 @@ export default class ThemeHelpers {
     });
   }
 
-  static attachHtmlStyleAttrListener(callback: () => void) {
-    new MutationObserver(() => {
+  static attachHtmlStyleAttrListener(callback: () => void): MutationObserver {
+    const observer = new MutationObserver(() => {
       callback();
-    }).observe(document.documentElement, {
+    });
+    observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["style"],
     });
+    return observer;
   }
 }
