@@ -8,7 +8,6 @@ import {
   ICanvasNode,
   IGraphDataChangeEvent,
   IGraphStyles,
-  IPoint,
   IPropsAPI,
   IZoomPanSettings,
   RegisterEdge,
@@ -30,16 +29,6 @@ export interface IInnerGraphProps {
   isHorizontal?: boolean;
   onNodeAdded?: (node: ICanvasNode) => void;
   onNodeRemoved?: (nodes: Set<string>) => void;
-}
-
-function between(min: number, max: number, value: number): number {
-  if (min > value) {
-    return min;
-  }
-  if (max < value) {
-    return max;
-  }
-  return value;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
@@ -99,22 +88,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
     },
   };
 
-  const getPositionFromEvent = (ev: MouseEvent): IPoint => {
-    const e = (ev as unknown) as React.MouseEvent;
-    const svg = svgRef.current as any;
-    const rect = svg.getBoundingClientRect();
-    if (!rect) {
-      return {
-        x: e.clientX,
-        y: e.clientY,
-      };
-    }
-    return {
-      x: between(rect.left + 100, rect.right - 100, e.clientX),
-      y: between(rect.top + 30, rect.bottom - 30, e.clientY),
-    };
-  };
-
   return (
     <>
       <RegisterPanel name={"node"} config={new NodePanel(propsApi)} />
@@ -137,7 +110,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         defaultPortShape="modulePort"
         defaultEdgeShape="customEdge"
         canvasMouseMode={props.canvasMouseMode}
-        getPositionFromEvent={getPositionFromEvent}
         getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
         getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
       />

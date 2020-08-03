@@ -8,6 +8,7 @@ interface INodeContainerProps {
   children?: React.ReactElement[] | React.ReactElement | string;
   selected?: boolean;
   hovered?: boolean;
+  background?: string;
 }
 
 export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (
@@ -22,15 +23,25 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (
     hovered = false,
   } = props;
 
+  const background =
+    props.background ||
+    (selected
+      ? "var(--vscode-editor-selectionBackground)"
+      : "var(--vscode-editorWidget-background)");
+
   const cardStyle = {
     userSelect: "none" as const,
     boxSizing: "border-box" as const,
     cursor: "default",
     transition: "all 0.2s ease-in-out",
-    background: selected
-      ? "var(--vscode-editor-selectionBackground)"
-      : "var(--vscode-button-foreground)",
-    border: "1px solid var(--vscode-foreground)",
+    background,
+    border: "1px solid",
+    borderColor: selected
+      ? "var(--vscode-editor-foreground)"
+      : "var(--vscode-editorWidget-border)",
+    color: selected
+      ? "var(--vscode-editor-foreground)"
+      : "car(--vscode-editorWidget-foreground)",
     boxShadow:
       hovered || selected
         ? "0px 4px 4px rgba(0, 0, 0, 0.25)"

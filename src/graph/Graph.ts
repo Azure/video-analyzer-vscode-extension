@@ -81,7 +81,7 @@ export default class Graph {
             node.name
           ),
           data: {
-            ...NodeHelpers.getNodeProperties(nodeType),
+            ...NodeHelpers.getNodeAppearance(nodeType),
             nodeProperties: node,
             nodeType: nodeType,
           } as CanvasNodeData,

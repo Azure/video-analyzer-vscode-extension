@@ -10,6 +10,7 @@ import { FontIcon, Text, Stack } from "office-ui-fabric-react";
 import Definitions from "../../definitions/Definitions";
 import Localizer from "../../localization/Localizer";
 import { NodeContainer } from "./NodeContainer";
+import NodeHelpers from "../../helpers/NodeHelpers";
 
 interface IProps {
   hasNodeWithName: (name: string) => boolean;
@@ -43,6 +44,10 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
   };
 
   const generateAccordionTitle = (node: ITreeNode) => {
+    const nodeTypeStringKey = node.searchKeys[0] as string;
+    const styles = NodeHelpers.getNodeAppearance(
+      NodeHelpers.getNodeTypeFromString(nodeTypeStringKey)
+    );
     return (
       <Stack
         horizontal
@@ -53,8 +58,9 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
         <FontIcon
           iconName={node.expanded ? "CaretSolidDown" : "CaretSolidRight"}
         />
+        <FontIcon iconName={styles.iconName} />
         <Text variant="medium">
-          {Localizer.l(node.searchKeys[0] as string)} ({node.children.length})
+          {Localizer.l(nodeTypeStringKey)} ({node.children.length})
         </Text>
       </Stack>
     );
@@ -65,9 +71,12 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
       (category, index) => {
         const children = category.children.map((node) => {
           const internalNode = node.extra as ICanvasNode;
-          const description =
-            internalNode.data &&
-            Localizer.l(internalNode.data.nodeProperties.name);
+          const description = Localizer.l(
+            internalNode.data!.nodeProperties.name
+          );
+          const styles = NodeHelpers.getNodeAppearance(
+            internalNode.data!.nodeType
+          );
           return {
             title: (
               <Item
@@ -78,8 +87,9 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
               >
                 <NodeContainer
                   heading={node.title as string}
-                  iconName="waffle"
+                  iconName={styles.iconName!}
                   title={description}
+                  background="var(--vscode-editor-background)"
                 >
                   <Text
                     variant="small"
