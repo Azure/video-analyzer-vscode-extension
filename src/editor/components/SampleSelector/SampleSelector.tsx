@@ -12,7 +12,7 @@ import {
 } from "office-ui-fabric-react";
 import { sampleOptionsList } from "./sampleList";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
-import Localizer from "../../../localization";
+import Localizer from "../../../localization/Localizer";
 
 enum Status {
   NoDisplay,
@@ -35,7 +35,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
 
   const dialogContentProps = {
     type: DialogType.close,
-    closeButtonAriaLabel: Localizer.l("dialogCloseButtonAriaLabel"),
+    closeButtonAriaLabel: Localizer.l("closeButtonText"),
     title: Localizer.l("sampleSelectorTitle"),
     subText: Localizer.l("sampleSelectorText"),
   };

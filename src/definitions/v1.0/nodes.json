@@ -2,9 +2,11 @@
   "availableNodes": [
     {
       "name": "MediaGraphInstance",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "type": "string"
@@ -47,7 +49,10 @@
               "items": {
                 "parsedRef": "#/definitions/MediaGraphParameterDefinition",
                 "type": "object",
-                "required": ["name", "value"],
+                "required": [
+                  "name",
+                  "value"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -64,7 +69,12 @@
             "state": {
               "type": "string",
               "description": "MediaGraphInstanceProperties.state",
-              "enum": ["Inactive", "Activating", "Active", "Deactivating"],
+              "enum": [
+                "Inactive",
+                "Activating",
+                "Active",
+                "Deactivating"
+              ],
               "x-ms-enum": {
                 "name": "MediaGraphInstanceState",
                 "values": [
@@ -96,7 +106,7 @@
     },
     {
       "name": "MediaGraphInstanceProperties",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
       "properties": {
         "description": {
@@ -113,7 +123,10 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphParameterDefinition",
             "type": "object",
-            "required": ["name", "value"],
+            "required": [
+              "name",
+              "value"
+            ],
             "properties": {
               "name": {
                 "type": "string",
@@ -130,7 +143,12 @@
         "state": {
           "type": "string",
           "description": "MediaGraphInstanceProperties.state",
-          "enum": ["Inactive", "Activating", "Active", "Deactivating"],
+          "enum": [
+            "Inactive",
+            "Activating",
+            "Active",
+            "Deactivating"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphInstanceState",
             "values": [
@@ -159,9 +177,12 @@
     },
     {
       "name": "MediaGraphParameterDefinition",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["name", "value"],
+      "required": [
+        "name",
+        "value"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -176,7 +197,7 @@
     },
     {
       "name": "MediaGraphInstanceCollection",
-      "nodeType": 3,
+      "nodeType": "other",
       "properties": {
         "value": {
           "type": "array",
@@ -184,7 +205,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphInstance",
             "type": "object",
-            "required": ["name"],
+            "required": [
+              "name"
+            ],
             "properties": {
               "name": {
                 "type": "string"
@@ -227,7 +250,10 @@
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphParameterDefinition",
                       "type": "object",
-                      "required": ["name", "value"],
+                      "required": [
+                        "name",
+                        "value"
+                      ],
                       "properties": {
                         "name": {
                           "type": "string",
@@ -289,7 +315,7 @@
     },
     {
       "name": "MediaGraphTopologyCollection",
-      "nodeType": 3,
+      "nodeType": "other",
       "properties": {
         "value": {
           "type": "array",
@@ -297,7 +323,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphTopology",
             "type": "object",
-            "required": ["name"],
+            "required": [
+              "name"
+            ],
             "properties": {
               "name": {
                 "type": "string"
@@ -334,7 +362,10 @@
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphParameterDeclaration",
                       "type": "object",
-                      "required": ["name", "type"],
+                      "required": [
+                        "name",
+                        "type"
+                      ],
                       "properties": {
                         "name": {
                           "type": "string",
@@ -394,7 +425,10 @@
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphSource",
                       "type": "object",
-                      "required": ["@type", "name"],
+                      "required": [
+                        "@type",
+                        "name"
+                      ],
                       "discriminator": "@type",
                       "properties": {
                         "@type": {
@@ -414,7 +448,11 @@
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphProcessor",
                       "type": "object",
-                      "required": ["@type", "inputs", "name"],
+                      "required": [
+                        "@type",
+                        "inputs",
+                        "name"
+                      ],
                       "discriminator": "@type",
                       "properties": {
                         "@type": {
@@ -445,7 +483,9 @@
                                     "property": {
                                       "type": "string",
                                       "description": "MediaGraphOutputSelector.property",
-                                      "enum": ["mediaType"],
+                                      "enum": [
+                                        "mediaType"
+                                      ],
                                       "x-ms-enum": {
                                         "name": "MediaGraphOutputSelectorProperty",
                                         "values": [
@@ -460,7 +500,10 @@
                                     "operator": {
                                       "type": "string",
                                       "description": "MediaGraphOutputSelector.operator",
-                                      "enum": ["is", "isNot"],
+                                      "enum": [
+                                        "is",
+                                        "isNot"
+                                      ],
                                       "x-ms-enum": {
                                         "name": "MediaGraphOutputSelectorOperator",
                                         "values": [
@@ -497,7 +540,11 @@
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphSink",
                       "type": "object",
-                      "required": ["@type", "inputs", "name"],
+                      "required": [
+                        "@type",
+                        "inputs",
+                        "name"
+                      ],
                       "discriminator": "@type",
                       "properties": {
                         "@type": {
@@ -528,7 +575,9 @@
                                     "property": {
                                       "type": "string",
                                       "description": "MediaGraphOutputSelector.property",
-                                      "enum": ["mediaType"],
+                                      "enum": [
+                                        "mediaType"
+                                      ],
                                       "x-ms-enum": {
                                         "name": "MediaGraphOutputSelectorProperty",
                                         "values": [
@@ -543,7 +592,10 @@
                                     "operator": {
                                       "type": "string",
                                       "description": "MediaGraphOutputSelector.operator",
-                                      "enum": ["is", "isNot"],
+                                      "enum": [
+                                        "is",
+                                        "isNot"
+                                      ],
                                       "x-ms-enum": {
                                         "name": "MediaGraphOutputSelectorOperator",
                                         "values": [
@@ -591,9 +643,11 @@
     },
     {
       "name": "MediaGraphTopology",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "type": "string"
@@ -630,7 +684,10 @@
               "items": {
                 "parsedRef": "#/definitions/MediaGraphParameterDeclaration",
                 "type": "object",
-                "required": ["name", "type"],
+                "required": [
+                  "name",
+                  "type"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -639,7 +696,13 @@
                   },
                   "type": {
                     "type": "string",
-                    "enum": ["String", "SecretString", "Int", "Double", "Bool"],
+                    "enum": [
+                      "String",
+                      "SecretString",
+                      "Int",
+                      "Double",
+                      "Bool"
+                    ],
                     "x-ms-enum": {
                       "name": "MediaGraphParameterType",
                       "values": [
@@ -684,7 +747,10 @@
               "items": {
                 "parsedRef": "#/definitions/MediaGraphSource",
                 "type": "object",
-                "required": ["@type", "name"],
+                "required": [
+                  "@type",
+                  "name"
+                ],
                 "discriminator": "@type",
                 "properties": {
                   "@type": {
@@ -704,7 +770,11 @@
               "items": {
                 "parsedRef": "#/definitions/MediaGraphProcessor",
                 "type": "object",
-                "required": ["@type", "inputs", "name"],
+                "required": [
+                  "@type",
+                  "inputs",
+                  "name"
+                ],
                 "discriminator": "@type",
                 "properties": {
                   "@type": {
@@ -735,7 +805,9 @@
                               "property": {
                                 "type": "string",
                                 "description": "MediaGraphOutputSelector.property",
-                                "enum": ["mediaType"],
+                                "enum": [
+                                  "mediaType"
+                                ],
                                 "x-ms-enum": {
                                   "name": "MediaGraphOutputSelectorProperty",
                                   "values": [
@@ -750,7 +822,10 @@
                               "operator": {
                                 "type": "string",
                                 "description": "MediaGraphOutputSelector.operator",
-                                "enum": ["is", "isNot"],
+                                "enum": [
+                                  "is",
+                                  "isNot"
+                                ],
                                 "x-ms-enum": {
                                   "name": "MediaGraphOutputSelectorOperator",
                                   "values": [
@@ -787,7 +862,11 @@
               "items": {
                 "parsedRef": "#/definitions/MediaGraphSink",
                 "type": "object",
-                "required": ["@type", "inputs", "name"],
+                "required": [
+                  "@type",
+                  "inputs",
+                  "name"
+                ],
                 "discriminator": "@type",
                 "properties": {
                   "@type": {
@@ -818,7 +897,9 @@
                               "property": {
                                 "type": "string",
                                 "description": "MediaGraphOutputSelector.property",
-                                "enum": ["mediaType"],
+                                "enum": [
+                                  "mediaType"
+                                ],
                                 "x-ms-enum": {
                                   "name": "MediaGraphOutputSelectorProperty",
                                   "values": [
@@ -833,7 +914,10 @@
                               "operator": {
                                 "type": "string",
                                 "description": "MediaGraphOutputSelector.operator",
-                                "enum": ["is", "isNot"],
+                                "enum": [
+                                  "is",
+                                  "isNot"
+                                ],
                                 "x-ms-enum": {
                                   "name": "MediaGraphOutputSelectorOperator",
                                   "values": [
@@ -873,7 +957,7 @@
     },
     {
       "name": "MediaGraphTopologyProperties",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
       "properties": {
         "description": {
@@ -884,7 +968,10 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphParameterDeclaration",
             "type": "object",
-            "required": ["name", "type"],
+            "required": [
+              "name",
+              "type"
+            ],
             "properties": {
               "name": {
                 "type": "string",
@@ -893,7 +980,13 @@
               },
               "type": {
                 "type": "string",
-                "enum": ["String", "SecretString", "Int", "Double", "Bool"],
+                "enum": [
+                  "String",
+                  "SecretString",
+                  "Int",
+                  "Double",
+                  "Bool"
+                ],
                 "x-ms-enum": {
                   "name": "MediaGraphParameterType",
                   "values": [
@@ -938,7 +1031,10 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphSource",
             "type": "object",
-            "required": ["@type", "name"],
+            "required": [
+              "@type",
+              "name"
+            ],
             "discriminator": "@type",
             "properties": {
               "@type": {
@@ -958,7 +1054,11 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphProcessor",
             "type": "object",
-            "required": ["@type", "inputs", "name"],
+            "required": [
+              "@type",
+              "inputs",
+              "name"
+            ],
             "discriminator": "@type",
             "properties": {
               "@type": {
@@ -989,7 +1089,9 @@
                           "property": {
                             "type": "string",
                             "description": "MediaGraphOutputSelector.property",
-                            "enum": ["mediaType"],
+                            "enum": [
+                              "mediaType"
+                            ],
                             "x-ms-enum": {
                               "name": "MediaGraphOutputSelectorProperty",
                               "values": [
@@ -1004,7 +1106,10 @@
                           "operator": {
                             "type": "string",
                             "description": "MediaGraphOutputSelector.operator",
-                            "enum": ["is", "isNot"],
+                            "enum": [
+                              "is",
+                              "isNot"
+                            ],
                             "x-ms-enum": {
                               "name": "MediaGraphOutputSelectorOperator",
                               "values": [
@@ -1041,7 +1146,11 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphSink",
             "type": "object",
-            "required": ["@type", "inputs", "name"],
+            "required": [
+              "@type",
+              "inputs",
+              "name"
+            ],
             "discriminator": "@type",
             "properties": {
               "@type": {
@@ -1072,7 +1181,9 @@
                           "property": {
                             "type": "string",
                             "description": "MediaGraphOutputSelector.property",
-                            "enum": ["mediaType"],
+                            "enum": [
+                              "mediaType"
+                            ],
                             "x-ms-enum": {
                               "name": "MediaGraphOutputSelectorProperty",
                               "values": [
@@ -1087,7 +1198,10 @@
                           "operator": {
                             "type": "string",
                             "description": "MediaGraphOutputSelector.operator",
-                            "enum": ["is", "isNot"],
+                            "enum": [
+                              "is",
+                              "isNot"
+                            ],
                             "x-ms-enum": {
                               "name": "MediaGraphOutputSelectorOperator",
                               "values": [
@@ -1124,7 +1238,7 @@
     },
     {
       "name": "MediaGraphSystemData",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
       "properties": {
         "createdAt": {
@@ -1142,9 +1256,12 @@
     },
     {
       "name": "MediaGraphParameterDeclaration",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["name", "type"],
+      "required": [
+        "name",
+        "type"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -1153,7 +1270,13 @@
         },
         "type": {
           "type": "string",
-          "enum": ["String", "SecretString", "Int", "Double", "Bool"],
+          "enum": [
+            "String",
+            "SecretString",
+            "Int",
+            "Double",
+            "Bool"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphParameterType",
             "values": [
@@ -1194,9 +1317,12 @@
     },
     {
       "name": "MediaGraphSource",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type", "name"],
+      "required": [
+        "@type",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "@type": {
@@ -1212,15 +1338,20 @@
     },
     {
       "name": "MediaGraphRtspSource",
-      "nodeType": 0,
+      "nodeType": "source",
       "type": "object",
-      "required": ["endpoint"],
+      "required": [
+        "endpoint"
+      ],
       "discriminator": "@type",
       "properties": {
         "transport": {
           "type": "string",
           "description": "MediaGraphRtspSource.transport",
-          "enum": ["Http", "Tcp"],
+          "enum": [
+            "Http",
+            "Tcp"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphRtspTransport",
             "values": [
@@ -1239,7 +1370,10 @@
         "endpoint": {
           "parsedRef": "#/definitions/MediaGraphEndpoint",
           "type": "object",
-          "required": ["@type", "url"],
+          "required": [
+            "@type",
+            "url"
+          ],
           "discriminator": "@type",
           "properties": {
             "@type": {
@@ -1249,7 +1383,9 @@
             "credentials": {
               "parsedRef": "#/definitions/MediaGraphCredentials",
               "type": "object",
-              "required": ["@type"],
+              "required": [
+                "@type"
+              ],
               "discriminator": "@type",
               "properties": {
                 "@type": {
@@ -1269,13 +1405,18 @@
       },
       "description": "MediaGraphRtspSource",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphRtspSource",
-      "parsedAllOf": ["#/definitions/MediaGraphSource"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSource"
+      ]
     },
     {
       "name": "MediaGraphIoTHubMessageSource",
-      "nodeType": 0,
+      "nodeType": "source",
       "type": "object",
-      "required": ["@type", "name"],
+      "required": [
+        "@type",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "hubInputName": {
@@ -1285,13 +1426,19 @@
       },
       "description": "MediaGraphIoTHubMessageSource",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphIoTHubMessageSource",
-      "parsedAllOf": ["#/definitions/MediaGraphSource"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSource"
+      ]
     },
     {
       "name": "MediaGraphIoTHubMessageSink",
-      "nodeType": 2,
+      "nodeType": "sink",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "hubOutputName": {
@@ -1301,13 +1448,18 @@
       },
       "description": "MediaGraphIoTHubMessageSink",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphIoTHubMessageSink",
-      "parsedAllOf": ["#/definitions/MediaGraphSink"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSink"
+      ]
     },
     {
       "name": "MediaGraphEndpoint",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type", "url"],
+      "required": [
+        "@type",
+        "url"
+      ],
       "discriminator": "@type",
       "properties": {
         "@type": {
@@ -1317,7 +1469,9 @@
         "credentials": {
           "parsedRef": "#/definitions/MediaGraphCredentials",
           "type": "object",
-          "required": ["@type"],
+          "required": [
+            "@type"
+          ],
           "discriminator": "@type",
           "properties": {
             "@type": {
@@ -1336,9 +1490,11 @@
     },
     {
       "name": "MediaGraphCredentials",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type"],
+      "required": [
+        "@type"
+      ],
       "discriminator": "@type",
       "properties": {
         "@type": {
@@ -1350,9 +1506,11 @@
     },
     {
       "name": "MediaGraphUsernamePasswordCredentials",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["username"],
+      "required": [
+        "username"
+      ],
       "discriminator": "@type",
       "properties": {
         "username": {
@@ -1366,13 +1524,18 @@
       },
       "description": "MediaGraphUsernamePasswordCredentials",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials",
-      "parsedAllOf": ["#/definitions/MediaGraphCredentials"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphCredentials"
+      ]
     },
     {
       "name": "MediaGraphHttpHeaderCredentials",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["headerName", "headerValue"],
+      "required": [
+        "headerName",
+        "headerValue"
+      ],
       "discriminator": "@type",
       "properties": {
         "headerName": {
@@ -1386,13 +1549,18 @@
       },
       "description": "MediaGraphHttpHeaderCredentials",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphHttpHeaderCredentials",
-      "parsedAllOf": ["#/definitions/MediaGraphCredentials"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphCredentials"
+      ]
     },
     {
       "name": "MediaGraphUnsecuredEndpoint",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type", "url"],
+      "required": [
+        "@type",
+        "url"
+      ],
       "discriminator": "@type",
       "properties": {
         "@type": {
@@ -1402,7 +1570,9 @@
         "credentials": {
           "parsedRef": "#/definitions/MediaGraphCredentials",
           "type": "object",
-          "required": ["@type"],
+          "required": [
+            "@type"
+          ],
           "discriminator": "@type",
           "properties": {
             "@type": {
@@ -1419,19 +1589,26 @@
       },
       "description": "MediaGraphUnsecuredEndpoint",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphUnsecuredEndpoint",
-      "parsedAllOf": ["#/definitions/MediaGraphEndpoint"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphEndpoint"
+      ]
     },
     {
       "name": "MediaGraphTlsEndpoint",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type", "url"],
+      "required": [
+        "@type",
+        "url"
+      ],
       "discriminator": "@type",
       "properties": {
         "trustedCertificates": {
           "parsedRef": "#/definitions/MediaGraphCertificateSource",
           "type": "object",
-          "required": ["@type"],
+          "required": [
+            "@type"
+          ],
           "discriminator": "@type",
           "properties": {
             "@type": {
@@ -1459,13 +1636,17 @@
       },
       "description": "MediaGraphTlsEndpoint",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphTlsEndpoint",
-      "parsedAllOf": ["#/definitions/MediaGraphEndpoint"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphEndpoint"
+      ]
     },
     {
       "name": "MediaGraphCertificateSource",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type"],
+      "required": [
+        "@type"
+      ],
       "discriminator": "@type",
       "properties": {
         "@type": {
@@ -1477,7 +1658,7 @@
     },
     {
       "name": "MediaGraphTlsValidationOptions",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
       "properties": {
         "ignoreHostname": {
@@ -1493,9 +1674,11 @@
     },
     {
       "name": "MediaGraphPemCertificateList",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["certificates"],
+      "required": [
+        "certificates"
+      ],
       "discriminator": "@type",
       "properties": {
         "certificates": {
@@ -1508,13 +1691,19 @@
       },
       "description": "MediaGraphPemCertificateList",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphPemCertificateList",
-      "parsedAllOf": ["#/definitions/MediaGraphCertificateSource"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphCertificateSource"
+      ]
     },
     {
       "name": "MediaGraphSink",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "@type": {
@@ -1545,7 +1734,9 @@
                     "property": {
                       "type": "string",
                       "description": "MediaGraphOutputSelector.property",
-                      "enum": ["mediaType"],
+                      "enum": [
+                        "mediaType"
+                      ],
                       "x-ms-enum": {
                         "name": "MediaGraphOutputSelectorProperty",
                         "values": [
@@ -1560,7 +1751,10 @@
                     "operator": {
                       "type": "string",
                       "description": "MediaGraphOutputSelector.operator",
-                      "enum": ["is", "isNot"],
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
                       "x-ms-enum": {
                         "name": "MediaGraphOutputSelectorOperator",
                         "values": [
@@ -1593,7 +1787,7 @@
     },
     {
       "name": "MediaGraphNodeInput",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
       "properties": {
         "nodeName": {
@@ -1609,7 +1803,9 @@
               "property": {
                 "type": "string",
                 "description": "MediaGraphOutputSelector.property",
-                "enum": ["mediaType"],
+                "enum": [
+                  "mediaType"
+                ],
                 "x-ms-enum": {
                   "name": "MediaGraphOutputSelectorProperty",
                   "values": [
@@ -1624,7 +1820,10 @@
               "operator": {
                 "type": "string",
                 "description": "MediaGraphOutputSelector.operator",
-                "enum": ["is", "isNot"],
+                "enum": [
+                  "is",
+                  "isNot"
+                ],
                 "x-ms-enum": {
                   "name": "MediaGraphOutputSelectorOperator",
                   "values": [
@@ -1653,12 +1852,14 @@
     },
     {
       "name": "MediaGraphOutputSelector",
-      "nodeType": 3,
+      "nodeType": "other",
       "properties": {
         "property": {
           "type": "string",
           "description": "MediaGraphOutputSelector.property",
-          "enum": ["mediaType"],
+          "enum": [
+            "mediaType"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphOutputSelectorProperty",
             "values": [
@@ -1673,7 +1874,10 @@
         "operator": {
           "type": "string",
           "description": "MediaGraphOutputSelector.operator",
-          "enum": ["is", "isNot"],
+          "enum": [
+            "is",
+            "isNot"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphOutputSelectorOperator",
             "values": [
@@ -1698,9 +1902,11 @@
     },
     {
       "name": "MediaGraphFileSink",
-      "nodeType": 2,
+      "nodeType": "sink",
       "type": "object",
-      "required": ["filePathPattern"],
+      "required": [
+        "filePathPattern"
+      ],
       "discriminator": "@type",
       "properties": {
         "filePathPattern": {
@@ -1711,13 +1917,19 @@
       },
       "description": "MediaGraphFileSink",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphFileSink",
-      "parsedAllOf": ["#/definitions/MediaGraphSink"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSink"
+      ]
     },
     {
       "name": "MediaGraphAssetSink",
-      "nodeType": 2,
+      "nodeType": "sink",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "assetNamePattern": {
@@ -1741,13 +1953,19 @@
       },
       "description": "MediaGraphAssetSink",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphAssetSink",
-      "parsedAllOf": ["#/definitions/MediaGraphSink"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSink"
+      ]
     },
     {
       "name": "MediaGraphProcessor",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "@type": {
@@ -1778,7 +1996,9 @@
                     "property": {
                       "type": "string",
                       "description": "MediaGraphOutputSelector.property",
-                      "enum": ["mediaType"],
+                      "enum": [
+                        "mediaType"
+                      ],
                       "x-ms-enum": {
                         "name": "MediaGraphOutputSelectorProperty",
                         "values": [
@@ -1793,7 +2013,10 @@
                     "operator": {
                       "type": "string",
                       "description": "MediaGraphOutputSelector.operator",
-                      "enum": ["is", "isNot"],
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
                       "x-ms-enum": {
                         "name": "MediaGraphOutputSelectorOperator",
                         "values": [
@@ -1826,15 +2049,23 @@
     },
     {
       "name": "MediaGraphMotionDetectionProcessor",
-      "nodeType": 1,
+      "nodeType": "processor",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "sensitivity": {
           "type": "string",
           "description": "MediaGraphMotionDetectionProcessor.sensitivity",
-          "enum": ["Low", "Medium", "High"],
+          "enum": [
+            "Low",
+            "Medium",
+            "High"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphMotionDetectionSensitivity",
             "values": [
@@ -1861,19 +2092,28 @@
       },
       "description": "MediaGraphMotionDetectionProcessor",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
-      "parsedAllOf": ["#/definitions/MediaGraphProcessor"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphProcessor"
+      ]
     },
     {
       "name": "MediaGraphExtensionProcessorBase",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "endpoint": {
           "parsedRef": "#/definitions/MediaGraphEndpoint",
           "type": "object",
-          "required": ["@type", "url"],
+          "required": [
+            "@type",
+            "url"
+          ],
           "discriminator": "@type",
           "properties": {
             "@type": {
@@ -1883,7 +2123,9 @@
             "credentials": {
               "parsedRef": "#/definitions/MediaGraphCredentials",
               "type": "object",
-              "required": ["@type"],
+              "required": [
+                "@type"
+              ],
               "discriminator": "@type",
               "properties": {
                 "@type": {
@@ -1911,7 +2153,11 @@
                 "mode": {
                   "type": "string",
                   "description": "MediaGraphImageScale.mode",
-                  "enum": ["PreserveAspectRatio", "Pad", "Stretch"],
+                  "enum": [
+                    "PreserveAspectRatio",
+                    "Pad",
+                    "Stretch"
+                  ],
                   "x-ms-enum": {
                     "name": "MediaGraphImageScaleMode",
                     "values": [
@@ -1944,7 +2190,9 @@
             },
             "format": {
               "parsedRef": "#/definitions/MediaGraphImageFormat",
-              "required": ["@type"],
+              "required": [
+                "@type"
+              ],
               "type": "object",
               "discriminator": "@type",
               "properties": {
@@ -1962,16 +2210,21 @@
       },
       "description": "MediaGraphExtensionProcessorBase",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphExtensionProcessorBase",
-      "parsedAllOf": ["#/definitions/MediaGraphProcessor"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphProcessor"
+      ]
     },
     {
       "name": "MediaGraphHttpExtension",
-      "nodeType": 1,
+      "nodeType": "processor",
       "properties": {
         "endpoint": {
           "parsedRef": "#/definitions/MediaGraphEndpoint",
           "type": "object",
-          "required": ["@type", "url"],
+          "required": [
+            "@type",
+            "url"
+          ],
           "discriminator": "@type",
           "properties": {
             "@type": {
@@ -1981,7 +2234,9 @@
             "credentials": {
               "parsedRef": "#/definitions/MediaGraphCredentials",
               "type": "object",
-              "required": ["@type"],
+              "required": [
+                "@type"
+              ],
               "discriminator": "@type",
               "properties": {
                 "@type": {
@@ -2009,7 +2264,11 @@
                 "mode": {
                   "type": "string",
                   "description": "MediaGraphImageScale.mode",
-                  "enum": ["PreserveAspectRatio", "Pad", "Stretch"],
+                  "enum": [
+                    "PreserveAspectRatio",
+                    "Pad",
+                    "Stretch"
+                  ],
                   "x-ms-enum": {
                     "name": "MediaGraphImageScaleMode",
                     "values": [
@@ -2042,7 +2301,9 @@
             },
             "format": {
               "parsedRef": "#/definitions/MediaGraphImageFormat",
-              "required": ["@type"],
+              "required": [
+                "@type"
+              ],
               "type": "object",
               "discriminator": "@type",
               "properties": {
@@ -2060,11 +2321,13 @@
       },
       "description": "MediaGraphHttpExtension",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphHttpExtension",
-      "parsedAllOf": ["#/definitions/MediaGraphExtensionProcessorBase"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphExtensionProcessorBase"
+      ]
     },
     {
       "name": "MediaGraphImage",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
       "properties": {
         "scale": {
@@ -2074,7 +2337,11 @@
             "mode": {
               "type": "string",
               "description": "MediaGraphImageScale.mode",
-              "enum": ["PreserveAspectRatio", "Pad", "Stretch"],
+              "enum": [
+                "PreserveAspectRatio",
+                "Pad",
+                "Stretch"
+              ],
               "x-ms-enum": {
                 "name": "MediaGraphImageScaleMode",
                 "values": [
@@ -2107,7 +2374,9 @@
         },
         "format": {
           "parsedRef": "#/definitions/MediaGraphImageFormat",
-          "required": ["@type"],
+          "required": [
+            "@type"
+          ],
           "type": "object",
           "discriminator": "@type",
           "properties": {
@@ -2124,13 +2393,17 @@
     },
     {
       "name": "MediaGraphImageScale",
-      "nodeType": 3,
+      "nodeType": "other",
       "type": "object",
       "properties": {
         "mode": {
           "type": "string",
           "description": "MediaGraphImageScale.mode",
-          "enum": ["PreserveAspectRatio", "Pad", "Stretch"],
+          "enum": [
+            "PreserveAspectRatio",
+            "Pad",
+            "Stretch"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphImageScaleMode",
             "values": [
@@ -2163,8 +2436,10 @@
     },
     {
       "name": "MediaGraphImageFormat",
-      "nodeType": 3,
-      "required": ["@type"],
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
       "type": "object",
       "discriminator": "@type",
       "properties": {
@@ -2178,8 +2453,10 @@
     },
     {
       "name": "MediaGraphImageFormatRaw",
-      "nodeType": 3,
-      "required": ["@type"],
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
       "type": "object",
       "discriminator": "@type",
       "properties": {
@@ -2252,12 +2529,16 @@
       },
       "description": "MediaGraphImageFormatRaw",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatRaw",
-      "parsedAllOf": ["#/definitions/MediaGraphImageFormat"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphImageFormat"
+      ]
     },
     {
       "name": "MediaGraphImageFormatEncoded",
-      "nodeType": 3,
-      "required": ["@type"],
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
       "type": "object",
       "discriminator": "@type",
       "properties": {
@@ -2265,7 +2546,11 @@
           "type": "string",
           "description": "MediaGraphImageFormatEncoded.encoding",
           "default": "Jpeg",
-          "enum": ["Jpeg", "Bmp", "Png"],
+          "enum": [
+            "Jpeg",
+            "Bmp",
+            "Png"
+          ],
           "x-ms-enum": {
             "name": "MediaGraphImageEncodingFormat",
             "values": [
@@ -2292,13 +2577,19 @@
       },
       "description": "MediaGraphImageFormatEncoded",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatEncoded",
-      "parsedAllOf": ["#/definitions/MediaGraphImageFormat"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphImageFormat"
+      ]
     },
     {
       "name": "MediaGraphSignalGateProcessor",
-      "nodeType": 1,
+      "nodeType": "processor",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "activationEvaluationWindow": {
@@ -2324,13 +2615,19 @@
       },
       "description": "MediaGraphSignalGateProcessor",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphSignalGateProcessor",
-      "parsedAllOf": ["#/definitions/MediaGraphProcessor"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphProcessor"
+      ]
     },
     {
       "name": "MediaGraphFrameRateFilterProcessor",
-      "nodeType": 1,
+      "nodeType": "processor",
       "type": "object",
-      "required": ["@type", "inputs", "name"],
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
       "discriminator": "@type",
       "properties": {
         "maximumFps": {
@@ -2340,73 +2637,81 @@
       },
       "description": "MediaGraphFrameRateFilterProcessor",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphFrameRateFilterProcessor",
-      "parsedAllOf": ["#/definitions/MediaGraphProcessor"]
+      "parsedAllOf": [
+        "#/definitions/MediaGraphProcessor"
+      ]
     }
   ],
   "itemPanelNodes": [
     {
       "title": "sources",
       "id": "sources",
-      "searchKeys": ["sources"],
+      "searchKeys": [
+        "sources"
+      ],
       "children": [
         {
           "title": "rtspSource",
           "extra": {
-            "id": "8ef70957-fad4-45ae-9737-b3997fe87f0a",
+            "id": "dd588860-0182-44dd-b030-1a0b0c33bcfa",
             "name": "rtspSource",
             "shape": "module",
             "ports": [
               {
-                "id": "f57f34b0-3ac1-4639-b81f-576d3d690e0c",
+                "id": "0d1160b2-e83b-4d41-9e71-976c18ace4f6",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphRtspSource output port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "Upload",
+              "iconName": "SecurityCamera",
               "color": "var(--vscode-terminal-ansiBrightBlue)",
               "colorAlt": "var(--vscode-terminal-ansiBlue)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphRtspSource",
                 "name": "MediaGraphRtspSource"
               },
-              "nodeType": 0
+              "nodeType": "source"
             }
           },
-          "id": "3d34a231-fdb0-458c-aeb8-4aced7097a90",
-          "searchKeys": ["rtspSource"],
+          "id": "08f4fc21-0b06-4df0-931b-b58812c29600",
+          "searchKeys": [
+            "rtspSource"
+          ],
           "children": []
         },
         {
           "title": "ioTHubMessageSource",
           "extra": {
-            "id": "f23f0492-2ad5-4145-ba20-ab447fd02a77",
+            "id": "65a8d717-2aee-4bb8-81e2-65b2668f77ed",
             "name": "ioTHubMessageSource",
             "shape": "module",
             "ports": [
               {
-                "id": "9453c89b-2f0a-4380-a552-c32d09594c3b",
+                "id": "f5acb217-f3f5-440e-a212-e72f264fe9ca",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphIoTHubMessageSource output port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "Upload",
+              "iconName": "SecurityCamera",
               "color": "var(--vscode-terminal-ansiBrightBlue)",
               "colorAlt": "var(--vscode-terminal-ansiBlue)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSource",
                 "name": "MediaGraphIoTHubMessageSource"
               },
-              "nodeType": 0
+              "nodeType": "source"
             }
           },
-          "id": "25873bf2-a494-42c0-be0f-f89a24782f21",
-          "searchKeys": ["ioTHubMessageSource"],
+          "id": "7aaa2759-f973-451e-9b7c-5326d9a15d54",
+          "searchKeys": [
+            "ioTHubMessageSource"
+          ],
           "children": []
         }
       ],
@@ -2415,154 +2720,164 @@
     {
       "title": "processors",
       "id": "processors",
-      "searchKeys": ["processors"],
+      "searchKeys": [
+        "processors"
+      ],
       "children": [
         {
           "title": "motionDetectionProcessor",
           "extra": {
-            "id": "cccbcb78-2a4f-4f1c-8967-42312a834c7d",
+            "id": "738f31f2-4fa2-465b-9dfc-fec31e5126be",
             "name": "motionDetectionProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "3d39da65-1e51-47e4-a099-109d66ac48c7",
+                "id": "f6f4375e-4d12-4c12-809d-ee6a42bffc44",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphMotionDetectionProcessor output port"
+                "name": ""
               },
               {
-                "id": "aa531b15-c798-4425-8322-ed929ab7c3b7",
+                "id": "7bcafe0f-fc47-4d95-b6f8-e8b9b229fca5",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphMotionDetectionProcessor input port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
                 "name": "MediaGraphMotionDetectionProcessor"
               },
-              "nodeType": 1
+              "nodeType": "processor"
             }
           },
-          "id": "e0d52d62-5f83-4c5e-bb17-936d60048d81",
-          "searchKeys": ["motionDetectionProcessor"],
+          "id": "bd7d50ac-90ef-4797-b504-6bf382ea8730",
+          "searchKeys": [
+            "motionDetectionProcessor"
+          ],
           "children": []
         },
         {
           "title": "httpExtension",
           "extra": {
-            "id": "36335090-c14b-4ad6-b8c7-31526958911c",
-            "name": "extensionProcessorBase",
+            "id": "c716772c-8018-472c-b7ab-eb7b9b54dc1e",
+            "name": "httpExtension",
             "shape": "module",
             "ports": [
               {
-                "id": "603679a4-72e2-4bf8-ad0f-7bc2d71c68f4",
+                "id": "c5e43139-b7b0-4c62-824b-72cb44fcc78f",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphExtensionProcessorBase output port"
+                "name": ""
               },
               {
-                "id": "3bbd47c1-fa8d-4920-a3d1-2681a5e92b17",
+                "id": "01bbb991-349f-4355-909c-84fc6a7b90fd",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphExtensionProcessorBase input port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphHttpExtension",
                 "name": "MediaGraphHttpExtension"
               },
-              "nodeType": 1
+              "nodeType": "processor"
             }
           },
-          "id": "02653945-9dcb-4aa7-ba1d-16125129036b",
-          "searchKeys": ["httpExtension"],
+          "id": "32bb92da-c434-440e-87e4-b0b3a2098491",
+          "searchKeys": [
+            "httpExtension"
+          ],
           "children": []
         },
         {
           "title": "signalGateProcessor",
           "extra": {
-            "id": "b43301a9-ede2-4e89-b300-e7e04f4fd911",
+            "id": "62f6237f-cf98-43b9-b9d2-880fd231b03e",
             "name": "signalGateProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "e19188ce-2da0-4096-8cda-510204b73397",
+                "id": "7b9aadc7-082c-4ec8-8564-5e226e7a7f49",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphSignalGateProcessor output port"
+                "name": ""
               },
               {
-                "id": "7fc2ed0f-00ac-4af2-b081-535b8e58d7c5",
+                "id": "ba260231-f231-406a-bc0e-7bc950f068c2",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphSignalGateProcessor input port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphSignalGateProcessor",
                 "name": "MediaGraphSignalGateProcessor"
               },
-              "nodeType": 1
+              "nodeType": "processor"
             }
           },
-          "id": "74b2cfac-4b58-45ab-8f79-56d000d6dec0",
-          "searchKeys": ["signalGateProcessor"],
+          "id": "603c1a8c-80d9-4863-98d6-24c79ff2c353",
+          "searchKeys": [
+            "signalGateProcessor"
+          ],
           "children": []
         },
         {
           "title": "frameRateFilterProcessor",
           "extra": {
-            "id": "ffd143f7-1e63-41ab-a250-f4f53172e47b",
+            "id": "da1ccfc8-6f03-48f2-b027-3f3c69596367",
             "name": "frameRateFilterProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "4cce8c84-bd58-472a-b102-116a223ff56e",
+                "id": "a84d99a3-182a-4fa2-8bf9-c8b41b2a8735",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
-                "name": "MediaGraphFrameRateFilterProcessor output port"
+                "name": ""
               },
               {
-                "id": "c6113a06-a889-460a-85f8-d1864f1f26ac",
+                "id": "12247ebf-76a9-4f2c-9e71-b75370beedda",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphFrameRateFilterProcessor input port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "ProgressRingDots",
+              "iconName": "Processing",
               "color": "var(--vscode-terminal-ansiBrightGreen)",
               "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphFrameRateFilterProcessor",
                 "name": "MediaGraphFrameRateFilterProcessor"
               },
-              "nodeType": 1
+              "nodeType": "processor"
             }
           },
-          "id": "537c3e5f-870c-4687-ba64-155cab521a10",
-          "searchKeys": ["frameRateFilterProcessor"],
+          "id": "9d200d03-1740-40c2-b7f0-c5ba22a02de6",
+          "searchKeys": [
+            "frameRateFilterProcessor"
+          ],
           "children": []
         }
       ],
@@ -2571,96 +2886,104 @@
     {
       "title": "sinks",
       "id": "sinks",
-      "searchKeys": ["sinks"],
+      "searchKeys": [
+        "sinks"
+      ],
       "children": [
         {
           "title": "ioTHubMessageSink",
           "extra": {
-            "id": "39d1d2e5-05e0-4412-b971-2f3df5b68c84",
+            "id": "5789d757-52ed-48c2-9081-4019de81870d",
             "name": "ioTHubMessageSink",
             "shape": "module",
             "ports": [
               {
-                "id": "71bf7f38-9f85-43e8-9d47-f5f3276d641b",
+                "id": "673af74a-2db1-4a38-903e-c83d3fd06c39",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphIoTHubMessageSink input port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "Download",
+              "iconName": "CloudImportExport",
               "color": "var(--vscode-terminal-ansiBrightYellow)",
               "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink",
                 "name": "MediaGraphIoTHubMessageSink"
               },
-              "nodeType": 2
+              "nodeType": "sink"
             }
           },
-          "id": "ba71b081-8f02-4e36-89e2-334b51505e42",
-          "searchKeys": ["ioTHubMessageSink"],
+          "id": "269ae13f-5828-4754-a6a8-99e1f797735b",
+          "searchKeys": [
+            "ioTHubMessageSink"
+          ],
           "children": []
         },
         {
           "title": "fileSink",
           "extra": {
-            "id": "c1048086-cf93-4151-92cd-d0eb45949eb5",
+            "id": "5ba7b0dd-ae96-484b-bc2c-b5d144ca99cc",
             "name": "fileSink",
             "shape": "module",
             "ports": [
               {
-                "id": "cd092922-d6ce-4b10-9dfb-c0eb3535cc8a",
+                "id": "8311ff2b-4824-4a42-844a-cd2dbf96a5b9",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphFileSink input port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "Download",
+              "iconName": "CloudImportExport",
               "color": "var(--vscode-terminal-ansiBrightYellow)",
               "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphFileSink",
                 "name": "MediaGraphFileSink"
               },
-              "nodeType": 2
+              "nodeType": "sink"
             }
           },
-          "id": "d9578e70-5617-451e-81c3-e10b26a8b981",
-          "searchKeys": ["fileSink"],
+          "id": "9daf368e-e204-4798-90ef-c4db090bdeb6",
+          "searchKeys": [
+            "fileSink"
+          ],
           "children": []
         },
         {
           "title": "assetSink",
           "extra": {
-            "id": "ef307c01-99f7-4782-a8c5-b3a67ccf04b2",
+            "id": "1d77df1c-0467-4246-8b23-663a78f2da43",
             "name": "assetSink",
             "shape": "module",
             "ports": [
               {
-                "id": "8297f652-667f-4a9d-9f80-f91c51ab6a95",
+                "id": "27407ce8-ad84-4f34-b2dd-775fdfb2a1d7",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
-                "name": "MediaGraphAssetSink input port"
+                "name": ""
               }
             ],
             "data": {
-              "iconName": "Download",
+              "iconName": "CloudImportExport",
               "color": "var(--vscode-terminal-ansiBrightYellow)",
               "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphAssetSink",
                 "name": "MediaGraphAssetSink"
               },
-              "nodeType": 2
+              "nodeType": "sink"
             }
           },
-          "id": "53fa1301-ae5b-4344-8e8f-165759274b9b",
-          "searchKeys": ["assetSink"],
+          "id": "86a93d19-3ca0-4f0e-b071-79f00817f315",
+          "searchKeys": [
+            "assetSink"
+          ],
           "children": []
         }
       ],

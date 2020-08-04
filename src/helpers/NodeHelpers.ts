@@ -17,6 +17,20 @@ export default class NodeHelpers {
     }
   }
 
+  // maps a string representation of a node's type to a MediaGraphNodeType
+  static getNodeTypeFromString(type: string): MediaGraphNodeType {
+    switch (type) {
+      case "sources":
+        return MediaGraphNodeType.Source;
+      case "processors":
+        return MediaGraphNodeType.Processor;
+      case "sinks":
+        return MediaGraphNodeType.Sink;
+      default:
+        return MediaGraphNodeType.Other;
+    }
+  }
+
   // returns the appropriate ports for a node (proper input and input according to type)
   static getPorts(
     node: NodeDefinition,
@@ -35,7 +49,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: true,
         isOutputDisabled: false,
-        name: `${node.name} output port`,
+        name: "", // will be localized later
       });
     }
 
@@ -48,7 +62,7 @@ export default class NodeHelpers {
         shape: "modulePort",
         isInputDisabled: false,
         isOutputDisabled: true,
-        name: `${node.name} input port`,
+        name: "", // will be localized later
       });
     }
 
@@ -56,23 +70,23 @@ export default class NodeHelpers {
   }
 
   // determines appearance properties for a node
-  static getNodeProperties(type: MediaGraphNodeType) {
+  static getNodeAppearance(type: MediaGraphNodeType) {
     switch (type) {
       case MediaGraphNodeType.Source:
         return {
-          iconName: "Upload",
+          iconName: "SecurityCamera",
           color: "var(--vscode-terminal-ansiBrightBlue)",
           colorAlt: "var(--vscode-terminal-ansiBlue)",
         };
       case MediaGraphNodeType.Processor:
         return {
-          iconName: "ProgressRingDots",
+          iconName: "Processing",
           color: "var(--vscode-terminal-ansiBrightGreen)",
           colorAlt: "var(--vscode-terminal-ansiGreen)",
         };
       case MediaGraphNodeType.Sink:
         return {
-          iconName: "Download",
+          iconName: "CloudImportExport",
           color: "var(--vscode-terminal-ansiBrightYellow)",
           colorAlt: "var(--vscode-terminal-ansiYellow)",
         };

@@ -1,4 +1,4 @@
-import { Stack } from "office-ui-fabric-react";
+import { Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
   CanvasMouseMode,
@@ -15,30 +15,36 @@ import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { GraphPanel } from "./GraphPanel";
 import { InnerGraph } from "./InnerGraph";
-import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
-import Localizer from "../../localization";
-import Graph from "../../graph";
-import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
+import Localizer from "../../localization/Localizer";
+import Graph from "../../graph/Graph";
+import { Toolbar } from "./Toolbar";
 
-interface IGraphProps {
+interface IGraphInstanceProps {
   graph: Graph;
   zoomPanSettings: IZoomPanSettings;
   vsCodeSetState: (state: any) => void;
 }
 
-export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
-  const { graph, vsCodeSetState } = props;
+export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (
+  props
+) => {
+  const graph = props.graph;
   const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
-  const [dirty, setDirty] = React.useState<boolean>(false);
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
+  const [graphInstanceName, setGraphInstanceName] = React.useState<string>(
+    graph.getName()
+  );
+  const [graphDescription, setGraphDescription] = React.useState<string>(
+    graph.getDescription() || ""
+  );
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
-    vsCodeSetState({
+    props.vsCodeSetState({
       graphData: { ...data, meta: graph.getTopology() },
       zoomPanSettings,
     });
@@ -48,44 +54,29 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
     return <h1>{Localizer.l("browserNotSupported")}</h1>;
   }
 
-  function setTopology(topology: any) {
-    graph.setTopology(topology);
-    setData(graph.getICanvasData());
-    setDirty(false);
-  }
-
-  function onChange() {
-    setDirty(true);
-  }
-
-  // nodeNames maps an ID to a name, is updated on node add/remove
-  const nodeNames: Record<string, string> = {};
-  data.nodes.forEach((node) => {
-    nodeNames[node.id] = node.name || "";
-  });
-  const nodeAdded = (node: ICanvasNode) => {
-    nodeNames[node.id] = node.name || "";
-  };
-  const nodesRemoved = (nodes: Set<string>) => {
-    nodes.forEach((nodeId) => delete nodeNames[nodeId]);
-  };
-  const hasNodeWithName = (name: string) => {
-    for (const nodeId in nodeNames) {
-      if (nodeNames[nodeId] === name) {
-        return true;
-      }
-    }
-    return false;
-  };
-
   const exportGraph = () => {
+    graph.setName(graphInstanceName);
+    graph.setDescription(graphDescription);
     graph.setGraphDataFromICanvasData(data);
     const topology = graph.getTopology();
     console.log(topology);
   };
 
+  const onNameChange = (event: React.FormEvent, newValue?: string) => {
+    if (newValue) {
+      setGraphInstanceName(newValue);
+    }
+  };
+
+  const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
+    if (typeof newValue !== "undefined") {
+      setGraphDescription(newValue);
+    }
+  };
+
   const panelStyles = {
     root: {
+      boxSizing: "border-box" as const,
       padding: 10,
       overflowY: "auto" as const,
       willChange: "transform",
@@ -105,25 +96,39 @@ export const GraphHost: React.FunctionComponent<IGraphProps> = (props) => {
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <h2>{Localizer.l("nodes")}</h2>
-          <ItemPanel hasNodeWithName={hasNodeWithName} />
-          <SampleSelectorTrigger
-            setTopology={setTopology}
-            hasUnsavedChanges={dirty}
+          <TextField
+            label={Localizer.l("sidebarGraphInstanceNameLabel")}
+            required
+            defaultValue={graphInstanceName}
+            placeholder={Localizer.l("sidebarGraphInstanceNamePlaceholder")}
+            onChange={onNameChange}
+          />
+          <TextField
+            label={Localizer.l("sidebarGraphDescriptionLabel")}
+            defaultValue={graphDescription}
+            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+            onChange={onDescriptionChange}
           />
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>
         <Stack.Item grow>
-          <InnerGraph
-            data={data}
-            setData={setData}
-            zoomPanSettings={zoomPanSettings}
-            setZoomPanSettings={setZoomPanSettings}
-            canvasMouseMode={CanvasMouseMode.pan}
-            onNodeAdded={nodeAdded}
-            onNodeRemoved={nodesRemoved}
-            onChange={onChange}
+          <Toolbar
+            name={graphInstanceName}
+            exportGraph={exportGraph}
+            closeEditor={() => {
+              alert("TODO: Close editor");
+            }}
           />
+          <Stack.Item grow>
+            <InnerGraph
+              data={data}
+              setData={setData}
+              zoomPanSettings={zoomPanSettings}
+              setZoomPanSettings={setZoomPanSettings}
+              canvasMouseMode={CanvasMouseMode.pan}
+              readOnly
+            />
+          </Stack.Item>
         </Stack.Item>
       </Stack>
       <ContextMenu />

@@ -2,7 +2,7 @@ import * as React from "react";
 import { DefaultButton } from "office-ui-fabric-react/lib/Button";
 import { useBoolean } from "@uifabric/react-hooks";
 import { SampleSelector } from "./SampleSelector";
-import Localizer from "../../../localization";
+import Localizer from "../../../localization/Localizer";
 
 interface ISampleSelectorTriggerProps {
   setTopology: (topology: any) => void;

@@ -6,7 +6,7 @@ import {
   PrimaryButton,
   DefaultButton,
 } from "office-ui-fabric-react";
-import Localizer from "../../../localization";
+import Localizer from "../../../localization/Localizer";
 
 interface IOverwriteConfirmationProps {
   shown: boolean;
