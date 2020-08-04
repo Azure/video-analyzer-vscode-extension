@@ -1,11 +1,13 @@
 import {
-  Icon,
+  Text,
   TextField,
   Dropdown,
   IDropdownOption,
   ChoiceGroup,
   IChoiceGroupOption,
+  getTheme,
 } from "office-ui-fabric-react";
+import { useId } from "@uifabric/react-hooks";
 import * as React from "react";
 import Localizer from "../../../localization/Localizer";
 import { PropertyNestedObject } from "./PropertyNestedObject";
@@ -22,22 +24,24 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   props
 ) => {
   const { name, property, nodeProperties, required } = props;
-  const [valid, setValid] = React.useState<boolean>(true);
 
   let initValue = nodeProperties[name];
   if (property.type !== "boolean" && property.type !== "string") {
     initValue = JSON.stringify(initValue);
   }
   const [value, setValue] = React.useState<string>(initValue);
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
 
   function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
     if (item) {
-      setNewValue(item.key as string);
+      const value = item.key as string;
+      setNewValue(value);
+      setErrorMessage(validateInput(value));
     }
   }
 
   function handleTextFieldChange(e: React.FormEvent, newValue?: string) {
-    if (newValue) {
+    if (newValue !== undefined) {
       setNewValue(newValue);
     }
   }
@@ -46,7 +50,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     e?: React.FormEvent,
     option?: IChoiceGroupOption
   ) {
-    if (option) {
+    if (option !== undefined) {
       setNewValue(option.key as string);
     }
   }
@@ -75,16 +79,57 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (newValue) {
           try {
             nodeProperties[name] = JSON.parse(newValue);
-            setValid(true);
           } catch (e) {
-            setValid(false);
+            // no change in value
           }
         } else {
           delete nodeProperties[name];
-          setValid(true);
         }
         break;
     }
+  }
+
+  function validateInput(value: string) {
+    if (required) {
+      switch (property.type) {
+        case "boolean":
+          if (value === "true" || value === "false") {
+            return Localizer.l("propertyEditorValidationUndefined");
+          }
+          break;
+        case "string":
+          if (!value || value === "undefined") {
+            return Localizer.l("propertyEditorValidationUndefinedOrEmpty");
+          }
+          break;
+        default:
+          if (value) {
+            try {
+              JSON.parse(value);
+            } catch (e) {
+              return Localizer.l("propertyEditorValidationInvalidJSON");
+            }
+          } else {
+            return Localizer.l("propertyEditorValidationEmpty");
+          }
+          break;
+      }
+    }
+
+    return "";
+  }
+
+  const labelId: string = useId("label");
+
+  function onRenderLabel() {
+    return (
+      <PropertyDescription
+        name={name}
+        required={required}
+        property={property}
+        labelId={labelId}
+      />
+    );
   }
 
   if (property.type === "string" && property.enum) {
@@ -99,31 +144,31 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
       })),
     ];
     return (
-      <>
-        <Dropdown
-          label={name}
-          options={options}
-          defaultSelectedKey={value || ""}
-          onChange={handleDropdownChange}
-          required={required}
-        />
-        <PropertyDescription property={property} />
-      </>
+      <Dropdown
+        label={name}
+        options={options}
+        defaultSelectedKey={value || ""}
+        onChange={handleDropdownChange}
+        required={required}
+        onRenderLabel={onRenderLabel}
+        aria-labelledby={labelId}
+        errorMessage={errorMessage}
+      />
     );
   } else if (property.type === "string") {
     return (
-      <>
-        <TextField
-          label={name}
-          type="text"
-          id={name}
-          value={value}
-          placeholder={property.example}
-          onChange={handleTextFieldChange}
-          required={required}
-        />
-        <PropertyDescription property={property} />
-      </>
+      <TextField
+        label={name}
+        type="text"
+        id={name}
+        value={value}
+        placeholder={property.example}
+        onChange={handleTextFieldChange}
+        required={required}
+        onRenderLabel={onRenderLabel}
+        aria-labelledby={labelId}
+        onGetErrorMessage={validateInput}
+      />
     );
   } else if (property.type === "boolean") {
     const options: IChoiceGroupOption[] = [
@@ -142,14 +187,23 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     ];
     return (
       <>
+        {/* ChoiceGroup does not support onRenderLabel or errorMessage */}
+        {onRenderLabel()}
         <ChoiceGroup
-          label={name}
           defaultSelectedKey={value + ""}
           options={options}
           onChange={handleChoiceGroupChange}
           required={required}
+          aria-labelledby={labelId}
         />
-        <PropertyDescription property={property} />
+        {errorMessage && (
+          <Text
+            variant="small"
+            style={{ color: getTheme().semanticColors.errorText }}
+          >
+            {errorMessage}
+          </Text>
+        )}
       </>
     );
   } else if (property.type === "object") {
@@ -166,41 +220,19 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
       />
     );
   } else {
-    const iconStyle = {
-      marginRight: 8,
-    };
     return (
-      <>
-        <TextField
-          label={name}
-          multiline
-          autoAdjustHeight
-          defaultValue={value}
-          placeholder={property.example}
-          onChange={handleTextFieldChange}
-          required={required}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginTop: 8,
-          }}
-        >
-          {valid ? (
-            <>
-              <Icon iconName="CheckMark" style={iconStyle} />
-              {Localizer.l("jsonParseValid")}
-            </>
-          ) : (
-            <>
-              <Icon iconName="WarningSolid" style={iconStyle} />
-              {Localizer.l("jsonParseError")}
-            </>
-          )}
-        </div>
-        <PropertyDescription property={property} />
-      </>
+      <TextField
+        label={name}
+        multiline
+        autoAdjustHeight
+        defaultValue={value}
+        placeholder={property.example}
+        onChange={handleTextFieldChange}
+        required={required}
+        onRenderLabel={onRenderLabel}
+        aria-labelledby={labelId}
+        onGetErrorMessage={validateInput}
+      />
     );
   }
 };

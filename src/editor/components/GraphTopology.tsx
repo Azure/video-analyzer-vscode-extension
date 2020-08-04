@@ -13,6 +13,7 @@ import {
 } from "@vienna/react-dag-editor";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
+import { Toolbar } from "./Toolbar";
 import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
@@ -34,7 +35,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
-  const [graphName, setGraphName] = React.useState<string>(graph.getName());
+  const [graphTopologyName, setGraphTopologyName] = React.useState<string>(
+    graph.getName()
+  );
   const [graphDescription, setGraphDescription] = React.useState<string>(
     graph.getDescription() || ""
   );
@@ -72,7 +75,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   };
 
   const exportGraph = () => {
-    graph.setName(graphName);
+    graph.setName(graphTopologyName);
     graph.setDescription(graphDescription);
     graph.setGraphDataFromICanvasData(data);
     const topology = graph.getTopology();
@@ -81,7 +84,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
 
   const onNameChange = (event: React.FormEvent, newValue?: string) => {
     if (newValue) {
-      setGraphName(newValue);
+      setGraphTopologyName(newValue);
     }
   };
 
@@ -116,8 +119,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
           <TextField
             label={Localizer.l("sidebarGraphTopologyNameLabel")}
             required
-            defaultValue={graphName}
-            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+            defaultValue={graphTopologyName}
+            placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
             onChange={onNameChange}
           />
           <TextField
@@ -129,15 +132,24 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
           <ItemPanel hasNodeWithName={hasNodeWithName} />
         </Stack.Item>
         <Stack.Item grow>
-          <InnerGraph
-            data={data}
-            setData={setData}
-            zoomPanSettings={zoomPanSettings}
-            setZoomPanSettings={setZoomPanSettings}
-            canvasMouseMode={CanvasMouseMode.pan}
-            onNodeAdded={nodeAdded}
-            onNodeRemoved={nodesRemoved}
+          <Toolbar
+            name={graphTopologyName}
+            exportGraph={exportGraph}
+            closeEditor={() => {
+              alert("TODO: Close editor");
+            }}
           />
+          <Stack.Item grow>
+            <InnerGraph
+              data={data}
+              setData={setData}
+              zoomPanSettings={zoomPanSettings}
+              setZoomPanSettings={setZoomPanSettings}
+              canvasMouseMode={CanvasMouseMode.pan}
+              onNodeAdded={nodeAdded}
+              onNodeRemoved={nodesRemoved}
+            />
+          </Stack.Item>
         </Stack.Item>
       </Stack>
       <ContextMenu />

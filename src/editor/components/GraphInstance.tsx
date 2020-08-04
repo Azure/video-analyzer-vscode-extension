@@ -19,6 +19,7 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization/Localizer";
 import Graph from "../../graph/Graph";
+import { Toolbar } from "./Toolbar";
 
 interface IGraphInstanceProps {
   graph: Graph;
@@ -34,7 +35,9 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
-  const [graphName, setGraphName] = React.useState<string>(graph.getName());
+  const [graphInstanceName, setGraphInstanceName] = React.useState<string>(
+    graph.getName()
+  );
   const [graphDescription, setGraphDescription] = React.useState<string>(
     graph.getDescription() || ""
   );
@@ -52,7 +55,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (
   }
 
   const exportGraph = () => {
-    graph.setName(graphName);
+    graph.setName(graphInstanceName);
     graph.setDescription(graphDescription);
     graph.setGraphDataFromICanvasData(data);
     const topology = graph.getTopology();
@@ -61,7 +64,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (
 
   const onNameChange = (event: React.FormEvent, newValue?: string) => {
     if (newValue) {
-      setGraphName(newValue);
+      setGraphInstanceName(newValue);
     }
   };
 
@@ -96,8 +99,8 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (
           <TextField
             label={Localizer.l("sidebarGraphInstanceNameLabel")}
             required
-            defaultValue={graphName}
-            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+            defaultValue={graphInstanceName}
+            placeholder={Localizer.l("sidebarGraphInstanceNamePlaceholder")}
             onChange={onNameChange}
           />
           <TextField
@@ -109,14 +112,23 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (
           <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
         </Stack.Item>
         <Stack.Item grow>
-          <InnerGraph
-            data={data}
-            setData={setData}
-            zoomPanSettings={zoomPanSettings}
-            setZoomPanSettings={setZoomPanSettings}
-            canvasMouseMode={CanvasMouseMode.pan}
-            readOnly
+          <Toolbar
+            name={graphInstanceName}
+            exportGraph={exportGraph}
+            closeEditor={() => {
+              alert("TODO: Close editor");
+            }}
           />
+          <Stack.Item grow>
+            <InnerGraph
+              data={data}
+              setData={setData}
+              zoomPanSettings={zoomPanSettings}
+              setZoomPanSettings={setZoomPanSettings}
+              canvasMouseMode={CanvasMouseMode.pan}
+              readOnly
+            />
+          </Stack.Item>
         </Stack.Item>
       </Stack>
       <ContextMenu />

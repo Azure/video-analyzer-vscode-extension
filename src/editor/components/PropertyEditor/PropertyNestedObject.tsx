@@ -3,6 +3,8 @@ import { Dropdown, IDropdownOption } from "office-ui-fabric-react";
 import Definitions from "../../../definitions/Definitions";
 import { PropertyEditor } from "./PropertyEditor";
 import { PropertyDescription } from "./PropertyDescription";
+import { useId } from "@uifabric/react-hooks";
+import Localizer from "../../../localization/Localizer";
 
 interface IPropertyNestedObjectProps {
   name: string;
@@ -19,12 +21,20 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     nodeProperties["@type"] &&
     nodeProperties["@type"].replace("#Microsoft.Media.", "");
   const [type, setType] = React.useState<string>(initType);
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
 
   function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
     if (item) {
       const selectedType = item.key as string;
       nodeProperties["@type"] = `#Microsoft.Media.${selectedType}`;
       setType(selectedType);
+      if (required) {
+        setErrorMessage(
+          selectedType === "undefined"
+            ? Localizer.l("propertyEditorValidationUndefined")
+            : ""
+        );
+      }
     }
   }
 
@@ -39,6 +49,19 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     })),
   ];
 
+  const labelId: string = useId("label");
+
+  function onRenderLabel() {
+    return (
+      <PropertyDescription
+        name={name}
+        required={required}
+        property={property}
+        labelId={labelId}
+      />
+    );
+  }
+
   return (
     <>
       <Dropdown
@@ -47,8 +70,10 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
         defaultSelectedKey={type || "undefined"}
         onChange={handleTypeChange}
         required={required}
+        onRenderLabel={onRenderLabel}
+        aria-labelledby={labelId}
+        errorMessage={errorMessage}
       />
-      <PropertyDescription property={property} />
       {type && (
         <div
           style={{
