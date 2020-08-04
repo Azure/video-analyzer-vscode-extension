@@ -13,25 +13,18 @@ import {
 import { sampleOptionsList } from "./sampleList";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
 import Localizer from "../../../localization/Localizer";
+import { Status } from "./statusEnum";
 
-enum Status {
-  NoDisplay,
-  SelectSample,
-  ConfirmOverwrite,
-  WaitingOnSampleLoad,
-}
 interface ISampleSelectorProps {
+  status: Status;
+  setStatus: React.Dispatch<React.SetStateAction<Status>>;
   loadTopology: (topology: any) => void;
-  hasUnsavedChanges: boolean;
 }
 
 export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
   props
 ) => {
-  const { loadTopology, hasUnsavedChanges } = props;
-
-  const [topology, storeTopology] = React.useState<any>({});
-  const [status, setStatus] = React.useState<Status>(Status.SelectSample);
+  const { status, setStatus, loadTopology } = props;
 
   const dialogContentProps = {
     type: DialogType.close,
@@ -64,21 +57,15 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
       .then((response) => response.json() as any)
       .then(
         (data) =>
-          data.tree.filter((entry: any) =>
-            entry.path.endsWith(selectedSampleName + "/topology.json")
-          )[0].url
+          data.tree.filter((entry: any) => entry.path == selectedSampleName)[0]
+            .url
       )
       .then((apiUrl) => fetch(apiUrl))
       .then((response) => response.json() as any)
       .then((data) => atob(data.content))
       .then((topology) => {
-        if (hasUnsavedChanges) {
-          setStatus(Status.ConfirmOverwrite);
-          storeTopology(JSON.parse(topology));
-        } else {
-          loadTopology(JSON.parse(topology));
-          dismissSelector();
-        }
+        loadTopology(JSON.parse(topology));
+        dismissSelector();
       });
   };
 
@@ -87,9 +74,13 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
   };
 
   const confirmedOverwrite = () => {
-    loadTopology(topology);
-    dismissSelector();
+    setStatus(Status.SelectSample);
   };
+
+  const localizedOptionList = sampleOptionsList.map((entry) => ({
+    text: Localizer.l(entry.text),
+    key: entry.key,
+  }));
 
   return (
     <>
@@ -107,7 +98,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
           <Dropdown
             placeholder={Localizer.l("sampleSelectorDropdownPlaceholderText")}
             label={Localizer.l("sampleSelectorDropdownLabel")}
-            options={sampleOptionsList}
+            options={localizedOptionList}
             onChange={onChange}
             dropdownWidth={700}
           />

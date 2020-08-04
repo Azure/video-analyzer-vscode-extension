@@ -1,8 +1,8 @@
 import * as React from "react";
 import { DefaultButton } from "office-ui-fabric-react/lib/Button";
-import { useBoolean } from "@uifabric/react-hooks";
 import { SampleSelector } from "./SampleSelector";
 import Localizer from "../../../localization/Localizer";
+import { Status } from "./statusEnum";
 
 interface ISampleSelectorTriggerProps {
   setTopology: (topology: any) => void;
@@ -12,26 +12,31 @@ interface ISampleSelectorTriggerProps {
 export const SampleSelectorTrigger: React.FunctionComponent<ISampleSelectorTriggerProps> = (
   props
 ) => {
-  const [showSelector, { toggle: toggleSelector }] = useBoolean(false);
+  const [status, setStatus] = React.useState<Status>(Status.NoDisplay);
 
   const loadTopology = (topology: any) => {
-    toggleSelector();
+    setStatus(Status.NoDisplay);
     props.setTopology(topology);
+  };
+
+  const openSelector = () => {
+    setStatus(
+      props.hasUnsavedChanges ? Status.ConfirmOverwrite : Status.SelectSample
+    );
   };
 
   return (
     <>
       <DefaultButton
         text={Localizer.l("sampleSelectorButtonText")}
-        onClick={toggleSelector}
+        onClick={openSelector}
       />
 
-      {showSelector && (
-        <SampleSelector
-          loadTopology={loadTopology}
-          hasUnsavedChanges={props.hasUnsavedChanges}
-        />
-      )}
+      <SampleSelector
+        status={status}
+        setStatus={setStatus}
+        loadTopology={loadTopology}
+      />
     </>
   );
 };

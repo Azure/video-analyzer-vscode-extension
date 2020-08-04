@@ -109,7 +109,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   const panelStyles = {
     root: {
       boxSizing: "border-box" as const,
-      padding: 10,
       overflowY: "auto" as const,
       willChange: "transform",
       height: "100vh",
@@ -117,6 +116,17 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
       background: "var(--vscode-editorWidget-background)",
       borderRight: "1px solid var(--vscode-editorWidget-border)",
     },
+  };
+
+  const panelItemStyles = {
+    padding: 10,
+  };
+
+  const topSidebarStyles = {
+    padding: 10,
+    borderBottom: "1px solid var(--vscode-editorWidget-border)",
+    paddingBottom: 20,
+    marginBottom: 10,
   };
 
   return (
@@ -128,24 +138,28 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <TextField
-            label={Localizer.l("sidebarGraphTopologyNameLabel")}
-            required
-            defaultValue={graphTopologyName}
-            placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
-            onChange={onNameChange}
-          />
-          <TextField
-            label={Localizer.l("sidebarGraphDescriptionLabel")}
-            defaultValue={graphDescription}
-            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-            onChange={onDescriptionChange}
-          />
-          <ItemPanel hasNodeWithName={hasNodeWithName} />
-          <SampleSelectorTrigger
-            setTopology={setTopology}
-            hasUnsavedChanges={dirty}
-          />
+          <div style={topSidebarStyles}>
+            <TextField
+              label={Localizer.l("sidebarGraphTopologyNameLabel")}
+              required
+              defaultValue={graphTopologyName}
+              placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
+              onChange={onNameChange}
+            />
+            <TextField
+              label={Localizer.l("sidebarGraphDescriptionLabel")}
+              defaultValue={graphDescription}
+              placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+              onChange={onDescriptionChange}
+            />
+          </div>
+          <div style={panelItemStyles}>
+            <SampleSelectorTrigger
+              setTopology={setTopology}
+              hasUnsavedChanges={dirty}
+            />
+            <ItemPanel hasNodeWithName={hasNodeWithName} />
+          </div>
         </Stack.Item>
         <Stack.Item grow>
           <Toolbar
@@ -164,6 +178,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
               canvasMouseMode={CanvasMouseMode.pan}
               onNodeAdded={nodeAdded}
               onNodeRemoved={nodesRemoved}
+              onChange={onChange}
             />
           </Stack.Item>
         </Stack.Item>
