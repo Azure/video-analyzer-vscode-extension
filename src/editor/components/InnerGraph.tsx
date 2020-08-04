@@ -15,7 +15,6 @@ import {
   TSetData,
   TSetZoomPanSettings,
   usePropsAPI,
-  previewMode,
   GraphFeatures,
 } from "@vienna/react-dag-editor";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";

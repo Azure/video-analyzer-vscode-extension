@@ -3,7 +3,6 @@ import * as React from "react";
 import {
   CanvasMouseMode,
   ICanvasData,
-  ICanvasNode,
   isSupported,
   IZoomPanSettings,
   ReactDagEditor,

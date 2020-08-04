@@ -57,7 +57,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (
       .then((response) => response.json() as any)
       .then(
         (data) =>
-          data.tree.filter((entry: any) => entry.path == selectedSampleName)[0]
+          data.tree.filter((entry: any) => entry.path === selectedSampleName)[0]
             .url
       )
       .then((apiUrl) => fetch(apiUrl))
