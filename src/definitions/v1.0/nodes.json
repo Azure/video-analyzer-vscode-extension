@@ -21,15 +21,15 @@
             "createdAt": {
               "type": "string",
               "format": "date-time",
-              "description": "MediaGraphSystemData.createdAt"
+              "localizationKey": "MediaGraphSystemData.createdAt"
             },
             "lastModifiedAt": {
               "type": "string",
               "format": "date-time",
-              "description": "MediaGraphSystemData.lastModifiedAt"
+              "localizationKey": "MediaGraphSystemData.lastModifiedAt"
             }
           },
-          "description": "MediaGraphSystemData"
+          "localizationKey": "MediaGraphSystemData"
         },
         "properties": {
           "parsedRef": "#/definitions/MediaGraphInstanceProperties",
@@ -37,15 +37,14 @@
           "properties": {
             "description": {
               "type": "string",
-              "description": "MediaGraphInstanceProperties.description"
+              "localizationKey": "MediaGraphInstanceProperties.description"
             },
             "topologyName": {
               "type": "string",
-              "description": "MediaGraphInstanceProperties.topologyName"
+              "localizationKey": "MediaGraphInstanceProperties.topologyName"
             },
             "parameters": {
               "type": "array",
-              "description": "MediaGraphInstanceProperties.parameters",
               "items": {
                 "parsedRef": "#/definitions/MediaGraphParameterDefinition",
                 "type": "object",
@@ -56,19 +55,19 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "MediaGraphParameterDefinition.name"
+                    "localizationKey": "MediaGraphParameterDefinition.name"
                   },
                   "value": {
                     "type": "string",
-                    "description": "MediaGraphParameterDefinition.value"
+                    "localizationKey": "MediaGraphParameterDefinition.value"
                   }
                 },
-                "description": "MediaGraphParameterDefinition"
-              }
+                "localizationKey": "MediaGraphParameterDefinition"
+              },
+              "localizationKey": "MediaGraphInstanceProperties.parameters"
             },
             "state": {
               "type": "string",
-              "description": "MediaGraphInstanceProperties.state",
               "enum": [
                 "Inactive",
                 "Activating",
@@ -79,30 +78,27 @@
                 "name": "MediaGraphInstanceState",
                 "values": [
                   {
-                    "value": "Inactive",
-                    "description": "MediaGraphInstanceProperties.state.Inactive"
+                    "localizationKey": "MediaGraphInstanceProperties.state.Inactive"
                   },
                   {
-                    "value": "Activating",
-                    "description": "MediaGraphInstanceProperties.state.Activating"
+                    "localizationKey": "MediaGraphInstanceProperties.state.Activating"
                   },
                   {
-                    "value": "Active",
-                    "description": "MediaGraphInstanceProperties.state.Active"
+                    "localizationKey": "MediaGraphInstanceProperties.state.Active"
                   },
                   {
-                    "value": "Deactivating",
-                    "description": "MediaGraphInstanceProperties.state.Deactivating"
+                    "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
                   }
                 ],
                 "modelAsString": false
-              }
+              },
+              "localizationKey": "MediaGraphInstanceProperties.state"
             }
           },
-          "description": "MediaGraphInstanceProperties"
+          "localizationKey": "MediaGraphInstanceProperties"
         }
       },
-      "description": "MediaGraphInstance"
+      "localizationKey": "MediaGraphInstance"
     },
     {
       "name": "MediaGraphInstanceProperties",
@@ -111,15 +107,14 @@
       "properties": {
         "description": {
           "type": "string",
-          "description": "MediaGraphInstanceProperties.description"
+          "localizationKey": "MediaGraphInstanceProperties.description"
         },
         "topologyName": {
           "type": "string",
-          "description": "MediaGraphInstanceProperties.topologyName"
+          "localizationKey": "MediaGraphInstanceProperties.topologyName"
         },
         "parameters": {
           "type": "array",
-          "description": "MediaGraphInstanceProperties.parameters",
           "items": {
             "parsedRef": "#/definitions/MediaGraphParameterDefinition",
             "type": "object",
@@ -130,19 +125,19 @@
             "properties": {
               "name": {
                 "type": "string",
-                "description": "MediaGraphParameterDefinition.name"
+                "localizationKey": "MediaGraphParameterDefinition.name"
               },
               "value": {
                 "type": "string",
-                "description": "MediaGraphParameterDefinition.value"
+                "localizationKey": "MediaGraphParameterDefinition.value"
               }
             },
-            "description": "MediaGraphParameterDefinition"
-          }
+            "localizationKey": "MediaGraphParameterDefinition"
+          },
+          "localizationKey": "MediaGraphInstanceProperties.parameters"
         },
         "state": {
           "type": "string",
-          "description": "MediaGraphInstanceProperties.state",
           "enum": [
             "Inactive",
             "Activating",
@@ -153,27 +148,24 @@
             "name": "MediaGraphInstanceState",
             "values": [
               {
-                "value": "Inactive",
-                "description": "MediaGraphInstanceProperties.state.Inactive"
+                "localizationKey": "MediaGraphInstanceProperties.state.Inactive"
               },
               {
-                "value": "Activating",
-                "description": "MediaGraphInstanceProperties.state.Activating"
+                "localizationKey": "MediaGraphInstanceProperties.state.Activating"
               },
               {
-                "value": "Active",
-                "description": "MediaGraphInstanceProperties.state.Active"
+                "localizationKey": "MediaGraphInstanceProperties.state.Active"
               },
               {
-                "value": "Deactivating",
-                "description": "MediaGraphInstanceProperties.state.Deactivating"
+                "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
               }
             ],
             "modelAsString": false
-          }
+          },
+          "localizationKey": "MediaGraphInstanceProperties.state"
         }
       },
-      "description": "MediaGraphInstanceProperties"
+      "localizationKey": "MediaGraphInstanceProperties"
     },
     {
       "name": "MediaGraphParameterDefinition",
@@ -186,14 +178,14 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "MediaGraphParameterDefinition.name"
+          "localizationKey": "MediaGraphParameterDefinition.name"
         },
         "value": {
           "type": "string",
-          "description": "MediaGraphParameterDefinition.value"
+          "localizationKey": "MediaGraphParameterDefinition.value"
         }
       },
-      "description": "MediaGraphParameterDefinition"
+      "localizationKey": "MediaGraphParameterDefinition"
     },
     {
       "name": "MediaGraphInstanceCollection",
@@ -201,7 +193,6 @@
       "properties": {
         "value": {
           "type": "array",
-          "description": "MediaGraphInstanceCollection.value",
           "items": {
             "parsedRef": "#/definitions/MediaGraphInstance",
             "type": "object",
@@ -222,15 +213,15 @@
                   "createdAt": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "MediaGraphSystemData.createdAt"
+                    "localizationKey": "MediaGraphSystemData.createdAt"
                   },
                   "lastModifiedAt": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "MediaGraphSystemData.lastModifiedAt"
+                    "localizationKey": "MediaGraphSystemData.lastModifiedAt"
                   }
                 },
-                "description": "MediaGraphSystemData"
+                "localizationKey": "MediaGraphSystemData"
               },
               "properties": {
                 "parsedRef": "#/definitions/MediaGraphInstanceProperties",
@@ -238,15 +229,14 @@
                 "properties": {
                   "description": {
                     "type": "string",
-                    "description": "MediaGraphInstanceProperties.description"
+                    "localizationKey": "MediaGraphInstanceProperties.description"
                   },
                   "topologyName": {
                     "type": "string",
-                    "description": "MediaGraphInstanceProperties.topologyName"
+                    "localizationKey": "MediaGraphInstanceProperties.topologyName"
                   },
                   "parameters": {
                     "type": "array",
-                    "description": "MediaGraphInstanceProperties.parameters",
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphParameterDefinition",
                       "type": "object",
@@ -257,19 +247,19 @@
                       "properties": {
                         "name": {
                           "type": "string",
-                          "description": "MediaGraphParameterDefinition.name"
+                          "localizationKey": "MediaGraphParameterDefinition.name"
                         },
                         "value": {
                           "type": "string",
-                          "description": "MediaGraphParameterDefinition.value"
+                          "localizationKey": "MediaGraphParameterDefinition.value"
                         }
                       },
-                      "description": "MediaGraphParameterDefinition"
-                    }
+                      "localizationKey": "MediaGraphParameterDefinition"
+                    },
+                    "localizationKey": "MediaGraphInstanceProperties.parameters"
                   },
                   "state": {
                     "type": "string",
-                    "description": "MediaGraphInstanceProperties.state",
                     "enum": [
                       "Inactive",
                       "Activating",
@@ -280,38 +270,36 @@
                       "name": "MediaGraphInstanceState",
                       "values": [
                         {
-                          "value": "Inactive",
-                          "description": "MediaGraphInstanceProperties.state.Inactive"
+                          "localizationKey": "MediaGraphInstanceProperties.state.Inactive"
                         },
                         {
-                          "value": "Activating",
-                          "description": "MediaGraphInstanceProperties.state.Activating"
+                          "localizationKey": "MediaGraphInstanceProperties.state.Activating"
                         },
                         {
-                          "value": "Active",
-                          "description": "MediaGraphInstanceProperties.state.Active"
+                          "localizationKey": "MediaGraphInstanceProperties.state.Active"
                         },
                         {
-                          "value": "Deactivating",
-                          "description": "MediaGraphInstanceProperties.state.Deactivating"
+                          "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
                         }
                       ],
                       "modelAsString": false
-                    }
+                    },
+                    "localizationKey": "MediaGraphInstanceProperties.state"
                   }
                 },
-                "description": "MediaGraphInstanceProperties"
+                "localizationKey": "MediaGraphInstanceProperties"
               }
             },
-            "description": "MediaGraphInstance"
-          }
+            "localizationKey": "MediaGraphInstance"
+          },
+          "localizationKey": "MediaGraphInstanceCollection.value"
         },
         "@continuationToken": {
           "type": "string",
-          "description": "MediaGraphInstanceCollection.@continuationToken"
+          "localizationKey": "MediaGraphInstanceCollection.@continuationToken"
         }
       },
-      "description": "MediaGraphInstanceCollection"
+      "localizationKey": "MediaGraphInstanceCollection"
     },
     {
       "name": "MediaGraphTopologyCollection",
@@ -319,7 +307,6 @@
       "properties": {
         "value": {
           "type": "array",
-          "description": "MediaGraphTopologyCollection.value",
           "items": {
             "parsedRef": "#/definitions/MediaGraphTopology",
             "type": "object",
@@ -340,15 +327,15 @@
                   "createdAt": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "MediaGraphSystemData.createdAt"
+                    "localizationKey": "MediaGraphSystemData.createdAt"
                   },
                   "lastModifiedAt": {
                     "type": "string",
                     "format": "date-time",
-                    "description": "MediaGraphSystemData.lastModifiedAt"
+                    "localizationKey": "MediaGraphSystemData.lastModifiedAt"
                   }
                 },
-                "description": "MediaGraphSystemData"
+                "localizationKey": "MediaGraphSystemData"
               },
               "properties": {
                 "parsedRef": "#/definitions/MediaGraphTopologyProperties",
@@ -369,8 +356,8 @@
                       "properties": {
                         "name": {
                           "type": "string",
-                          "description": "MediaGraphParameterDeclaration.name",
-                          "maxLength": 64
+                          "maxLength": 64,
+                          "localizationKey": "MediaGraphParameterDeclaration.name"
                         },
                         "type": {
                           "type": "string",
@@ -385,24 +372,19 @@
                             "name": "MediaGraphParameterType",
                             "values": [
                               {
-                                "value": "String",
-                                "description": "MediaGraphParameterDeclaration.type.String"
+                                "localizationKey": "MediaGraphParameterDeclaration.type.String"
                               },
                               {
-                                "value": "SecretString",
-                                "description": "MediaGraphParameterDeclaration.type.SecretString"
+                                "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
                               },
                               {
-                                "value": "Int",
-                                "description": "MediaGraphParameterDeclaration.type.Int"
+                                "localizationKey": "MediaGraphParameterDeclaration.type.Int"
                               },
                               {
-                                "value": "Double",
-                                "description": "MediaGraphParameterDeclaration.type.Double"
+                                "localizationKey": "MediaGraphParameterDeclaration.type.Double"
                               },
                               {
-                                "value": "Bool",
-                                "description": "MediaGraphParameterDeclaration.type.Bool"
+                                "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
                               }
                             ],
                             "modelAsString": false
@@ -410,14 +392,14 @@
                         },
                         "description": {
                           "type": "string",
-                          "description": "MediaGraphParameterDeclaration.description"
+                          "localizationKey": "MediaGraphParameterDeclaration.description"
                         },
                         "default": {
                           "type": "string",
-                          "description": "MediaGraphParameterDeclaration.default"
+                          "localizationKey": "MediaGraphParameterDeclaration.default"
                         }
                       },
-                      "description": "MediaGraphParameterDeclaration"
+                      "localizationKey": "MediaGraphParameterDeclaration"
                     }
                   },
                   "sources": {
@@ -433,14 +415,14 @@
                       "properties": {
                         "@type": {
                           "type": "string",
-                          "description": "MediaGraphSource.@type"
+                          "localizationKey": "MediaGraphSource.@type"
                         },
                         "name": {
                           "type": "string",
-                          "description": "MediaGraphSource.name"
+                          "localizationKey": "MediaGraphSource.name"
                         }
                       },
-                      "description": "MediaGraphSource"
+                      "localizationKey": "MediaGraphSource"
                     }
                   },
                   "processors": {
@@ -457,32 +439,29 @@
                       "properties": {
                         "@type": {
                           "type": "string",
-                          "description": "MediaGraphProcessor.@type"
+                          "localizationKey": "MediaGraphProcessor.@type"
                         },
                         "name": {
                           "type": "string",
-                          "description": "MediaGraphProcessor.name"
+                          "localizationKey": "MediaGraphProcessor.name"
                         },
                         "inputs": {
                           "type": "array",
-                          "description": "MediaGraphProcessor.inputs",
                           "items": {
                             "parsedRef": "#/definitions/MediaGraphNodeInput",
                             "type": "object",
                             "properties": {
                               "nodeName": {
                                 "type": "string",
-                                "description": "MediaGraphNodeInput.nodeName"
+                                "localizationKey": "MediaGraphNodeInput.nodeName"
                               },
                               "outputSelectors": {
                                 "type": "array",
-                                "description": "MediaGraphNodeInput.outputSelectors",
                                 "items": {
                                   "parsedRef": "#/definitions/MediaGraphOutputSelector",
                                   "properties": {
                                     "property": {
                                       "type": "string",
-                                      "description": "MediaGraphOutputSelector.property",
                                       "enum": [
                                         "mediaType"
                                       ],
@@ -490,16 +469,15 @@
                                         "name": "MediaGraphOutputSelectorProperty",
                                         "values": [
                                           {
-                                            "value": "mediaType",
-                                            "description": "MediaGraphOutputSelector.property.mediaType"
+                                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                           }
                                         ],
                                         "modelAsString": false
-                                      }
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.property"
                                     },
                                     "operator": {
                                       "type": "string",
-                                      "description": "MediaGraphOutputSelector.operator",
                                       "enum": [
                                         "is",
                                         "isNot"
@@ -508,31 +486,32 @@
                                         "name": "MediaGraphOutputSelectorOperator",
                                         "values": [
                                           {
-                                            "value": "is",
-                                            "description": "MediaGraphOutputSelector.operator.is"
+                                            "localizationKey": "MediaGraphOutputSelector.operator.is"
                                           },
                                           {
-                                            "value": "isNot",
-                                            "description": "MediaGraphOutputSelector.operator.isNot"
+                                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                           }
                                         ],
                                         "modelAsString": false
-                                      }
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.operator"
                                     },
                                     "value": {
                                       "type": "string",
-                                      "description": "MediaGraphOutputSelector.value"
+                                      "localizationKey": "MediaGraphOutputSelector.value"
                                     }
                                   },
-                                  "description": "MediaGraphOutputSelector"
-                                }
+                                  "localizationKey": "MediaGraphOutputSelector"
+                                },
+                                "localizationKey": "MediaGraphNodeInput.outputSelectors"
                               }
                             },
-                            "description": "MediaGraphNodeInput"
-                          }
+                            "localizationKey": "MediaGraphNodeInput"
+                          },
+                          "localizationKey": "MediaGraphProcessor.inputs"
                         }
                       },
-                      "description": "MediaGraphProcessor"
+                      "localizationKey": "MediaGraphProcessor"
                     }
                   },
                   "sinks": {
@@ -549,32 +528,29 @@
                       "properties": {
                         "@type": {
                           "type": "string",
-                          "description": "MediaGraphSink.@type"
+                          "localizationKey": "MediaGraphSink.@type"
                         },
                         "name": {
                           "type": "string",
-                          "description": "MediaGraphSink.name"
+                          "localizationKey": "MediaGraphSink.name"
                         },
                         "inputs": {
                           "type": "array",
-                          "description": "MediaGraphSink.inputs",
                           "items": {
                             "parsedRef": "#/definitions/MediaGraphNodeInput",
                             "type": "object",
                             "properties": {
                               "nodeName": {
                                 "type": "string",
-                                "description": "MediaGraphNodeInput.nodeName"
+                                "localizationKey": "MediaGraphNodeInput.nodeName"
                               },
                               "outputSelectors": {
                                 "type": "array",
-                                "description": "MediaGraphNodeInput.outputSelectors",
                                 "items": {
                                   "parsedRef": "#/definitions/MediaGraphOutputSelector",
                                   "properties": {
                                     "property": {
                                       "type": "string",
-                                      "description": "MediaGraphOutputSelector.property",
                                       "enum": [
                                         "mediaType"
                                       ],
@@ -582,16 +558,15 @@
                                         "name": "MediaGraphOutputSelectorProperty",
                                         "values": [
                                           {
-                                            "value": "mediaType",
-                                            "description": "MediaGraphOutputSelector.property.mediaType"
+                                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                           }
                                         ],
                                         "modelAsString": false
-                                      }
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.property"
                                     },
                                     "operator": {
                                       "type": "string",
-                                      "description": "MediaGraphOutputSelector.operator",
                                       "enum": [
                                         "is",
                                         "isNot"
@@ -600,46 +575,48 @@
                                         "name": "MediaGraphOutputSelectorOperator",
                                         "values": [
                                           {
-                                            "value": "is",
-                                            "description": "MediaGraphOutputSelector.operator.is"
+                                            "localizationKey": "MediaGraphOutputSelector.operator.is"
                                           },
                                           {
-                                            "value": "isNot",
-                                            "description": "MediaGraphOutputSelector.operator.isNot"
+                                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                           }
                                         ],
                                         "modelAsString": false
-                                      }
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.operator"
                                     },
                                     "value": {
                                       "type": "string",
-                                      "description": "MediaGraphOutputSelector.value"
+                                      "localizationKey": "MediaGraphOutputSelector.value"
                                     }
                                   },
-                                  "description": "MediaGraphOutputSelector"
-                                }
+                                  "localizationKey": "MediaGraphOutputSelector"
+                                },
+                                "localizationKey": "MediaGraphNodeInput.outputSelectors"
                               }
                             },
-                            "description": "MediaGraphNodeInput"
-                          }
+                            "localizationKey": "MediaGraphNodeInput"
+                          },
+                          "localizationKey": "MediaGraphSink.inputs"
                         }
                       },
-                      "description": "MediaGraphSink"
+                      "localizationKey": "MediaGraphSink"
                     }
                   }
                 },
-                "description": "MediaGraphTopologyProperties"
+                "localizationKey": "MediaGraphTopologyProperties"
               }
             },
-            "description": "MediaGraphTopology"
-          }
+            "localizationKey": "MediaGraphTopology"
+          },
+          "localizationKey": "MediaGraphTopologyCollection.value"
         },
         "@continuationToken": {
           "type": "string",
-          "description": "MediaGraphTopologyCollection.@continuationToken"
+          "localizationKey": "MediaGraphTopologyCollection.@continuationToken"
         }
       },
-      "description": "MediaGraphTopologyCollection"
+      "localizationKey": "MediaGraphTopologyCollection"
     },
     {
       "name": "MediaGraphTopology",
@@ -662,15 +639,15 @@
             "createdAt": {
               "type": "string",
               "format": "date-time",
-              "description": "MediaGraphSystemData.createdAt"
+              "localizationKey": "MediaGraphSystemData.createdAt"
             },
             "lastModifiedAt": {
               "type": "string",
               "format": "date-time",
-              "description": "MediaGraphSystemData.lastModifiedAt"
+              "localizationKey": "MediaGraphSystemData.lastModifiedAt"
             }
           },
-          "description": "MediaGraphSystemData"
+          "localizationKey": "MediaGraphSystemData"
         },
         "properties": {
           "parsedRef": "#/definitions/MediaGraphTopologyProperties",
@@ -691,8 +668,8 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "MediaGraphParameterDeclaration.name",
-                    "maxLength": 64
+                    "maxLength": 64,
+                    "localizationKey": "MediaGraphParameterDeclaration.name"
                   },
                   "type": {
                     "type": "string",
@@ -707,24 +684,19 @@
                       "name": "MediaGraphParameterType",
                       "values": [
                         {
-                          "value": "String",
-                          "description": "MediaGraphParameterDeclaration.type.String"
+                          "localizationKey": "MediaGraphParameterDeclaration.type.String"
                         },
                         {
-                          "value": "SecretString",
-                          "description": "MediaGraphParameterDeclaration.type.SecretString"
+                          "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
                         },
                         {
-                          "value": "Int",
-                          "description": "MediaGraphParameterDeclaration.type.Int"
+                          "localizationKey": "MediaGraphParameterDeclaration.type.Int"
                         },
                         {
-                          "value": "Double",
-                          "description": "MediaGraphParameterDeclaration.type.Double"
+                          "localizationKey": "MediaGraphParameterDeclaration.type.Double"
                         },
                         {
-                          "value": "Bool",
-                          "description": "MediaGraphParameterDeclaration.type.Bool"
+                          "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
                         }
                       ],
                       "modelAsString": false
@@ -732,14 +704,14 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "MediaGraphParameterDeclaration.description"
+                    "localizationKey": "MediaGraphParameterDeclaration.description"
                   },
                   "default": {
                     "type": "string",
-                    "description": "MediaGraphParameterDeclaration.default"
+                    "localizationKey": "MediaGraphParameterDeclaration.default"
                   }
                 },
-                "description": "MediaGraphParameterDeclaration"
+                "localizationKey": "MediaGraphParameterDeclaration"
               }
             },
             "sources": {
@@ -755,14 +727,14 @@
                 "properties": {
                   "@type": {
                     "type": "string",
-                    "description": "MediaGraphSource.@type"
+                    "localizationKey": "MediaGraphSource.@type"
                   },
                   "name": {
                     "type": "string",
-                    "description": "MediaGraphSource.name"
+                    "localizationKey": "MediaGraphSource.name"
                   }
                 },
-                "description": "MediaGraphSource"
+                "localizationKey": "MediaGraphSource"
               }
             },
             "processors": {
@@ -779,32 +751,29 @@
                 "properties": {
                   "@type": {
                     "type": "string",
-                    "description": "MediaGraphProcessor.@type"
+                    "localizationKey": "MediaGraphProcessor.@type"
                   },
                   "name": {
                     "type": "string",
-                    "description": "MediaGraphProcessor.name"
+                    "localizationKey": "MediaGraphProcessor.name"
                   },
                   "inputs": {
                     "type": "array",
-                    "description": "MediaGraphProcessor.inputs",
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphNodeInput",
                       "type": "object",
                       "properties": {
                         "nodeName": {
                           "type": "string",
-                          "description": "MediaGraphNodeInput.nodeName"
+                          "localizationKey": "MediaGraphNodeInput.nodeName"
                         },
                         "outputSelectors": {
                           "type": "array",
-                          "description": "MediaGraphNodeInput.outputSelectors",
                           "items": {
                             "parsedRef": "#/definitions/MediaGraphOutputSelector",
                             "properties": {
                               "property": {
                                 "type": "string",
-                                "description": "MediaGraphOutputSelector.property",
                                 "enum": [
                                   "mediaType"
                                 ],
@@ -812,16 +781,15 @@
                                   "name": "MediaGraphOutputSelectorProperty",
                                   "values": [
                                     {
-                                      "value": "mediaType",
-                                      "description": "MediaGraphOutputSelector.property.mediaType"
+                                      "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                     }
                                   ],
                                   "modelAsString": false
-                                }
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.property"
                               },
                               "operator": {
                                 "type": "string",
-                                "description": "MediaGraphOutputSelector.operator",
                                 "enum": [
                                   "is",
                                   "isNot"
@@ -830,31 +798,32 @@
                                   "name": "MediaGraphOutputSelectorOperator",
                                   "values": [
                                     {
-                                      "value": "is",
-                                      "description": "MediaGraphOutputSelector.operator.is"
+                                      "localizationKey": "MediaGraphOutputSelector.operator.is"
                                     },
                                     {
-                                      "value": "isNot",
-                                      "description": "MediaGraphOutputSelector.operator.isNot"
+                                      "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                     }
                                   ],
                                   "modelAsString": false
-                                }
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.operator"
                               },
                               "value": {
                                 "type": "string",
-                                "description": "MediaGraphOutputSelector.value"
+                                "localizationKey": "MediaGraphOutputSelector.value"
                               }
                             },
-                            "description": "MediaGraphOutputSelector"
-                          }
+                            "localizationKey": "MediaGraphOutputSelector"
+                          },
+                          "localizationKey": "MediaGraphNodeInput.outputSelectors"
                         }
                       },
-                      "description": "MediaGraphNodeInput"
-                    }
+                      "localizationKey": "MediaGraphNodeInput"
+                    },
+                    "localizationKey": "MediaGraphProcessor.inputs"
                   }
                 },
-                "description": "MediaGraphProcessor"
+                "localizationKey": "MediaGraphProcessor"
               }
             },
             "sinks": {
@@ -871,32 +840,29 @@
                 "properties": {
                   "@type": {
                     "type": "string",
-                    "description": "MediaGraphSink.@type"
+                    "localizationKey": "MediaGraphSink.@type"
                   },
                   "name": {
                     "type": "string",
-                    "description": "MediaGraphSink.name"
+                    "localizationKey": "MediaGraphSink.name"
                   },
                   "inputs": {
                     "type": "array",
-                    "description": "MediaGraphSink.inputs",
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphNodeInput",
                       "type": "object",
                       "properties": {
                         "nodeName": {
                           "type": "string",
-                          "description": "MediaGraphNodeInput.nodeName"
+                          "localizationKey": "MediaGraphNodeInput.nodeName"
                         },
                         "outputSelectors": {
                           "type": "array",
-                          "description": "MediaGraphNodeInput.outputSelectors",
                           "items": {
                             "parsedRef": "#/definitions/MediaGraphOutputSelector",
                             "properties": {
                               "property": {
                                 "type": "string",
-                                "description": "MediaGraphOutputSelector.property",
                                 "enum": [
                                   "mediaType"
                                 ],
@@ -904,16 +870,15 @@
                                   "name": "MediaGraphOutputSelectorProperty",
                                   "values": [
                                     {
-                                      "value": "mediaType",
-                                      "description": "MediaGraphOutputSelector.property.mediaType"
+                                      "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                     }
                                   ],
                                   "modelAsString": false
-                                }
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.property"
                               },
                               "operator": {
                                 "type": "string",
-                                "description": "MediaGraphOutputSelector.operator",
                                 "enum": [
                                   "is",
                                   "isNot"
@@ -922,38 +887,39 @@
                                   "name": "MediaGraphOutputSelectorOperator",
                                   "values": [
                                     {
-                                      "value": "is",
-                                      "description": "MediaGraphOutputSelector.operator.is"
+                                      "localizationKey": "MediaGraphOutputSelector.operator.is"
                                     },
                                     {
-                                      "value": "isNot",
-                                      "description": "MediaGraphOutputSelector.operator.isNot"
+                                      "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                     }
                                   ],
                                   "modelAsString": false
-                                }
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.operator"
                               },
                               "value": {
                                 "type": "string",
-                                "description": "MediaGraphOutputSelector.value"
+                                "localizationKey": "MediaGraphOutputSelector.value"
                               }
                             },
-                            "description": "MediaGraphOutputSelector"
-                          }
+                            "localizationKey": "MediaGraphOutputSelector"
+                          },
+                          "localizationKey": "MediaGraphNodeInput.outputSelectors"
                         }
                       },
-                      "description": "MediaGraphNodeInput"
-                    }
+                      "localizationKey": "MediaGraphNodeInput"
+                    },
+                    "localizationKey": "MediaGraphSink.inputs"
                   }
                 },
-                "description": "MediaGraphSink"
+                "localizationKey": "MediaGraphSink"
               }
             }
           },
-          "description": "MediaGraphTopologyProperties"
+          "localizationKey": "MediaGraphTopologyProperties"
         }
       },
-      "description": "MediaGraphTopology"
+      "localizationKey": "MediaGraphTopology"
     },
     {
       "name": "MediaGraphTopologyProperties",
@@ -975,8 +941,8 @@
             "properties": {
               "name": {
                 "type": "string",
-                "description": "MediaGraphParameterDeclaration.name",
-                "maxLength": 64
+                "maxLength": 64,
+                "localizationKey": "MediaGraphParameterDeclaration.name"
               },
               "type": {
                 "type": "string",
@@ -991,24 +957,19 @@
                   "name": "MediaGraphParameterType",
                   "values": [
                     {
-                      "value": "String",
-                      "description": "MediaGraphParameterDeclaration.type.String"
+                      "localizationKey": "MediaGraphParameterDeclaration.type.String"
                     },
                     {
-                      "value": "SecretString",
-                      "description": "MediaGraphParameterDeclaration.type.SecretString"
+                      "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
                     },
                     {
-                      "value": "Int",
-                      "description": "MediaGraphParameterDeclaration.type.Int"
+                      "localizationKey": "MediaGraphParameterDeclaration.type.Int"
                     },
                     {
-                      "value": "Double",
-                      "description": "MediaGraphParameterDeclaration.type.Double"
+                      "localizationKey": "MediaGraphParameterDeclaration.type.Double"
                     },
                     {
-                      "value": "Bool",
-                      "description": "MediaGraphParameterDeclaration.type.Bool"
+                      "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
                     }
                   ],
                   "modelAsString": false
@@ -1016,14 +977,14 @@
               },
               "description": {
                 "type": "string",
-                "description": "MediaGraphParameterDeclaration.description"
+                "localizationKey": "MediaGraphParameterDeclaration.description"
               },
               "default": {
                 "type": "string",
-                "description": "MediaGraphParameterDeclaration.default"
+                "localizationKey": "MediaGraphParameterDeclaration.default"
               }
             },
-            "description": "MediaGraphParameterDeclaration"
+            "localizationKey": "MediaGraphParameterDeclaration"
           }
         },
         "sources": {
@@ -1039,14 +1000,14 @@
             "properties": {
               "@type": {
                 "type": "string",
-                "description": "MediaGraphSource.@type"
+                "localizationKey": "MediaGraphSource.@type"
               },
               "name": {
                 "type": "string",
-                "description": "MediaGraphSource.name"
+                "localizationKey": "MediaGraphSource.name"
               }
             },
-            "description": "MediaGraphSource"
+            "localizationKey": "MediaGraphSource"
           }
         },
         "processors": {
@@ -1063,32 +1024,29 @@
             "properties": {
               "@type": {
                 "type": "string",
-                "description": "MediaGraphProcessor.@type"
+                "localizationKey": "MediaGraphProcessor.@type"
               },
               "name": {
                 "type": "string",
-                "description": "MediaGraphProcessor.name"
+                "localizationKey": "MediaGraphProcessor.name"
               },
               "inputs": {
                 "type": "array",
-                "description": "MediaGraphProcessor.inputs",
                 "items": {
                   "parsedRef": "#/definitions/MediaGraphNodeInput",
                   "type": "object",
                   "properties": {
                     "nodeName": {
                       "type": "string",
-                      "description": "MediaGraphNodeInput.nodeName"
+                      "localizationKey": "MediaGraphNodeInput.nodeName"
                     },
                     "outputSelectors": {
                       "type": "array",
-                      "description": "MediaGraphNodeInput.outputSelectors",
                       "items": {
                         "parsedRef": "#/definitions/MediaGraphOutputSelector",
                         "properties": {
                           "property": {
                             "type": "string",
-                            "description": "MediaGraphOutputSelector.property",
                             "enum": [
                               "mediaType"
                             ],
@@ -1096,16 +1054,15 @@
                               "name": "MediaGraphOutputSelectorProperty",
                               "values": [
                                 {
-                                  "value": "mediaType",
-                                  "description": "MediaGraphOutputSelector.property.mediaType"
+                                  "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                 }
                               ],
                               "modelAsString": false
-                            }
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.property"
                           },
                           "operator": {
                             "type": "string",
-                            "description": "MediaGraphOutputSelector.operator",
                             "enum": [
                               "is",
                               "isNot"
@@ -1114,31 +1071,32 @@
                               "name": "MediaGraphOutputSelectorOperator",
                               "values": [
                                 {
-                                  "value": "is",
-                                  "description": "MediaGraphOutputSelector.operator.is"
+                                  "localizationKey": "MediaGraphOutputSelector.operator.is"
                                 },
                                 {
-                                  "value": "isNot",
-                                  "description": "MediaGraphOutputSelector.operator.isNot"
+                                  "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                 }
                               ],
                               "modelAsString": false
-                            }
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.operator"
                           },
                           "value": {
                             "type": "string",
-                            "description": "MediaGraphOutputSelector.value"
+                            "localizationKey": "MediaGraphOutputSelector.value"
                           }
                         },
-                        "description": "MediaGraphOutputSelector"
-                      }
+                        "localizationKey": "MediaGraphOutputSelector"
+                      },
+                      "localizationKey": "MediaGraphNodeInput.outputSelectors"
                     }
                   },
-                  "description": "MediaGraphNodeInput"
-                }
+                  "localizationKey": "MediaGraphNodeInput"
+                },
+                "localizationKey": "MediaGraphProcessor.inputs"
               }
             },
-            "description": "MediaGraphProcessor"
+            "localizationKey": "MediaGraphProcessor"
           }
         },
         "sinks": {
@@ -1155,32 +1113,29 @@
             "properties": {
               "@type": {
                 "type": "string",
-                "description": "MediaGraphSink.@type"
+                "localizationKey": "MediaGraphSink.@type"
               },
               "name": {
                 "type": "string",
-                "description": "MediaGraphSink.name"
+                "localizationKey": "MediaGraphSink.name"
               },
               "inputs": {
                 "type": "array",
-                "description": "MediaGraphSink.inputs",
                 "items": {
                   "parsedRef": "#/definitions/MediaGraphNodeInput",
                   "type": "object",
                   "properties": {
                     "nodeName": {
                       "type": "string",
-                      "description": "MediaGraphNodeInput.nodeName"
+                      "localizationKey": "MediaGraphNodeInput.nodeName"
                     },
                     "outputSelectors": {
                       "type": "array",
-                      "description": "MediaGraphNodeInput.outputSelectors",
                       "items": {
                         "parsedRef": "#/definitions/MediaGraphOutputSelector",
                         "properties": {
                           "property": {
                             "type": "string",
-                            "description": "MediaGraphOutputSelector.property",
                             "enum": [
                               "mediaType"
                             ],
@@ -1188,16 +1143,15 @@
                               "name": "MediaGraphOutputSelectorProperty",
                               "values": [
                                 {
-                                  "value": "mediaType",
-                                  "description": "MediaGraphOutputSelector.property.mediaType"
+                                  "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                 }
                               ],
                               "modelAsString": false
-                            }
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.property"
                           },
                           "operator": {
                             "type": "string",
-                            "description": "MediaGraphOutputSelector.operator",
                             "enum": [
                               "is",
                               "isNot"
@@ -1206,35 +1160,36 @@
                               "name": "MediaGraphOutputSelectorOperator",
                               "values": [
                                 {
-                                  "value": "is",
-                                  "description": "MediaGraphOutputSelector.operator.is"
+                                  "localizationKey": "MediaGraphOutputSelector.operator.is"
                                 },
                                 {
-                                  "value": "isNot",
-                                  "description": "MediaGraphOutputSelector.operator.isNot"
+                                  "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                 }
                               ],
                               "modelAsString": false
-                            }
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.operator"
                           },
                           "value": {
                             "type": "string",
-                            "description": "MediaGraphOutputSelector.value"
+                            "localizationKey": "MediaGraphOutputSelector.value"
                           }
                         },
-                        "description": "MediaGraphOutputSelector"
-                      }
+                        "localizationKey": "MediaGraphOutputSelector"
+                      },
+                      "localizationKey": "MediaGraphNodeInput.outputSelectors"
                     }
                   },
-                  "description": "MediaGraphNodeInput"
-                }
+                  "localizationKey": "MediaGraphNodeInput"
+                },
+                "localizationKey": "MediaGraphSink.inputs"
               }
             },
-            "description": "MediaGraphSink"
+            "localizationKey": "MediaGraphSink"
           }
         }
       },
-      "description": "MediaGraphTopologyProperties"
+      "localizationKey": "MediaGraphTopologyProperties"
     },
     {
       "name": "MediaGraphSystemData",
@@ -1244,15 +1199,15 @@
         "createdAt": {
           "type": "string",
           "format": "date-time",
-          "description": "MediaGraphSystemData.createdAt"
+          "localizationKey": "MediaGraphSystemData.createdAt"
         },
         "lastModifiedAt": {
           "type": "string",
           "format": "date-time",
-          "description": "MediaGraphSystemData.lastModifiedAt"
+          "localizationKey": "MediaGraphSystemData.lastModifiedAt"
         }
       },
-      "description": "MediaGraphSystemData"
+      "localizationKey": "MediaGraphSystemData"
     },
     {
       "name": "MediaGraphParameterDeclaration",
@@ -1265,8 +1220,8 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "MediaGraphParameterDeclaration.name",
-          "maxLength": 64
+          "maxLength": 64,
+          "localizationKey": "MediaGraphParameterDeclaration.name"
         },
         "type": {
           "type": "string",
@@ -1281,24 +1236,19 @@
             "name": "MediaGraphParameterType",
             "values": [
               {
-                "value": "String",
-                "description": "MediaGraphParameterDeclaration.type.String"
+                "localizationKey": "MediaGraphParameterDeclaration.type.String"
               },
               {
-                "value": "SecretString",
-                "description": "MediaGraphParameterDeclaration.type.SecretString"
+                "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
               },
               {
-                "value": "Int",
-                "description": "MediaGraphParameterDeclaration.type.Int"
+                "localizationKey": "MediaGraphParameterDeclaration.type.Int"
               },
               {
-                "value": "Double",
-                "description": "MediaGraphParameterDeclaration.type.Double"
+                "localizationKey": "MediaGraphParameterDeclaration.type.Double"
               },
               {
-                "value": "Bool",
-                "description": "MediaGraphParameterDeclaration.type.Bool"
+                "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
               }
             ],
             "modelAsString": false
@@ -1306,14 +1256,14 @@
         },
         "description": {
           "type": "string",
-          "description": "MediaGraphParameterDeclaration.description"
+          "localizationKey": "MediaGraphParameterDeclaration.description"
         },
         "default": {
           "type": "string",
-          "description": "MediaGraphParameterDeclaration.default"
+          "localizationKey": "MediaGraphParameterDeclaration.default"
         }
       },
-      "description": "MediaGraphParameterDeclaration"
+      "localizationKey": "MediaGraphParameterDeclaration"
     },
     {
       "name": "MediaGraphSource",
@@ -1327,14 +1277,14 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphSource.@type"
+          "localizationKey": "MediaGraphSource.@type"
         },
         "name": {
           "type": "string",
-          "description": "MediaGraphSource.name"
+          "localizationKey": "MediaGraphSource.name"
         }
       },
-      "description": "MediaGraphSource"
+      "localizationKey": "MediaGraphSource"
     },
     {
       "name": "MediaGraphRtspSource",
@@ -1347,7 +1297,6 @@
       "properties": {
         "transport": {
           "type": "string",
-          "description": "MediaGraphRtspSource.transport",
           "enum": [
             "Http",
             "Tcp"
@@ -1356,16 +1305,15 @@
             "name": "MediaGraphRtspTransport",
             "values": [
               {
-                "value": "Http",
-                "description": "MediaGraphRtspSource.transport.Http"
+                "localizationKey": "MediaGraphRtspSource.transport.Http"
               },
               {
-                "value": "Tcp",
-                "description": "MediaGraphRtspSource.transport.Tcp"
+                "localizationKey": "MediaGraphRtspSource.transport.Tcp"
               }
             ],
             "modelAsString": true
-          }
+          },
+          "localizationKey": "MediaGraphRtspSource.transport"
         },
         "endpoint": {
           "parsedRef": "#/definitions/MediaGraphEndpoint",
@@ -1378,7 +1326,7 @@
           "properties": {
             "@type": {
               "type": "string",
-              "description": "MediaGraphEndpoint.@type"
+              "localizationKey": "MediaGraphEndpoint.@type"
             },
             "credentials": {
               "parsedRef": "#/definitions/MediaGraphCredentials",
@@ -1390,20 +1338,20 @@
               "properties": {
                 "@type": {
                   "type": "string",
-                  "description": "MediaGraphCredentials.@type"
+                  "localizationKey": "MediaGraphCredentials.@type"
                 }
               },
-              "description": "MediaGraphEndpoint.credentials"
+              "localizationKey": "MediaGraphEndpoint.credentials"
             },
             "url": {
               "type": "string",
-              "description": "MediaGraphEndpoint.url"
+              "localizationKey": "MediaGraphEndpoint.url"
             }
           },
-          "description": "MediaGraphRtspSource.endpoint"
+          "localizationKey": "MediaGraphRtspSource.endpoint"
         }
       },
-      "description": "MediaGraphRtspSource",
+      "localizationKey": "MediaGraphRtspSource",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphRtspSource",
       "parsedAllOf": [
         "#/definitions/MediaGraphSource"
@@ -1421,10 +1369,10 @@
       "properties": {
         "hubInputName": {
           "type": "string",
-          "description": "MediaGraphIoTHubMessageSource.hubInputName"
+          "localizationKey": "MediaGraphIoTHubMessageSource.hubInputName"
         }
       },
-      "description": "MediaGraphIoTHubMessageSource",
+      "localizationKey": "MediaGraphIoTHubMessageSource",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphIoTHubMessageSource",
       "parsedAllOf": [
         "#/definitions/MediaGraphSource"
@@ -1443,10 +1391,10 @@
       "properties": {
         "hubOutputName": {
           "type": "string",
-          "description": "MediaGraphIoTHubMessageSink.hubOutputName"
+          "localizationKey": "MediaGraphIoTHubMessageSink.hubOutputName"
         }
       },
-      "description": "MediaGraphIoTHubMessageSink",
+      "localizationKey": "MediaGraphIoTHubMessageSink",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphIoTHubMessageSink",
       "parsedAllOf": [
         "#/definitions/MediaGraphSink"
@@ -1464,7 +1412,7 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphEndpoint.@type"
+          "localizationKey": "MediaGraphEndpoint.@type"
         },
         "credentials": {
           "parsedRef": "#/definitions/MediaGraphCredentials",
@@ -1476,17 +1424,17 @@
           "properties": {
             "@type": {
               "type": "string",
-              "description": "MediaGraphCredentials.@type"
+              "localizationKey": "MediaGraphCredentials.@type"
             }
           },
-          "description": "MediaGraphEndpoint.credentials"
+          "localizationKey": "MediaGraphEndpoint.credentials"
         },
         "url": {
           "type": "string",
-          "description": "MediaGraphEndpoint.url"
+          "localizationKey": "MediaGraphEndpoint.url"
         }
       },
-      "description": "MediaGraphEndpoint"
+      "localizationKey": "MediaGraphEndpoint"
     },
     {
       "name": "MediaGraphCredentials",
@@ -1499,10 +1447,10 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphCredentials.@type"
+          "localizationKey": "MediaGraphCredentials.@type"
         }
       },
-      "description": "MediaGraphCredentials"
+      "localizationKey": "MediaGraphCredentials"
     },
     {
       "name": "MediaGraphUsernamePasswordCredentials",
@@ -1515,14 +1463,14 @@
       "properties": {
         "username": {
           "type": "string",
-          "description": "MediaGraphUsernamePasswordCredentials.username"
+          "localizationKey": "MediaGraphUsernamePasswordCredentials.username"
         },
         "password": {
           "type": "string",
-          "description": "MediaGraphUsernamePasswordCredentials.password"
+          "localizationKey": "MediaGraphUsernamePasswordCredentials.password"
         }
       },
-      "description": "MediaGraphUsernamePasswordCredentials",
+      "localizationKey": "MediaGraphUsernamePasswordCredentials",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials",
       "parsedAllOf": [
         "#/definitions/MediaGraphCredentials"
@@ -1540,14 +1488,14 @@
       "properties": {
         "headerName": {
           "type": "string",
-          "description": "MediaGraphHttpHeaderCredentials.headerName"
+          "localizationKey": "MediaGraphHttpHeaderCredentials.headerName"
         },
         "headerValue": {
           "type": "string",
-          "description": "MediaGraphHttpHeaderCredentials.headerValue"
+          "localizationKey": "MediaGraphHttpHeaderCredentials.headerValue"
         }
       },
-      "description": "MediaGraphHttpHeaderCredentials",
+      "localizationKey": "MediaGraphHttpHeaderCredentials",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphHttpHeaderCredentials",
       "parsedAllOf": [
         "#/definitions/MediaGraphCredentials"
@@ -1565,7 +1513,7 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphEndpoint.@type"
+          "localizationKey": "MediaGraphEndpoint.@type"
         },
         "credentials": {
           "parsedRef": "#/definitions/MediaGraphCredentials",
@@ -1577,17 +1525,17 @@
           "properties": {
             "@type": {
               "type": "string",
-              "description": "MediaGraphCredentials.@type"
+              "localizationKey": "MediaGraphCredentials.@type"
             }
           },
-          "description": "MediaGraphEndpoint.credentials"
+          "localizationKey": "MediaGraphEndpoint.credentials"
         },
         "url": {
           "type": "string",
-          "description": "MediaGraphEndpoint.url"
+          "localizationKey": "MediaGraphEndpoint.url"
         }
       },
-      "description": "MediaGraphUnsecuredEndpoint",
+      "localizationKey": "MediaGraphUnsecuredEndpoint",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphUnsecuredEndpoint",
       "parsedAllOf": [
         "#/definitions/MediaGraphEndpoint"
@@ -1613,10 +1561,10 @@
           "properties": {
             "@type": {
               "type": "string",
-              "description": "MediaGraphCertificateSource.@type"
+              "localizationKey": "MediaGraphCertificateSource.@type"
             }
           },
-          "description": "MediaGraphTlsEndpoint.trustedCertificates"
+          "localizationKey": "MediaGraphTlsEndpoint.trustedCertificates"
         },
         "validationOptions": {
           "parsedRef": "#/definitions/MediaGraphTlsValidationOptions",
@@ -1624,17 +1572,17 @@
           "properties": {
             "ignoreHostname": {
               "type": "string",
-              "description": "MediaGraphTlsValidationOptions.ignoreHostname"
+              "localizationKey": "MediaGraphTlsValidationOptions.ignoreHostname"
             },
             "ignoreSignature": {
               "type": "string",
-              "description": "MediaGraphTlsValidationOptions.ignoreSignature"
+              "localizationKey": "MediaGraphTlsValidationOptions.ignoreSignature"
             }
           },
-          "description": "MediaGraphTlsEndpoint.validationOptions"
+          "localizationKey": "MediaGraphTlsEndpoint.validationOptions"
         }
       },
-      "description": "MediaGraphTlsEndpoint",
+      "localizationKey": "MediaGraphTlsEndpoint",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphTlsEndpoint",
       "parsedAllOf": [
         "#/definitions/MediaGraphEndpoint"
@@ -1651,10 +1599,10 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphCertificateSource.@type"
+          "localizationKey": "MediaGraphCertificateSource.@type"
         }
       },
-      "description": "MediaGraphCertificateSource"
+      "localizationKey": "MediaGraphCertificateSource"
     },
     {
       "name": "MediaGraphTlsValidationOptions",
@@ -1663,14 +1611,14 @@
       "properties": {
         "ignoreHostname": {
           "type": "string",
-          "description": "MediaGraphTlsValidationOptions.ignoreHostname"
+          "localizationKey": "MediaGraphTlsValidationOptions.ignoreHostname"
         },
         "ignoreSignature": {
           "type": "string",
-          "description": "MediaGraphTlsValidationOptions.ignoreSignature"
+          "localizationKey": "MediaGraphTlsValidationOptions.ignoreSignature"
         }
       },
-      "description": "MediaGraphTlsValidationOptions"
+      "localizationKey": "MediaGraphTlsValidationOptions"
     },
     {
       "name": "MediaGraphPemCertificateList",
@@ -1683,13 +1631,13 @@
       "properties": {
         "certificates": {
           "type": "array",
-          "description": "MediaGraphPemCertificateList.certificates",
           "items": {
             "type": "string"
-          }
+          },
+          "localizationKey": "MediaGraphPemCertificateList.certificates"
         }
       },
-      "description": "MediaGraphPemCertificateList",
+      "localizationKey": "MediaGraphPemCertificateList",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphPemCertificateList",
       "parsedAllOf": [
         "#/definitions/MediaGraphCertificateSource"
@@ -1708,32 +1656,29 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphSink.@type"
+          "localizationKey": "MediaGraphSink.@type"
         },
         "name": {
           "type": "string",
-          "description": "MediaGraphSink.name"
+          "localizationKey": "MediaGraphSink.name"
         },
         "inputs": {
           "type": "array",
-          "description": "MediaGraphSink.inputs",
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
             "properties": {
               "nodeName": {
                 "type": "string",
-                "description": "MediaGraphNodeInput.nodeName"
+                "localizationKey": "MediaGraphNodeInput.nodeName"
               },
               "outputSelectors": {
                 "type": "array",
-                "description": "MediaGraphNodeInput.outputSelectors",
                 "items": {
                   "parsedRef": "#/definitions/MediaGraphOutputSelector",
                   "properties": {
                     "property": {
                       "type": "string",
-                      "description": "MediaGraphOutputSelector.property",
                       "enum": [
                         "mediaType"
                       ],
@@ -1741,16 +1686,15 @@
                         "name": "MediaGraphOutputSelectorProperty",
                         "values": [
                           {
-                            "value": "mediaType",
-                            "description": "MediaGraphOutputSelector.property.mediaType"
+                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
                         "modelAsString": false
-                      }
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.property"
                     },
                     "operator": {
                       "type": "string",
-                      "description": "MediaGraphOutputSelector.operator",
                       "enum": [
                         "is",
                         "isNot"
@@ -1759,31 +1703,32 @@
                         "name": "MediaGraphOutputSelectorOperator",
                         "values": [
                           {
-                            "value": "is",
-                            "description": "MediaGraphOutputSelector.operator.is"
+                            "localizationKey": "MediaGraphOutputSelector.operator.is"
                           },
                           {
-                            "value": "isNot",
-                            "description": "MediaGraphOutputSelector.operator.isNot"
+                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
                         "modelAsString": false
-                      }
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.operator"
                     },
                     "value": {
                       "type": "string",
-                      "description": "MediaGraphOutputSelector.value"
+                      "localizationKey": "MediaGraphOutputSelector.value"
                     }
                   },
-                  "description": "MediaGraphOutputSelector"
-                }
+                  "localizationKey": "MediaGraphOutputSelector"
+                },
+                "localizationKey": "MediaGraphNodeInput.outputSelectors"
               }
             },
-            "description": "MediaGraphNodeInput"
-          }
+            "localizationKey": "MediaGraphNodeInput"
+          },
+          "localizationKey": "MediaGraphSink.inputs"
         }
       },
-      "description": "MediaGraphSink"
+      "localizationKey": "MediaGraphSink"
     },
     {
       "name": "MediaGraphNodeInput",
@@ -1792,17 +1737,15 @@
       "properties": {
         "nodeName": {
           "type": "string",
-          "description": "MediaGraphNodeInput.nodeName"
+          "localizationKey": "MediaGraphNodeInput.nodeName"
         },
         "outputSelectors": {
           "type": "array",
-          "description": "MediaGraphNodeInput.outputSelectors",
           "items": {
             "parsedRef": "#/definitions/MediaGraphOutputSelector",
             "properties": {
               "property": {
                 "type": "string",
-                "description": "MediaGraphOutputSelector.property",
                 "enum": [
                   "mediaType"
                 ],
@@ -1810,16 +1753,15 @@
                   "name": "MediaGraphOutputSelectorProperty",
                   "values": [
                     {
-                      "value": "mediaType",
-                      "description": "MediaGraphOutputSelector.property.mediaType"
+                      "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                     }
                   ],
                   "modelAsString": false
-                }
+                },
+                "localizationKey": "MediaGraphOutputSelector.property"
               },
               "operator": {
                 "type": "string",
-                "description": "MediaGraphOutputSelector.operator",
                 "enum": [
                   "is",
                   "isNot"
@@ -1828,27 +1770,27 @@
                   "name": "MediaGraphOutputSelectorOperator",
                   "values": [
                     {
-                      "value": "is",
-                      "description": "MediaGraphOutputSelector.operator.is"
+                      "localizationKey": "MediaGraphOutputSelector.operator.is"
                     },
                     {
-                      "value": "isNot",
-                      "description": "MediaGraphOutputSelector.operator.isNot"
+                      "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                     }
                   ],
                   "modelAsString": false
-                }
+                },
+                "localizationKey": "MediaGraphOutputSelector.operator"
               },
               "value": {
                 "type": "string",
-                "description": "MediaGraphOutputSelector.value"
+                "localizationKey": "MediaGraphOutputSelector.value"
               }
             },
-            "description": "MediaGraphOutputSelector"
-          }
+            "localizationKey": "MediaGraphOutputSelector"
+          },
+          "localizationKey": "MediaGraphNodeInput.outputSelectors"
         }
       },
-      "description": "MediaGraphNodeInput"
+      "localizationKey": "MediaGraphNodeInput"
     },
     {
       "name": "MediaGraphOutputSelector",
@@ -1856,7 +1798,6 @@
       "properties": {
         "property": {
           "type": "string",
-          "description": "MediaGraphOutputSelector.property",
           "enum": [
             "mediaType"
           ],
@@ -1864,16 +1805,15 @@
             "name": "MediaGraphOutputSelectorProperty",
             "values": [
               {
-                "value": "mediaType",
-                "description": "MediaGraphOutputSelector.property.mediaType"
+                "localizationKey": "MediaGraphOutputSelector.property.mediaType"
               }
             ],
             "modelAsString": false
-          }
+          },
+          "localizationKey": "MediaGraphOutputSelector.property"
         },
         "operator": {
           "type": "string",
-          "description": "MediaGraphOutputSelector.operator",
           "enum": [
             "is",
             "isNot"
@@ -1882,23 +1822,22 @@
             "name": "MediaGraphOutputSelectorOperator",
             "values": [
               {
-                "value": "is",
-                "description": "MediaGraphOutputSelector.operator.is"
+                "localizationKey": "MediaGraphOutputSelector.operator.is"
               },
               {
-                "value": "isNot",
-                "description": "MediaGraphOutputSelector.operator.isNot"
+                "localizationKey": "MediaGraphOutputSelector.operator.isNot"
               }
             ],
             "modelAsString": false
-          }
+          },
+          "localizationKey": "MediaGraphOutputSelector.operator"
         },
         "value": {
           "type": "string",
-          "description": "MediaGraphOutputSelector.value"
+          "localizationKey": "MediaGraphOutputSelector.value"
         }
       },
-      "description": "MediaGraphOutputSelector"
+      "localizationKey": "MediaGraphOutputSelector"
     },
     {
       "name": "MediaGraphFileSink",
@@ -1911,11 +1850,11 @@
       "properties": {
         "filePathPattern": {
           "type": "string",
-          "description": "MediaGraphFileSink.filePathPattern",
-          "minLength": 1
+          "minLength": 1,
+          "localizationKey": "MediaGraphFileSink.filePathPattern"
         }
       },
-      "description": "MediaGraphFileSink",
+      "localizationKey": "MediaGraphFileSink",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphFileSink",
       "parsedAllOf": [
         "#/definitions/MediaGraphSink"
@@ -1934,24 +1873,24 @@
       "properties": {
         "assetNamePattern": {
           "type": "string",
-          "description": "MediaGraphAssetSink.assetNamePattern"
+          "localizationKey": "MediaGraphAssetSink.assetNamePattern"
         },
         "segmentLength": {
           "type": "string",
           "format": "duration",
           "example": "PT30S",
-          "description": "MediaGraphAssetSink.segmentLength"
+          "localizationKey": "MediaGraphAssetSink.segmentLength"
         },
         "localMediaCachePath": {
           "type": "string",
-          "description": "MediaGraphAssetSink.localMediaCachePath"
+          "localizationKey": "MediaGraphAssetSink.localMediaCachePath"
         },
         "localMediaCacheMaximumSizeMiB": {
           "type": "string",
-          "description": "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB"
+          "localizationKey": "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB"
         }
       },
-      "description": "MediaGraphAssetSink",
+      "localizationKey": "MediaGraphAssetSink",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphAssetSink",
       "parsedAllOf": [
         "#/definitions/MediaGraphSink"
@@ -1970,32 +1909,29 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphProcessor.@type"
+          "localizationKey": "MediaGraphProcessor.@type"
         },
         "name": {
           "type": "string",
-          "description": "MediaGraphProcessor.name"
+          "localizationKey": "MediaGraphProcessor.name"
         },
         "inputs": {
           "type": "array",
-          "description": "MediaGraphProcessor.inputs",
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
             "properties": {
               "nodeName": {
                 "type": "string",
-                "description": "MediaGraphNodeInput.nodeName"
+                "localizationKey": "MediaGraphNodeInput.nodeName"
               },
               "outputSelectors": {
                 "type": "array",
-                "description": "MediaGraphNodeInput.outputSelectors",
                 "items": {
                   "parsedRef": "#/definitions/MediaGraphOutputSelector",
                   "properties": {
                     "property": {
                       "type": "string",
-                      "description": "MediaGraphOutputSelector.property",
                       "enum": [
                         "mediaType"
                       ],
@@ -2003,16 +1939,15 @@
                         "name": "MediaGraphOutputSelectorProperty",
                         "values": [
                           {
-                            "value": "mediaType",
-                            "description": "MediaGraphOutputSelector.property.mediaType"
+                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
                         "modelAsString": false
-                      }
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.property"
                     },
                     "operator": {
                       "type": "string",
-                      "description": "MediaGraphOutputSelector.operator",
                       "enum": [
                         "is",
                         "isNot"
@@ -2021,31 +1956,32 @@
                         "name": "MediaGraphOutputSelectorOperator",
                         "values": [
                           {
-                            "value": "is",
-                            "description": "MediaGraphOutputSelector.operator.is"
+                            "localizationKey": "MediaGraphOutputSelector.operator.is"
                           },
                           {
-                            "value": "isNot",
-                            "description": "MediaGraphOutputSelector.operator.isNot"
+                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
                         "modelAsString": false
-                      }
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.operator"
                     },
                     "value": {
                       "type": "string",
-                      "description": "MediaGraphOutputSelector.value"
+                      "localizationKey": "MediaGraphOutputSelector.value"
                     }
                   },
-                  "description": "MediaGraphOutputSelector"
-                }
+                  "localizationKey": "MediaGraphOutputSelector"
+                },
+                "localizationKey": "MediaGraphNodeInput.outputSelectors"
               }
             },
-            "description": "MediaGraphNodeInput"
-          }
+            "localizationKey": "MediaGraphNodeInput"
+          },
+          "localizationKey": "MediaGraphProcessor.inputs"
         }
       },
-      "description": "MediaGraphProcessor"
+      "localizationKey": "MediaGraphProcessor"
     },
     {
       "name": "MediaGraphMotionDetectionProcessor",
@@ -2060,7 +1996,6 @@
       "properties": {
         "sensitivity": {
           "type": "string",
-          "description": "MediaGraphMotionDetectionProcessor.sensitivity",
           "enum": [
             "Low",
             "Medium",
@@ -2070,27 +2005,25 @@
             "name": "MediaGraphMotionDetectionSensitivity",
             "values": [
               {
-                "value": "Low",
-                "description": "MediaGraphMotionDetectionProcessor.sensitivity.Low"
+                "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity.Low"
               },
               {
-                "value": "Medium",
-                "description": "MediaGraphMotionDetectionProcessor.sensitivity.Medium"
+                "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity.Medium"
               },
               {
-                "value": "High",
-                "description": "MediaGraphMotionDetectionProcessor.sensitivity.High"
+                "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity.High"
               }
             ],
             "modelAsString": true
-          }
+          },
+          "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity"
         },
         "outputMotionRegion": {
           "type": "boolean",
-          "description": "MediaGraphMotionDetectionProcessor.outputMotionRegion"
+          "localizationKey": "MediaGraphMotionDetectionProcessor.outputMotionRegion"
         }
       },
-      "description": "MediaGraphMotionDetectionProcessor",
+      "localizationKey": "MediaGraphMotionDetectionProcessor",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
       "parsedAllOf": [
         "#/definitions/MediaGraphProcessor"
@@ -2118,7 +2051,7 @@
           "properties": {
             "@type": {
               "type": "string",
-              "description": "MediaGraphEndpoint.@type"
+              "localizationKey": "MediaGraphEndpoint.@type"
             },
             "credentials": {
               "parsedRef": "#/definitions/MediaGraphCredentials",
@@ -2130,17 +2063,17 @@
               "properties": {
                 "@type": {
                   "type": "string",
-                  "description": "MediaGraphCredentials.@type"
+                  "localizationKey": "MediaGraphCredentials.@type"
                 }
               },
-              "description": "MediaGraphEndpoint.credentials"
+              "localizationKey": "MediaGraphEndpoint.credentials"
             },
             "url": {
               "type": "string",
-              "description": "MediaGraphEndpoint.url"
+              "localizationKey": "MediaGraphEndpoint.url"
             }
           },
-          "description": "MediaGraphExtensionProcessorBase.endpoint"
+          "localizationKey": "MediaGraphExtensionProcessorBase.endpoint"
         },
         "image": {
           "parsedRef": "#/definitions/MediaGraphImage",
@@ -2152,7 +2085,6 @@
               "properties": {
                 "mode": {
                   "type": "string",
-                  "description": "MediaGraphImageScale.mode",
                   "enum": [
                     "PreserveAspectRatio",
                     "Pad",
@@ -2162,31 +2094,29 @@
                     "name": "MediaGraphImageScaleMode",
                     "values": [
                       {
-                        "value": "PreserveAspectRatio",
-                        "description": "MediaGraphImageScale.mode.PreserveAspectRatio"
+                        "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
                       },
                       {
-                        "value": "Pad",
-                        "description": "MediaGraphImageScale.mode.Pad"
+                        "localizationKey": "MediaGraphImageScale.mode.Pad"
                       },
                       {
-                        "value": "Stretch",
-                        "description": "MediaGraphImageScale.mode.Stretch"
+                        "localizationKey": "MediaGraphImageScale.mode.Stretch"
                       }
                     ],
                     "modelAsString": true
-                  }
+                  },
+                  "localizationKey": "MediaGraphImageScale.mode"
                 },
                 "width": {
                   "type": "string",
-                  "description": "MediaGraphImageScale.width"
+                  "localizationKey": "MediaGraphImageScale.width"
                 },
                 "height": {
                   "type": "string",
-                  "description": "MediaGraphImageScale.height"
+                  "localizationKey": "MediaGraphImageScale.height"
                 }
               },
-              "description": "MediaGraphImageScale"
+              "localizationKey": "MediaGraphImageScale"
             },
             "format": {
               "parsedRef": "#/definitions/MediaGraphImageFormat",
@@ -2198,17 +2128,17 @@
               "properties": {
                 "@type": {
                   "type": "string",
-                  "description": "MediaGraphImageFormat.@type"
+                  "localizationKey": "MediaGraphImageFormat.@type"
                 }
               },
-              "description": "MediaGraphImageFormat",
-              "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat"
+              "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+              "localizationKey": "MediaGraphImageFormat"
             }
           },
-          "description": "MediaGraphExtensionProcessorBase.image"
+          "localizationKey": "MediaGraphExtensionProcessorBase.image"
         }
       },
-      "description": "MediaGraphExtensionProcessorBase",
+      "localizationKey": "MediaGraphExtensionProcessorBase",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphExtensionProcessorBase",
       "parsedAllOf": [
         "#/definitions/MediaGraphProcessor"
@@ -2229,7 +2159,7 @@
           "properties": {
             "@type": {
               "type": "string",
-              "description": "MediaGraphEndpoint.@type"
+              "localizationKey": "MediaGraphEndpoint.@type"
             },
             "credentials": {
               "parsedRef": "#/definitions/MediaGraphCredentials",
@@ -2241,17 +2171,17 @@
               "properties": {
                 "@type": {
                   "type": "string",
-                  "description": "MediaGraphCredentials.@type"
+                  "localizationKey": "MediaGraphCredentials.@type"
                 }
               },
-              "description": "MediaGraphEndpoint.credentials"
+              "localizationKey": "MediaGraphEndpoint.credentials"
             },
             "url": {
               "type": "string",
-              "description": "MediaGraphEndpoint.url"
+              "localizationKey": "MediaGraphEndpoint.url"
             }
           },
-          "description": "MediaGraphExtensionProcessorBase.endpoint"
+          "localizationKey": "MediaGraphExtensionProcessorBase.endpoint"
         },
         "image": {
           "parsedRef": "#/definitions/MediaGraphImage",
@@ -2263,7 +2193,6 @@
               "properties": {
                 "mode": {
                   "type": "string",
-                  "description": "MediaGraphImageScale.mode",
                   "enum": [
                     "PreserveAspectRatio",
                     "Pad",
@@ -2273,31 +2202,29 @@
                     "name": "MediaGraphImageScaleMode",
                     "values": [
                       {
-                        "value": "PreserveAspectRatio",
-                        "description": "MediaGraphImageScale.mode.PreserveAspectRatio"
+                        "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
                       },
                       {
-                        "value": "Pad",
-                        "description": "MediaGraphImageScale.mode.Pad"
+                        "localizationKey": "MediaGraphImageScale.mode.Pad"
                       },
                       {
-                        "value": "Stretch",
-                        "description": "MediaGraphImageScale.mode.Stretch"
+                        "localizationKey": "MediaGraphImageScale.mode.Stretch"
                       }
                     ],
                     "modelAsString": true
-                  }
+                  },
+                  "localizationKey": "MediaGraphImageScale.mode"
                 },
                 "width": {
                   "type": "string",
-                  "description": "MediaGraphImageScale.width"
+                  "localizationKey": "MediaGraphImageScale.width"
                 },
                 "height": {
                   "type": "string",
-                  "description": "MediaGraphImageScale.height"
+                  "localizationKey": "MediaGraphImageScale.height"
                 }
               },
-              "description": "MediaGraphImageScale"
+              "localizationKey": "MediaGraphImageScale"
             },
             "format": {
               "parsedRef": "#/definitions/MediaGraphImageFormat",
@@ -2309,18 +2236,18 @@
               "properties": {
                 "@type": {
                   "type": "string",
-                  "description": "MediaGraphImageFormat.@type"
+                  "localizationKey": "MediaGraphImageFormat.@type"
                 }
               },
-              "description": "MediaGraphImageFormat",
-              "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat"
+              "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+              "localizationKey": "MediaGraphImageFormat"
             }
           },
-          "description": "MediaGraphExtensionProcessorBase.image"
+          "localizationKey": "MediaGraphExtensionProcessorBase.image"
         }
       },
-      "description": "MediaGraphHttpExtension",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphHttpExtension",
+      "localizationKey": "MediaGraphHttpExtension",
       "parsedAllOf": [
         "#/definitions/MediaGraphExtensionProcessorBase"
       ]
@@ -2336,7 +2263,6 @@
           "properties": {
             "mode": {
               "type": "string",
-              "description": "MediaGraphImageScale.mode",
               "enum": [
                 "PreserveAspectRatio",
                 "Pad",
@@ -2346,31 +2272,29 @@
                 "name": "MediaGraphImageScaleMode",
                 "values": [
                   {
-                    "value": "PreserveAspectRatio",
-                    "description": "MediaGraphImageScale.mode.PreserveAspectRatio"
+                    "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
                   },
                   {
-                    "value": "Pad",
-                    "description": "MediaGraphImageScale.mode.Pad"
+                    "localizationKey": "MediaGraphImageScale.mode.Pad"
                   },
                   {
-                    "value": "Stretch",
-                    "description": "MediaGraphImageScale.mode.Stretch"
+                    "localizationKey": "MediaGraphImageScale.mode.Stretch"
                   }
                 ],
                 "modelAsString": true
-              }
+              },
+              "localizationKey": "MediaGraphImageScale.mode"
             },
             "width": {
               "type": "string",
-              "description": "MediaGraphImageScale.width"
+              "localizationKey": "MediaGraphImageScale.width"
             },
             "height": {
               "type": "string",
-              "description": "MediaGraphImageScale.height"
+              "localizationKey": "MediaGraphImageScale.height"
             }
           },
-          "description": "MediaGraphImageScale"
+          "localizationKey": "MediaGraphImageScale"
         },
         "format": {
           "parsedRef": "#/definitions/MediaGraphImageFormat",
@@ -2382,14 +2306,14 @@
           "properties": {
             "@type": {
               "type": "string",
-              "description": "MediaGraphImageFormat.@type"
+              "localizationKey": "MediaGraphImageFormat.@type"
             }
           },
-          "description": "MediaGraphImageFormat",
-          "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat"
+          "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+          "localizationKey": "MediaGraphImageFormat"
         }
       },
-      "description": "MediaGraphImage"
+      "localizationKey": "MediaGraphImage"
     },
     {
       "name": "MediaGraphImageScale",
@@ -2398,7 +2322,6 @@
       "properties": {
         "mode": {
           "type": "string",
-          "description": "MediaGraphImageScale.mode",
           "enum": [
             "PreserveAspectRatio",
             "Pad",
@@ -2408,31 +2331,29 @@
             "name": "MediaGraphImageScaleMode",
             "values": [
               {
-                "value": "PreserveAspectRatio",
-                "description": "MediaGraphImageScale.mode.PreserveAspectRatio"
+                "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
               },
               {
-                "value": "Pad",
-                "description": "MediaGraphImageScale.mode.Pad"
+                "localizationKey": "MediaGraphImageScale.mode.Pad"
               },
               {
-                "value": "Stretch",
-                "description": "MediaGraphImageScale.mode.Stretch"
+                "localizationKey": "MediaGraphImageScale.mode.Stretch"
               }
             ],
             "modelAsString": true
-          }
+          },
+          "localizationKey": "MediaGraphImageScale.mode"
         },
         "width": {
           "type": "string",
-          "description": "MediaGraphImageScale.width"
+          "localizationKey": "MediaGraphImageScale.width"
         },
         "height": {
           "type": "string",
-          "description": "MediaGraphImageScale.height"
+          "localizationKey": "MediaGraphImageScale.height"
         }
       },
-      "description": "MediaGraphImageScale"
+      "localizationKey": "MediaGraphImageScale"
     },
     {
       "name": "MediaGraphImageFormat",
@@ -2445,11 +2366,11 @@
       "properties": {
         "@type": {
           "type": "string",
-          "description": "MediaGraphImageFormat.@type"
+          "localizationKey": "MediaGraphImageFormat.@type"
         }
       },
-      "description": "MediaGraphImageFormat",
-      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat"
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+      "localizationKey": "MediaGraphImageFormat"
     },
     {
       "name": "MediaGraphImageFormatRaw",
@@ -2479,56 +2400,45 @@
             "name": "MediaGraphImageFormatRawPixelFormat",
             "values": [
               {
-                "value": "Yuv420p",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Yuv420p"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Yuv420p"
               },
               {
-                "value": "Rgb565be",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Rgb565be"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb565be"
               },
               {
-                "value": "Rgb565le",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Rgb565le"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb565le"
               },
               {
-                "value": "Rgb555be",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Rgb555be"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb555be"
               },
               {
-                "value": "Rgb555le",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Rgb555le"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb555le"
               },
               {
-                "value": "Rgb24",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Rgb24"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb24"
               },
               {
-                "value": "Bgr24",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Bgr24"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Bgr24"
               },
               {
-                "value": "Argb",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Argb"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Argb"
               },
               {
-                "value": "Rgba",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Rgba"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgba"
               },
               {
-                "value": "Abgr",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Abgr"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Abgr"
               },
               {
-                "value": "Bgra",
-                "description": "MediaGraphImageFormatRaw.pixelFormat.Bgra"
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Bgra"
               }
             ],
             "modelAsString": true
           }
         }
       },
-      "description": "MediaGraphImageFormatRaw",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatRaw",
+      "localizationKey": "MediaGraphImageFormatRaw",
       "parsedAllOf": [
         "#/definitions/MediaGraphImageFormat"
       ]
@@ -2544,7 +2454,6 @@
       "properties": {
         "encoding": {
           "type": "string",
-          "description": "MediaGraphImageFormatEncoded.encoding",
           "default": "Jpeg",
           "enum": [
             "Jpeg",
@@ -2555,28 +2464,26 @@
             "name": "MediaGraphImageEncodingFormat",
             "values": [
               {
-                "value": "Jpeg",
-                "description": "MediaGraphImageFormatEncoded.encoding.Jpeg"
+                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Jpeg"
               },
               {
-                "value": "Bmp",
-                "description": "MediaGraphImageFormatEncoded.encoding.Bmp"
+                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Bmp"
               },
               {
-                "value": "Png",
-                "description": "MediaGraphImageFormatEncoded.encoding.Png"
+                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Png"
               }
             ],
             "modelAsString": true
-          }
+          },
+          "localizationKey": "MediaGraphImageFormatEncoded.encoding"
         },
         "quality": {
           "type": "string",
-          "description": "MediaGraphImageFormatEncoded.quality"
+          "localizationKey": "MediaGraphImageFormatEncoded.quality"
         }
       },
-      "description": "MediaGraphImageFormatEncoded",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatEncoded",
+      "localizationKey": "MediaGraphImageFormatEncoded",
       "parsedAllOf": [
         "#/definitions/MediaGraphImageFormat"
       ]
@@ -2595,25 +2502,25 @@
         "activationEvaluationWindow": {
           "type": "string",
           "example": "PT1.0S",
-          "description": "MediaGraphSignalGateProcessor.activationEvaluationWindow"
+          "localizationKey": "MediaGraphSignalGateProcessor.activationEvaluationWindow"
         },
         "activationSignalOffset": {
           "type": "string",
           "example": "-PT1.0S",
-          "description": "MediaGraphSignalGateProcessor.activationSignalOffset"
+          "localizationKey": "MediaGraphSignalGateProcessor.activationSignalOffset"
         },
         "minimumActivationTime": {
           "type": "string",
           "example": "PT1S",
-          "description": "MediaGraphSignalGateProcessor.minimumActivationTime"
+          "localizationKey": "MediaGraphSignalGateProcessor.minimumActivationTime"
         },
         "maximumActivationTime": {
           "type": "string",
           "example": "PT2S",
-          "description": "MediaGraphSignalGateProcessor.maximumActivationTime"
+          "localizationKey": "MediaGraphSignalGateProcessor.maximumActivationTime"
         }
       },
-      "description": "MediaGraphSignalGateProcessor",
+      "localizationKey": "MediaGraphSignalGateProcessor",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphSignalGateProcessor",
       "parsedAllOf": [
         "#/definitions/MediaGraphProcessor"
@@ -2632,10 +2539,10 @@
       "properties": {
         "maximumFps": {
           "type": "string",
-          "description": "MediaGraphFrameRateFilterProcessor.maximumFps"
+          "localizationKey": "MediaGraphFrameRateFilterProcessor.maximumFps"
         }
       },
-      "description": "MediaGraphFrameRateFilterProcessor",
+      "localizationKey": "MediaGraphFrameRateFilterProcessor",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphFrameRateFilterProcessor",
       "parsedAllOf": [
         "#/definitions/MediaGraphProcessor"
@@ -2653,12 +2560,12 @@
         {
           "title": "rtspSource",
           "extra": {
-            "id": "dd588860-0182-44dd-b030-1a0b0c33bcfa",
+            "id": "ccb70a99-2125-41f7-a3c4-0efb436fd5e1",
             "name": "rtspSource",
             "shape": "module",
             "ports": [
               {
-                "id": "0d1160b2-e83b-4d41-9e71-976c18ace4f6",
+                "id": "c204ebce-82db-49a6-b2f7-fa3d79da2d3b",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2676,7 +2583,7 @@
               "nodeType": "source"
             }
           },
-          "id": "08f4fc21-0b06-4df0-931b-b58812c29600",
+          "id": "e0b92e1c-919e-453f-89c7-f2c79eb25279",
           "searchKeys": [
             "rtspSource"
           ],
@@ -2685,12 +2592,12 @@
         {
           "title": "ioTHubMessageSource",
           "extra": {
-            "id": "65a8d717-2aee-4bb8-81e2-65b2668f77ed",
+            "id": "a5324391-4072-49f0-8ef7-447bfc3b3ecb",
             "name": "ioTHubMessageSource",
             "shape": "module",
             "ports": [
               {
-                "id": "f5acb217-f3f5-440e-a212-e72f264fe9ca",
+                "id": "bd6a6ad4-27c2-477b-af29-f86ac3f379a7",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2708,7 +2615,7 @@
               "nodeType": "source"
             }
           },
-          "id": "7aaa2759-f973-451e-9b7c-5326d9a15d54",
+          "id": "1c04c608-5b01-4aa9-bd03-ff73a568f6be",
           "searchKeys": [
             "ioTHubMessageSource"
           ],
@@ -2727,19 +2634,19 @@
         {
           "title": "motionDetectionProcessor",
           "extra": {
-            "id": "738f31f2-4fa2-465b-9dfc-fec31e5126be",
+            "id": "fc83016a-13c4-44e1-b732-45de3932a24c",
             "name": "motionDetectionProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "f6f4375e-4d12-4c12-809d-ee6a42bffc44",
+                "id": "9934bdb2-1d66-4f14-803c-ffcba3081c05",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "7bcafe0f-fc47-4d95-b6f8-e8b9b229fca5",
+                "id": "3e6aa9e1-f32d-4c96-b433-8f05cc86650f",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2757,7 +2664,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "bd7d50ac-90ef-4797-b504-6bf382ea8730",
+          "id": "be5f63a5-061a-4982-8b34-197fbec16d78",
           "searchKeys": [
             "motionDetectionProcessor"
           ],
@@ -2766,19 +2673,19 @@
         {
           "title": "httpExtension",
           "extra": {
-            "id": "c716772c-8018-472c-b7ab-eb7b9b54dc1e",
+            "id": "c7a606ea-c964-4f81-8f2c-d8ba6db1ecd6",
             "name": "httpExtension",
             "shape": "module",
             "ports": [
               {
-                "id": "c5e43139-b7b0-4c62-824b-72cb44fcc78f",
+                "id": "4ed72275-142d-4d38-9b71-77aaa2cc1bc8",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "01bbb991-349f-4355-909c-84fc6a7b90fd",
+                "id": "a256b9c9-feed-4fab-86e5-600a9bcb2ef6",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2796,7 +2703,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "32bb92da-c434-440e-87e4-b0b3a2098491",
+          "id": "221611d8-b51a-4106-8181-07372efc86bf",
           "searchKeys": [
             "httpExtension"
           ],
@@ -2805,19 +2712,19 @@
         {
           "title": "signalGateProcessor",
           "extra": {
-            "id": "62f6237f-cf98-43b9-b9d2-880fd231b03e",
+            "id": "f5d5b810-fc77-4d00-8bf8-911d47a2821e",
             "name": "signalGateProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "7b9aadc7-082c-4ec8-8564-5e226e7a7f49",
+                "id": "25393a42-0b21-453a-9b7a-2c09bf5f35dc",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "ba260231-f231-406a-bc0e-7bc950f068c2",
+                "id": "cfc401af-a12a-4c36-bf13-1cbe46e44fd7",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2835,7 +2742,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "603c1a8c-80d9-4863-98d6-24c79ff2c353",
+          "id": "1f033976-be7b-4b59-85c5-ca494557242a",
           "searchKeys": [
             "signalGateProcessor"
           ],
@@ -2844,19 +2751,19 @@
         {
           "title": "frameRateFilterProcessor",
           "extra": {
-            "id": "da1ccfc8-6f03-48f2-b027-3f3c69596367",
+            "id": "50261199-7eee-4f76-bf44-3a064c4e40c1",
             "name": "frameRateFilterProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "a84d99a3-182a-4fa2-8bf9-c8b41b2a8735",
+                "id": "a5f02c43-9740-4414-8af4-68046f63364c",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "12247ebf-76a9-4f2c-9e71-b75370beedda",
+                "id": "6e084775-d44e-48e1-bc40-50ddfa58c401",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2874,7 +2781,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "9d200d03-1740-40c2-b7f0-c5ba22a02de6",
+          "id": "e83b57f6-4323-49ad-9e0f-608dc86203b7",
           "searchKeys": [
             "frameRateFilterProcessor"
           ],
@@ -2893,12 +2800,12 @@
         {
           "title": "ioTHubMessageSink",
           "extra": {
-            "id": "5789d757-52ed-48c2-9081-4019de81870d",
+            "id": "e870816e-136f-473e-87d5-4545b491fb7b",
             "name": "ioTHubMessageSink",
             "shape": "module",
             "ports": [
               {
-                "id": "673af74a-2db1-4a38-903e-c83d3fd06c39",
+                "id": "5dd22351-400e-4eb0-b30e-75f18a4ede39",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2916,7 +2823,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "269ae13f-5828-4754-a6a8-99e1f797735b",
+          "id": "274b907a-58a3-4a5d-9785-82d3f8099d84",
           "searchKeys": [
             "ioTHubMessageSink"
           ],
@@ -2925,12 +2832,12 @@
         {
           "title": "fileSink",
           "extra": {
-            "id": "5ba7b0dd-ae96-484b-bc2c-b5d144ca99cc",
+            "id": "8d4e3068-8972-4065-96c5-05f1be4e0c9a",
             "name": "fileSink",
             "shape": "module",
             "ports": [
               {
-                "id": "8311ff2b-4824-4a42-844a-cd2dbf96a5b9",
+                "id": "b919ea87-0db6-44b8-b8a6-cb506cfe066a",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2948,7 +2855,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "9daf368e-e204-4798-90ef-c4db090bdeb6",
+          "id": "01e06823-6c0c-4210-a5dd-7f929932b8ce",
           "searchKeys": [
             "fileSink"
           ],
@@ -2957,12 +2864,12 @@
         {
           "title": "assetSink",
           "extra": {
-            "id": "1d77df1c-0467-4246-8b23-663a78f2da43",
+            "id": "5bf914f2-5e6c-415b-95ff-0944a95a2b51",
             "name": "assetSink",
             "shape": "module",
             "ports": [
               {
-                "id": "27407ce8-ad84-4f34-b2dd-775fdfb2a1d7",
+                "id": "e644c5a3-fb8d-4e82-b248-7e89251ed2e6",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2980,7 +2887,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "86a93d19-3ca0-4f0e-b071-79f00817f315",
+          "id": "ccc6546a-4dbf-454a-a3fa-21d52b5c6a0b",
           "searchKeys": [
             "assetSink"
           ],

@@ -3,7 +3,13 @@ import * as path from "path";
 import { v4 as uuid } from "uuid";
 import Helpers from "../../helpers/Helpers";
 import NodeHelpers from "../../helpers/NodeHelpers";
-import { MediaGraphNodeType, NodeDefinition } from "../../types/graphTypes";
+import {
+  MediaGraphNodeType,
+  NodeDefinition,
+  LocalizedNodeTypeStrings,
+  LocalizedNodePropertyStrings,
+  LocalizedNodePropertyValueStrings,
+} from "../../types/graphTypes";
 
 export default class DefinitionGenerator {
   private apiDefinition: any;
@@ -11,7 +17,12 @@ export default class DefinitionGenerator {
   private version: string;
   private definitions: any;
 
-  private localizable: Record<string, string> = {};
+  private localizable: Record<
+    string,
+    | LocalizedNodeTypeStrings
+    | LocalizedNodePropertyStrings
+    | LocalizedNodePropertyValueStrings
+  > = {};
   private availableNodes: NodeDefinition[] = [];
   private itemPanelNodes: any[] = [];
   private usableNodes: Record<string, string[]> = {};
@@ -69,25 +80,38 @@ export default class DefinitionGenerator {
       const node = this.definitions[nodeName];
       if (node.description) {
         const key = nodeName;
-        this.localizable[nodeName] = node.description;
-        node.description = key;
+        this.localizable[nodeName] = {
+          title: nodeName,
+          description: node.description,
+        } as LocalizedNodeTypeStrings;
+        node.localizationKey = key;
+        delete node.description;
       }
 
       for (const propertyName in node.properties) {
         const property = node.properties[propertyName];
         if (property.description) {
           const key = `${nodeName}.${propertyName}`;
-          this.localizable[`${nodeName}.${propertyName}`] =
-            property.description;
-          property.description = key;
+          this.localizable[`${nodeName}.${propertyName}`] = {
+            title: propertyName,
+            description: property.description,
+            placeholder: property.example || "",
+          } as LocalizedNodePropertyStrings;
+          property.localizationKey = key;
+          delete property.description;
         }
 
         if (property["x-ms-enum"]) {
           for (const value of property["x-ms-enum"].values) {
             if (value.description) {
               const key = `${nodeName}.${propertyName}.${value.value}`;
-              this.localizable[key] = value.description;
-              value.description = key;
+              this.localizable[key] = {
+                value: value.value,
+                description: value.description,
+              } as LocalizedNodePropertyValueStrings;
+              value.localizationKey = key;
+              delete value.value;
+              delete value.description;
             }
           }
         }

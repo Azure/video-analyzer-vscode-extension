@@ -71,7 +71,10 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
           styles={labelCalloutStackStyles}
           id={descriptionId}
         >
-          {Localizer.l(property.description)}
+          {
+            Localizer.getNodePropertyStrings(property.localizationKey)
+              .description
+          }
         </Callout>
       )}
     </>

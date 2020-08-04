@@ -29,6 +29,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   if (property.type !== "boolean" && property.type !== "string") {
     initValue = JSON.stringify(initValue);
   }
+  const localizedStrings = Localizer.getNodePropertyStrings(
+    property.localizationKey
+  );
   const [value, setValue] = React.useState<string>(initValue);
   const [errorMessage, setErrorMessage] = React.useState<string>("");
 
@@ -124,7 +127,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   function onRenderLabel() {
     return (
       <PropertyDescription
-        name={name}
+        name={localizedStrings.title}
         required={required}
         property={property}
         labelId={labelId}
@@ -140,12 +143,14 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
       },
       ...property.enum.map((value: string) => ({
         key: value,
-        text: value,
+        text: Localizer.getNodePropertyValueStrings(
+          `${property.localizationKey}.${value}`
+        ).value,
       })),
     ];
     return (
       <Dropdown
-        label={name}
+        placeholder={localizedStrings.placeholder}
         options={options}
         defaultSelectedKey={value || ""}
         onChange={handleDropdownChange}
@@ -158,11 +163,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   } else if (property.type === "string") {
     return (
       <TextField
-        label={name}
+        placeholder={localizedStrings.placeholder}
         type="text"
         id={name}
         value={value}
-        placeholder={property.example}
         onChange={handleTextFieldChange}
         required={required}
         onRenderLabel={onRenderLabel}
@@ -222,11 +226,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   } else {
     return (
       <TextField
-        label={name}
+        placeholder={localizedStrings.placeholder}
         multiline
         autoAdjustHeight
         defaultValue={value}
-        placeholder={property.example}
         onChange={handleTextFieldChange}
         required={required}
         onRenderLabel={onRenderLabel}

@@ -22,6 +22,9 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     nodeProperties["@type"].replace("#Microsoft.Media.", "");
   const [type, setType] = React.useState<string>(initType);
   const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const localizedStrings = Localizer.getNodePropertyStrings(
+    property.localizationKey
+  );
 
   function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
     if (item) {
@@ -45,7 +48,8 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     },
     ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => ({
       key: node.name,
-      text: node.name,
+      text: Localizer.getNodeTypeStrings(node.localizationKey).title,
+      title: Localizer.getNodeTypeStrings(node.localizationKey).description,
     })),
   ];
 
@@ -54,7 +58,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
   function onRenderLabel() {
     return (
       <PropertyDescription
-        name={name}
+        name={localizedStrings.title}
         required={required}
         property={property}
         labelId={labelId}
@@ -65,7 +69,6 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
   return (
     <>
       <Dropdown
-        label={name}
         options={options}
         defaultSelectedKey={type || "undefined"}
         onChange={handleTypeChange}
