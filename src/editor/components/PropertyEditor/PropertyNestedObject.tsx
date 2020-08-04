@@ -26,11 +26,15 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
   function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
     if (item) {
       const selectedType = item.key as string;
-      nodeProperties["@type"] = `#Microsoft.Media.${selectedType}`;
+      if (selectedType) {
+        nodeProperties["@type"] = `#Microsoft.Media.${selectedType}`;
+      } else {
+        nodeProperties["@type"] = "";
+      }
       setType(selectedType);
       if (required) {
         setErrorMessage(
-          selectedType === "undefined"
+          selectedType === ""
             ? Localizer.l("propertyEditorValidationUndefined")
             : ""
         );
@@ -40,8 +44,8 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
 
   const options: IDropdownOption[] = [
     {
-      key: "undefined",
-      text: "undefined",
+      key: "",
+      text: "None",
     },
     ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => ({
       key: node.name,
@@ -67,7 +71,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
       <Dropdown
         label={name}
         options={options}
-        defaultSelectedKey={type || "undefined"}
+        defaultSelectedKey={type || ""}
         onChange={handleTypeChange}
         required={required}
         onRenderLabel={onRenderLabel}
