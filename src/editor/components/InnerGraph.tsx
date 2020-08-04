@@ -45,7 +45,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
   const inspectNode = (node?: ICanvasNode) => {
     if (node && propsApiRef.current) {
       propsApiRef.current.openSidePanel("node", node);
-      propsApiRef.current.selectNodeById([]);
     }
   };
   props.data.nodes.forEach((node) => {
