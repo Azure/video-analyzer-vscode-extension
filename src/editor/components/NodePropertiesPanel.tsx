@@ -1,10 +1,11 @@
 import { Stack, IconButton } from "office-ui-fabric-react";
 import * as React from "react";
 import { IPanelConfig, IPropsAPI } from "@vienna/react-dag-editor";
-import { NodePanelInner } from "./NodePanelInner";
 import Localizer from "../../localization/Localizer";
+import Definitions from "../../definitions/Definitions";
+import { PropertyEditor } from "./PropertyEditor/PropertyEditor";
 
-export class NodePanel implements IPanelConfig {
+export class NodePropertiesPanel implements IPanelConfig {
   private readonly _propsAPI: IPropsAPI;
 
   constructor(propsAPI: IPropsAPI) {
@@ -25,6 +26,9 @@ export class NodePanel implements IPanelConfig {
       overflowY: "auto",
     };
 
+    const nodeProperties = data.data.nodeProperties as any;
+    const definition = Definitions.getNodeDefinition(nodeProperties);
+
     return (
       <div style={panelStyle}>
         <Stack
@@ -42,7 +46,8 @@ export class NodePanel implements IPanelConfig {
             onClick={this._dismissPanel}
           />
         </Stack>
-        <NodePanelInner node={data} />
+        {definition.description && <p>{Localizer.l(definition.description)}</p>}
+        <PropertyEditor nodeProperties={nodeProperties} />
       </div>
     );
   }

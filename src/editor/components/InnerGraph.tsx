@@ -19,7 +19,7 @@ import {
   GraphFeatures,
 } from "@vienna/react-dag-editor";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
-import { NodePanel } from "./NodePanel";
+import { NodePropertiesPanel } from "./NodePropertiesPanel";
 import LocalizerHelpers from "../../helpers/LocalizerHelpers";
 
 export interface IInnerGraphProps {
@@ -99,12 +99,11 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
     "clickNodeToSelect",
     "sidePanel",
     "editNode",
-    "nodeHoverView",
   ]) as Set<GraphFeatures>;
 
   return (
     <>
-      <RegisterPanel name={"node"} config={new NodePanel(propsApi)} />
+      <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi)} />
       <RegisterEdge
         name={"customEdge"}
         config={new CustomEdgeConfig(propsApi)}
