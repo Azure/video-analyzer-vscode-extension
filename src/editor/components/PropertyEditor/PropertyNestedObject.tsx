@@ -45,7 +45,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
   const options: IDropdownOption[] = [
     {
       key: "",
-      text: "None",
+      text: Localizer.l("propertyEditorNoneValueLabel"),
     },
     ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => ({
       key: node.name,

@@ -138,7 +138,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const options: IDropdownOption[] = [
       {
         key: "",
-        text: "None",
+        text: Localizer.l("propertyEditorNoneValueLabel"),
       },
       ...property.enum.map((value: string) => ({
         key: value,
@@ -176,15 +176,15 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const options: IChoiceGroupOption[] = [
       {
         key: "",
-        text: "None",
+        text: Localizer.l("propertyEditorNoneValueLabel"),
       },
       {
         key: "true",
-        text: "True",
+        text: Localizer.l("propertyEditorBooleanTrueLabel"),
       },
       {
         key: "false",
-        text: "False",
+        text: Localizer.l("propertyEditorBooleanFalseLabel"),
       },
     ];
     return (
