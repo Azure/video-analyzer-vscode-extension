@@ -26,7 +26,11 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
   function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
     if (item) {
       const selectedType = item.key as string;
-      nodeProperties["@type"] = `#Microsoft.Media.${selectedType}`;
+      if (selectedType !== "undefined") {
+        nodeProperties["@type"] = `#Microsoft.Media.${selectedType}`;
+      } else {
+        nodeProperties["@type"] = "";
+      }
       setType(selectedType);
       if (required) {
         setErrorMessage(

@@ -144,9 +144,13 @@ export default class NodeHelpers {
       const property = definition.properties[name];
       const nestedProperties = (nodeProperties as any)[name];
 
-      if (nestedProperties) {
+      // some properties can be false and we want to include that value
+      if (nestedProperties !== undefined) {
         if (property && property.type === "object") {
-          if (!Helpers.isEmptyObject(nestedProperties)) {
+          if (
+            !Helpers.isEmptyObject(nestedProperties) &&
+            nestedProperties["@type"]
+          ) {
             neededProperties[name] = this.getTrimmedNodeProperties(
               nestedProperties
             );
