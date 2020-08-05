@@ -157,19 +157,6 @@ export default class NodeHelpers {
       }
     }
 
-    // validate if any required properties are missing
-    for (const name in definition.properties) {
-      const isRequiredProperty = definition.required?.includes(name);
-      const usedProperties = neededProperties[name];
-      const propertyIsMissing =
-        !usedProperties || Helpers.isEmptyObject(usedProperties);
-
-      if (isRequiredProperty && propertyIsMissing) {
-        // TODO bubble up and show with validation errors in interface
-        console.log("Expected to see property", name);
-      }
-    }
-
     return {
       "@type": nodeProperties["@type"],
       ...neededProperties,

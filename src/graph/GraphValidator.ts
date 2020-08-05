@@ -13,6 +13,7 @@ import {
   mustBeImmediatelyDownstreamOf,
   cannotBeImmediatelyDownstreamOf,
   cannotBeDownstreamOf,
+  documentationLinks,
 } from "./graphValidationRules";
 
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
@@ -39,7 +40,12 @@ export default class GraphValidator {
         const properties = NodeHelpers.getTrimmedNodeProperties(
           nodeData.nodeProperties as CanvasNodeProperties
         );
-        errors.push(...this.getMissingProperties(properties));
+        errors.push(
+          ...this.getMissingProperties(properties).map((error) => ({
+            nodeName: node.name,
+            ...error,
+          }))
+        );
 
         // count the number of nodes of each type
         if (!(properties["@type"] in nodesByType)) {
@@ -59,6 +65,7 @@ export default class GraphValidator {
           description: "errorPanelOnlyOneNodeOfTypeAllowedText",
           type: ValidationErrorType.NodeCountLimit,
           nodeType,
+          helpLink: documentationLinks.limitationsAtPreview,
         });
       }
 
@@ -121,6 +128,7 @@ export default class GraphValidator {
             type: ValidationErrorType.RequiredDirectlyDownstream,
             nodeType: matchingChildType,
             parentType: expectedParentTypes,
+            helpLink: documentationLinks.limitationsAtPreview,
           });
         }
       }
@@ -151,6 +159,7 @@ export default class GraphValidator {
             type: ValidationErrorType.ProhibitedDirectlyDownstream,
             nodeType: matchingChildType,
             parentType: [forbiddenParentType],
+            helpLink: documentationLinks.limitationsAtPreview,
           });
         }
       }
@@ -181,6 +190,7 @@ export default class GraphValidator {
             type: ValidationErrorType.ProhibitedAnyDownstream,
             nodeType: matchingChildType,
             parentType: [forbiddenParentType],
+            helpLink: documentationLinks.limitationsAtPreview,
           });
         }
       }

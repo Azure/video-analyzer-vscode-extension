@@ -54,10 +54,14 @@ export interface ValidationError {
   type: ValidationErrorType;
   // if a property is missing
   property?: string[];
-  // node count limits and required relations
+  // for node count limits and required relations
   nodeType?: string;
   // the type that was expected as parent
   parentType?: string[];
+  // node name
+  nodeName?: string;
+  // an explanatory link if applicable
+  helpLink?: string;
 }
 
 export enum ValidationErrorType {

@@ -80,3 +80,8 @@ export const cannotBeDownstreamOf = [
     "#Microsoft.Media.MediaGraphHttpExtension",
   ],
 ];
+
+export const documentationLinks = {
+  limitationsAtPreview:
+    "https://docs.microsoft.com/en-us/azure/media-services/live-video-analytics-edge/quotas-limitations#limitations-on-graph-topologies-at-preview",
+};

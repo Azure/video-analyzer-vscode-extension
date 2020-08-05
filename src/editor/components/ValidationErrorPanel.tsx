@@ -1,16 +1,6 @@
 import * as React from "react";
 import Localizer from "../../localization/Localizer";
-import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
-import {
-  PrimaryButton,
-  Stack,
-  DefaultButton,
-  IconButton,
-  Callout,
-  IStackTokens,
-  IStackStyles,
-} from "office-ui-fabric-react";
-import { useBoolean, useId } from "@uifabric/react-hooks";
+import { MessageBar, MessageBarType, Link } from "office-ui-fabric-react";
 import { ValidationError, ValidationErrorType } from "../../types/graphTypes";
 
 export interface IGraphPanelProps {
@@ -27,7 +17,10 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
       case ValidationErrorType.MissingProperty:
         return (
           error.property &&
-          Localizer.l(error.description).format(error.property.join(" - "))
+          Localizer.l(error.description).format(
+            error.property.join(" - "),
+            error.nodeName
+          )
         );
       case ValidationErrorType.NodeCountLimit:
         return Localizer.l(error.description).format(error.nodeType);
@@ -47,12 +40,26 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
   };
 
   return (
-    <Stack tokens={{ childrenGap: "s1" }}>
+    <>
       <h2>{Localizer.l("errorPanelHeading")}</h2>
       {validationErrors.map((error) => {
         const text = createErrorText(error);
-        return <div key={text}>{text}</div>;
+        return (
+          <MessageBar
+            messageBarType={MessageBarType.error}
+            isMultiline={true}
+            dismissButtonAriaLabel="Close"
+            key={text}
+          >
+            {text}
+            {error.helpLink && (
+              <Link href={error.helpLink} target="_blank">
+                {Localizer.l("errorPanelHelpLinkText")}
+              </Link>
+            )}
+          </MessageBar>
+        );
       })}
-    </Stack>
+    </>
   );
 };
