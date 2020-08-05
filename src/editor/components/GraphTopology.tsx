@@ -20,6 +20,7 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import Localizer from "../../localization/Localizer";
 import Graph from "../../graph/Graph";
+import { ValidationError } from "../../types/graphTypes";
 
 interface IGraphTopologyProps {
   graph: Graph;
@@ -41,6 +42,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   const [graphDescription, setGraphDescription] = React.useState<string>(
     graph.getDescription() || ""
   );
+  const [validationErrors, setValidationErrors] = React.useState<
+    ValidationError[]
+  >([]);
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
@@ -78,8 +82,15 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
     graph.setName(graphTopologyName);
     graph.setDescription(graphDescription);
     graph.setGraphDataFromICanvasData(data);
-    const topology = graph.getTopology();
-    console.log(topology);
+
+    const validationErrors = graph.validate();
+    if (validationErrors.length > 0) {
+      setValidationErrors(validationErrors);
+    } else {
+      setValidationErrors([]);
+      const topology = graph.getTopology();
+      console.log(topology);
+    }
   };
 
   const onNameChange = (event: React.FormEvent, newValue?: string) => {
@@ -138,6 +149,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
             closeEditor={() => {
               alert("TODO: Close editor");
             }}
+            validationErrors={validationErrors}
           />
           <Stack.Item grow>
             <InnerGraph
