@@ -34,7 +34,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     };
   });
 
-  const editingTopology = false;
+  const editingTopology = true;
 
   const graph = new Graph();
 
