@@ -21,6 +21,7 @@ import { modulePort } from "./Port";
 import Localizer from "../../localization/Localizer";
 import Graph from "../../graph/Graph";
 import { ValidationError } from "../../types/graphTypes";
+import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 interface IGraphTopologyProps {
   graph: Graph;
@@ -140,6 +141,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
             placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
             onChange={onDescriptionChange}
           />
+          {validationErrors.length > 0 && (
+            <ValidationErrorPanel validationErrors={validationErrors} />
+          )}
           <ItemPanel hasNodeWithName={hasNodeWithName} />
         </Stack.Item>
         <Stack.Item grow>
@@ -149,7 +153,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
             closeEditor={() => {
               alert("TODO: Close editor");
             }}
-            validationErrors={validationErrors}
           />
           <Stack.Item grow>
             <InnerGraph
