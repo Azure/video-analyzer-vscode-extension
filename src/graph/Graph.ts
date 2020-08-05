@@ -52,11 +52,18 @@ export default class Graph {
   // converts internal representation to topology that can be sent using a direct method call
   public setTopology(topology: any) {
     this.graphInformation = topology;
+    this.graphStructureStore.nodes = [];
+    this.graphStructureStore.edges = [];
 
     // go through all the sources, processors, and sinks we are given and flatten them into nodes
     for (const nodeType of Graph.nodeTypeList) {
       const nodesForType =
         topology.properties[NodeHelpers.getNodeTypeKey(nodeType)];
+      if (!nodesForType) {
+        // no nodes for this type
+        continue;
+      }
+
       for (const node of nodesForType) {
         const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
           return {
@@ -267,10 +274,16 @@ export default class Graph {
   ) {
     if (this.graphInformation && this.graphInformation.properties) {
       for (const nodeType of Graph.nodeTypeList) {
-        for (const node of (this.graphInformation.properties as Record<
+        const nodesForType = (this.graphInformation.properties as Record<
           string,
           CanvasNodeProperties[]
-        >)[NodeHelpers.getNodeTypeKey(nodeType)]) {
+        >)[NodeHelpers.getNodeTypeKey(nodeType)];
+        if (!nodesForType) {
+          // no nodes for this type
+          continue;
+        }
+
+        for (const node of nodesForType) {
           if (node.inputs) {
             for (const input of node.inputs) {
               callback(node, input);

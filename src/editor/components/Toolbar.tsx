@@ -1,6 +1,5 @@
 import * as React from "react";
 import Localizer from "../../localization/Localizer";
-import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
 import { PrimaryButton, Stack, DefaultButton } from "office-ui-fabric-react";
 
 export interface IGraphPanelProps {

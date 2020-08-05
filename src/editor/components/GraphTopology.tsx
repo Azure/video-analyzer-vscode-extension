@@ -22,6 +22,7 @@ import Localizer from "../../localization/Localizer";
 import Graph from "../../graph/Graph";
 import { ValidationError } from "../../types/graphTypes";
 import { ValidationErrorPanel } from "./ValidationErrorPanel";
+import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 
 interface IGraphTopologyProps {
   graph: Graph;
@@ -32,8 +33,9 @@ interface IGraphTopologyProps {
 export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   props
 ) => {
-  const graph = props.graph;
+  const { graph, vsCodeSetState } = props;
   const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
+  const [dirty, setDirty] = React.useState<boolean>(false);
   const [zoomPanSettings, setZoomPanSettings] = React.useState<
     IZoomPanSettings
   >(props.zoomPanSettings);
@@ -49,7 +51,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
 
   // save state in VS Code when data or zoomPanSettings change
   React.useEffect(() => {
-    props.vsCodeSetState({
+    vsCodeSetState({
       graphData: { ...data, meta: graph.getTopology() },
       zoomPanSettings,
     });
@@ -57,6 +59,16 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
 
   if (!isSupported()) {
     return <h1>{Localizer.l("browserNotSupported")}</h1>;
+  }
+
+  function setTopology(topology: any) {
+    graph.setTopology(topology);
+    setData(graph.getICanvasData());
+    setDirty(false);
+  }
+
+  function onChange() {
+    setDirty(true);
   }
 
   // nodeNames maps an ID to a name, is updated on node add/remove
@@ -109,7 +121,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
   const panelStyles = {
     root: {
       boxSizing: "border-box" as const,
-      padding: 10,
       overflowY: "auto" as const,
       willChange: "transform",
       height: "100vh",
@@ -117,6 +128,17 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
       background: "var(--vscode-editorWidget-background)",
       borderRight: "1px solid var(--vscode-editorWidget-border)",
     },
+  };
+
+  const panelItemStyles = {
+    padding: 10,
+  };
+
+  const topSidebarStyles = {
+    padding: 10,
+    borderBottom: "1px solid var(--vscode-editorWidget-border)",
+    paddingBottom: 20,
+    marginBottom: 10,
   };
 
   return (
@@ -128,23 +150,31 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
       <RegisterPort name="modulePort" config={modulePort} />
       <Stack horizontal>
         <Stack.Item styles={panelStyles}>
-          <TextField
-            label={Localizer.l("sidebarGraphTopologyNameLabel")}
-            required
-            defaultValue={graphTopologyName}
-            placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
-            onChange={onNameChange}
-          />
-          <TextField
-            label={Localizer.l("sidebarGraphDescriptionLabel")}
-            defaultValue={graphDescription}
-            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-            onChange={onDescriptionChange}
-          />
-          {validationErrors.length > 0 && (
-            <ValidationErrorPanel validationErrors={validationErrors} />
-          )}
-          <ItemPanel hasNodeWithName={hasNodeWithName} />
+          <div style={topSidebarStyles}>
+            <TextField
+              label={Localizer.l("sidebarGraphTopologyNameLabel")}
+              required
+              defaultValue={graphTopologyName}
+              placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
+              onChange={onNameChange}
+            />
+            <TextField
+              label={Localizer.l("sidebarGraphDescriptionLabel")}
+              defaultValue={graphDescription}
+              placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+              onChange={onDescriptionChange}
+            />
+          </div>
+          <div style={panelItemStyles}>
+            <SampleSelectorTrigger
+              setTopology={setTopology}
+              hasUnsavedChanges={dirty}
+            />
+            {validationErrors.length > 0 && (
+              <ValidationErrorPanel validationErrors={validationErrors} />
+            )}
+            <ItemPanel hasNodeWithName={hasNodeWithName} />
+          </div>
         </Stack.Item>
         <Stack.Item grow>
           <Toolbar
@@ -163,6 +193,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
               canvasMouseMode={CanvasMouseMode.pan}
               onNodeAdded={nodeAdded}
               onNodeRemoved={nodesRemoved}
+              onChange={onChange}
             />
           </Stack.Item>
         </Stack.Item>

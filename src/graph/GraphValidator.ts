@@ -24,7 +24,7 @@ export default class GraphValidator {
     if (!nodesAndEdges.isGraphConnected()) {
       errors.push({
         // localized later
-        description: "graphNotConnected",
+        description: "errorPanelGraphNotConnectedText",
         type: ValidationErrorType.NotConnected,
       });
     }
@@ -56,7 +56,7 @@ export default class GraphValidator {
       // only one of these nodes is allowed per graph
       if (limitOnePerGraph.includes(nodeType) && count > 1) {
         errors.push({
-          description: "onlyOneNodeOfTypeAllowed",
+          description: "errorPanelOnlyOneNodeOfTypeAllowedText",
           type: ValidationErrorType.NodeCountLimit,
           nodeType,
         });
@@ -117,7 +117,7 @@ export default class GraphValidator {
 
         if (!foundMatchingParent) {
           errors.push({
-            description: "nodesHaveToBeDirectlyDownstream",
+            description: "errorPanelNodesHaveToBeDirectlyDownstreamText",
             type: ValidationErrorType.RequiredDirectlyDownstream,
             nodeType: matchingChildType,
             parentType: expectedParentTypes,
@@ -221,7 +221,7 @@ export default class GraphValidator {
       if (isRequiredProperty && propertyIsMissing) {
         errors.push({
           // localized later
-          description: "missingProperty",
+          description: "errorPanelMissingPropertyText",
           type: ValidationErrorType.MissingProperty,
           property: thisPropertyPath,
         });
