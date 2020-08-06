@@ -8,6 +8,7 @@ import {
   Label,
   IStackStyles,
   IButtonStyles,
+  Icon,
 } from "office-ui-fabric-react";
 import { useBoolean, useId } from "@uifabric/react-hooks";
 
@@ -16,12 +17,13 @@ interface IPropertyDescriptionProps {
   required: boolean;
   property: any;
   labelId: string;
+  useParameter?: () => void;
 }
 
 export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionProps> = (
   props
 ) => {
-  const { name, required, property, labelId } = props;
+  const { name, required, property, labelId, useParameter } = props;
 
   const [isCalloutVisible, { toggle: toggleIsCalloutVisible }] = useBoolean(
     false
@@ -41,25 +43,35 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
 
   return (
     <>
-      <Stack horizontal verticalAlign="center" tokens={stackTokens}>
-        <Label
-          required={required}
-          id={labelId}
-          style={{
-            // Fabric adds a 12px padding to the required *
-            marginRight: required ? -12 : 0,
-          }}
-        >
-          {name}
-        </Label>
-        <IconButton
-          id={iconButtonId}
-          iconProps={{ iconName: "Info" }}
-          title={Localizer.l("propertyEditorInfoButtonTitle")}
-          ariaLabel={Localizer.l("propertyEditorInfoButtonAriaLabel")}
-          onClick={toggleIsCalloutVisible}
-          styles={iconButtonStyles}
-        />
+      <Stack horizontal horizontalAlign="space-between" tokens={stackTokens}>
+        <Stack horizontal verticalAlign="center" tokens={stackTokens}>
+          <Label
+            required={required}
+            id={labelId}
+            style={{
+              // Fabric adds a 12px padding to the required *
+              marginRight: required ? -12 : 0,
+            }}
+          >
+            {name}
+          </Label>
+          <IconButton
+            id={iconButtonId}
+            iconProps={{ iconName: "Info" }}
+            title={Localizer.l("propertyEditorInfoButtonTitle")}
+            ariaLabel={Localizer.l("propertyEditorInfoButtonAriaLabel")}
+            onClick={toggleIsCalloutVisible}
+            styles={iconButtonStyles}
+          />
+        </Stack>
+        {useParameter && (
+          <IconButton
+            iconProps={{ iconName: "Variable2" }}
+            title={"test"}
+            ariaLabel={"test"}
+            onClick={useParameter}
+          />
+        )}
       </Stack>
       {isCalloutVisible && (
         <Callout

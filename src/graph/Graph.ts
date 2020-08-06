@@ -14,6 +14,7 @@ import {
   MediaGraphSourceUnion,
   MediaGraphTopology,
   MediaGraphNodeInput,
+  MediaGraphParameterDeclaration,
 } from "../lva-sdk/lvaSDKtypes";
 import {
   GraphInfo,
@@ -226,6 +227,10 @@ export default class Graph {
     }
 
     return graphInfo;
+  }
+
+  public getParameters(): MediaGraphParameterDeclaration[] {
+    return this.graphInformation.properties?.parameters || [];
   }
 
   // Internal functions

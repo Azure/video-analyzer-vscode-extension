@@ -1,9 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   font-family: var(--vscode-font-family);
   background: var(--vscode-editor-background);
@@ -11,7 +10,7 @@ body {
 }
 
 textarea,
-input[type=text],
+input[type="text"],
 select {
   width: 100%;
   display: block;
@@ -33,10 +32,10 @@ label {
   overflow: hidden;
 }
 
-.context-menu>div {
+.context-menu > div {
   padding: 0.5em 1em;
 }
 
-.context-menu>div:hover {
+.context-menu > div:hover {
   color: var(--vscode-menu-selectionForeground);
 }

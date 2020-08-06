@@ -20,6 +20,7 @@ import {
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePropertiesPanel } from "./NodePropertiesPanel";
 import LocalizerHelpers from "../../helpers/LocalizerHelpers";
+import { MediaGraphParameterDeclaration } from "../../lva-sdk/lvaSDKtypes";
 
 export interface IInnerGraphProps {
   data: ICanvasData;
@@ -32,6 +33,7 @@ export interface IInnerGraphProps {
   onNodeRemoved?: (nodes: Set<string>) => void;
   onChange?: (evt: IGraphDataChangeEvent) => void;
   readOnly?: boolean;
+  parameters?: MediaGraphParameterDeclaration[];
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
@@ -87,13 +89,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
     }
   };
 
-  const graphStyles: IGraphStyles = {
-    root: {
-      height: "100vh",
-      width: "100%",
-    },
-  };
-
   const readOnlyFeatures = new Set([
     "a11yFeatures",
     "canvasScrollable",
@@ -105,7 +100,12 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
 
   return (
     <>
-      <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi)} />
+      {props.parameters && (
+        <RegisterPanel
+          name={"node"}
+          config={new NodePropertiesPanel(propsApi, props.parameters)}
+        />
+      )}
       <RegisterEdge
         name={"customEdge"}
         config={new CustomEdgeConfig(propsApi)}
@@ -115,7 +115,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (
         propsAPIRef={propsApiRef}
         data={props.data}
         setData={props.setData}
-        styles={graphStyles}
         onCanvasClick={dismissSidePanel}
         zoomPanSettings={props.zoomPanSettings}
         setPanZoomPanSettings={props.setZoomPanSettings}

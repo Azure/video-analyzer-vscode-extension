@@ -5,18 +5,27 @@ import { PropertyEditor } from "./PropertyEditor";
 import { PropertyDescription } from "./PropertyDescription";
 import { useId } from "@uifabric/react-hooks";
 import Localizer from "../../../localization/Localizer";
+import { MediaGraphParameterDeclaration } from "../../../lva-sdk/lvaSDKtypes";
+import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 
 interface IPropertyNestedObjectProps {
   name: string;
   property: any;
   nodeProperties: any;
   required: boolean;
+  requestParameterization: ParameterizeValueRequestFunction;
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (
   props
 ) => {
-  const { name, property, nodeProperties, required } = props;
+  const {
+    name,
+    property,
+    nodeProperties,
+    required,
+    requestParameterization,
+  } = props;
   const initType =
     nodeProperties["@type"] &&
     nodeProperties["@type"].replace("#Microsoft.Media.", "");
@@ -81,7 +90,12 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
             paddingLeft: 10,
           }}
         >
-          {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} />}
+          {nodeProperties && (
+            <PropertyEditor
+              nodeProperties={nodeProperties}
+              requestParameterization={requestParameterization}
+            />
+          )}
         </div>
       )}
     </>

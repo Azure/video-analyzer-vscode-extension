@@ -12,18 +12,26 @@ import * as React from "react";
 import Localizer from "../../../localization/Localizer";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 import { PropertyDescription } from "./PropertyDescription";
+import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 
 interface IPropertyEditFieldProps {
   name: string;
   property: any;
   nodeProperties: any;
   required: boolean;
+  requestParameterization: ParameterizeValueRequestFunction;
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (
   props
 ) => {
-  const { name, property, nodeProperties, required } = props;
+  const {
+    name,
+    property,
+    nodeProperties,
+    required,
+    requestParameterization,
+  } = props;
 
   let initValue = nodeProperties[name];
   if (property.type !== "boolean" && property.type !== "string") {
@@ -31,6 +39,8 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   }
   const [value, setValue] = React.useState<string>(initValue);
   const [errorMessage, setErrorMessage] = React.useState<string>("");
+
+  const parameterized = value && value.includes("${");
 
   function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
     if (item) {
@@ -121,6 +131,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
   const labelId: string = useId("label");
 
+  function requestAndInsertParameter() {
+    requestParameterization(name, setNewValue);
+  }
+
   function onRenderLabel() {
     return (
       <PropertyDescription
@@ -128,6 +142,23 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         required={required}
         property={property}
         labelId={labelId}
+        useParameter={requestAndInsertParameter}
+      />
+    );
+  }
+
+  if (property.type !== "object" && parameterized) {
+    return (
+      <TextField
+        label={name}
+        multiline
+        autoAdjustHeight
+        value={value}
+        required={required}
+        onRenderLabel={onRenderLabel}
+        aria-labelledby={labelId}
+        readOnly
+        // disabled
       />
     );
   }
@@ -217,6 +248,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         property={property}
         nodeProperties={nodeProperties[name]}
         required={required}
+        requestParameterization={requestParameterization}
       />
     );
   } else {

@@ -1,15 +1,18 @@
 import * as React from "react";
 import Definitions from "../../../definitions/Definitions";
 import { PropertyEditField } from "./PropertyEditField";
+import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 
 interface IPropertyEditorProps {
   nodeProperties: any;
+  requestParameterization: ParameterizeValueRequestFunction;
 }
 
 export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
   props
 ) => {
-  const { nodeProperties } = props;
+  const { nodeProperties, requestParameterization } = props;
+
   const definition = Definitions.getNodeDefinition(nodeProperties);
 
   if (!definition) {
@@ -42,6 +45,7 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
             (definition.required &&
               definition.required.includes(name)) as boolean
           }
+          requestParameterization={requestParameterization}
         />
       </div>
     );

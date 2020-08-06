@@ -48,3 +48,10 @@ export interface CanvasNodeData {
   nodeProperties: CanvasNodeProperties | Record<string, any>;
   nodeType: MediaGraphNodeType;
 }
+
+export type ParameterizeValueCallback = (parameterizedValue: string) => void;
+
+export type ParameterizeValueRequestFunction = (
+  propertyName: string,
+  callback: ParameterizeValueCallback
+) => void;
