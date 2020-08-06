@@ -3,7 +3,7 @@
     "importSorter.generalConfiguration.sortOnBeforeSave": true,
     "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimitExceptIfOnlyOne",
     "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
-    "importSorter.importStringConfiguration.tabSize": 2,
+    "importSorter.importStringConfiguration.tabSize": 4,
     "importSorter.importStringConfiguration.quoteMark": "double",
     "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
     "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 0,

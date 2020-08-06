@@ -12,10 +12,9 @@ export class IotHubData {
     public directMethodCall(deviceId: string, moduleId: string, methodName: string, payload: any): Promise<any> {
         return new Promise((resolve, reject) => {
             if (!this.iotHubClient) {
-                resolve(null);
+                reject("Iot hub client not found");
                 return;
             }
-
             this.iotHubClient.invokeDeviceMethod(
                 deviceId,
                 moduleId,

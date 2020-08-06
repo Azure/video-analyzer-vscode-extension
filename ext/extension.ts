@@ -1,9 +1,10 @@
 import * as path from "path";
 import * as vscode from "vscode";
-import Localizer from "./localizer";
+import { HubItem } from "./ModuleExplorerPanel/HubItem";
 import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
 import { Constants } from "./Util/Constants";
 import { LvaHubConfig } from "./Util/ExtensionUtils";
+import Localizer from "./Util/Localizer";
 
 export function activate(context: vscode.ExtensionContext) {
     const locale = JSON.parse(process.env.VSCODE_NLS_CONFIG || "{}")["locale"];
@@ -39,6 +40,10 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
             moduleExplorer.refresh();
+        }),
+
+        vscode.commands.registerCommand("moduleExplorer.deleteHubItem", (node: HubItem) => {
+            moduleExplorer.resetConnectionString();
         })
     );
 }

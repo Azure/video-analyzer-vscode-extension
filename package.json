@@ -30,7 +30,14 @@
             {
                 "command": "moduleExplorer.refreshEntry",
                 "title": "Refresh",
-                "icon": "refresh"
+                "icon": {
+                    "dark": "ext/resources/dark/refresh.svg",
+                    "light": "ext/resources/light/refresh.svg"
+                }
+            },
+            {
+                "command": "moduleExplorer.deleteHubItem",
+                "title": "delete hub"
             }
         ],
         "views": {
@@ -47,6 +54,13 @@
                     "command": "moduleExplorer.refreshEntry",
                     "when": "view == moduleExplorer",
                     "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "moduleExplorer.deleteHubItem",
+                    "when": "view == moduleExplorer && viewItem == hubItemContext",
+                    "group": "inline"
                 }
             ]
         },

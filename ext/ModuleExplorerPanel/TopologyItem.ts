@@ -13,16 +13,11 @@ export class TopologyItem extends vscode.TreeItem {
         private readonly _graphInstances: MediaGraphInstance[]
     ) {
         super(graphTopology.name, vscode.TreeItemCollapsibleState.Expanded);
+        this.iconPath = new vscode.ThemeIcon("primitive-square");
     }
-
-    get tooltip(): string {
-        return `Graph topology ${this.label}: ${this.description}`;
-    }
-
-    iconPath = new vscode.ThemeIcon("primitive-square");
 
     public getChildren(): Promise<INode[]> | INode[] {
-        return Promise.resolve(
+        return (
             this._graphInstances
                 ?.filter((instance) => {
                     return instance?.properties?.topologyName === this.graphTopology.name;

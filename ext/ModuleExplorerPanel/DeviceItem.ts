@@ -7,22 +7,22 @@ import { INode } from "./Node";
 export class DeviceItem extends vscode.TreeItem implements INode {
     constructor(public iotHubData: IotHubData, public readonly deviceId: string) {
         super(deviceId, vscode.TreeItemCollapsibleState.Expanded);
+        this.iconPath = new vscode.ThemeIcon("device-desktop");
     }
-
-    get tooltip(): string {
-        return `Device ${this.label}`;
-    }
-
-    iconPath = new vscode.ThemeIcon("device-desktop");
 
     public getChildren(lvaHubConfig?: LvaHubConfig): Promise<INode[]> | INode[] {
         return new Promise((resolve, reject) => {
-            const deviceConfig = lvaHubConfig?.devices?.filter((device) => {
+            const deviceConfigList = lvaHubConfig?.devices?.filter((device) => {
                 return device.deviceId === this.deviceId;
-            })?.[0];
+            });
+            if (!deviceConfigList || deviceConfigList!.length !== 1) {
+                return reject("device Id unknown");
+            }
 
+            const deviceConfig = deviceConfigList[0];
             const moduleList: INode[] = [];
             const promiseList: Promise<void>[] = [];
+
             deviceConfig?.modules?.forEach(async (currentModuleId) => {
                 const devicePromise = this.iotHubData.getModule(deviceConfig.deviceId, currentModuleId).then((module) => {
                     if (module) {

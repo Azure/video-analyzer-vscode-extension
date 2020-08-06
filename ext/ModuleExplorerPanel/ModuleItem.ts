@@ -16,13 +16,8 @@ export class ModuleItem extends vscode.TreeItem {
         public readonly collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.Expanded
     ) {
         super(moduleId, vscode.TreeItemCollapsibleState.Expanded);
+        this.iconPath = new vscode.ThemeIcon("plug");
     }
-
-    get tooltip(): string {
-        return `Module ${this.label}: ${this.connectionState}`;
-    }
-
-    iconPath = new vscode.ThemeIcon("plug");
 
     public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
         return new Promise((resolve, reject) => {

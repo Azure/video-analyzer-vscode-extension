@@ -2,6 +2,7 @@ import { Device, Module } from "azure-iothub";
 import * as vscode from "vscode";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "./Constants";
+import Localizer from "./Localizer";
 
 export interface LvaHubConfig {
     connectionString: string;
@@ -27,18 +28,15 @@ export class ExtensionUtils {
             const inputBox = vscode.window.createInputBox();
             inputBox.ignoreFocusOut = true;
             inputBox.placeholder = Constants.ConnectionStringFormat[Constants.IotHubConnectionStringKey];
-            inputBox.prompt = "Enter an IoT Hub extension string"; //TODO localize;
+            inputBox.prompt = Localizer.localize("connectionString.prompt");
             inputBox.onDidAccept(async () => {
                 const connectionString = inputBox.value;
-                if (!connectionString) {
-                    return;
-                }
-                if (ExtensionUtils.isValidConnectionString(Constants.IotHubConnectionStringKey, connectionString)) {
+                if (this.isValidConnectionString(Constants.IotHubConnectionStringKey, connectionString)) {
                     const iotHubData = new IotHubData(connectionString);
-                    const device = await ExtensionUtils.showDevicesInListDialog(iotHubData);
+                    const device = await this.showDevicesInListDialog(iotHubData);
 
                     if (device) {
-                        const module = await ExtensionUtils.showModulesInListDialog(iotHubData, device.deviceId);
+                        const module = await this.showModulesInListDialog(iotHubData, device.deviceId);
                         if (module) {
                             resolve({
                                 iotHubData: iotHubData,
@@ -48,9 +46,12 @@ export class ExtensionUtils {
                     }
                 } else {
                     // TODO show readme how to get connection string from portal similar to what iot tools does.
-                    inputBox.validationMessage = `The format should be "${Constants.ConnectionStringFormat[Constants.IotHubConnectionStringKey]}"`; // TODO localize
+                    inputBox.validationMessage =
+                        Localizer.localize("iotHub.connectionString.validationMessageFormat") + Constants.ConnectionStringFormat[Constants.IotHubConnectionStringKey];
+                    // TODO ideally, we should use formatted strings like {0} in the loc strings to replace these.
                 }
             });
+
             inputBox.show();
         });
     }
@@ -65,7 +66,7 @@ export class ExtensionUtils {
                 devices.map((device) => {
                     return { label: device.deviceId, device: device };
                 }),
-                { canPickMany: false, ignoreFocusOut: true, placeHolder: "Select a device" } //TODO localize
+                { canPickMany: false, ignoreFocusOut: true, placeHolder: Localizer.localize("deviceList.prompt") }
             )
             .then((selection) => {
                 if (!selection) {
@@ -85,7 +86,7 @@ export class ExtensionUtils {
                 modules.map((module) => {
                     return { label: module.moduleId, module: module };
                 }),
-                { canPickMany: false, ignoreFocusOut: true, placeHolder: "Select the live video analytics module" } // TODO localize
+                { canPickMany: false, ignoreFocusOut: true, placeHolder: Localizer.localize("moduleList.prompt") }
             )
             .then((selection) => {
                 if (!selection) {

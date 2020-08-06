@@ -7,13 +7,9 @@ import { INode } from "./Node";
 export class HubItem extends vscode.TreeItem implements INode {
     constructor(public iotHubData: IotHubData, public readonly hubName: string) {
         super(hubName, vscode.TreeItemCollapsibleState.Expanded);
+        this.iconPath = new vscode.ThemeIcon("device-desktop");
+        this.contextValue = "hubItemContext";
     }
-
-    get tooltip(): string {
-        return `Device ${this.label}`;
-    }
-
-    iconPath = new vscode.ThemeIcon("device-desktop");
 
     public getChildren(lvaHubConfig?: LvaHubConfig): Promise<INode[]> | INode[] {
         return new Promise((resolve, reject) => {

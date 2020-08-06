@@ -1,4 +1,4 @@
-import { MediaGraphInstance, MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
+import { MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
 import { Constants } from "../Util/Constants";
 import { IotHubData } from "./IotHubData";
 
