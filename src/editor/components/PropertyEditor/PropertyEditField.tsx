@@ -51,7 +51,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     option?: IChoiceGroupOption
   ) {
     if (option !== undefined) {
-      setNewValue(option.key as string);
+      const value = option.key as string;
+      setNewValue(value);
+      setErrorMessage(validateInput(value));
     }
   }
 
@@ -93,12 +95,12 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     if (required) {
       switch (property.type) {
         case "boolean":
-          if (value === "true" || value === "false") {
+          if (value === "") {
             return Localizer.l("propertyEditorValidationUndefined");
           }
           break;
         case "string":
-          if (!value || value === "undefined") {
+          if (!value) {
             return Localizer.l("propertyEditorValidationUndefinedOrEmpty");
           }
           break;
@@ -136,7 +138,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const options: IDropdownOption[] = [
       {
         key: "",
-        text: "undefined",
+        text: Localizer.l("propertyEditorNoneValueLabel"),
       },
       ...property.enum.map((value: string) => ({
         key: value,
@@ -173,16 +175,16 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   } else if (property.type === "boolean") {
     const options: IChoiceGroupOption[] = [
       {
-        key: "undefined",
-        text: "undefined",
+        key: "",
+        text: Localizer.l("propertyEditorNoneValueLabel"),
       },
       {
         key: "true",
-        text: "true",
+        text: Localizer.l("propertyEditorBooleanTrueLabel"),
       },
       {
         key: "false",
-        text: "false",
+        text: Localizer.l("propertyEditorBooleanFalseLabel"),
       },
     ];
     return (
@@ -190,7 +192,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         {/* ChoiceGroup does not support onRenderLabel or errorMessage */}
         {onRenderLabel()}
         <ChoiceGroup
-          defaultSelectedKey={value + ""}
+          defaultSelectedKey={value === undefined ? "" : value + ""}
           options={options}
           onChange={handleChoiceGroupChange}
           required={required}

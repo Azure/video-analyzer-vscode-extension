@@ -334,7 +334,10 @@ export default class Graph {
 
       if (nestedProperties) {
         if (property && property.type === "object") {
-          if (!Helpers.isEmptyObject(nestedProperties)) {
+          if (
+            !Helpers.isEmptyObject(nestedProperties) &&
+            nestedProperties["@type"]
+          ) {
             neededProperties[name] = this.getTrimmedNodeProperties(
               nestedProperties
             );
