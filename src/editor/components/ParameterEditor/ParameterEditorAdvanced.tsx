@@ -24,14 +24,9 @@ export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAd
   const { parameters, setSelectedValue, prevValue } = props;
   const [value, setValue] = React.useState(prevValue);
 
-  const iconStyles = {
-    padding: 2,
-  };
-
   const renderItemList = (
     items: MediaGraphParameterDeclaration[],
-    entryContainerStyles: React.CSSProperties,
-    entryDetailsStyles: React.CSSProperties
+    entryContainerStyles: React.CSSProperties
   ) => {
     const buttonStyles: IButtonStyles = {
       root: {
