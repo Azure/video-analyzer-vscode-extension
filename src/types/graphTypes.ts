@@ -53,5 +53,6 @@ export type ParameterizeValueCallback = (parameterizedValue: string) => void;
 
 export type ParameterizeValueRequestFunction = (
   propertyName: string,
-  callback: ParameterizeValueCallback
+  callback: ParameterizeValueCallback,
+  previousValue?: string
 ) => void;

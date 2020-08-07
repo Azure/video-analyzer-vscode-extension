@@ -6,9 +6,9 @@ import {
 } from "../../../lva-sdk/lvaSDKtypes";
 
 interface IParameterEditorCreateFormProps {
-  setParameterCreationConfiguration?: (
+  setParameterCreationConfiguration: (
     newParameter: MediaGraphParameterDeclaration
-  ) => void; // TODO make required later
+  ) => void;
 }
 
 export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditorCreateFormProps> = (
@@ -24,10 +24,6 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
     { key: "Bool", text: "Bool" },
   ];
 
-  const requestedParameter: MediaGraphParameterDeclaration = {
-    name: "",
-    type: "String" as MediaGraphParameterType,
-  };
   const [parameterName, setParameterName] = React.useState<string>("");
   const [parameterType, setParameterType] = React.useState<
     MediaGraphParameterType
@@ -36,11 +32,17 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
     string
   >("");
 
+  React.useEffect(() => {
+    setParameterCreationConfiguration({
+      name: parameterName,
+      type: parameterType,
+      default: parameterDefaultValue,
+    });
+  }, [parameterName, parameterType, parameterDefaultValue]);
+
   const onParameterNameChange = (event: React.FormEvent, newValue?: string) => {
     if (newValue !== undefined) {
-      requestedParameter.name = newValue;
       setParameterName(newValue);
-      setParameterCreationConfiguration!(requestedParameter);
     }
   };
 
@@ -50,9 +52,7 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
   ) => {
     if (option !== undefined) {
       const newType = option.key as MediaGraphParameterType;
-      requestedParameter.type = newType;
       setParameterType(newType);
-      setParameterCreationConfiguration!(requestedParameter);
     }
   };
 
@@ -61,9 +61,7 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
     newValue?: string
   ) => {
     if (newValue !== undefined) {
-      requestedParameter.default = newValue;
       setParameterDefaultValue(newValue);
-      setParameterCreationConfiguration!(requestedParameter);
     }
   };
 

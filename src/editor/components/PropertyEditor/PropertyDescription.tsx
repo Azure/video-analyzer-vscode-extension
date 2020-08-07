@@ -9,6 +9,7 @@ import {
   IStackStyles,
   IButtonStyles,
   Icon,
+  IContextualMenuProps,
 } from "office-ui-fabric-react";
 import { useBoolean, useId } from "@uifabric/react-hooks";
 
@@ -18,12 +19,22 @@ interface IPropertyDescriptionProps {
   property: any;
   labelId: string;
   useParameter?: () => void;
+  isParameterized?: boolean;
+  setNewValue?: (newValue: string) => void;
 }
 
 export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionProps> = (
   props
 ) => {
-  const { name, required, property, labelId, useParameter } = props;
+  const {
+    name,
+    required,
+    property,
+    labelId,
+    useParameter,
+    isParameterized = false,
+    setNewValue,
+  } = props;
 
   const [isCalloutVisible, { toggle: toggleIsCalloutVisible }] = useBoolean(
     false
@@ -39,6 +50,35 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
   };
   const iconButtonStyles: Partial<IButtonStyles> = {
     root: { marginBottom: -3 },
+  };
+
+  const clearValue = () => {
+    if (setNewValue) {
+      setNewValue("");
+    }
+  };
+
+  const menuProps: IContextualMenuProps = {
+    items: isParameterized
+      ? [
+          {
+            key: "parameterize",
+            text: "Edit parameterization",
+            onClick: useParameter,
+          },
+          {
+            key: "clear",
+            text: "Remove parameterization",
+            onClick: clearValue,
+          },
+        ]
+      : [
+          {
+            key: "parameterize",
+            text: "Parameterize",
+            onClick: useParameter,
+          },
+        ],
   };
 
   return (
@@ -66,10 +106,11 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
         </Stack>
         {useParameter && (
           <IconButton
-            iconProps={{ iconName: "Variable2" }}
+            iconProps={{ iconName: "More" }}
             title={"test"}
             ariaLabel={"test"}
-            onClick={useParameter}
+            menuProps={menuProps}
+            onRenderMenuIcon={() => null}
           />
         )}
       </Stack>

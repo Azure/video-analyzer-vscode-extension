@@ -15,6 +15,7 @@ interface IParameterEditorSimpleProps {
   setParameterCreationConfiguration: (
     newParameter: MediaGraphParameterDeclaration
   ) => void;
+  resetSelectedValue: () => void;
 }
 
 export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimpleProps> = (
@@ -24,6 +25,7 @@ export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimp
     parameters,
     setSelectedValue,
     setParameterCreationConfiguration,
+    resetSelectedValue,
   } = props;
 
   const options: IChoiceGroupOption[] = [
@@ -59,14 +61,14 @@ export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimp
     if (option) {
       setSelectedFormKey(option.key);
     }
-    setSelectedValue("");
+    resetSelectedValue();
   };
 
   const onParameterValueChange = (
     ev?: React.FormEvent,
     option?: IChoiceGroupOption
   ) => {
-    if (option) {
+    if (option && option.key) {
       setSelectedValue(`$\{${option.key}}`);
     }
   };

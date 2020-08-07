@@ -15,13 +15,14 @@ import { MediaGraphParameterDeclaration } from "../../../lva-sdk/lvaSDKtypes";
 interface IParameterEditorAdvancedProps {
   parameters: MediaGraphParameterDeclaration[];
   setSelectedValue: (newValue: string) => void;
+  prevValue: string;
 }
 
 export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAdvancedProps> = (
   props
 ) => {
-  const { parameters, setSelectedValue } = props;
-  const [value, setValue] = React.useState("");
+  const { parameters, setSelectedValue, prevValue } = props;
+  const [value, setValue] = React.useState(prevValue);
 
   const iconStyles = {
     padding: 2,
@@ -109,7 +110,7 @@ export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAd
         onChange={onChangeValue}
       />
       <ParameterEditorParameterList
-        showAddNew
+        onAddNew={appendText}
         renderItemList={renderItemList}
         parameters={parameters}
       />

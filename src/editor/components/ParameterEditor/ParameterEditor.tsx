@@ -18,6 +18,7 @@ import { ParameterEditorAdvanced } from "./ParameterEditorAdvanced";
 import { MediaGraphParameterDeclaration } from "../../../lva-sdk/lvaSDKtypes";
 import { ParameterizeValueCallback } from "../../../types/graphTypes";
 import { createParameter } from "./createParameter";
+import { SignatureHelpTriggerKind } from "vscode";
 
 interface IParameterEditorProps {
   onSelectValue: ParameterizeValueCallback;
@@ -25,12 +26,20 @@ interface IParameterEditorProps {
   isShown: boolean;
   hideModal: () => void;
   propertyName: string;
+  prevValue?: string;
 }
 
 export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
   props
 ) => {
-  const { onSelectValue, parameters, isShown, hideModal, propertyName } = props;
+  const {
+    onSelectValue,
+    parameters,
+    isShown,
+    hideModal,
+    propertyName,
+    prevValue = "",
+  } = props;
   const [selectedValue, setSelectedValue] = React.useState<string>("");
   const [
     parameterCreationConfiguration,
@@ -43,13 +52,15 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
     container: {
       display: "flex",
       flexFlow: "column nowrap",
-      alignItems: "stretch",
       width: 600, // TODO: Is this too wide?
+    },
+    scrollContainer: {
+      display: "flex",
+      flexDirection: "column",
     },
     header: [
       theme.fonts.xLargePlus,
       {
-        flex: "1 1 auto",
         color: theme.palette.neutralPrimary,
         display: "flex",
         alignItems: "center",
@@ -58,9 +69,12 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
       },
     ],
     body: {
-      flex: "4 4 auto",
-      padding: "0 24px 24px 24px",
-      overflowY: "hidden",
+      flex: 1,
+      padding: "0 24px",
+      overflowY: "auto",
+    },
+    footer: {
+      padding: 24,
     },
   });
 
@@ -88,6 +102,7 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
       onDismiss={hideModal}
       isBlocking={false}
       containerClassName={contentStyles.container}
+      scrollableContentClassName={contentStyles.scrollContainer}
     >
       <Stack
         horizontal
@@ -123,31 +138,33 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
               setParameterCreationConfiguration={
                 setParameterCreationConfiguration
               }
+              resetSelectedValue={resetSelectedValue}
             />
           </PivotItem>
           <PivotItem headerText="Advanced">
             <ParameterEditorAdvanced
               parameters={parameters}
               setSelectedValue={setSelectedValue}
+              prevValue={prevValue}
             />
           </PivotItem>
         </Pivot>
-        <Stack
-          horizontal
-          horizontalAlign="end"
-          tokens={{ childrenGap: "s1" }}
-          styles={{ root: { marginTop: 20 } }}
-        >
-          <PrimaryButton
-            text={Localizer.l("saveButtonText")}
-            onClick={onClickUse}
-          />
-          <DefaultButton
-            text={Localizer.l("cancelButtonText")}
-            onClick={hideModal}
-          />
-        </Stack>
       </div>
+      <Stack
+        horizontal
+        horizontalAlign="end"
+        tokens={{ childrenGap: "s1" }}
+        className={contentStyles.footer}
+      >
+        <PrimaryButton
+          text={Localizer.l("saveButtonText")}
+          onClick={onClickUse}
+        />
+        <DefaultButton
+          text={Localizer.l("cancelButtonText")}
+          onClick={hideModal}
+        />
+      </Stack>
     </Modal>
   );
 };

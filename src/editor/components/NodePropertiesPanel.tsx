@@ -29,7 +29,11 @@ export class NodePropertiesPanel implements IPanelConfig {
     const [
       parameterizationConfiguration,
       setParameterizationConfiguration,
-    ] = React.useState<{ name: string; callback: ParameterizeValueCallback }>();
+    ] = React.useState<{
+      name: string;
+      callback: ParameterizeValueCallback;
+      prevValue?: string;
+    }>();
 
     const panelStyle: React.CSSProperties = {
       position: "absolute",
@@ -49,11 +53,13 @@ export class NodePropertiesPanel implements IPanelConfig {
 
     const requestParameterization = (
       propertyName: string,
-      callback: ParameterizeValueCallback
+      callback: ParameterizeValueCallback,
+      prevValue?: string
     ) => {
       setParameterizationConfiguration({
         name: propertyName,
         callback: callback,
+        prevValue,
       });
       showModal();
     };
@@ -91,6 +97,7 @@ export class NodePropertiesPanel implements IPanelConfig {
           isShown={isParameterModalOpen}
           hideModal={hideModal}
           propertyName={parameterizationConfiguration?.name || ""}
+          prevValue={parameterizationConfiguration?.prevValue || ""}
         />
       </div>
     );

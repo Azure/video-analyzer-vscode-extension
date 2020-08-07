@@ -12,10 +12,11 @@ import {
   MediaGraphParameterType,
 } from "../../../lva-sdk/lvaSDKtypes";
 import { ParameterEditorCreateForm } from "./ParameterEditorCreateForm";
+import { createParameter } from "./createParameter";
 
 interface IParameterEditorParameterListProps {
   parameters: MediaGraphParameterDeclaration[];
-  showAddNew?: boolean;
+  onAddNew?: (newValue: string) => void;
   renderItemList: (
     items: MediaGraphParameterDeclaration[],
     entryContainerStyles: React.CSSProperties,
@@ -26,11 +27,15 @@ interface IParameterEditorParameterListProps {
 export const ParameterEditorParameterList: React.FunctionComponent<IParameterEditorParameterListProps> = (
   props
 ) => {
-  const { parameters, showAddNew = false, renderItemList } = props;
+  const { parameters, onAddNew, renderItemList } = props;
   const [shownFilteredItems, setShownFilteredItems] = React.useState<
     MediaGraphParameterDeclaration[]
   >([]);
   const [isCreateFormShown, { toggle: toggleCreateForm }] = useBoolean(false);
+  const [
+    parameterCreationConfiguration,
+    setParameterCreationConfiguration,
+  ] = React.useState<MediaGraphParameterDeclaration | undefined>();
 
   const items: MediaGraphParameterDeclaration[] = [
     ...parameters,
@@ -65,6 +70,13 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
     }
   };
 
+  const onCreateFormAddClick = () => {
+    if (parameterCreationConfiguration && onAddNew) {
+      createParameter(parameterCreationConfiguration, parameters);
+      onAddNew(`$\{${parameterCreationConfiguration.name}}`);
+    }
+  };
+
   const theme = getTheme();
   const parameterListStyles = {
     marginTop: 20,
@@ -93,7 +105,11 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
             marginBottom: 10,
           }}
         >
-          <ParameterEditorCreateForm />
+          <ParameterEditorCreateForm
+            setParameterCreationConfiguration={
+              setParameterCreationConfiguration
+            }
+          />
           <Stack
             horizontal
             horizontalAlign="end"
@@ -101,7 +117,7 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
             styles={{ root: { marginTop: 10 } }}
           >
             <Link onClick={toggleCreateForm}>Hide form</Link>
-            <DefaultButton text="Add" />
+            <DefaultButton text="Add" onClick={onCreateFormAddClick} />
           </Stack>
         </div>
       )}
@@ -115,7 +131,7 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
             onChange={onSearchChange}
             styles={{ root: { flexGrow: 1 } }}
           />
-          {showAddNew && !isCreateFormShown && (
+          {onAddNew && !isCreateFormShown && (
             <DefaultButton
               text="Add new"
               iconProps={{ iconName: "Add" }}

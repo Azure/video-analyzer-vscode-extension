@@ -40,7 +40,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   const [value, setValue] = React.useState<string>(initValue);
   const [errorMessage, setErrorMessage] = React.useState<string>("");
 
-  const parameterized = value && value.includes("${");
+  const parameterized = !!(value && value.includes("${"));
 
   function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
     if (item) {
@@ -132,7 +132,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   const labelId: string = useId("label");
 
   function requestAndInsertParameter() {
-    requestParameterization(name, setNewValue);
+    requestParameterization(name, setNewValue, value);
   }
 
   function onRenderLabel() {
@@ -143,6 +143,8 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         property={property}
         labelId={labelId}
         useParameter={requestAndInsertParameter}
+        isParameterized={parameterized}
+        setNewValue={setNewValue}
       />
     );
   }
