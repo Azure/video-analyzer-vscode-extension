@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   TextField,
   Text,
-  FontIcon,
   Stack,
   Link,
   DefaultButton,
@@ -67,23 +66,14 @@ export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAd
                   verticalAlign="center"
                   tokens={{ childrenGap: "s1" }}
                 >
-                  <Stack
-                    horizontal
-                    verticalAlign="center"
-                    tokens={{ childrenGap: "s1" }}
-                  >
-                    <FontIcon iconName={"Variable2"} style={iconStyles} />
-                    <strong>{props!.text}</strong>
-                  </Stack>
+                  <strong>{props!.text}</strong>
                   <Link>
                     {Localizer.l("parameterEditorAdvancedEditorInsertLinkText")}
                   </Link>
                 </Stack>
               )}
               onRenderChildren={() => (
-                <div style={entryDetailsStyles}>
-                  <Text variant={"medium"}>{item.type}</Text>
-                </div>
+                <Text variant={"medium"}>{item.type}</Text>
               )}
             />
           );
