@@ -7,18 +7,18 @@
  * Graph system data.
  */
 export interface MediaGraphSystemData {
-  /**
-   * The timestamp of resource creation (UTC).
-   * **NOTE: This entity will be treated as a string instead of a Date because the API can
-   * potentially deal with a higher precision value than what is supported by JavaScript.**
-   */
-  createdAt?: string;
-  /**
-   * The timestamp of resource last modification (UTC).
-   * **NOTE: This entity will be treated as a string instead of a Date because the API can
-   * potentially deal with a higher precision value than what is supported by JavaScript.**
-   */
-  lastModifiedAt?: string;
+    /**
+     * The timestamp of resource creation (UTC).
+     * **NOTE: This entity will be treated as a string instead of a Date because the API can
+     * potentially deal with a higher precision value than what is supported by JavaScript.**
+     */
+    createdAt?: string;
+    /**
+     * The timestamp of resource last modification (UTC).
+     * **NOTE: This entity will be treated as a string instead of a Date because the API can
+     * potentially deal with a higher precision value than what is supported by JavaScript.**
+     */
+    lastModifiedAt?: string;
 }
 
 /**
@@ -28,63 +28,63 @@ export interface MediaGraphSystemData {
  * for the parameters.
  */
 export interface MediaGraphParameterDefinition {
-  /**
-   * Name of parameter as defined in the graph topology.
-   */
-  name: string;
-  /**
-   * Value of parameter.
-   */
-  value: string;
+    /**
+     * Name of parameter as defined in the graph topology.
+     */
+    name: string;
+    /**
+     * Value of parameter.
+     */
+    value: string;
 }
 
 /**
  * Properties of a Media Graph instance.
  */
 export interface MediaGraphInstanceProperties {
-  /**
-   * An optional description for the instance.
-   */
-  description?: string;
-  /**
-   * The name of the graph topology that this instance will run. A topology with this name should
-   * already have been set in the Edge module.
-   */
-  topologyName?: string;
-  /**
-   * List of one or more graph instance parameters.
-   */
-  parameters?: MediaGraphParameterDefinition[];
-  /**
-   * Allowed states for a graph Instance. Possible values include: 'Inactive', 'Activating',
-   * 'Active', 'Deactivating'
-   */
-  state?: MediaGraphInstanceState;
+    /**
+     * An optional description for the instance.
+     */
+    description?: string;
+    /**
+     * The name of the graph topology that this instance will run. A topology with this name should
+     * already have been set in the Edge module.
+     */
+    topologyName?: string;
+    /**
+     * List of one or more graph instance parameters.
+     */
+    parameters?: MediaGraphParameterDefinition[];
+    /**
+     * Allowed states for a graph Instance. Possible values include: 'Inactive', 'Activating',
+     * 'Active', 'Deactivating'
+     */
+    state?: MediaGraphInstanceState;
 }
 
 /**
  * Represents a Media Graph instance.
  */
 export interface MediaGraphInstance {
-  name: string;
-  apiVersion?: string;
-  systemData?: MediaGraphSystemData;
-  properties?: MediaGraphInstanceProperties;
+    name: string;
+    apiVersion?: string;
+    systemData?: MediaGraphSystemData;
+    properties?: MediaGraphInstanceProperties;
 }
 
 /**
  * Collection of graph instances.
  */
 export interface MediaGraphInstanceCollection {
-  /**
-   * Collection of graph instances.
-   */
-  value?: MediaGraphInstance[];
-  /**
-   * Continuation token to use in subsequent calls to enumerate through the graph instance
-   * collection (when the collection contains too many results to return in one response).
-   */
-  continuationToken?: string;
+    /**
+     * Collection of graph instances.
+     */
+    value?: MediaGraphInstance[];
+    /**
+     * Continuation token to use in subsequent calls to enumerate through the graph instance
+     * collection (when the collection contains too many results to return in one response).
+     */
+    continuationToken?: string;
 }
 
 /**
@@ -94,259 +94,246 @@ export interface MediaGraphInstanceCollection {
  * instances with different values for the parameters.
  */
 export interface MediaGraphParameterDeclaration {
-  /**
-   * The name of the parameter.
-   */
-  name: string;
-  /**
-   * Possible values include: 'String', 'SecretString', 'Int', 'Double', 'Bool'
-   */
-  type: MediaGraphParameterType;
-  /**
-   * Description of the parameter.
-   */
-  description?: string;
-  /**
-   * The default value for the parameter, to be used if the graph instance does not specify a
-   * value.
-   */
-  default?: string;
+    /**
+     * The name of the parameter.
+     */
+    name: string;
+    /**
+     * Possible values include: 'String', 'SecretString', 'Int', 'Double', 'Bool'
+     */
+    type: MediaGraphParameterType;
+    /**
+     * Description of the parameter.
+     */
+    description?: string;
+    /**
+     * The default value for the parameter, to be used if the graph instance does not specify a
+     * value.
+     */
+    default?: string;
 }
 
 /**
  * Contains the possible cases for MediaGraphSource.
  */
-export type MediaGraphSourceUnion =
-  | MediaGraphSource
-  | MediaGraphRtspSource
-  | MediaGraphIoTHubMessageSource;
+export type MediaGraphSourceUnion = MediaGraphSource | MediaGraphRtspSource | MediaGraphIoTHubMessageSource;
 
 /**
  * Media graph source.
  */
 export interface MediaGraphSource {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MediaGraphSource";
-  /**
-   * The name to be used for this source node.
-   */
-  name: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "MediaGraphSource";
+    /**
+     * The name to be used for this source node.
+     */
+    name: string;
 }
 
 /**
  * Allows for the selection of particular streams from another node.
  */
 export interface MediaGraphOutputSelector {
-  /**
-   * The stream property to compare with. Possible values include: 'mediaType'
-   */
-  property?: MediaGraphOutputSelectorProperty;
-  /**
-   * The operator to compare streams by. Possible values include: 'is', 'isNot'
-   */
-  operator?: MediaGraphOutputSelectorOperator;
-  /**
-   * Value to compare against.
-   */
-  value?: string;
+    /**
+     * The stream property to compare with. Possible values include: 'mediaType'
+     */
+    property?: MediaGraphOutputSelectorProperty;
+    /**
+     * The operator to compare streams by. Possible values include: 'is', 'isNot'
+     */
+    operator?: MediaGraphOutputSelectorOperator;
+    /**
+     * Value to compare against.
+     */
+    value?: string;
 }
 
 /**
  * Represents the input to any node in a media graph.
  */
 export interface MediaGraphNodeInput {
-  /**
-   * The name of another node in the media graph, the output of which is used as input to this
-   * node.
-   */
-  nodeName?: string;
-  /**
-   * Allows for the selection of particular streams from another node.
-   */
-  outputSelectors?: MediaGraphOutputSelector[];
+    /**
+     * The name of another node in the media graph, the output of which is used as input to this
+     * node.
+     */
+    nodeName?: string;
+    /**
+     * Allows for the selection of particular streams from another node.
+     */
+    outputSelectors?: MediaGraphOutputSelector[];
 }
 
 /**
  * Contains the possible cases for MediaGraphProcessor.
  */
 export type MediaGraphProcessorUnion =
-  | MediaGraphProcessor
-  | MediaGraphMotionDetectionProcessor
-  | MediaGraphExtensionProcessorBaseUnion
-  | MediaGraphSignalGateProcessor
-  | MediaGraphFrameRateFilterProcessor;
+    | MediaGraphProcessor
+    | MediaGraphMotionDetectionProcessor
+    | MediaGraphExtensionProcessorBaseUnion
+    | MediaGraphSignalGateProcessor
+    | MediaGraphFrameRateFilterProcessor;
 
 /**
  * A node that represents the desired processing of media in a graph. Takes media and/or events as
  * inputs, and emits media and/or event as output.
  */
 export interface MediaGraphProcessor {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MediaGraphProcessor";
-  /**
-   * The name for this processor node.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this processor node.
-   */
-  inputs: MediaGraphNodeInput[];
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "MediaGraphProcessor";
+    /**
+     * The name for this processor node.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this processor node.
+     */
+    inputs: MediaGraphNodeInput[];
 }
 
 /**
  * Contains the possible cases for MediaGraphSink.
  */
-export type MediaGraphSinkUnion =
-  | MediaGraphSink
-  | MediaGraphIoTHubMessageSink
-  | MediaGraphFileSink
-  | MediaGraphAssetSink;
+export type MediaGraphSinkUnion = MediaGraphSink | MediaGraphIoTHubMessageSink | MediaGraphFileSink | MediaGraphAssetSink;
 
 /**
  * Enables a media graph to write media data to a destination outside of the Live Video Analytics
  * IoT Edge module.
  */
 export interface MediaGraphSink {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MediaGraphSink";
-  /**
-   * Name to be used for the media graph sink.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this sink node.
-   */
-  inputs: MediaGraphNodeInput[];
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "MediaGraphSink";
+    /**
+     * Name to be used for the media graph sink.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this sink node.
+     */
+    inputs: MediaGraphNodeInput[];
 }
 
 /**
  * Describes the properties of a graph topology.
  */
 export interface MediaGraphTopologyProperties {
-  description?: string;
-  parameters?: MediaGraphParameterDeclaration[];
-  sources?: MediaGraphSourceUnion[];
-  processors?: MediaGraphProcessorUnion[];
-  sinks?: MediaGraphSinkUnion[];
+    description?: string;
+    parameters?: MediaGraphParameterDeclaration[];
+    sources?: MediaGraphSourceUnion[];
+    processors?: MediaGraphProcessorUnion[];
+    sinks?: MediaGraphSinkUnion[];
 }
 
 /**
  * Describes a graph topology.
  */
 export interface MediaGraphTopology {
-  name: string;
-  apiVersion?: string;
-  systemData?: MediaGraphSystemData;
-  properties?: MediaGraphTopologyProperties;
+    name: string;
+    apiVersion?: string;
+    systemData?: MediaGraphSystemData;
+    properties?: MediaGraphTopologyProperties;
 }
 
 /**
  * Collection of graph topologies.
  */
 export interface MediaGraphTopologyCollection {
-  /**
-   * Collection of graph topologies.
-   */
-  value?: MediaGraphTopology[];
-  /**
-   * Continuation token to use in subsequent calls to enumerate through the graph topologies
-   * collection (when the collection contains too many results to return in one response).
-   */
-  continuationToken?: string;
+    /**
+     * Collection of graph topologies.
+     */
+    value?: MediaGraphTopology[];
+    /**
+     * Continuation token to use in subsequent calls to enumerate through the graph topologies
+     * collection (when the collection contains too many results to return in one response).
+     */
+    continuationToken?: string;
 }
 
 /**
  * Contains the possible cases for MediaGraphCredentials.
  */
-export type MediaGraphCredentialsUnion =
-  | MediaGraphCredentials
-  | MediaGraphUsernamePasswordCredentials
-  | MediaGraphHttpHeaderCredentials;
+export type MediaGraphCredentialsUnion = MediaGraphCredentials | MediaGraphUsernamePasswordCredentials | MediaGraphHttpHeaderCredentials;
 
 /**
  * Credentials to present during authentication.
  */
 export interface MediaGraphCredentials {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MediaGraphCredentials";
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "MediaGraphCredentials";
 }
 
 /**
  * Contains the possible cases for MediaGraphEndpoint.
  */
-export type MediaGraphEndpointUnion =
-  | MediaGraphEndpoint
-  | MediaGraphUnsecuredEndpoint
-  | MediaGraphTlsEndpoint;
+export type MediaGraphEndpointUnion = MediaGraphEndpoint | MediaGraphUnsecuredEndpoint | MediaGraphTlsEndpoint;
 
 /**
  * Base class for endpoints.
  */
 export interface MediaGraphEndpoint {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MediaGraphEndpoint";
-  /**
-   * Polymorphic credentials to be presented to the endpoint.
-   */
-  credentials?: MediaGraphCredentialsUnion;
-  /**
-   * Url for the endpoint.
-   */
-  url: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "MediaGraphEndpoint";
+    /**
+     * Polymorphic credentials to be presented to the endpoint.
+     */
+    credentials?: MediaGraphCredentialsUnion;
+    /**
+     * Url for the endpoint.
+     */
+    url: string;
 }
 
 /**
  * Enables a graph to capture media from a RTSP server.
  */
 export interface MediaGraphRtspSource {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphRtspSource";
-  /**
-   * The name to be used for this source node.
-   */
-  name: string;
-  /**
-   * Underlying RTSP transport. This is used to enable or disable HTTP tunneling. Possible values
-   * include: 'Http', 'Tcp'
-   */
-  transport?: MediaGraphRtspTransport;
-  /**
-   * RTSP endpoint of the stream that is being connected to.
-   */
-  endpoint: MediaGraphEndpointUnion;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphRtspSource";
+    /**
+     * The name to be used for this source node.
+     */
+    name: string;
+    /**
+     * Underlying RTSP transport. This is used to enable or disable HTTP tunneling. Possible values
+     * include: 'Http', 'Tcp'
+     */
+    transport?: MediaGraphRtspTransport;
+    /**
+     * RTSP endpoint of the stream that is being connected to.
+     */
+    endpoint: MediaGraphEndpointUnion;
 }
 
 /**
  * Enables a graph to receive messages via routes declared in the IoT Edge deployment manifest.
  */
 export interface MediaGraphIoTHubMessageSource {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphIoTHubMessageSource";
-  /**
-   * The name to be used for this source node.
-   */
-  name: string;
-  /**
-   * Name of the input path where messages can be routed to (via routes declared in the IoT Edge
-   * deployment manifest).
-   */
-  hubInputName?: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphIoTHubMessageSource";
+    /**
+     * The name to be used for this source node.
+     */
+    name: string;
+    /**
+     * Name of the input path where messages can be routed to (via routes declared in the IoT Edge
+     * deployment manifest).
+     */
+    hubInputName?: string;
 }
 
 /**
@@ -354,213 +341,211 @@ export interface MediaGraphIoTHubMessageSource {
  * deployment manifest.
  */
 export interface MediaGraphIoTHubMessageSink {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphIoTHubMessageSink";
-  /**
-   * Name to be used for the media graph sink.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this sink node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * Name of the output path to which the graph will publish message. These messages can then be
-   * delivered to desired destinations by declaring routes referencing the output path in the IoT
-   * Edge deployment manifest.
-   */
-  hubOutputName?: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphIoTHubMessageSink";
+    /**
+     * Name to be used for the media graph sink.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this sink node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * Name of the output path to which the graph will publish message. These messages can then be
+     * delivered to desired destinations by declaring routes referencing the output path in the IoT
+     * Edge deployment manifest.
+     */
+    hubOutputName?: string;
 }
 
 /**
  * Username/password credential pair.
  */
 export interface MediaGraphUsernamePasswordCredentials {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
-  /**
-   * Username for a username/password pair.
-   */
-  username: string;
-  /**
-   * Password for a username/password pair.
-   */
-  password?: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
+    /**
+     * Username for a username/password pair.
+     */
+    username: string;
+    /**
+     * Password for a username/password pair.
+     */
+    password?: string;
 }
 
 /**
  * Http header service credentials.
  */
 export interface MediaGraphHttpHeaderCredentials {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
-  /**
-   * HTTP header name.
-   */
-  headerName: string;
-  /**
-   * HTTP header value.
-   */
-  headerValue: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
+    /**
+     * HTTP header name.
+     */
+    headerName: string;
+    /**
+     * HTTP header value.
+     */
+    headerValue: string;
 }
 
 /**
  * An endpoint that the media graph can connect to, with no encryption in transit.
  */
 export interface MediaGraphUnsecuredEndpoint {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
-  /**
-   * Polymorphic credentials to be presented to the endpoint.
-   */
-  credentials?: MediaGraphCredentialsUnion;
-  /**
-   * Url for the endpoint.
-   */
-  url: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
+    /**
+     * Polymorphic credentials to be presented to the endpoint.
+     */
+    credentials?: MediaGraphCredentialsUnion;
+    /**
+     * Url for the endpoint.
+     */
+    url: string;
 }
 
 /**
  * Contains the possible cases for MediaGraphCertificateSource.
  */
-export type MediaGraphCertificateSourceUnion =
-  | MediaGraphCertificateSource
-  | MediaGraphPemCertificateList;
+export type MediaGraphCertificateSourceUnion = MediaGraphCertificateSource | MediaGraphPemCertificateList;
 
 /**
  * Base class for certificate sources.
  */
 export interface MediaGraphCertificateSource {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MediaGraphCertificateSource";
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "MediaGraphCertificateSource";
 }
 
 /**
  * Options for controlling the authentication of TLS endpoints.
  */
 export interface MediaGraphTlsValidationOptions {
-  /**
-   * Boolean value ignoring the host name (common name) during validation.
-   */
-  ignoreHostname?: string;
-  /**
-   * Boolean value ignoring the integrity of the certificate chain at the current time.
-   */
-  ignoreSignature?: string;
+    /**
+     * Boolean value ignoring the host name (common name) during validation.
+     */
+    ignoreHostname?: string;
+    /**
+     * Boolean value ignoring the integrity of the certificate chain at the current time.
+     */
+    ignoreSignature?: string;
 }
 
 /**
  * An endpoint that the graph can connect to, which must be connected over TLS/SSL.
  */
 export interface MediaGraphTlsEndpoint {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphTlsEndpoint";
-  /**
-   * Polymorphic credentials to be presented to the endpoint.
-   */
-  credentials?: MediaGraphCredentialsUnion;
-  /**
-   * Url for the endpoint.
-   */
-  url: string;
-  /**
-   * Trusted certificates when authenticating a TLS connection. Null designates that Azure Media
-   * Service's source of trust should be used.
-   */
-  trustedCertificates?: MediaGraphCertificateSourceUnion;
-  /**
-   * Validation options to use when authenticating a TLS connection. By default, strict validation
-   * is used.
-   */
-  validationOptions?: MediaGraphTlsValidationOptions;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphTlsEndpoint";
+    /**
+     * Polymorphic credentials to be presented to the endpoint.
+     */
+    credentials?: MediaGraphCredentialsUnion;
+    /**
+     * Url for the endpoint.
+     */
+    url: string;
+    /**
+     * Trusted certificates when authenticating a TLS connection. Null designates that Azure Media
+     * Service's source of trust should be used.
+     */
+    trustedCertificates?: MediaGraphCertificateSourceUnion;
+    /**
+     * Validation options to use when authenticating a TLS connection. By default, strict validation
+     * is used.
+     */
+    validationOptions?: MediaGraphTlsValidationOptions;
 }
 
 /**
  * A list of PEM formatted certificates.
  */
 export interface MediaGraphPemCertificateList {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphPemCertificateList";
-  /**
-   * PEM formatted public certificates one per entry.
-   */
-  certificates: string[];
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphPemCertificateList";
+    /**
+     * PEM formatted public certificates one per entry.
+     */
+    certificates: string[];
 }
 
 /**
  * Enables a media graph to write/store media (video and audio) to a file on the Edge device.
  */
 export interface MediaGraphFileSink {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphFileSink";
-  /**
-   * Name to be used for the media graph sink.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this sink node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * Absolute file path pattern for creating new files on the Edge device.
-   */
-  filePathPattern: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphFileSink";
+    /**
+     * Name to be used for the media graph sink.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this sink node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * Absolute file path pattern for creating new files on the Edge device.
+     */
+    filePathPattern: string;
 }
 
 /**
  * Enables a graph to record media to an Azure Media Services asset, for subsequent playback.
  */
 export interface MediaGraphAssetSink {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphAssetSink";
-  /**
-   * Name to be used for the media graph sink.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this sink node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * A name pattern when creating new assets.
-   */
-  assetNamePattern?: string;
-  /**
-   * When writing media to an asset, wait until at least this duration of media has been
-   * accumulated on the Edge. Expressed in increments of 30 seconds, with a minimum of 30 seconds
-   * and a recommended maximum of 5 minutes.
-   */
-  segmentLength?: string;
-  /**
-   * Path to a local file system directory for temporary caching of media, before writing to an
-   * Asset. Used when the Edge device is temporarily disconnected from Azure.
-   */
-  localMediaCachePath?: string;
-  /**
-   * Maximum amount of disk space that can be used for temporary caching of media.
-   */
-  localMediaCacheMaximumSizeMiB?: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphAssetSink";
+    /**
+     * Name to be used for the media graph sink.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this sink node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * A name pattern when creating new assets.
+     */
+    assetNamePattern?: string;
+    /**
+     * When writing media to an asset, wait until at least this duration of media has been
+     * accumulated on the Edge. Expressed in increments of 30 seconds, with a minimum of 30 seconds
+     * and a recommended maximum of 5 minutes.
+     */
+    segmentLength?: string;
+    /**
+     * Path to a local file system directory for temporary caching of media, before writing to an
+     * Asset. Used when the Edge device is temporarily disconnected from Azure.
+     */
+    localMediaCachePath?: string;
+    /**
+     * Maximum amount of disk space that can be used for temporary caching of media.
+     */
+    localMediaCacheMaximumSizeMiB?: string;
 }
 
 /**
@@ -569,82 +554,77 @@ export interface MediaGraphAssetSink {
  * frames are blocked/dropped.
  */
 export interface MediaGraphMotionDetectionProcessor {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
-  /**
-   * The name for this processor node.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this processor node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * Enumeration that specifies the sensitivity of the motion detection processor. Possible values
-   * include: 'Low', 'Medium', 'High'
-   */
-  sensitivity?: MediaGraphMotionDetectionSensitivity;
-  /**
-   * Indicates whether the processor should detect and output the regions, within the video frame,
-   * where motion was detected. Default is true.
-   */
-  outputMotionRegion?: boolean;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
+    /**
+     * The name for this processor node.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this processor node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * Enumeration that specifies the sensitivity of the motion detection processor. Possible values
+     * include: 'Low', 'Medium', 'High'
+     */
+    sensitivity?: MediaGraphMotionDetectionSensitivity;
+    /**
+     * Indicates whether the processor should detect and output the regions, within the video frame,
+     * where motion was detected. Default is true.
+     */
+    outputMotionRegion?: boolean;
 }
 
 /**
  * The scaling mode for the image.
  */
 export interface MediaGraphImageScale {
-  /**
-   * Describes the modes for scaling an input video frame into an image, before it is sent to an
-   * inference engine. Possible values include: 'PreserveAspectRatio', 'Pad', 'Stretch'
-   */
-  mode?: MediaGraphImageScaleMode;
-  /**
-   * The desired output width of the image.
-   */
-  width?: string;
-  /**
-   * The desired output height of the image.
-   */
-  height?: string;
+    /**
+     * Describes the modes for scaling an input video frame into an image, before it is sent to an
+     * inference engine. Possible values include: 'PreserveAspectRatio', 'Pad', 'Stretch'
+     */
+    mode?: MediaGraphImageScaleMode;
+    /**
+     * The desired output width of the image.
+     */
+    width?: string;
+    /**
+     * The desired output height of the image.
+     */
+    height?: string;
 }
 
 /**
  * Contains the possible cases for MediaGraphImageFormat.
  */
-export type MediaGraphImageFormatUnion =
-  | MediaGraphImageFormat
-  | MediaGraphImageFormatRaw
-  | MediaGraphImageFormatEncoded;
+export type MediaGraphImageFormatUnion = MediaGraphImageFormat | MediaGraphImageFormatRaw | MediaGraphImageFormatEncoded;
 
 /**
  * Encoding settings for an image.
  */
 export interface MediaGraphImageFormat {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphImageFormat";
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphImageFormat";
 }
 
 /**
  * Describes the properties of an image frame.
  */
 export interface MediaGraphImage {
-  scale?: MediaGraphImageScale;
-  format?: MediaGraphImageFormatUnion;
+    scale?: MediaGraphImageScale;
+    format?: MediaGraphImageFormatUnion;
 }
 
 /**
  * Contains the possible cases for MediaGraphExtensionProcessorBase.
  */
-export type MediaGraphExtensionProcessorBaseUnion =
-  | MediaGraphExtensionProcessorBase
-  | MediaGraphHttpExtension;
+export type MediaGraphExtensionProcessorBaseUnion = MediaGraphExtensionProcessorBase | MediaGraphHttpExtension;
 
 /**
  * Processor that allows for extensions, outside of the Live Video Analytics Edge module, to be
@@ -652,27 +632,27 @@ export type MediaGraphExtensionProcessorBaseUnion =
  * processor types.
  */
 export interface MediaGraphExtensionProcessorBase {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphExtensionProcessorBase";
-  /**
-   * The name for this processor node.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this processor node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * Endpoint to which this processor should connect.
-   */
-  endpoint?: MediaGraphEndpointUnion;
-  /**
-   * Describes the parameters of the image that is sent as input to the endpoint.
-   */
-  image?: MediaGraphImage;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphExtensionProcessorBase";
+    /**
+     * The name for this processor node.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this processor node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * Endpoint to which this processor should connect.
+     */
+    endpoint?: MediaGraphEndpointUnion;
+    /**
+     * Describes the parameters of the image that is sent as input to the endpoint.
+     */
+    image?: MediaGraphImage;
 }
 
 /**
@@ -681,61 +661,61 @@ export interface MediaGraphExtensionProcessorBase {
  * inference results and relays them downstream to the next node.
  */
 export interface MediaGraphHttpExtension {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphHttpExtension";
-  /**
-   * The name for this processor node.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this processor node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * Endpoint to which this processor should connect.
-   */
-  endpoint?: MediaGraphEndpointUnion;
-  /**
-   * Describes the parameters of the image that is sent as input to the endpoint.
-   */
-  image?: MediaGraphImage;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphHttpExtension";
+    /**
+     * The name for this processor node.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this processor node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * Endpoint to which this processor should connect.
+     */
+    endpoint?: MediaGraphEndpointUnion;
+    /**
+     * Describes the parameters of the image that is sent as input to the endpoint.
+     */
+    image?: MediaGraphImage;
 }
 
 /**
  * Encoding settings for raw images.
  */
 export interface MediaGraphImageFormatRaw {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphImageFormatRaw";
-  /**
-   * Possible values include: 'Yuv420p', 'Rgb565be', 'Rgb565le', 'Rgb555be', 'Rgb555le', 'Rgb24',
-   * 'Bgr24', 'Argb', 'Rgba', 'Abgr', 'Bgra'
-   */
-  pixelFormat?: MediaGraphImageFormatRawPixelFormat;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphImageFormatRaw";
+    /**
+     * Possible values include: 'Yuv420p', 'Rgb565be', 'Rgb565le', 'Rgb555be', 'Rgb555le', 'Rgb24',
+     * 'Bgr24', 'Argb', 'Rgba', 'Abgr', 'Bgra'
+     */
+    pixelFormat?: MediaGraphImageFormatRawPixelFormat;
 }
 
 /**
  * Allowed formats for the image.
  */
 export interface MediaGraphImageFormatEncoded {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphImageFormatEncoded";
-  /**
-   * The different encoding formats that can be used for the image. Possible values include:
-   * 'Jpeg', 'Bmp', 'Png'. Default value: 'Jpeg'.
-   */
-  encoding?: MediaGraphImageEncodingFormat;
-  /**
-   * The image quality (used for JPEG only). Value must be between 0 to 100 (best quality).
-   */
-  quality?: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphImageFormatEncoded";
+    /**
+     * The different encoding formats that can be used for the image. Possible values include:
+     * 'Jpeg', 'Bmp', 'Png'. Default value: 'Jpeg'.
+     */
+    encoding?: MediaGraphImageEncodingFormat;
+    /**
+     * The image quality (used for JPEG only). Value must be between 0 to 100 (best quality).
+     */
+    quality?: string;
 }
 
 /**
@@ -744,68 +724,68 @@ export interface MediaGraphImageFormatEncoded {
  * close the gate.
  */
 export interface MediaGraphSignalGateProcessor {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphSignalGateProcessor";
-  /**
-   * The name for this processor node.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this processor node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * The period of time over which the gate gathers input events, before evaluating them.
-   */
-  activationEvaluationWindow?: string;
-  /**
-   * Signal offset once the gate is activated (can be negative). It is an offset between the time
-   * the event is received, and the timestamp of the first media sample (eg. video frame) that is
-   * allowed through by the gate.
-   */
-  activationSignalOffset?: string;
-  /**
-   * The minimum period for which the gate remains open, in the absence of subsequent triggers
-   * (events).
-   */
-  minimumActivationTime?: string;
-  /**
-   * The maximum period for which the gate remains open, in the presence of subsequent events.
-   */
-  maximumActivationTime?: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphSignalGateProcessor";
+    /**
+     * The name for this processor node.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this processor node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * The period of time over which the gate gathers input events, before evaluating them.
+     */
+    activationEvaluationWindow?: string;
+    /**
+     * Signal offset once the gate is activated (can be negative). It is an offset between the time
+     * the event is received, and the timestamp of the first media sample (eg. video frame) that is
+     * allowed through by the gate.
+     */
+    activationSignalOffset?: string;
+    /**
+     * The minimum period for which the gate remains open, in the absence of subsequent triggers
+     * (events).
+     */
+    minimumActivationTime?: string;
+    /**
+     * The maximum period for which the gate remains open, in the presence of subsequent events.
+     */
+    maximumActivationTime?: string;
 }
 
 /**
  * Limits the frame rate on the input video stream based on the maximumFps property.
  */
 export interface MediaGraphFrameRateFilterProcessor {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "#Microsoft.Media.MediaGraphFrameRateFilterProcessor";
-  /**
-   * The name for this processor node.
-   */
-  name: string;
-  /**
-   * An array of the names of the other nodes in the media graph, the outputs of which are used as
-   * input for this processor node.
-   */
-  inputs: MediaGraphNodeInput[];
-  /**
-   * Ensures that the frame rate of the video leaving this processor does not exceed this limit.
-   */
-  maximumFps?: string;
+    /**
+     * Polymorphic Discriminator
+     */
+    type: "#Microsoft.Media.MediaGraphFrameRateFilterProcessor";
+    /**
+     * The name for this processor node.
+     */
+    name: string;
+    /**
+     * An array of the names of the other nodes in the media graph, the outputs of which are used as
+     * input for this processor node.
+     */
+    inputs: MediaGraphNodeInput[];
+    /**
+     * Ensures that the frame rate of the video leaving this processor does not exceed this limit.
+     */
+    maximumFps?: string;
 }
 
 /**
  * An interface representing DirectMethodsforLiveVideoAnalyticsonIoTEdgeOptions.
  */
 export interface DirectMethodsforLiveVideoAnalyticsonIoTEdgeOptions {
-  baseUri?: string;
+    baseUri?: string;
 }
 
 /**
@@ -815,22 +795,22 @@ export interface DirectMethodsforLiveVideoAnalyticsonIoTEdgeOptions {
  * @enum {string}
  */
 export enum MediaGraphInstanceState {
-  /**
-   * Inactive state.
-   */
-  Inactive = "Inactive",
-  /**
-   * Activating state.
-   */
-  Activating = "Activating",
-  /**
-   * Active state.
-   */
-  Active = "Active",
-  /**
-   * Deactivating state.
-   */
-  Deactivating = "Deactivating",
+    /**
+     * Inactive state.
+     */
+    Inactive = "Inactive",
+    /**
+     * Activating state.
+     */
+    Activating = "Activating",
+    /**
+     * Active state.
+     */
+    Active = "Active",
+    /**
+     * Deactivating state.
+     */
+    Deactivating = "Deactivating"
 }
 
 /**
@@ -840,26 +820,26 @@ export enum MediaGraphInstanceState {
  * @enum {string}
  */
 export enum MediaGraphParameterType {
-  /**
-   * A string parameter value.
-   */
-  String = "String",
-  /**
-   * A string to hold sensitive information as parameter value.
-   */
-  SecretString = "SecretString",
-  /**
-   * A 32-bit signed integer as parameter value.
-   */
-  Int = "Int",
-  /**
-   * A 64-bit double-precision floating point type as parameter value.
-   */
-  Double = "Double",
-  /**
-   * A boolean value that is either true or false.
-   */
-  Bool = "Bool",
+    /**
+     * A string parameter value.
+     */
+    String = "String",
+    /**
+     * A string to hold sensitive information as parameter value.
+     */
+    SecretString = "SecretString",
+    /**
+     * A 32-bit signed integer as parameter value.
+     */
+    Int = "Int",
+    /**
+     * A 64-bit double-precision floating point type as parameter value.
+     */
+    Double = "Double",
+    /**
+     * A boolean value that is either true or false.
+     */
+    Bool = "Bool"
 }
 
 /**
@@ -869,10 +849,10 @@ export enum MediaGraphParameterType {
  * @enum {string}
  */
 export enum MediaGraphOutputSelectorProperty {
-  /**
-   * The stream's MIME type or subtype.
-   */
-  MediaType = "mediaType",
+    /**
+     * The stream's MIME type or subtype.
+     */
+    MediaType = "mediaType"
 }
 
 /**
@@ -882,14 +862,14 @@ export enum MediaGraphOutputSelectorProperty {
  * @enum {string}
  */
 export enum MediaGraphOutputSelectorOperator {
-  /**
-   * A media type is the same type or a subtype.
-   */
-  Is = "is",
-  /**
-   * A media type is not the same type or a subtype.
-   */
-  IsNot = "isNot",
+    /**
+     * A media type is the same type or a subtype.
+     */
+    Is = "is",
+    /**
+     * A media type is not the same type or a subtype.
+     */
+    IsNot = "isNot"
 }
 
 /**
@@ -899,14 +879,14 @@ export enum MediaGraphOutputSelectorOperator {
  * @enum {string}
  */
 export enum MediaGraphRtspTransport {
-  /**
-   * HTTP/HTTPS transport. This should be used when HTTP tunneling is desired.
-   */
-  Http = "Http",
-  /**
-   * TCP transport. This should be used when HTTP tunneling is NOT desired.
-   */
-  Tcp = "Tcp",
+    /**
+     * HTTP/HTTPS transport. This should be used when HTTP tunneling is desired.
+     */
+    Http = "Http",
+    /**
+     * TCP transport. This should be used when HTTP tunneling is NOT desired.
+     */
+    Tcp = "Tcp"
 }
 
 /**
@@ -916,18 +896,18 @@ export enum MediaGraphRtspTransport {
  * @enum {string}
  */
 export enum MediaGraphMotionDetectionSensitivity {
-  /**
-   * Low Sensitivity.
-   */
-  Low = "Low",
-  /**
-   * Medium Sensitivity.
-   */
-  Medium = "Medium",
-  /**
-   * High Sensitivity.
-   */
-  High = "High",
+    /**
+     * Low Sensitivity.
+     */
+    Low = "Low",
+    /**
+     * Medium Sensitivity.
+     */
+    Medium = "Medium",
+    /**
+     * High Sensitivity.
+     */
+    High = "High"
 }
 
 /**
@@ -937,18 +917,18 @@ export enum MediaGraphMotionDetectionSensitivity {
  * @enum {string}
  */
 export enum MediaGraphImageScaleMode {
-  /**
-   * Use the same aspect ratio as the input frame.
-   */
-  PreserveAspectRatio = "PreserveAspectRatio",
-  /**
-   * Center pad the input frame to match the given dimensions.
-   */
-  Pad = "Pad",
-  /**
-   * Stretch input frame to match given dimensions.
-   */
-  Stretch = "Stretch",
+    /**
+     * Use the same aspect ratio as the input frame.
+     */
+    PreserveAspectRatio = "PreserveAspectRatio",
+    /**
+     * Center pad the input frame to match the given dimensions.
+     */
+    Pad = "Pad",
+    /**
+     * Stretch input frame to match given dimensions.
+     */
+    Stretch = "Stretch"
 }
 
 /**
@@ -959,50 +939,50 @@ export enum MediaGraphImageScaleMode {
  * @enum {string}
  */
 export enum MediaGraphImageFormatRawPixelFormat {
-  /**
-   * Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples).
-   */
-  Yuv420p = "Yuv420p",
-  /**
-   * Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian.
-   */
-  Rgb565be = "Rgb565be",
-  /**
-   * Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian.
-   */
-  Rgb565le = "Rgb565le",
-  /**
-   * Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused/undefined.
-   */
-  Rgb555be = "Rgb555be",
-  /**
-   * Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused/undefined.
-   */
-  Rgb555le = "Rgb555le",
-  /**
-   * Packed RGB 8:8:8, 24bpp, RGBRGB.
-   */
-  Rgb24 = "Rgb24",
-  /**
-   * Packed RGB 8:8:8, 24bpp, BGRBGR.
-   */
-  Bgr24 = "Bgr24",
-  /**
-   * Packed ARGB 8:8:8:8, 32bpp, ARGBARGB.
-   */
-  Argb = "Argb",
-  /**
-   * Packed RGBA 8:8:8:8, 32bpp, RGBARGBA.
-   */
-  Rgba = "Rgba",
-  /**
-   * Packed ABGR 8:8:8:8, 32bpp, ABGRABGR.
-   */
-  Abgr = "Abgr",
-  /**
-   * Packed BGRA 8:8:8:8, 32bpp, BGRABGRA.
-   */
-  Bgra = "Bgra",
+    /**
+     * Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples).
+     */
+    Yuv420p = "Yuv420p",
+    /**
+     * Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian.
+     */
+    Rgb565be = "Rgb565be",
+    /**
+     * Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian.
+     */
+    Rgb565le = "Rgb565le",
+    /**
+     * Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused/undefined.
+     */
+    Rgb555be = "Rgb555be",
+    /**
+     * Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused/undefined.
+     */
+    Rgb555le = "Rgb555le",
+    /**
+     * Packed RGB 8:8:8, 24bpp, RGBRGB.
+     */
+    Rgb24 = "Rgb24",
+    /**
+     * Packed RGB 8:8:8, 24bpp, BGRBGR.
+     */
+    Bgr24 = "Bgr24",
+    /**
+     * Packed ARGB 8:8:8:8, 32bpp, ARGBARGB.
+     */
+    Argb = "Argb",
+    /**
+     * Packed RGBA 8:8:8:8, 32bpp, RGBARGBA.
+     */
+    Rgba = "Rgba",
+    /**
+     * Packed ABGR 8:8:8:8, 32bpp, ABGRABGR.
+     */
+    Abgr = "Abgr",
+    /**
+     * Packed BGRA 8:8:8:8, 32bpp, BGRABGRA.
+     */
+    Bgra = "Bgra"
 }
 
 /**
@@ -1012,16 +992,16 @@ export enum MediaGraphImageFormatRawPixelFormat {
  * @enum {string}
  */
 export enum MediaGraphImageEncodingFormat {
-  /**
-   * JPEG image format.
-   */
-  Jpeg = "Jpeg",
-  /**
-   * BMP image format.
-   */
-  Bmp = "Bmp",
-  /**
-   * PNG image format.
-   */
-  Png = "Png",
+    /**
+     * JPEG image format.
+     */
+    Jpeg = "Jpeg",
+    /**
+     * BMP image format.
+     */
+    Bmp = "Bmp",
+    /**
+     * PNG image format.
+     */
+    Png = "Png"
 }
