@@ -11,6 +11,7 @@ import {
 } from "office-ui-fabric-react";
 import { ParameterEditorParameterList } from "./ParameterEditorParameterList";
 import { MediaGraphParameterDeclaration } from "../../../lva-sdk/lvaSDKtypes";
+import Localizer from "../../../localization/Localizer";
 
 interface IParameterEditorAdvancedProps {
   parameters: MediaGraphParameterDeclaration[];
@@ -74,7 +75,9 @@ export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAd
                     <FontIcon iconName={"Variable2"} style={iconStyles} />
                     <strong>{props!.text}</strong>
                   </Stack>
-                  <Link>Insert</Link>
+                  <Link>
+                    {Localizer.l("parameterEditorAdvancedEditorInsertLinkText")}
+                  </Link>
                 </Stack>
               )}
               onRenderChildren={() => (

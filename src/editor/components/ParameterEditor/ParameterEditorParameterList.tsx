@@ -13,6 +13,7 @@ import {
 } from "../../../lva-sdk/lvaSDKtypes";
 import { ParameterEditorCreateForm } from "./ParameterEditorCreateForm";
 import { createParameter } from "./createParameter";
+import Localizer from "../../../localization/Localizer";
 
 interface IParameterEditorParameterListProps {
   parameters: MediaGraphParameterDeclaration[];
@@ -100,8 +101,6 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
       {isCreateFormShown && (
         <div
           style={{
-            // minWidth: 260,
-            // marginTop: -5,
             marginBottom: 10,
           }}
         >
@@ -127,13 +126,15 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
       >
         <Stack horizontal tokens={{ childrenGap: "s1" }}>
           <SearchBox
-            placeholder="Search"
+            placeholder={Localizer.l(
+              "parameterEditorParameterListSearchPlaceholder"
+            )}
             onChange={onSearchChange}
             styles={{ root: { flexGrow: 1 } }}
           />
           {onAddNew && !isCreateFormShown && (
             <DefaultButton
-              text="Add new"
+              text={Localizer.l("parameterEditorParameterListAddButtonLabel")}
               iconProps={{ iconName: "Add" }}
               onClick={toggleCreateForm}
             />

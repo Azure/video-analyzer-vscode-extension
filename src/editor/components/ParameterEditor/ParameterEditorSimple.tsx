@@ -8,6 +8,7 @@ import {
 import { ParameterEditorCreateForm } from "./ParameterEditorCreateForm";
 import { ParameterEditorParameterList } from "./ParameterEditorParameterList";
 import { MediaGraphParameterDeclaration } from "../../../lva-sdk/lvaSDKtypes";
+import Localizer from "../../../localization/Localizer";
 
 interface IParameterEditorSimpleProps {
   parameters: MediaGraphParameterDeclaration[];
@@ -31,7 +32,7 @@ export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimp
   const options: IChoiceGroupOption[] = [
     {
       key: "new",
-      text: "Create new",
+      text: Localizer.l("parameterEditorBasicEditorSourceCreateNewLabel"),
       styles: {
         root: {
           marginRight: 10,
@@ -41,7 +42,7 @@ export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimp
     },
     {
       key: "existing",
-      text: "Select existing",
+      text: Localizer.l("parameterEditorBasicEditorSourceUseExistingLabel"),
       styles: {
         root: {
           marginTop: 0,
@@ -81,8 +82,6 @@ export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimp
     const options: IChoiceGroupOption[] = items.map((item) => ({
       key: item.name,
       text: item.name,
-      ariaLabel:
-        "Mark displayed items as read after - Press tab for further action",
       onRenderLabel: (props, render) => {
         return (
           <>
@@ -115,7 +114,7 @@ export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimp
         defaultSelectedKey={firstKey}
         options={options}
         onChange={onParameterSourceChange}
-        label="Parameter source"
+        label={Localizer.l("parameterEditorBasicEditorSourceChoiceLabel")}
         required={true}
         styles={{
           flexContainer: {

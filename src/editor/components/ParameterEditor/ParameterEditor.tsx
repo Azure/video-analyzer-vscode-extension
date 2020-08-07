@@ -18,7 +18,6 @@ import { ParameterEditorAdvanced } from "./ParameterEditorAdvanced";
 import { MediaGraphParameterDeclaration } from "../../../lva-sdk/lvaSDKtypes";
 import { ParameterizeValueCallback } from "../../../types/graphTypes";
 import { createParameter } from "./createParameter";
-import { SignatureHelpTriggerKind } from "vscode";
 
 interface IParameterEditorProps {
   onSelectValue: ParameterizeValueCallback;
@@ -109,18 +108,19 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
         horizontalAlign="space-between"
         className={contentStyles.header}
       >
-        <span id={titleId}>Define value for {propertyName}</span>
+        <span id={titleId}>
+          {Localizer.l("parameterEditorTitle").format(propertyName)}
+        </span>
         <IconButton
           iconProps={{ iconName: "Cancel" }}
-          ariaLabel="Close popup modal"
+          ariaLabel={Localizer.l("parameterEditorCloseButtonAriaLabel")}
           onClick={hideModal}
         />
       </Stack>
       <div className={contentStyles.body}>
-        Create or select a parameter to insert into your value format.
+        {Localizer.l("parameterEditorText")}
         <Pivot
-          aria-label="Basic Pivot Example"
-          // defaultSelectedIndex={1}
+          aria-label={Localizer.l("parameterEditorPivotAriaLabel")}
           styles={{
             root: {
               marginTop: 10,
@@ -131,7 +131,9 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
           }}
           onLinkClick={resetSelectedValue}
         >
-          <PivotItem headerText="Basic">
+          <PivotItem
+            headerText={Localizer.l("parameterEditorPivotBasicTabLabel")}
+          >
             <ParameterEditorSimple
               parameters={parameters}
               setSelectedValue={setSelectedValue}
@@ -141,7 +143,9 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
               resetSelectedValue={resetSelectedValue}
             />
           </PivotItem>
-          <PivotItem headerText="Advanced">
+          <PivotItem
+            headerText={Localizer.l("parameterEditorPivotAdvancedTabLabel")}
+          >
             <ParameterEditorAdvanced
               parameters={parameters}
               setSelectedValue={setSelectedValue}
@@ -157,7 +161,7 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
         className={contentStyles.footer}
       >
         <PrimaryButton
-          text={Localizer.l("saveButtonText")}
+          text={Localizer.l("parameterEditorUseParameterInPropertyButtonText")}
           onClick={onClickUse}
         />
         <DefaultButton

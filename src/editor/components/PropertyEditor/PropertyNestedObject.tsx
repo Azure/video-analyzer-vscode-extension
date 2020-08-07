@@ -5,7 +5,6 @@ import { PropertyEditor } from "./PropertyEditor";
 import { PropertyDescription } from "./PropertyDescription";
 import { useId } from "@uifabric/react-hooks";
 import Localizer from "../../../localization/Localizer";
-import { MediaGraphParameterDeclaration } from "../../../lva-sdk/lvaSDKtypes";
 import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 
 interface IPropertyNestedObjectProps {

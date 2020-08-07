@@ -4,6 +4,7 @@ import {
   MediaGraphParameterDeclaration,
   MediaGraphParameterType,
 } from "../../../lva-sdk/lvaSDKtypes";
+import Localizer from "../../../localization/Localizer";
 
 interface IParameterEditorCreateFormProps {
   setParameterCreationConfiguration: (
@@ -68,23 +69,29 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
   return (
     <>
       <TextField
-        label="Parameter name"
-        placeholder="Enter parameter name"
+        label={Localizer.l("parameterEditorCreateFormNameFieldLabel")}
+        placeholder={Localizer.l(
+          "parameterEditorCreateFormNameFieldPlaceholder"
+        )}
         required
         value={parameterName}
         onChange={onParameterNameChange}
       />
       <Dropdown
-        placeholder="Select an parameter type"
-        label="Parameter type"
+        label={Localizer.l("parameterEditorCreateFormTypeDropdownLabel")}
+        placeholder={Localizer.l(
+          "parameterEditorCreateFormTypeDropdownPlaceholder"
+        )}
         options={options}
         required
         selectedKey={parameterType as string}
         onChange={onParameterTypeChange}
       />
       <TextField
-        label="Default value"
-        placeholder="Enter default value"
+        label={Localizer.l("parameterEditorCreateFormDefaultFieldLabel")}
+        placeholder={Localizer.l(
+          "parameterEditorCreateFormDefaultFieldPlaceholder"
+        )}
         value={parameterDefaultValue}
         onChange={onParameterDefaultValueChange}
       />

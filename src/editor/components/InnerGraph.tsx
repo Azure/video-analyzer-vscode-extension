@@ -7,7 +7,6 @@ import {
   ICanvasData,
   ICanvasNode,
   IGraphDataChangeEvent,
-  IGraphStyles,
   IPropsAPI,
   IZoomPanSettings,
   RegisterEdge,

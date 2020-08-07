@@ -8,8 +8,8 @@ import {
   Label,
   IStackStyles,
   IButtonStyles,
-  Icon,
   IContextualMenuProps,
+  loadTheme,
 } from "office-ui-fabric-react";
 import { useBoolean, useId } from "@uifabric/react-hooks";
 
@@ -63,19 +63,19 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
       ? [
           {
             key: "parameterize",
-            text: "Edit parameterization",
+            text: Localizer.l("propertyEditorOverflowMenuEditParameterText"),
             onClick: useParameter,
           },
           {
             key: "clear",
-            text: "Remove parameterization",
+            text: Localizer.l("propertyEditorOverflowMenuRemoveParameterText"),
             onClick: clearValue,
           },
         ]
       : [
           {
             key: "parameterize",
-            text: "Parameterize",
+            text: Localizer.l("propertyEditorOverflowMenuUseParameterText"),
             onClick: useParameter,
           },
         ],
@@ -107,8 +107,8 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
         {useParameter && (
           <IconButton
             iconProps={{ iconName: "More" }}
-            title={"test"}
-            ariaLabel={"test"}
+            title={Localizer.l("propertyEditorOverflowMenuTitle")}
+            ariaLabel={Localizer.l("propertyEditorOverflowMenuAriaLabel")}
             menuProps={menuProps}
             onRenderMenuIcon={() => null}
           />

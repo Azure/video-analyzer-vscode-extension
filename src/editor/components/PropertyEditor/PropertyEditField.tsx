@@ -160,7 +160,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         onRenderLabel={onRenderLabel}
         aria-labelledby={labelId}
         readOnly
-        // disabled
       />
     );
   }
