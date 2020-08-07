@@ -45,10 +45,6 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
       type: "String" as MediaGraphParameterType,
     },
     {
-      name: "System.PreciseDateTime",
-      type: "String" as MediaGraphParameterType,
-    },
-    {
       name: "System.GraphTopologyName",
       type: "String" as MediaGraphParameterType,
     },
