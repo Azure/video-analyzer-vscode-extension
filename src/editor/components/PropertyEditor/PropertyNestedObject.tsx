@@ -11,11 +11,11 @@ interface IPropertyNestedObjectProps {
     property: any;
     nodeProperties: any;
     required: boolean;
-    readOnly: boolean;
+    readOnly?: boolean;
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
-    const { name, property, nodeProperties, required, readOnly } = props;
+    const { name, property, nodeProperties, required, readOnly = false } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
     const [type, setType] = React.useState<string>(initType);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
@@ -56,17 +56,25 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
 
     return (
         <>
-            <Dropdown
-                label={name}
-                // readOnly is not supported, so only show that one option when needed
-                options={readOnly ? options.filter((item) => item.key === selectedType) : options}
-                defaultSelectedKey={selectedType}
-                onChange={handleTypeChange}
-                required={required}
-                onRenderLabel={onRenderLabel}
-                aria-labelledby={labelId}
-                errorMessage={errorMessage}
-            />
+            {readOnly ? (
+                <>
+                    {onRenderLabel()}
+                    <div aria-labelledby={labelId}>
+                        {selectedType ? options.filter((item) => item.key === selectedType)[0].text : <i>{Localizer.l("propertyEditorNoneValueLabel")}</i>}
+                    </div>
+                </>
+            ) : (
+                <Dropdown
+                    label={name}
+                    options={options}
+                    defaultSelectedKey={selectedType}
+                    onChange={handleTypeChange}
+                    required={required}
+                    onRenderLabel={onRenderLabel}
+                    aria-labelledby={labelId}
+                    errorMessage={errorMessage}
+                />
+            )}
             {type && (
                 <div
                     style={{

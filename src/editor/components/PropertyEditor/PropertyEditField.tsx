@@ -18,11 +18,10 @@ interface IPropertyEditFieldProps {
     property: any;
     nodeProperties: any;
     required: boolean;
-    readOnly: boolean;
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
-    const { name, property, nodeProperties, required, readOnly } = props;
+    const { name, property, nodeProperties, required } = props;
 
     let initValue = nodeProperties[name];
     if (property.type !== "boolean" && property.type !== "string") {
@@ -139,8 +138,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         return (
             <Dropdown
                 label={name}
-                // readOnly is not supported, so only show that one option when needed
-                options={readOnly ? options.filter((item) => item.key === selectedValue) : options}
+                options={options}
                 defaultSelectedKey={selectedValue}
                 onChange={handleDropdownChange}
                 required={required}
@@ -162,7 +160,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onRenderLabel={onRenderLabel}
                 aria-labelledby={labelId}
                 onGetErrorMessage={validateInput}
-                readOnly={readOnly}
             />
         );
     } else if (property.type === "boolean") {
@@ -190,7 +187,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                     onChange={handleChoiceGroupChange}
                     required={required}
                     aria-labelledby={labelId}
-                    readOnly={readOnly}
                 />
                 {errorMessage && (
                     <Text variant="small" style={{ color: getTheme().semanticColors.errorText }}>
@@ -204,7 +200,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (!isPropertyValueSet) {
             nodeProperties[name] = {};
         }
-        return <PropertyNestedObject name={name} property={property} nodeProperties={nodeProperties[name]} required={required} readOnly={readOnly} />;
+        return <PropertyNestedObject name={name} property={property} nodeProperties={nodeProperties[name]} required={required} />;
     } else {
         return (
             <TextField
@@ -218,7 +214,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onRenderLabel={onRenderLabel}
                 aria-labelledby={labelId}
                 onGetErrorMessage={validateInput}
-                readOnly={readOnly}
             />
         );
     }

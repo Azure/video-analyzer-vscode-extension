@@ -1,6 +1,7 @@
 import * as React from "react";
 import Definitions from "../../../definitions/Definitions";
 import { PropertyEditField } from "./PropertyEditField";
+import { PropertyReadOnlyEditField } from "./PropertyReadonlyEditField";
 
 interface IPropertyEditorProps {
     nodeProperties: any;
@@ -33,13 +34,21 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (pr
                     marginTop: 20
                 }}
             >
-                <PropertyEditField
-                    name={name}
-                    property={property}
-                    nodeProperties={nodeProperties}
-                    required={(definition.required && definition.required.includes(name)) as boolean}
-                    readOnly={readOnly}
-                />
+                {readOnly ? (
+                    <PropertyReadOnlyEditField
+                        name={name}
+                        property={property}
+                        nodeProperties={nodeProperties}
+                        required={(definition.required && definition.required.includes(name)) as boolean}
+                    />
+                ) : (
+                    <PropertyEditField
+                        name={name}
+                        property={property}
+                        nodeProperties={nodeProperties}
+                        required={(definition.required && definition.required.includes(name)) as boolean}
+                    />
+                )}
             </div>
         );
     }
