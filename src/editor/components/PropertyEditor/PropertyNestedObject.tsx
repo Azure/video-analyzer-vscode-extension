@@ -11,10 +11,11 @@ interface IPropertyNestedObjectProps {
     property: any;
     nodeProperties: any;
     required: boolean;
+    readOnly: boolean;
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
-    const { name, property, nodeProperties, required } = props;
+    const { name, property, nodeProperties, required, readOnly } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
     const [type, setType] = React.useState<string>(initType);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
@@ -51,12 +52,15 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
         return <PropertyDescription name={name} required={required} property={property} labelId={labelId} />;
     }
 
+    const selectedType = type || "";
+
     return (
         <>
             <Dropdown
                 label={name}
-                options={options}
-                defaultSelectedKey={type || ""}
+                // readOnly is not supported, so only show that one option when needed
+                options={readOnly ? options.filter((item) => item.key === selectedType) : options}
+                defaultSelectedKey={selectedType}
                 onChange={handleTypeChange}
                 required={required}
                 onRenderLabel={onRenderLabel}
@@ -70,7 +74,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                         paddingLeft: 10
                     }}
                 >
-                    {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} />}
+                    {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} />}
                 </div>
             )}
         </>

@@ -4,10 +4,11 @@ import { PropertyEditField } from "./PropertyEditField";
 
 interface IPropertyEditorProps {
     nodeProperties: any;
+    readOnly: boolean;
 }
 
 export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (props) => {
-    const { nodeProperties } = props;
+    const { nodeProperties, readOnly = false } = props;
     const definition = Definitions.getNodeDefinition(nodeProperties);
 
     if (!definition) {
@@ -37,6 +38,7 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (pr
                     property={property}
                     nodeProperties={nodeProperties}
                     required={(definition.required && definition.required.includes(name)) as boolean}
+                    readOnly={readOnly}
                 />
             </div>
         );

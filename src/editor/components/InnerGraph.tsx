@@ -35,6 +35,8 @@ export interface IInnerGraphProps {
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
+    const { readOnly = false } = props;
+
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const propsApi = usePropsAPI();
     const svgRef = React.useRef<SVGSVGElement>(null);
@@ -92,7 +94,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
 
     return (
         <>
-            <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi)} />
+            <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi, readOnly)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsApi)} />
             <Graph
                 svgRef={svgRef}

@@ -14,7 +14,7 @@ initalizeEnvironment((window as any).language).then((params: InitializationParam
 
     ReactDOM.render(
         <React.StrictMode>
-            <App graphData={state.graphData} zoomPanSettings={state.zoomPanSettings} vsCodeSetState={vsCodeSetState} />
+            <App state={state} vsCodeSetState={vsCodeSetState} />
         </React.StrictMode>,
         document.getElementById("root")
     );

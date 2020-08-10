@@ -7,9 +7,11 @@ import { PropertyEditor } from "./PropertyEditor/PropertyEditor";
 
 export class NodePropertiesPanel implements IPanelConfig {
     private readonly _propsAPI: IPropsAPI;
+    private readonly readOnly: boolean;
 
-    constructor(propsAPI: IPropsAPI) {
+    constructor(propsAPI: IPropsAPI, readOnly?: boolean) {
         this._propsAPI = propsAPI;
+        this.readOnly = readOnly || false;
     }
 
     public render(data: any): React.ReactNode {
@@ -43,7 +45,7 @@ export class NodePropertiesPanel implements IPanelConfig {
                     />
                 </Stack>
                 {definition.description && <p>{Localizer.l(definition.description)}</p>}
-                <PropertyEditor nodeProperties={nodeProperties} />
+                <PropertyEditor nodeProperties={nodeProperties} readOnly={this.readOnly} />
             </div>
         );
     }

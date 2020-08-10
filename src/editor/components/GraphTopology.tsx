@@ -150,8 +150,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                 <Stack.Item grow>
                     <Toolbar
                         name={graphTopologyName}
-                        exportGraph={exportGraph}
-                        closeEditor={() => {
+                        primaryAction={exportGraph}
+                        cancelAction={() => {
                             alert("TODO: Close editor");
                         }}
                     />

@@ -12,17 +12,20 @@ import {
 } from "@vienna/react-dag-editor";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
+import { MediaGraphInstance } from "../../lva-sdk/lvaSDKtypes";
+import { GraphInstanceParameter } from "../../types/graphTypes";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
-import { GraphPanel } from "./GraphPanel";
 import { InnerGraph } from "./InnerGraph";
 import { NodeBase } from "./NodeBase";
+import { ParameterPanel } from "./ParameterPanel";
 import { modulePort } from "./Port";
 import { Toolbar } from "./Toolbar";
 
 interface IGraphInstanceProps {
     graph: Graph;
     zoomPanSettings: IZoomPanSettings;
+    parameters: GraphInstanceParameter[];
     vsCodeSetState: (state: any) => void;
 }
 
@@ -31,14 +34,34 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
     const [graphInstanceName, setGraphInstanceName] = React.useState<string>(graph.getName());
-    const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
+    const [graphDescription, setGraphDescription] = React.useState<string>("");
 
-    // save state in VS Code when data or zoomPanSettings change
-    React.useEffect(() => {
+    let initialParams: GraphInstanceParameter[] = props.parameters;
+    if (initialParams.length === 0 && graph.getTopology().properties && graph.getTopology().properties!.parameters) {
+        initialParams = graph.getTopology().properties!.parameters!.map((param) => ({
+            name: param.name,
+            value: param.default || "",
+            type: param.type
+        }));
+    }
+    const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
+
+    // save state in VS Code when data, zoomPanSettings, or parameters change
+    const saveState = (update?: any) => {
         props.vsCodeSetState({
             graphData: { ...data, meta: graph.getTopology() },
-            zoomPanSettings
+            zoomPanSettings,
+            parameters,
+            ...update // in case we want to force changes
         });
+    };
+    const setParameters = (parameters: GraphInstanceParameter[]) => {
+        setParametersInternal(parameters);
+        // the above might not update parameters immediately
+        saveState({ parameters });
+    };
+    React.useEffect(() => {
+        saveState();
     }, [data, zoomPanSettings]);
 
     if (!isSupported()) {
@@ -46,11 +69,23 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     }
 
     const exportGraph = () => {
-        graph.setName(graphInstanceName);
-        graph.setDescription(graphDescription);
-        graph.setGraphDataFromICanvasData(data);
-        const topology = graph.getTopology();
-        console.log(topology);
+        const instance: MediaGraphInstance = {
+            name: graphInstanceName,
+            properties: {
+                topologyName: graph.getName(),
+                description: graphDescription,
+                parameters: parameters
+            }
+        };
+        console.log(instance);
+    };
+
+    const saveAndStartAction = {
+        text: Localizer.l("saveAndStartButtonText"),
+        callback: () => {
+            exportGraph();
+            console.log("And start");
+        }
     };
 
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
@@ -68,7 +103,6 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     const panelStyles = {
         root: {
             boxSizing: "border-box" as const,
-            padding: 10,
             overflowY: "auto" as const,
             willChange: "transform",
             height: "100vh",
@@ -78,32 +112,48 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         }
     };
 
+    const panelItemStyles = {
+        padding: 10
+    };
+
+    const topSidebarStyles = {
+        padding: 10,
+        borderBottom: "1px solid var(--vscode-editorWidget-border)",
+        paddingBottom: 20,
+        marginBottom: 10
+    };
+
     return (
         <ReactDagEditor theme={theme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase())} />
             <RegisterPort name="modulePort" config={modulePort} />
             <Stack horizontal>
                 <Stack.Item styles={panelStyles}>
-                    <TextField
-                        label={Localizer.l("sidebarGraphInstanceNameLabel")}
-                        required
-                        defaultValue={graphInstanceName}
-                        placeholder={Localizer.l("sidebarGraphInstanceNamePlaceholder")}
-                        onChange={onNameChange}
-                    />
-                    <TextField
-                        label={Localizer.l("sidebarGraphDescriptionLabel")}
-                        defaultValue={graphDescription}
-                        placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-                        onChange={onDescriptionChange}
-                    />
-                    <GraphPanel data={graph.getTopology()} exportGraph={exportGraph} />
+                    <div style={topSidebarStyles}>
+                        <TextField
+                            label={Localizer.l("sidebarGraphInstanceNameLabel")}
+                            required
+                            defaultValue={graphInstanceName}
+                            placeholder={Localizer.l("sidebarGraphInstanceNamePlaceholder")}
+                            onChange={onNameChange}
+                        />
+                        <TextField
+                            label={Localizer.l("sidebarGraphDescriptionLabel")}
+                            defaultValue={graphDescription}
+                            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+                            onChange={onDescriptionChange}
+                        />
+                    </div>
+                    <div style={panelItemStyles}>
+                        <ParameterPanel parameters={parameters} setParameters={setParameters} />
+                    </div>
                 </Stack.Item>
                 <Stack.Item grow>
                     <Toolbar
                         name={graphInstanceName}
-                        exportGraph={exportGraph}
-                        closeEditor={() => {
+                        primaryAction={exportGraph}
+                        secondaryAction={saveAndStartAction}
+                        cancelAction={() => {
                             alert("TODO: Close editor");
                         }}
                     />
