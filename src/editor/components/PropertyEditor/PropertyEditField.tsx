@@ -133,13 +133,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 text: value
             }))
         ];
-        const selectedValue = value || "";
-
         return (
             <Dropdown
                 label={name}
                 options={options}
-                defaultSelectedKey={selectedValue}
+                defaultSelectedKey={value || ""}
                 onChange={handleDropdownChange}
                 required={required}
                 onRenderLabel={onRenderLabel}
