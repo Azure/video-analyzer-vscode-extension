@@ -4,15 +4,15 @@ import { GraphInfo } from "./graphTypes";
 export type VSCodeSetState = (state: VSCodeState) => void;
 
 export interface VSCodeDelegate {
-  setState: VSCodeSetState;
+    setState: VSCodeSetState;
 }
 
 export interface VSCodeState {
-  graphData?: GraphInfo;
-  zoomPanSettings?: IZoomPanSettings;
+    graphData?: GraphInfo;
+    zoomPanSettings?: IZoomPanSettings;
 }
 
 export interface InitializationParameters {
-  state: VSCodeState;
-  vsCodeSetState: VSCodeSetState;
+    state: VSCodeState;
+    vsCodeSetState: VSCodeSetState;
 }

@@ -78,6 +78,7 @@
         "compile-ext": "tsc -p tsconfig.ext.json",
         "dev": "react-scripts start",
         "lint": "eslint . --ext .ts,.tsx",
+        "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
         "create-definitions": "tsc -p tsconfig.definitiongen.json && node ./definition-generator/tools/definition-generator/entry.js",
         "refreshVSToken": "vsts-npm-auth -config .npmrc"
     },
@@ -96,13 +97,14 @@
     "devDependencies": {
         "@types/dagre": "^0.7.44",
         "@types/lodash": "^4.14.155",
-        "@types/uuid": "^8.0.0",
         "@types/node": "^12.12.0",
         "@types/react": "^16.9.36",
         "@types/react-dom": "^16.9.8",
+        "@types/uuid": "^8.0.0",
         "@types/vscode": "^1.38.0",
         "@typescript-eslint/eslint-plugin": "^3.0.2",
         "@typescript-eslint/parser": "^3.0.2",
+        "prettier": "^2.0.5",
         "typescript": "^3.9.4"
     },
     "browserslist": {

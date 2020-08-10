@@ -16,7 +16,5 @@
     "html.format.wrapAttributes": "preserve-aligned",
     "editor.codeActionsOnSave": {
         "source.fixAll": false
-    },
-    "importSorter.sortConfiguration.removeUnusedImports": true,
-    "importSorter.sortConfiguration.removeUnusedDefaultImports": true
+    }
 }

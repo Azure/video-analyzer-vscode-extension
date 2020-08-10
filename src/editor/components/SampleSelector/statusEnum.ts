@@ -1,6 +1,6 @@
 export enum Status {
-  NoDisplay,
-  SelectSample,
-  ConfirmOverwrite,
-  WaitingOnSampleLoad,
+    NoDisplay,
+    SelectSample,
+    ConfirmOverwrite,
+    WaitingOnSampleLoad
 }
