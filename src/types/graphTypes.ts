@@ -50,18 +50,8 @@ export interface CanvasNodeData {
   nodeType: MediaGraphNodeType;
 }
 
-export interface LocalizedNodeTypeStrings {
+export interface NestedLocalizedStrings {
   title: string;
   description: string;
-}
-
-export interface LocalizedNodePropertyStrings {
-  title: string;
-  description: string;
-  placeholder: string;
-}
-
-export interface LocalizedNodePropertyValueStrings {
-  value: string;
-  description: string;
+  placeholder?: string;
 }

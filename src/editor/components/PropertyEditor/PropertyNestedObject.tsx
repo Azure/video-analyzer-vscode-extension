@@ -22,7 +22,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     nodeProperties["@type"].replace("#Microsoft.Media.", "");
   const [type, setType] = React.useState<string>(initType);
   const [errorMessage, setErrorMessage] = React.useState<string>("");
-  const localizedStrings = Localizer.getNodePropertyStrings(
+  const localizedPropertyStrings = Localizer.getLocalizedStrings(
     property.localizationKey
   );
 
@@ -48,8 +48,8 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     },
     ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => ({
       key: node.name,
-      text: Localizer.getNodeTypeStrings(node.localizationKey).title,
-      title: Localizer.getNodeTypeStrings(node.localizationKey).description,
+      text: Localizer.getLocalizedStrings(node.localizationKey).title,
+      title: Localizer.getLocalizedStrings(node.localizationKey).description,
     })),
   ];
 
@@ -58,7 +58,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
   function onRenderLabel() {
     return (
       <PropertyDescription
-        name={localizedStrings.title}
+        name={localizedPropertyStrings.title}
         required={required}
         property={property}
         labelId={labelId}

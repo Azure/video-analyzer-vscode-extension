@@ -71,9 +71,9 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
       (category, index) => {
         const children = category.children.map((node) => {
           const internalNode = node.extra as ICanvasNode;
-          const description = Localizer.l(
+          const description = Localizer.getLocalizedStrings(
             internalNode.data!.nodeProperties.name
-          );
+          ).description;
           const styles = NodeHelpers.getNodeAppearance(
             internalNode.data!.nodeType
           );

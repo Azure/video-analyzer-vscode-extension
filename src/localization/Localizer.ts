@@ -1,17 +1,8 @@
-import {
-  LocalizedNodeTypeStrings,
-  LocalizedNodePropertyStrings,
-  LocalizedNodePropertyValueStrings,
-} from "../types/graphTypes";
+import { NestedLocalizedStrings } from "../types/graphTypes";
 
 export default class Localizer {
   private static localized: Record<string, string> = {};
-  private static localizedNested: Record<
-    string,
-    | LocalizedNodeTypeStrings
-    | LocalizedNodePropertyStrings
-    | LocalizedNodePropertyValueStrings
-  > = {};
+  private static localizedNested: Record<string, NestedLocalizedStrings> = {};
 
   static async getLanguage(language: string) {
     const interfaceLocStrings = await import(
@@ -44,15 +35,7 @@ export default class Localizer {
     return this.localized[key];
   }
 
-  static getNodeTypeStrings(key: string) {
-    return this.localizedNested[key] as LocalizedNodeTypeStrings;
-  }
-
-  static getNodePropertyStrings(key: string) {
-    return this.localizedNested[key] as LocalizedNodePropertyStrings;
-  }
-
-  static getNodePropertyValueStrings(key: string) {
-    return this.localizedNested[key] as LocalizedNodePropertyValueStrings;
+  static getLocalizedStrings(key: string) {
+    return this.localizedNested[key] as NestedLocalizedStrings;
   }
 }

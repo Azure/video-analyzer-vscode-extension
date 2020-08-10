@@ -29,7 +29,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   if (property.type !== "boolean" && property.type !== "string") {
     initValue = JSON.stringify(initValue);
   }
-  const localizedStrings = Localizer.getNodePropertyStrings(
+  const localizedPropertyStrings = Localizer.getLocalizedStrings(
     property.localizationKey
   );
   const [value, setValue] = React.useState<string>(initValue);
@@ -127,7 +127,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   function onRenderLabel() {
     return (
       <PropertyDescription
-        name={localizedStrings.title}
+        name={localizedPropertyStrings.title}
         required={required}
         property={property}
         labelId={labelId}
@@ -141,16 +141,20 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         key: "",
         text: "undefined",
       },
-      ...property.enum.map((value: string) => ({
-        key: value,
-        text: Localizer.getNodePropertyValueStrings(
+      ...property.enum.map((value: string) => {
+        const localizedEnumValueStrings = Localizer.getLocalizedStrings(
           `${property.localizationKey}.${value}`
-        ).value,
-      })),
+        );
+        return {
+          key: value,
+          text: localizedEnumValueStrings.title,
+          title: localizedEnumValueStrings.description,
+        };
+      }),
     ];
     return (
       <Dropdown
-        placeholder={localizedStrings.placeholder}
+        placeholder={localizedPropertyStrings.placeholder}
         options={options}
         defaultSelectedKey={value || ""}
         onChange={handleDropdownChange}
@@ -163,7 +167,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   } else if (property.type === "string") {
     return (
       <TextField
-        placeholder={localizedStrings.placeholder}
+        placeholder={localizedPropertyStrings.placeholder}
         type="text"
         id={name}
         value={value}
@@ -226,7 +230,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
   } else {
     return (
       <TextField
-        placeholder={localizedStrings.placeholder}
+        placeholder={localizedPropertyStrings.placeholder}
         multiline
         autoAdjustHeight
         defaultValue={value}

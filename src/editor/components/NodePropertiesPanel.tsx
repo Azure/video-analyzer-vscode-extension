@@ -49,7 +49,7 @@ export class NodePropertiesPanel implements IPanelConfig {
         {definition.localizationKey && (
           <p>
             {
-              Localizer.getNodeTypeStrings(definition.localizationKey)
+              Localizer.getLocalizedStrings(definition.localizationKey)
                 .description
             }
           </p>

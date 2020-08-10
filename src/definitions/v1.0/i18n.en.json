@@ -28,19 +28,19 @@
     "placeholder": ""
   },
   "MediaGraphInstanceProperties.state.Inactive": {
-    "value": "Inactive",
+    "title": "Inactive",
     "description": "Inactive state."
   },
   "MediaGraphInstanceProperties.state.Activating": {
-    "value": "Activating",
+    "title": "Activating",
     "description": "Activating state."
   },
   "MediaGraphInstanceProperties.state.Active": {
-    "value": "Active",
+    "title": "Active",
     "description": "Active state."
   },
   "MediaGraphInstanceProperties.state.Deactivating": {
-    "value": "Deactivating",
+    "title": "Deactivating",
     "description": "Deactivating state."
   },
   "MediaGraphParameterDefinition": {
@@ -117,23 +117,23 @@
     "placeholder": ""
   },
   "MediaGraphParameterDeclaration.type.String": {
-    "value": "String",
+    "title": "String",
     "description": "A string parameter value."
   },
   "MediaGraphParameterDeclaration.type.SecretString": {
-    "value": "SecretString",
+    "title": "SecretString",
     "description": "A string to hold sensitive information as parameter value."
   },
   "MediaGraphParameterDeclaration.type.Int": {
-    "value": "Int",
+    "title": "Int",
     "description": "A 32-bit signed integer as parameter value."
   },
   "MediaGraphParameterDeclaration.type.Double": {
-    "value": "Double",
+    "title": "Double",
     "description": "A 64-bit double-precision floating point type as parameter value."
   },
   "MediaGraphParameterDeclaration.type.Bool": {
-    "value": "Bool",
+    "title": "Bool",
     "description": "A boolean value that is either true or false."
   },
   "MediaGraphParameterDeclaration.description": {
@@ -170,11 +170,11 @@
     "placeholder": ""
   },
   "MediaGraphRtspSource.transport.Http": {
-    "value": "Http",
+    "title": "Http",
     "description": "HTTP/HTTPS transport. This should be used when HTTP tunneling is desired."
   },
   "MediaGraphRtspSource.transport.Tcp": {
-    "value": "Tcp",
+    "title": "Tcp",
     "description": "TCP transport. This should be used when HTTP tunneling is NOT desired."
   },
   "MediaGraphRtspSource.endpoint": {
@@ -349,7 +349,7 @@
     "placeholder": ""
   },
   "MediaGraphOutputSelector.property.mediaType": {
-    "value": "mediaType",
+    "title": "mediaType",
     "description": "The stream's MIME type or subtype."
   },
   "MediaGraphOutputSelector.operator": {
@@ -358,11 +358,11 @@
     "placeholder": ""
   },
   "MediaGraphOutputSelector.operator.is": {
-    "value": "is",
+    "title": "is",
     "description": "A media type is the same type or a subtype."
   },
   "MediaGraphOutputSelector.operator.isNot": {
-    "value": "isNot",
+    "title": "isNot",
     "description": "A media type is not the same type or a subtype."
   },
   "MediaGraphOutputSelector.value": {
@@ -432,15 +432,15 @@
     "placeholder": ""
   },
   "MediaGraphMotionDetectionProcessor.sensitivity.Low": {
-    "value": "Low",
+    "title": "Low",
     "description": "Low Sensitivity."
   },
   "MediaGraphMotionDetectionProcessor.sensitivity.Medium": {
-    "value": "Medium",
+    "title": "Medium",
     "description": "Medium Sensitivity."
   },
   "MediaGraphMotionDetectionProcessor.sensitivity.High": {
-    "value": "High",
+    "title": "High",
     "description": "High Sensitivity."
   },
   "MediaGraphMotionDetectionProcessor.outputMotionRegion": {
@@ -480,15 +480,15 @@
     "placeholder": ""
   },
   "MediaGraphImageScale.mode.PreserveAspectRatio": {
-    "value": "PreserveAspectRatio",
+    "title": "PreserveAspectRatio",
     "description": "Use the same aspect ratio as the input frame."
   },
   "MediaGraphImageScale.mode.Pad": {
-    "value": "Pad",
+    "title": "Pad",
     "description": "Center pad the input frame to match the given dimensions."
   },
   "MediaGraphImageScale.mode.Stretch": {
-    "value": "Stretch",
+    "title": "Stretch",
     "description": "Stretch input frame to match given dimensions."
   },
   "MediaGraphImageScale.width": {
@@ -515,47 +515,47 @@
     "description": "Encoding settings for raw images."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Yuv420p": {
-    "value": "Yuv420p",
+    "title": "Yuv420p",
     "description": "Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples)."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Rgb565be": {
-    "value": "Rgb565be",
+    "title": "Rgb565be",
     "description": "Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Rgb565le": {
-    "value": "Rgb565le",
+    "title": "Rgb565le",
     "description": "Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Rgb555be": {
-    "value": "Rgb555be",
+    "title": "Rgb555be",
     "description": "Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused/undefined."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Rgb555le": {
-    "value": "Rgb555le",
+    "title": "Rgb555le",
     "description": "Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused/undefined."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Rgb24": {
-    "value": "Rgb24",
+    "title": "Rgb24",
     "description": "Packed RGB 8:8:8, 24bpp, RGBRGB."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Bgr24": {
-    "value": "Bgr24",
+    "title": "Bgr24",
     "description": "Packed RGB 8:8:8, 24bpp, BGRBGR."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Argb": {
-    "value": "Argb",
+    "title": "Argb",
     "description": "Packed ARGB 8:8:8:8, 32bpp, ARGBARGB."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Rgba": {
-    "value": "Rgba",
+    "title": "Rgba",
     "description": "Packed RGBA 8:8:8:8, 32bpp, RGBARGBA."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Abgr": {
-    "value": "Abgr",
+    "title": "Abgr",
     "description": "Packed ABGR 8:8:8:8, 32bpp, ABGRABGR."
   },
   "MediaGraphImageFormatRaw.pixelFormat.Bgra": {
-    "value": "Bgra",
+    "title": "Bgra",
     "description": "Packed BGRA 8:8:8:8, 32bpp, BGRABGRA."
   },
   "MediaGraphImageFormatEncoded": {
@@ -568,15 +568,15 @@
     "placeholder": ""
   },
   "MediaGraphImageFormatEncoded.encoding.Jpeg": {
-    "value": "Jpeg",
+    "title": "Jpeg",
     "description": "JPEG image format."
   },
   "MediaGraphImageFormatEncoded.encoding.Bmp": {
-    "value": "Bmp",
+    "title": "Bmp",
     "description": "BMP image format."
   },
   "MediaGraphImageFormatEncoded.encoding.Png": {
-    "value": "Png",
+    "title": "Png",
     "description": "PNG image format."
   },
   "MediaGraphImageFormatEncoded.quality": {

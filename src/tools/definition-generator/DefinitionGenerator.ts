@@ -6,9 +6,7 @@ import NodeHelpers from "../../helpers/NodeHelpers";
 import {
   MediaGraphNodeType,
   NodeDefinition,
-  LocalizedNodeTypeStrings,
-  LocalizedNodePropertyStrings,
-  LocalizedNodePropertyValueStrings,
+  NestedLocalizedStrings,
 } from "../../types/graphTypes";
 
 export default class DefinitionGenerator {
@@ -17,12 +15,7 @@ export default class DefinitionGenerator {
   private version: string;
   private definitions: any;
 
-  private localizable: Record<
-    string,
-    | LocalizedNodeTypeStrings
-    | LocalizedNodePropertyStrings
-    | LocalizedNodePropertyValueStrings
-  > = {};
+  private localizable: Record<string, NestedLocalizedStrings> = {};
   private availableNodes: NodeDefinition[] = [];
   private itemPanelNodes: any[] = [];
   private usableNodes: Record<string, string[]> = {};
@@ -83,7 +76,7 @@ export default class DefinitionGenerator {
         this.localizable[nodeName] = {
           title: nodeName,
           description: node.description,
-        } as LocalizedNodeTypeStrings;
+        } as NestedLocalizedStrings;
         node.localizationKey = key;
         delete node.description;
       }
@@ -96,7 +89,7 @@ export default class DefinitionGenerator {
             title: propertyName,
             description: property.description,
             placeholder: property.example || "",
-          } as LocalizedNodePropertyStrings;
+          } as NestedLocalizedStrings;
           property.localizationKey = key;
           delete property.description;
         }
@@ -106,9 +99,9 @@ export default class DefinitionGenerator {
             if (value.description) {
               const key = `${nodeName}.${propertyName}.${value.value}`;
               this.localizable[key] = {
-                value: value.value,
+                title: value.value,
                 description: value.description,
-              } as LocalizedNodePropertyValueStrings;
+              } as NestedLocalizedStrings;
               value.localizationKey = key;
               delete value.value;
               delete value.description;
