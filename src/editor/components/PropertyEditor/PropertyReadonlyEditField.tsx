@@ -13,16 +13,15 @@ interface IPropertyReadOnlyEditFieldProps {
 
 export const PropertyReadOnlyEditField: React.FunctionComponent<IPropertyReadOnlyEditFieldProps> = (props) => {
     const { name, property, nodeProperties, required } = props;
-
-    const value = nodeProperties[name];
-
     const labelId: string = useId("label");
 
     if (property.type === "object") {
         return <PropertyNestedObject name={name} property={property} nodeProperties={nodeProperties[name]} required={required} readOnly />;
     }
 
-    const selectedValue = property.type !== "boolean" && property.type !== "string" ? JSON.stringify(value) : value;
+    const value = nodeProperties[name];
+    const needsToBeStringified = property.type !== "boolean" && property.type !== "string";
+    const selectedValue = needsToBeStringified ? JSON.stringify(value) : value;
 
     return (
         <>
