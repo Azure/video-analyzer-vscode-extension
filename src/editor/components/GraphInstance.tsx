@@ -68,7 +68,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
     }
 
-    const exportGraph = () => {
+    const saveInstance = () => {
         const instance: MediaGraphInstance = {
             name: graphInstanceName,
             properties: {
@@ -83,7 +83,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     const saveAndStartAction = {
         text: Localizer.l("saveAndStartButtonText"),
         callback: () => {
-            exportGraph();
+            saveInstance();
             console.log("And start");
         }
     };
@@ -151,7 +151,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                 <Stack.Item grow>
                     <Toolbar
                         name={graphInstanceName}
-                        primaryAction={exportGraph}
+                        primaryAction={saveInstance}
                         secondaryAction={saveAndStartAction}
                         cancelAction={() => {
                             alert("TODO: Close editor");

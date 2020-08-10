@@ -78,7 +78,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         return false;
     };
 
-    const exportGraph = () => {
+    const saveTopology = () => {
         graph.setName(graphTopologyName);
         graph.setDescription(graphDescription);
         graph.setGraphDataFromICanvasData(data);
@@ -150,7 +150,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                 <Stack.Item grow>
                     <Toolbar
                         name={graphTopologyName}
-                        primaryAction={exportGraph}
+                        primaryAction={saveTopology}
                         cancelAction={() => {
                             alert("TODO: Close editor");
                         }}
