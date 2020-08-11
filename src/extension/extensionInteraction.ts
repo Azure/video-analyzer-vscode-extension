@@ -1,17 +1,13 @@
 import Localizer from "../localization/Localizer";
 import { InitializationParameters } from "../types/vscodeDelegationTypes";
 
-// VS Code exposes this function: https://code.visualstudio.com/api/references/vscode-api#WebviewPanelSerializer
-declare const acquireVsCodeApi: any;
-
-export async function initalizeEnvironment(language: string) {
+export async function initializeEnvironment(language: string) {
     await Localizer.loadUserLanguage(language);
 
     return new Promise((resolve: (params: InitializationParameters) => void, reject) => {
         // Check if this is running in VS Code (might be developing in React)
-        if (typeof acquireVsCodeApi === "function") {
+        if (vscode) {
             (function () {
-                const vscode = acquireVsCodeApi();
                 const oldState = vscode.getState() || {};
 
                 // Handle messages sent from the extension to the webview

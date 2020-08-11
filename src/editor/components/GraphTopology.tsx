@@ -83,6 +83,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         graph.setDescription(graphDescription);
         graph.setGraphDataFromICanvasData(data);
         const topology = graph.getTopology();
+        if (vscode) {
+            vscode.postMessage({ command: "saveGraph", text: topology });
+        }
         console.log(topology);
     };
 
@@ -152,7 +155,12 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                         name={graphTopologyName}
                         exportGraph={exportGraph}
                         closeEditor={() => {
-                            alert("TODO: Close editor");
+                            console.log("try this one");
+                            if (vscode) {
+                                vscode.postMessage({
+                                    command: "closeWindow"
+                                });
+                            }
                         }}
                     />
                     <Stack.Item grow>

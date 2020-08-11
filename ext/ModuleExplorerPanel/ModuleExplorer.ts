@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
-import { Constants } from "../Util/Constants";
+import { CredentialStore } from "../Util/credentialStore";
 import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
 import { HubItem } from "./HubItem";
 import { ModuleItem } from "./ModuleItem";
@@ -19,12 +19,11 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
         if (connectionConfig && connectionConfig.connectionString) {
             this._connectionConfig = connectionConfig;
             this._iotHubData = new IotHubData(connectionConfig.connectionString);
-            // TODO add a command to clear connections
         } else {
             const connectionInfo = await ExtensionUtils.setConnectionString();
             this._iotHubData = connectionInfo.iotHubData;
             this._connectionConfig = connectionInfo.lvaHubConfig;
-            this.context.globalState.update(Constants.LvaGlobalStateKey, this._connectionConfig);
+            CredentialStore.setConnectionInfo(this.context, this._connectionConfig);
         }
         if (this._iotHubData && this._connectionConfig) {
             this._iotHubData = new IotHubData(this._connectionConfig.connectionString);
