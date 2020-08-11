@@ -11,6 +11,7 @@ import {
     RegisterPort,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
+import { ExtensionInteraction } from "../../extension/extensionInteraction";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
 import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
@@ -83,11 +84,15 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         return false;
     };
 
-    const exportGraph = () => {
+    const saveTopology = () => {
         graph.setName(graphTopologyName);
         graph.setDescription(graphDescription);
         graph.setGraphDataFromICanvasData(data);
         const topology = graph.getTopology();
+        const vscode = ExtensionInteraction.getVSCode();
+        if (vscode) {
+            vscode.postMessage({ command: "saveGraph", text: topology });
+        }
         console.log(topology);
     };
 
@@ -103,12 +108,13 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         }
     };
 
+    const parameters = graph.getParameters();
+
     const panelStyles = {
         root: {
             boxSizing: "border-box" as const,
             overflowY: "auto" as const,
             willChange: "transform",
-            height: "100vh",
             width: 300,
             background: "var(--vscode-editorWidget-background)",
             borderRight: "1px solid var(--vscode-editorWidget-border)"
@@ -130,7 +136,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         <ReactDagEditor theme={theme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase())} />
             <RegisterPort name="modulePort" config={modulePort} />
-            <Stack horizontal>
+            <Stack horizontal styles={{ root: { height: "100vh" } }}>
                 <Stack.Item styles={panelStyles}>
                     <div style={topSidebarStyles}>
                         <TextField
@@ -152,12 +158,17 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                         <ItemPanel hasNodeWithName={hasNodeWithName} />
                     </div>
                 </Stack.Item>
-                <Stack.Item grow>
+                <Stack grow>
                     <Toolbar
                         name={graphTopologyName}
-                        exportGraph={exportGraph}
-                        closeEditor={() => {
-                            alert("TODO: Close editor");
+                        primaryAction={saveTopology}
+                        cancelAction={() => {
+                            const vscode = ExtensionInteraction.getVSCode();
+                            if (vscode) {
+                                vscode.postMessage({
+                                    command: "closeWindow"
+                                });
+                            }
                         }}
                     />
                     <Stack.Item grow>
@@ -170,9 +181,10 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             onNodeAdded={nodeAdded}
                             onNodeRemoved={nodesRemoved}
                             onChange={onChange}
+                            parameters={parameters}
                         />
                     </Stack.Item>
-                </Stack.Item>
+                </Stack>
             </Stack>
             <ContextMenu />
         </ReactDagEditor>

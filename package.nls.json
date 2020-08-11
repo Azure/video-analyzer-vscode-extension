@@ -6,5 +6,6 @@
     "connectionString.prompt": "Enter an IoT Hub connection string",
     "deviceList.prompt": "Select a device",
     "moduleList.prompt": "Select the live video analytics module",
-    "iotHub.connectionString.validationMessageFormat": "The format should be :"
+    "iotHub.connectionString.validationMessageFormat": "The format should be :",
+    "createGraphButton": "Create graph"
 }

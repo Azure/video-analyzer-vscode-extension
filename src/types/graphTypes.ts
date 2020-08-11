@@ -1,6 +1,7 @@
 import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
+    MediaGraphParameterType,
     MediaGraphTopology
 } from "../lva-sdk/lvaSDKtypes";
 
@@ -50,8 +51,18 @@ export interface CanvasNodeData {
     nodeType: MediaGraphNodeType;
 }
 
+export interface GraphInstanceParameter {
+    name: string;
+    value: string;
+    type: MediaGraphParameterType;
+}
+
 export interface NestedLocalizedStrings {
     title: string;
     description: string;
     placeholder?: string;
 }
+
+export type ParameterizeValueCallback = (parameterizedValue: string) => void;
+
+export type ParameterizeValueRequestFunction = (propertyName: string, callback: ParameterizeValueCallback, previousValue?: string) => void;

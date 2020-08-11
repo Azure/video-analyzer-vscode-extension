@@ -4,11 +4,17 @@ import Localizer from "../../localization/Localizer";
 
 export interface IGraphPanelProps {
     name: string;
-    closeEditor: () => void;
-    exportGraph: () => void;
+    cancelAction: () => void;
+    primaryAction: () => void;
+    secondaryAction?: {
+        text: string;
+        callback: () => void;
+    };
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
+    const { name, cancelAction, primaryAction, secondaryAction } = props;
+
     const toolbarStyles = {
         padding: 10,
         background: "var(--vscode-editorWidget-background)",
@@ -17,10 +23,11 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
 
     return (
         <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} style={toolbarStyles}>
-            <div>{props.name}</div>
+            <div>{name}</div>
             <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
-                <DefaultButton text={Localizer.l("cancelButtonText")} onClick={props.closeEditor} />
-                <PrimaryButton text={Localizer.l("saveButtonText")} onClick={props.exportGraph} />
+                <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
+                {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
+                <PrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
             </Stack>
         </Stack>
     );
