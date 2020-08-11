@@ -13,6 +13,7 @@ import {
 } from "@vienna/react-dag-editor";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
+import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
@@ -48,8 +49,12 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
     }
 
-    function setTopology(topology: any) {
+    function setTopology(topology: MediaGraphTopology) {
         graph.setTopology(topology);
+        setGraphTopologyName(topology.name);
+        if (topology.properties && topology.properties.description) {
+            setGraphDescription(topology.properties.description);
+        }
         setData(graph.getICanvasData());
         setDirty(false);
     }
@@ -131,13 +136,13 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                         <TextField
                             label={Localizer.l("sidebarGraphTopologyNameLabel")}
                             required
-                            defaultValue={graphTopologyName}
+                            value={graphTopologyName}
                             placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
                             onChange={onNameChange}
                         />
                         <TextField
                             label={Localizer.l("sidebarGraphDescriptionLabel")}
-                            defaultValue={graphDescription}
+                            value={graphDescription}
                             placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
                             onChange={onDescriptionChange}
                         />

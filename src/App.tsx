@@ -38,6 +38,10 @@ export const App: React.FunctionComponent<IProps> = (props) => {
 
     if (props.graphData) {
         graph.setGraphData(props.graphData);
+        graph.setName(props.graphData.meta.name);
+        if (props.graphData.meta.properties && props.graphData.meta.properties.description) {
+            graph.setDescription(props.graphData.meta.properties.description);
+        }
     } else {
         graph.setTopology(sampleTopology);
     }
