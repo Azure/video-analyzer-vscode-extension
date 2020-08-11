@@ -2,19 +2,17 @@ import "./App.css";
 import { ITheme } from "office-ui-fabric-react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import React, { useEffect } from "react";
-import { IZoomPanSettings } from "@vienna/react-dag-editor";
 import { GraphInstance } from "./editor/components/GraphInstance";
 import { GraphTopology } from "./editor/components/GraphTopology";
 import Graph from "./graph/Graph";
 import IconSetupHelpers from "./helpers/IconSetupHelpers";
 import ThemeHelpers from "./helpers/ThemeHelpers";
-import { GraphInfo } from "./types/graphTypes";
+import { VSCodeState } from "./types/vscodeDelegationTypes";
 
 IconSetupHelpers.initializeIcons();
 
 interface IProps {
-    graphData?: GraphInfo;
-    zoomPanSettings?: IZoomPanSettings;
+    state: VSCodeState;
     vsCodeSetState: (state: any) => void;
 }
 
@@ -23,6 +21,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
         setTheme(ThemeHelpers.getAdaptedTheme());
     });
+    const { graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, parameters = [] } = props.state;
 
     // when unmounting, disconnect the observer to prevent leaked references
     useEffect(() => {
@@ -35,19 +34,19 @@ export const App: React.FunctionComponent<IProps> = (props) => {
 
     const graph = new Graph();
 
-    if (props.graphData) {
-        graph.setGraphData(props.graphData);
+    if (graphData) {
+        graph.setGraphData(graphData);
     }
 
-    // if there is no state to recover from (in props.graphData or zoomPanSettings), use default
+    // if there is no state to recover from (in graphData or zoomPanSettings), use default
     // (load sampleTopology) and 1x zoom, no translate (stored in a transformation matrix)
     // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
     return (
         <ThemeProvider theme={theme}>
             {editingTopology ? (
-                <GraphTopology graph={graph} zoomPanSettings={props.zoomPanSettings || { transformMatrix: [1, 0, 0, 1, 0, 0] }} vsCodeSetState={props.vsCodeSetState} />
+                <GraphTopology graph={graph} zoomPanSettings={zoomPanSettings} vsCodeSetState={props.vsCodeSetState} />
             ) : (
-                <GraphInstance graph={graph} zoomPanSettings={props.zoomPanSettings || { transformMatrix: [1, 0, 0, 1, 0, 0] }} vsCodeSetState={props.vsCodeSetState} />
+                <GraphInstance graph={graph} zoomPanSettings={zoomPanSettings} parameters={parameters} vsCodeSetState={props.vsCodeSetState} />
             )}
         </ThemeProvider>
     );

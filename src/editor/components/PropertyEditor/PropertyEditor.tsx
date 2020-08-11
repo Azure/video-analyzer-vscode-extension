@@ -2,14 +2,16 @@ import * as React from "react";
 import Definitions from "../../../definitions/Definitions";
 import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 import { PropertyEditField } from "./PropertyEditField";
+import { PropertyReadOnlyEditField } from "./PropertyReadonlyEditField";
 
 interface IPropertyEditorProps {
     nodeProperties: any;
-    requestParameterization: ParameterizeValueRequestFunction;
+    readOnly: boolean;
+    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (props) => {
-    const { nodeProperties, requestParameterization } = props;
+    const { nodeProperties, readOnly = false, requestParameterization } = props;
 
     const definition = Definitions.getNodeDefinition(nodeProperties);
 
@@ -28,6 +30,8 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (pr
         if (name === "@type") continue;
 
         const key = "property-" + name;
+        const required = (definition.required && definition.required.includes(name)) as boolean;
+
         propertyFields.push(
             <div
                 key={key}
@@ -35,13 +39,17 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (pr
                     marginTop: 20
                 }}
             >
-                <PropertyEditField
-                    name={name}
-                    property={property}
-                    nodeProperties={nodeProperties}
-                    required={(definition.required && definition.required.includes(name)) as boolean}
-                    requestParameterization={requestParameterization}
-                />
+                {readOnly ? (
+                    <PropertyReadOnlyEditField name={name} property={property} nodeProperties={nodeProperties} required={required} />
+                ) : (
+                    <PropertyEditField
+                        name={name}
+                        property={property}
+                        nodeProperties={nodeProperties}
+                        required={required}
+                        requestParameterization={requestParameterization}
+                    />
+                )}
             </div>
         );
     }

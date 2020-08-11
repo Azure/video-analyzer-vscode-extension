@@ -79,7 +79,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         return false;
     };
 
-    const exportGraph = () => {
+    const saveTopology = () => {
         graph.setName(graphTopologyName);
         graph.setDescription(graphDescription);
         graph.setGraphDataFromICanvasData(data);
@@ -156,9 +156,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                 <Stack grow>
                     <Toolbar
                         name={graphTopologyName}
-                        exportGraph={exportGraph}
-                        closeEditor={() => {
-                            console.log("try this one");
+                        primaryAction={saveTopology}
+                        cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {
                                 vscode.postMessage({

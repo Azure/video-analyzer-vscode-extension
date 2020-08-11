@@ -19,7 +19,7 @@ interface IPropertyEditFieldProps {
     property: any;
     nodeProperties: any;
     required: boolean;
-    requestParameterization: ParameterizeValueRequestFunction;
+    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
@@ -124,7 +124,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const labelId: string = useId("label");
 
     function requestAndInsertParameter() {
-        requestParameterization(name, setNewValue, value);
+        requestParameterization!(name, setNewValue, value);
     }
 
     function onRenderLabel() {
@@ -134,7 +134,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 required={required}
                 property={property}
                 labelId={labelId}
-                useParameter={requestAndInsertParameter}
+                useParameter={requestParameterization && requestAndInsertParameter}
                 isParameterized={parameterized}
                 setNewValue={setNewValue}
             />

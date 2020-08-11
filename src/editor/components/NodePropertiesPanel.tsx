@@ -11,11 +11,13 @@ import { PropertyEditor } from "./PropertyEditor/PropertyEditor";
 
 export class NodePropertiesPanel implements IPanelConfig {
     private readonly _propsAPI: IPropsAPI;
+    private readonly readOnly: boolean;
     private parameters: MediaGraphParameterDeclaration[];
 
-    constructor(propsAPI: IPropsAPI, parameters?: MediaGraphParameterDeclaration[]) {
+    constructor(propsAPI: IPropsAPI, readOnly: boolean, parameters: MediaGraphParameterDeclaration[]) {
         this._propsAPI = propsAPI;
-        this.parameters = parameters || [];
+        this.readOnly = readOnly;
+        this.parameters = parameters;
     }
 
     public render(data: any): React.ReactNode {
@@ -70,7 +72,7 @@ export class NodePropertiesPanel implements IPanelConfig {
                     />
                 </Stack>
                 {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
-                <PropertyEditor nodeProperties={nodeProperties} requestParameterization={requestParameterization} />
+                <PropertyEditor nodeProperties={nodeProperties} readOnly={this.readOnly} requestParameterization={requestParameterization} />
                 <ParameterEditor
                     onSelectValue={setNewParameterizedValue}
                     parameters={this.parameters}

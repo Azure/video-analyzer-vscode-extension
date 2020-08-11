@@ -12,11 +12,12 @@ interface IPropertyNestedObjectProps {
     property: any;
     nodeProperties: any;
     required: boolean;
-    requestParameterization: ParameterizeValueRequestFunction;
+    readOnly?: boolean;
+    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
-    const { name, property, nodeProperties, required, requestParameterization } = props;
+    const { name, property, nodeProperties, required, readOnly = false, requestParameterization } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
     const [type, setType] = React.useState<string>(initType);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
@@ -58,17 +59,28 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
         return <PropertyDescription name={localizedPropertyStrings.title} required={required} property={property} labelId={labelId} />;
     }
 
+    const selectedType = type || "";
+
     return (
         <>
-            <Dropdown
-                options={options}
-                defaultSelectedKey={type || ""}
-                onChange={handleTypeChange}
-                required={required}
-                onRenderLabel={onRenderLabel}
-                aria-labelledby={labelId}
-                errorMessage={errorMessage}
-            />
+            {readOnly ? (
+                <>
+                    {onRenderLabel()}
+                    <div aria-labelledby={labelId}>
+                        {selectedType ? options.filter((item) => item.key === selectedType)[0].text : <i>{Localizer.l("propertyEditorNoneValueLabel")}</i>}
+                    </div>
+                </>
+            ) : (
+                <Dropdown
+                    options={options}
+                    defaultSelectedKey={selectedType}
+                    onChange={handleTypeChange}
+                    required={required}
+                    onRenderLabel={onRenderLabel}
+                    aria-labelledby={labelId}
+                    errorMessage={errorMessage}
+                />
+            )}
             {type && (
                 <div
                     style={{
@@ -76,7 +88,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                         paddingLeft: 10
                     }}
                 >
-                    {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} requestParameterization={requestParameterization} />}
+                    {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} />}
                 </div>
             )}
         </>
