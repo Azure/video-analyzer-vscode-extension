@@ -10,6 +10,7 @@ import {
 import * as React from "react";
 import { useId } from "@uifabric/react-hooks";
 import Localizer from "../../../localization/Localizer";
+import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 import { PropertyDescription } from "./PropertyDescription";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
@@ -18,10 +19,11 @@ interface IPropertyEditFieldProps {
     property: any;
     nodeProperties: any;
     required: boolean;
+    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
-    const { name, property, nodeProperties, required } = props;
+    const { name, property, nodeProperties, required, requestParameterization } = props;
 
     let initValue = nodeProperties[name];
     if (property.type !== "boolean" && property.type !== "string") {
@@ -30,6 +32,8 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(initValue);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
+
+    const parameterized = !!(value && value.includes("${"));
 
     function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
         if (item) {
@@ -119,8 +123,26 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
     const labelId: string = useId("label");
 
+    function requestAndInsertParameter() {
+        requestParameterization!(name, setNewValue, value);
+    }
+
     function onRenderLabel() {
-        return <PropertyDescription name={localizedPropertyStrings.title} required={required} property={property} labelId={labelId} />;
+        return (
+            <PropertyDescription
+                name={localizedPropertyStrings.title}
+                required={required}
+                property={property}
+                labelId={labelId}
+                useParameter={requestParameterization && requestAndInsertParameter}
+                isParameterized={parameterized}
+                setNewValue={setNewValue}
+            />
+        );
+    }
+
+    if (property.type !== "object" && parameterized) {
+        return <TextField label={name} multiline autoAdjustHeight value={value} required={required} onRenderLabel={onRenderLabel} aria-labelledby={labelId} readOnly />;
     }
 
     if (property.type === "string" && property.enum) {
@@ -202,14 +224,23 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (!isPropertyValueSet) {
             nodeProperties[name] = {};
         }
-        return <PropertyNestedObject name={name} property={property} nodeProperties={nodeProperties[name]} required={required} />;
+        return (
+            <PropertyNestedObject
+                name={name}
+                property={property}
+                nodeProperties={nodeProperties[name]}
+                required={required}
+                requestParameterization={requestParameterization}
+            />
+        );
     } else {
         return (
             <TextField
-                placeholder={localizedPropertyStrings.placeholder}
+                label={name}
                 multiline
                 autoAdjustHeight
                 defaultValue={value}
+                placeholder={property.example}
                 onChange={handleTextFieldChange}
                 required={required}
                 onRenderLabel={onRenderLabel}

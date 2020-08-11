@@ -9,4 +9,11 @@ export class GraphTopologyData {
         });
         return response?.value;
     }
+
+    public static putGraphTopology(iotHubData: IotHubData, deviceId: string, moduleId: string, graphData: any): Promise<MediaGraphTopology[]> {
+        return iotHubData.directMethodCall(deviceId, moduleId, "GraphTopologySet", {
+            "@apiVersion": Constants.ApiVersion.version1,
+            ...graphData
+        });
+    }
 }

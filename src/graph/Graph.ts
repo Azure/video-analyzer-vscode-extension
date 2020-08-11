@@ -12,6 +12,7 @@ import NodeHelpers from "../helpers/NodeHelpers";
 import Localizer from "../localization/Localizer";
 import {
     MediaGraphNodeInput,
+    MediaGraphParameterDeclaration,
     MediaGraphProcessorUnion,
     MediaGraphSinkUnion,
     MediaGraphSourceUnion,
@@ -188,6 +189,10 @@ export default class Graph {
         }
 
         return topology;
+    }
+
+    public getParameters(): MediaGraphParameterDeclaration[] {
+        return this.graphInformation.properties?.parameters || [];
     }
 
     public getICanvasData(): ICanvasData {

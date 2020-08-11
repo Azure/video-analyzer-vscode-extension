@@ -15,4 +15,11 @@ export class Constants {
     };
 
     public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
+    public static ExtensionId = "lva-edge-vscode-extension";
+
+    // have a copy of this in react code.
+    public static PostMessageNames = {
+        closeWindow: "closeWindow",
+        saveGraph: "saveGraph"
+    };
 }

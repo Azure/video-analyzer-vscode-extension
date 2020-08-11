@@ -10,6 +10,7 @@ import {
     RegisterPort,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
+import { ExtensionInteraction } from "../../extension/extensionInteraction";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
 import { MediaGraphInstance } from "../../lva-sdk/lvaSDKtypes";
@@ -105,7 +106,6 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
             boxSizing: "border-box" as const,
             overflowY: "auto" as const,
             willChange: "transform",
-            height: "100vh",
             width: 300,
             background: "var(--vscode-editorWidget-background)",
             borderRight: "1px solid var(--vscode-editorWidget-border)"
@@ -127,7 +127,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         <ReactDagEditor theme={theme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase())} />
             <RegisterPort name="modulePort" config={modulePort} />
-            <Stack horizontal>
+            <Stack horizontal styles={{ root: { height: "100vh" } }}>
                 <Stack.Item styles={panelStyles}>
                     <div style={topSidebarStyles}>
                         <TextField
@@ -148,13 +148,18 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                         <ParameterPanel parameters={parameters} setParameters={setParameters} />
                     </div>
                 </Stack.Item>
-                <Stack.Item grow>
+                <Stack grow>
                     <Toolbar
                         name={graphInstanceName}
                         primaryAction={saveInstance}
                         secondaryAction={saveAndStartAction}
                         cancelAction={() => {
-                            alert("TODO: Close editor");
+                            const vscode = ExtensionInteraction.getVSCode();
+                            if (vscode) {
+                                vscode.postMessage({
+                                    command: "closeWindow"
+                                });
+                            }
                         }}
                     />
                     <Stack.Item grow>
@@ -167,7 +172,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                             readOnly
                         />
                     </Stack.Item>
-                </Stack.Item>
+                </Stack>
             </Stack>
             <ContextMenu />
         </ReactDagEditor>

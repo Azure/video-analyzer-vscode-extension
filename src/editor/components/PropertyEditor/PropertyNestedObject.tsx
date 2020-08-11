@@ -3,6 +3,7 @@ import * as React from "react";
 import { useId } from "@uifabric/react-hooks";
 import Definitions from "../../../definitions/Definitions";
 import Localizer from "../../../localization/Localizer";
+import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 import { PropertyDescription } from "./PropertyDescription";
 import { PropertyEditor } from "./PropertyEditor";
 
@@ -12,10 +13,11 @@ interface IPropertyNestedObjectProps {
     nodeProperties: any;
     required: boolean;
     readOnly?: boolean;
+    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
-    const { name, property, nodeProperties, required, readOnly = false } = props;
+    const { name, property, nodeProperties, required, readOnly = false, requestParameterization } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
     const [type, setType] = React.useState<string>(initType);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
@@ -86,7 +88,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                         paddingLeft: 10
                     }}
                 >
-                    {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} />}
+                    {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} />}
                 </div>
             )}
         </>
