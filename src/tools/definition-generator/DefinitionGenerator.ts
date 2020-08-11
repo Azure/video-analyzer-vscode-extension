@@ -72,6 +72,7 @@ export default class DefinitionGenerator {
                     } as NestedLocalizedStrings;
                     property.localizationKey = key;
                     delete property.description;
+                    delete property.example;
                 }
 
                 if (property["x-ms-enum"]) {
