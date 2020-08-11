@@ -86,7 +86,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
 
     return (
         <>
-            {props.parameters && <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi, props.parameters)} />}
+            <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi, props.parameters)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsApi)} />
             <Graph
                 svgRef={svgRef}

@@ -194,6 +194,7 @@ export default class Graph {
     public getParameters(): MediaGraphParameterDeclaration[] {
         return this.graphInformation.properties?.parameters || [];
     }
+
     public getICanvasData(): ICanvasData {
         return {
             nodes: this.nodes,

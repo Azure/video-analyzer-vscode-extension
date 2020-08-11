@@ -13,9 +13,9 @@ export class NodePropertiesPanel implements IPanelConfig {
     private readonly _propsAPI: IPropsAPI;
     private parameters: MediaGraphParameterDeclaration[];
 
-    constructor(propsAPI: IPropsAPI, parameters: MediaGraphParameterDeclaration[]) {
+    constructor(propsAPI: IPropsAPI, parameters?: MediaGraphParameterDeclaration[]) {
         this._propsAPI = propsAPI;
-        this.parameters = parameters;
+        this.parameters = parameters || [];
     }
 
     public render(data: any): React.ReactNode {
