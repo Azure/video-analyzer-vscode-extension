@@ -42,7 +42,7 @@ export class NodePropertiesPanel implements IPanelConfig {
                         onClick={this._dismissPanel}
                     />
                 </Stack>
-                {definition.description && <p>{Localizer.l(definition.description)}</p>}
+                {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
                 <PropertyEditor nodeProperties={nodeProperties} />
             </div>
         );
