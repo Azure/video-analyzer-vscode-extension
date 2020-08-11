@@ -55,3 +55,7 @@ export interface NestedLocalizedStrings {
     description: string;
     placeholder?: string;
 }
+
+export type ParameterizeValueCallback = (parameterizedValue: string) => void;
+
+export type ParameterizeValueRequestFunction = (propertyName: string, callback: ParameterizeValueCallback, previousValue?: string) => void;

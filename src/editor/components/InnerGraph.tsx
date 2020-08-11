@@ -8,7 +8,6 @@ import {
     ICanvasData,
     ICanvasNode,
     IGraphDataChangeEvent,
-    IGraphStyles,
     IPropsAPI,
     IZoomPanSettings,
     RegisterEdge,
@@ -18,6 +17,7 @@ import {
     usePropsAPI
 } from "@vienna/react-dag-editor";
 import LocalizerHelpers from "../../helpers/LocalizerHelpers";
+import { MediaGraphParameterDeclaration } from "../../lva-sdk/lvaSDKtypes";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePropertiesPanel } from "./NodePropertiesPanel";
 
@@ -32,6 +32,7 @@ export interface IInnerGraphProps {
     onNodeRemoved?: (nodes: Set<string>) => void;
     onChange?: (evt: IGraphDataChangeEvent) => void;
     readOnly?: boolean;
+    parameters?: MediaGraphParameterDeclaration[];
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
@@ -81,25 +82,17 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
         }
     };
 
-    const graphStyles: IGraphStyles = {
-        root: {
-            height: "100vh",
-            width: "100%"
-        }
-    };
-
     const readOnlyFeatures = new Set(["a11yFeatures", "canvasScrollable", "panCanvas", "clickNodeToSelect", "sidePanel", "editNode"]) as Set<GraphFeatures>;
 
     return (
         <>
-            <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi)} />
+            <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi, props.parameters)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsApi)} />
             <Graph
                 svgRef={svgRef}
                 propsAPIRef={propsApiRef}
                 data={props.data}
                 setData={props.setData}
-                styles={graphStyles}
                 onCanvasClick={dismissSidePanel}
                 zoomPanSettings={props.zoomPanSettings}
                 setPanZoomPanSettings={props.setZoomPanSettings}
