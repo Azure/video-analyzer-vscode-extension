@@ -10,10 +10,8 @@
         "Extension Packs"
     ],
     "activationEvents": [
-        "onCommand:lvaTopologyEditor.start",
         "onWebviewPanel:lvaTopologyEditor",
-        "onView:moduleExplorer",
-        "onCommand:moduleExplorer.refresh"
+        "onView:moduleExplorer"
     ],
     "repository": {
         "type": "git",
@@ -28,7 +26,7 @@
                 "category": "%lva-edge.command.category%"
             },
             {
-                "command": "moduleExplorer.refreshEntry",
+                "command": "moduleExplorer.refresh",
                 "title": "Refresh",
                 "icon": {
                     "dark": "ext/resources/dark/refresh.svg",
@@ -51,7 +49,7 @@
         "menus": {
             "view/title": [
                 {
-                    "command": "moduleExplorer.refreshEntry",
+                    "command": "moduleExplorer.refresh",
                     "when": "view == moduleExplorer",
                     "group": "navigation"
                 }
@@ -83,16 +81,18 @@
         "refreshVSToken": "vsts-npm-auth -config .npmrc"
     },
     "dependencies": {
+        "@types/keytar": "^4.4.2",
         "@vienna/react-dag-editor": "^1.73.0",
         "azure-iothub": "^1.12.4",
         "dagre": "^0.8.5",
         "eslint": "^6.8.0",
+        "keytar": "^6.0.1",
         "lodash": "^4.17.19",
         "office-ui-fabric-react": "^7.117.1",
         "react": "^16.13.1",
         "react-accessible-tree": "^1.0.3",
         "react-dom": "^16.13.1",
-        "react-scripts": "^3.4.1"
+        "react-scripts": "^3.4.2"
     },
     "devDependencies": {
         "@types/dagre": "^0.7.44",

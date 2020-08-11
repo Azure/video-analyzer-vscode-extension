@@ -9,7 +9,7 @@ export interface LvaHubConfig {
     devices: DeviceConfig[];
 }
 
-interface DeviceConfig {
+export interface DeviceConfig {
     deviceId: string;
     modules: string[];
 }

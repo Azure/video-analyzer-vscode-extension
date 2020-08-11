@@ -4,8 +4,8 @@ import { GraphTopologyData } from "../Data/GraphTolologyData";
 import { IotHubData } from "../Data/IotHubData";
 import { MediaGraphInstance } from "../lva-sdk/lvaSDKtypes";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
+import { GraphTopologyItem } from "./GraphTopologyItem";
 import { INode } from "./Node";
-import { TopologyItem } from "./TopologyItem";
 
 export class ModuleItem extends vscode.TreeItem {
     constructor(
@@ -22,12 +22,10 @@ export class ModuleItem extends vscode.TreeItem {
     public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
         return new Promise((resolve, reject) => {
             GraphTopologyData.getGraphTopologies(this.iotHubData, this.deviceId, this.moduleId).then((graphTopologies) => {
-                const createGraphItem = new vscode.TreeItem("Create graph");
-                createGraphItem.iconPath = new vscode.ThemeIcon("add");
                 resolve([
-                    createGraphItem as any, // Testing in line command
+                    new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId),
                     ...graphTopologies?.map((topology) => {
-                        return new TopologyItem(this.iotHubData, this.deviceId, this.moduleId, topology, graphInstances ?? []);
+                        return new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId, topology, graphInstances ?? []);
                     })
                 ]);
             });

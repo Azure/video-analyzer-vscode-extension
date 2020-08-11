@@ -3,7 +3,6 @@ import { ITheme } from "office-ui-fabric-react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import React, { useEffect } from "react";
 import { IZoomPanSettings } from "@vienna/react-dag-editor";
-import { sampleTopology } from "./dev/sampleTopologies.js";
 import { GraphInstance } from "./editor/components/GraphInstance";
 import { GraphTopology } from "./editor/components/GraphTopology";
 import Graph from "./graph/Graph";
@@ -38,8 +37,6 @@ export const App: React.FunctionComponent<IProps> = (props) => {
 
     if (props.graphData) {
         graph.setGraphData(props.graphData);
-    } else {
-        graph.setTopology(sampleTopology);
     }
 
     // if there is no state to recover from (in props.graphData or zoomPanSettings), use default
