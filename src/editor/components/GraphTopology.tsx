@@ -11,6 +11,7 @@ import {
     RegisterPort,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
+import { ExtensionInteraction } from "../../extension/extensionInteraction";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
 import { graphTheme as theme } from "../editorTheme";
@@ -83,6 +84,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         graph.setDescription(graphDescription);
         graph.setGraphDataFromICanvasData(data);
         const topology = graph.getTopology();
+        const vscode = ExtensionInteraction.getVSCode();
         if (vscode) {
             vscode.postMessage({ command: "saveGraph", text: topology });
         }
@@ -156,6 +158,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                         exportGraph={exportGraph}
                         closeEditor={() => {
                             console.log("try this one");
+                            const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {
                                 vscode.postMessage({
                                     command: "closeWindow"

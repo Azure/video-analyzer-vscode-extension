@@ -160,7 +160,6 @@ export class GraphEditorPanel {
                     __webpack_nonce__ = "${nonce}";
                     __webpack_public_path__ = "${webview.asWebviewUri(vscode.Uri.file(path.join(this._extensionPath, "build")))}/";
                     window.language = "${language}";
-                    const vscode = acquireVsCodeApi();
                     </script>
                     ${scriptInjection}
                 </body>

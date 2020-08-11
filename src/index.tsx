@@ -3,10 +3,10 @@ import "./scripts/formatString";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { initializeEnvironment } from "./extension/extensionInteraction";
+import { ExtensionInteraction } from "./extension/extensionInteraction";
 import { InitializationParameters } from "./types/vscodeDelegationTypes";
 
-initializeEnvironment((window as any).language).then((params: InitializationParameters) => {
+ExtensionInteraction.initializeEnvironment((window as any).language).then((params: InitializationParameters) => {
     // if we are running in VS Code and have stored state, we can recover it from state
     // vsCodeSetState will allow for setting that state
     // saving and restoring state happens when the webview loses and regains focus

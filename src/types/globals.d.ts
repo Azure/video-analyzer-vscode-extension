@@ -4,4 +4,4 @@ interface vscode {
     setState(state: any);
 }
 
-declare const vscode: vscode;
+declare const acquireVsCodeApi;
