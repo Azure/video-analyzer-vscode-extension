@@ -1,17 +1,10 @@
 {
-  "sources": [
-    "#Microsoft.Media.MediaGraphRtspSource",
-    "#Microsoft.Media.MediaGraphIoTHubMessageSource"
-  ],
-  "processors": [
-    "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
-    "#Microsoft.Media.MediaGraphHttpExtension",
-    "#Microsoft.Media.MediaGraphSignalGateProcessor",
-    "#Microsoft.Media.MediaGraphFrameRateFilterProcessor"
-  ],
-  "sinks": [
-    "#Microsoft.Media.MediaGraphIoTHubMessageSink",
-    "#Microsoft.Media.MediaGraphFileSink",
-    "#Microsoft.Media.MediaGraphAssetSink"
-  ]
+    "sources": ["#Microsoft.Media.MediaGraphRtspSource", "#Microsoft.Media.MediaGraphIoTHubMessageSource"],
+    "processors": [
+        "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
+        "#Microsoft.Media.MediaGraphHttpExtension",
+        "#Microsoft.Media.MediaGraphSignalGateProcessor",
+        "#Microsoft.Media.MediaGraphFrameRateFilterProcessor"
+    ],
+    "sinks": ["#Microsoft.Media.MediaGraphIoTHubMessageSink", "#Microsoft.Media.MediaGraphFileSink", "#Microsoft.Media.MediaGraphAssetSink"]
 }
