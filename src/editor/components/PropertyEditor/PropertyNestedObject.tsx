@@ -19,6 +19,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
     const [type, setType] = React.useState<string>(initType);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
+    const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
 
     function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
         if (item) {
@@ -40,16 +41,20 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
             key: "",
             text: Localizer.l("propertyEditorNoneValueLabel")
         },
-        ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => ({
-            key: node.name,
-            text: node.name
-        }))
+        ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => {
+            const localizedNodeStrings = Localizer.getLocalizedStrings(node.localizationKey);
+            return {
+                key: node.name,
+                text: localizedNodeStrings.title,
+                title: localizedNodeStrings.description
+            };
+        })
     ];
 
     const labelId: string = useId("label");
 
     function onRenderLabel() {
-        return <PropertyDescription name={name} required={required} property={property} labelId={labelId} />;
+        return <PropertyDescription name={localizedPropertyStrings.title} required={required} property={property} labelId={labelId} />;
     }
 
     const selectedType = type || "";
@@ -65,7 +70,6 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                 </>
             ) : (
                 <Dropdown
-                    label={name}
                     options={options}
                     defaultSelectedKey={selectedType}
                     onChange={handleTypeChange}

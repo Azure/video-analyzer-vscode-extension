@@ -34,6 +34,7 @@ export interface NodeDefinition extends NodeDefinitionProperty {
     name: string;
     nodeType: MediaGraphNodeType;
     parsedAllOf?: string[];
+    localizationKey: string;
 }
 
 export interface CanvasNodeProperties {
@@ -54,4 +55,10 @@ export interface GraphInstanceParameter {
     name: string;
     value: string;
     type: MediaGraphParameterType;
+}
+
+export interface NestedLocalizedStrings {
+    title: string;
+    description: string;
+    placeholder?: string;
 }
