@@ -92,7 +92,7 @@
         "react": "^16.13.1",
         "react-accessible-tree": "^1.0.3",
         "react-dom": "^16.13.1",
-        "react-scripts": "^3.4.1"
+        "react-scripts": "^3.4.2"
     },
     "devDependencies": {
         "@types/dagre": "^0.7.44",
