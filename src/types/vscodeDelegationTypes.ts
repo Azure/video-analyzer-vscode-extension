@@ -11,6 +11,8 @@ export interface VSCodeState {
     graphData?: GraphInfo;
     zoomPanSettings?: IZoomPanSettings;
     parameters?: GraphInstanceParameter[];
+    name?: string;
+    description?: string;
 }
 
 export interface InitializationParameters {

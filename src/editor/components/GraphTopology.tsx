@@ -15,6 +15,8 @@ import { ExtensionInteraction } from "../../extension/extensionInteraction";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
 import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
+import { GraphInfo } from "../../types/graphTypes";
+import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
@@ -27,7 +29,9 @@ import { Toolbar } from "./Toolbar";
 interface IGraphTopologyProps {
     graph: Graph;
     zoomPanSettings: IZoomPanSettings;
-    vsCodeSetState: (state: any) => void;
+    vsCodeSetState: VSCodeSetState;
+    recoveredName?: string;
+    recoveredDescription?: string;
 }
 
 export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
@@ -35,16 +39,19 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [dirty, setDirty] = React.useState<boolean>(false);
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
-    const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
-    const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
+    const [graphTopologyName, setGraphTopologyName] = React.useState<string>(props.recoveredName || graph.getName());
+    const [graphDescription, setGraphDescription] = React.useState<string>(props.recoveredDescription || graph.getDescription() || "");
 
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
+        console.log("test");
         vsCodeSetState({
-            graphData: { ...data, meta: graph.getTopology() },
-            zoomPanSettings
+            graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
+            zoomPanSettings,
+            name: graphTopologyName,
+            description: graphDescription
         });
-    }, [data, zoomPanSettings]);
+    }, [data, zoomPanSettings, graphTopologyName, graphDescription]);
 
     if (!isSupported()) {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
@@ -140,7 +147,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                 <Stack.Item styles={panelStyles}>
                     <div style={topSidebarStyles}>
                         <TextField
-                            label={Localizer.l("sidebarGraphTopologyNameLabel")}
+                            label={Localizer.l("sidebarGraphNamePlaceholder")}
                             required
                             value={graphTopologyName}
                             placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}

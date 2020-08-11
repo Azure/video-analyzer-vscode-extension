@@ -21,7 +21,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
         setTheme(ThemeHelpers.getAdaptedTheme());
     });
-    const { graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, parameters = [] } = props.state;
+    const { graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, parameters = [], name, description } = props.state;
 
     // when unmounting, disconnect the observer to prevent leaked references
     useEffect(() => {
@@ -34,13 +34,8 @@ export const App: React.FunctionComponent<IProps> = (props) => {
 
     const graph = new Graph();
 
-    const restoredGraphData = props.state.graphData;
-    if (restoredGraphData) {
-        graph.setGraphData(restoredGraphData);
-        graph.setName(restoredGraphData.meta.name);
-        if (restoredGraphData.meta.properties && restoredGraphData.meta.properties.description) {
-            graph.setDescription(restoredGraphData.meta.properties.description);
-        }
+    if (graphData) {
+        graph.setGraphData(graphData);
     }
 
     // if there is no state to recover from (in graphData or zoomPanSettings), use default
@@ -49,9 +44,22 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     return (
         <ThemeProvider theme={theme}>
             {editingTopology ? (
-                <GraphTopology graph={graph} zoomPanSettings={zoomPanSettings} vsCodeSetState={props.vsCodeSetState} />
+                <GraphTopology
+                    graph={graph}
+                    zoomPanSettings={zoomPanSettings}
+                    vsCodeSetState={props.vsCodeSetState}
+                    recoveredName={name}
+                    recoveredDescription={description}
+                />
             ) : (
-                <GraphInstance graph={graph} zoomPanSettings={zoomPanSettings} parameters={parameters} vsCodeSetState={props.vsCodeSetState} />
+                <GraphInstance
+                    graph={graph}
+                    zoomPanSettings={zoomPanSettings}
+                    parameters={parameters}
+                    vsCodeSetState={props.vsCodeSetState}
+                    recoveredName={name}
+                    recoveredDescription={description}
+                />
             )}
         </ThemeProvider>
     );

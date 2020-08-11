@@ -15,6 +15,7 @@ import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
 import { MediaGraphInstance } from "../../lva-sdk/lvaSDKtypes";
 import { GraphInstanceParameter } from "../../types/graphTypes";
+import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
@@ -27,15 +28,17 @@ interface IGraphInstanceProps {
     graph: Graph;
     zoomPanSettings: IZoomPanSettings;
     parameters: GraphInstanceParameter[];
-    vsCodeSetState: (state: any) => void;
+    vsCodeSetState: VSCodeSetState;
+    recoveredName?: string;
+    recoveredDescription?: string;
 }
 
 export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const graph = props.graph;
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
-    const [graphInstanceName, setGraphInstanceName] = React.useState<string>(graph.getName());
-    const [graphDescription, setGraphDescription] = React.useState<string>("");
+    const [graphInstanceName, setGraphInstanceName] = React.useState<string>(props.recoveredName || graph.getName());
+    const [graphDescription, setGraphDescription] = React.useState<string>(props.recoveredDescription || "");
 
     let initialParams: GraphInstanceParameter[] = props.parameters;
     if (initialParams.length === 0 && graph.getTopology().properties && graph.getTopology().properties!.parameters) {
@@ -53,6 +56,8 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
             graphData: { ...data, meta: graph.getTopology() },
             zoomPanSettings,
             parameters,
+            name: graphInstanceName,
+            description: graphDescription,
             ...update // in case we want to force changes
         });
     };
@@ -63,7 +68,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     };
     React.useEffect(() => {
         saveState();
-    }, [data, zoomPanSettings]);
+    }, [data, zoomPanSettings, graphInstanceName, graphDescription]);
 
     if (!isSupported()) {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
@@ -131,15 +136,15 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                 <Stack.Item styles={panelStyles}>
                     <div style={topSidebarStyles}>
                         <TextField
-                            label={Localizer.l("sidebarGraphInstanceNameLabel")}
+                            label={Localizer.l("sidebarGraphNamePlaceholder")}
                             required
-                            defaultValue={graphInstanceName}
+                            value={graphInstanceName}
                             placeholder={Localizer.l("sidebarGraphInstanceNamePlaceholder")}
                             onChange={onNameChange}
                         />
                         <TextField
                             label={Localizer.l("sidebarGraphDescriptionLabel")}
-                            defaultValue={graphDescription}
+                            value={graphDescription}
                             placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
                             onChange={onDescriptionChange}
                         />
