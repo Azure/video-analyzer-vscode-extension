@@ -47,6 +47,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
 
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
+        graph.setName(graphTopologyName);
+        graph.setDescription(graphDescription);
         vsCodeSetState({
             graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
             zoomPanSettings
