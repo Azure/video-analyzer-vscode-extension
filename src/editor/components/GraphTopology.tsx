@@ -2,13 +2,17 @@ import { Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
     CanvasMouseMode,
+    GraphDataChangeType,
     ICanvasData,
     ICanvasNode,
+    IGraphDataChangeEvent,
+    IPropsAPI,
     isSupported,
     IZoomPanSettings,
     ReactDagEditor,
     RegisterNode,
     RegisterPort,
+    usePropsAPI,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
 import { ExtensionInteraction } from "../../extension/extensionInteraction";
@@ -42,9 +46,11 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [graphTopologyName, setGraphTopologyName] = React.useState<string>(props.recoveredName || graph.getName());
     const [graphDescription, setGraphDescription] = React.useState<string>(props.recoveredDescription || graph.getDescription() || "");
 
+    const propsApiRef = React.useRef<IPropsAPI>(null);
+    const propsApi = usePropsAPI();
+
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
-        console.log("test");
         vsCodeSetState({
             graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
             zoomPanSettings,
@@ -65,10 +71,19 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         }
         setData(graph.getICanvasData());
         setDirty(false);
+        if (propsApiRef.current) {
+            propsApiRef.current.dismissSidePanel();
+            propsApiRef.current.resetZoom();
+        }
     }
 
-    function onChange() {
-        setDirty(true);
+    function onChange(ev: IGraphDataChangeEvent) {
+        if (ev.type !== GraphDataChangeType.init) {
+            /* TODO: this event fires on many events including node selection
+               We should listen for a subset of those events, one of which has to be property changes.
+               Because these are not done through the propsAPI, we can't do this right now. */
+            setDirty(true);
+        }
     }
 
     // nodeNames maps an ID to a name, is updated on node add/remove
@@ -104,7 +119,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     };
 
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
-        if (newValue) {
+        if (typeof newValue !== "undefined") {
             setGraphTopologyName(newValue);
         }
     };
@@ -147,7 +162,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                 <Stack.Item styles={panelStyles}>
                     <div style={topSidebarStyles}>
                         <TextField
-                            label={Localizer.l("sidebarGraphNamePlaceholder")}
+                            label={Localizer.l("sidebarGraphTopologyNameLabel")}
                             required
                             value={graphTopologyName}
                             placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
@@ -169,6 +184,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     <Toolbar
                         name={graphTopologyName}
                         primaryAction={saveTopology}
+                        primaryActionEnabled={graphTopologyName.length > 0}
                         cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {
@@ -189,6 +205,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             onNodeRemoved={nodesRemoved}
                             onChange={onChange}
                             parameters={parameters}
+                            propsApiRef={propsApiRef}
+                            propsApi={propsApi}
                         />
                     </Stack.Item>
                 </Stack>

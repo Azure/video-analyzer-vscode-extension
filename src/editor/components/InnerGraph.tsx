@@ -1,3 +1,4 @@
+import { clamp } from "office-ui-fabric-react";
 import * as React from "react";
 import {
     CanvasMouseMode,
@@ -8,6 +9,7 @@ import {
     ICanvasData,
     ICanvasNode,
     IGraphDataChangeEvent,
+    IPoint,
     IPropsAPI,
     IZoomPanSettings,
     RegisterEdge,
@@ -33,13 +35,13 @@ export interface IInnerGraphProps {
     onChange?: (evt: IGraphDataChangeEvent) => void;
     readOnly?: boolean;
     parameters?: MediaGraphParameterDeclaration[];
+    propsApiRef: React.RefObject<IPropsAPI>;
+    propsApi: IPropsAPI;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
-    const { readOnly = false, parameters = [] } = props;
+    const { readOnly = false, parameters = [], propsApiRef, propsApi } = props;
 
-    const propsApiRef = React.useRef<IPropsAPI>(null);
-    const propsApi = usePropsAPI();
     const svgRef = React.useRef<SVGSVGElement>(null);
 
     // open node inspector panel when recovering state, a node is clicked, or a node is added
