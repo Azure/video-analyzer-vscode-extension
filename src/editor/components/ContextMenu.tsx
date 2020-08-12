@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
     CanvasMenu,
-    ContextMenu as $ContextMenu,
+    ContextMenu as DagContextMenu,
     EdgeMenu,
     MultiMenu,
     NodeMenu,
@@ -23,7 +23,7 @@ export const ContextMenu: React.FunctionComponent = () => {
     };
 
     return (
-        <$ContextMenu className="context-menu">
+        <DagContextMenu className="context-menu">
             <NodeMenu>
                 <div onClick={onCopyClick} role="button">
                     {Localizer.l("copy")}
@@ -50,6 +50,6 @@ export const ContextMenu: React.FunctionComponent = () => {
                     {Localizer.l("paste")}
                 </div>
             </CanvasMenu>
-        </$ContextMenu>
+        </DagContextMenu>
     );
 };

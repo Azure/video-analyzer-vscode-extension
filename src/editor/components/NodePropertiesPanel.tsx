@@ -1,7 +1,7 @@
 import { Stack } from "office-ui-fabric-react";
 import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
-import { IPanelConfig, IPropsAPI } from "@vienna/react-dag-editor";
+import { IPanelConfig, IPropsAPI, usePropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../../definitions/Definitions";
 import Localizer from "../../localization/Localizer";
 import { MediaGraphParameterDeclaration } from "../../lva-sdk/lvaSDKtypes";
@@ -11,12 +11,12 @@ import { PropertyEditor } from "./PropertyEditor/PropertyEditor";
 import { AdjustedIconButton } from "./ThemeAdjustedComponents/AdjustedIconButton";
 
 export class NodePropertiesPanel implements IPanelConfig {
-    private readonly _propsAPI: IPropsAPI;
+    private readonly propsAPI: IPropsAPI;
     private readonly readOnly: boolean;
     private parameters: MediaGraphParameterDeclaration[];
 
-    constructor(propsAPI: IPropsAPI, readOnly: boolean, parameters: MediaGraphParameterDeclaration[]) {
-        this._propsAPI = propsAPI;
+    constructor(readOnly: boolean, parameters: MediaGraphParameterDeclaration[]) {
+        this.propsAPI = usePropsAPI();
         this.readOnly = readOnly;
         this.parameters = parameters;
     }
@@ -87,7 +87,7 @@ export class NodePropertiesPanel implements IPanelConfig {
     }
 
     private readonly _dismissPanel = () => {
-        this._propsAPI.dismissSidePanel();
-        this._propsAPI.selectNodeById([]);
+        this.propsAPI.dismissSidePanel();
+        this.propsAPI.selectNodeById([]);
     };
 }

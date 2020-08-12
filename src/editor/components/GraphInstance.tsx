@@ -9,7 +9,6 @@ import {
     ReactDagEditor,
     RegisterNode,
     RegisterPort,
-    usePropsAPI,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
 import { ExtensionInteraction } from "../../extension/extensionInteraction";
@@ -60,7 +59,6 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
-    const propsApi = usePropsAPI();
 
     // save state in VS Code when data, zoomPanSettings, or parameters change
     const saveState = (update?: any) => {
@@ -194,7 +192,6 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                             canvasMouseMode={CanvasMouseMode.pan}
                             readOnly
                             propsApiRef={propsApiRef}
-                            propsApi={propsApi}
                         />
                     </Stack.Item>
                 </Stack>

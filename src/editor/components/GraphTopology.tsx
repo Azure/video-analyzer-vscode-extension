@@ -12,7 +12,6 @@ import {
     ReactDagEditor,
     RegisterNode,
     RegisterPort,
-    usePropsAPI,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
 import { ExtensionInteraction } from "../../extension/extensionInteraction";
@@ -45,7 +44,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
-    const propsApi = usePropsAPI();
 
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
@@ -201,7 +199,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             onChange={onChange}
                             parameters={parameters}
                             propsApiRef={propsApiRef}
-                            propsApi={propsApi}
                         />
                     </Stack.Item>
                 </Stack>

@@ -2,7 +2,6 @@ import "./App.css";
 import { ITheme } from "office-ui-fabric-react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import React, { useEffect } from "react";
-import { sampleTopology } from "./dev/sampleTopologies";
 import { GraphInstance } from "./editor/components/GraphInstance";
 import { GraphTopology } from "./editor/components/GraphTopology";
 import Graph from "./graph/Graph";
@@ -38,7 +37,6 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     if (graphData) {
         graph.setGraphData(graphData);
     }
-    graph.setTopology(sampleTopology);
 
     // if there is no state to recover from (in graphData or zoomPanSettings), use default
     // (load sampleTopology) and 1x zoom, no translate (stored in a transformation matrix)

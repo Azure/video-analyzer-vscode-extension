@@ -13,7 +13,8 @@ import {
     RegisterEdge,
     RegisterPanel,
     TSetData,
-    TSetZoomPanSettings
+    TSetZoomPanSettings,
+    usePropsAPI
 } from "@vienna/react-dag-editor";
 import LocalizerHelpers from "../../helpers/LocalizerHelpers";
 import { MediaGraphParameterDeclaration } from "../../lva-sdk/lvaSDKtypes";
@@ -33,13 +34,13 @@ export interface IInnerGraphProps {
     readOnly?: boolean;
     parameters?: MediaGraphParameterDeclaration[];
     propsApiRef: React.RefObject<IPropsAPI>;
-    propsApi: IPropsAPI;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
-    const { readOnly = false, parameters = [], propsApiRef, propsApi } = props;
+    const { readOnly = false, parameters = [], propsApiRef } = props;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
+    const propsAPI = usePropsAPI();
 
     // open node inspector panel when recovering state, a node is clicked, or a node is added
     const inspectNode = (node?: ICanvasNode) => {
@@ -87,8 +88,8 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
 
     return (
         <>
-            <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi, readOnly, parameters)} />
-            <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsApi)} />
+            <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters)} />
+            <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <Graph
                 svgRef={svgRef}
                 propsAPIRef={propsApiRef}
