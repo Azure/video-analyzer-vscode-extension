@@ -14,7 +14,7 @@ interface INodeContainerProps {
 export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (props) => {
     const { iconName, heading, title, children = [], selected = false, hovered = false } = props;
 
-    const background = props.background || (selected ? "var(--vscode-editor-selectionBackground)" : "var(--vscode-editorWidget-background)");
+    const background = props.background || (selected ? "var(--vscode-editor-selectionBackground)" : "var(--vscode-editor-background)");
 
     const cardStyle = {
         userSelect: "none" as const,

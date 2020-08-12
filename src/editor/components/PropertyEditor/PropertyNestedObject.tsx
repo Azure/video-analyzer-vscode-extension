@@ -17,7 +17,7 @@ interface IPropertyNestedObjectProps {
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
-    const { name, property, nodeProperties, required, readOnly = false, requestParameterization } = props;
+    const { property, nodeProperties, required, readOnly = false, requestParameterization } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
     const [type, setType] = React.useState<string>(initType);
     const [errorMessage, setErrorMessage] = React.useState<string>("");

@@ -33,14 +33,14 @@ export interface IInnerGraphProps {
     onChange?: (evt: IGraphDataChangeEvent) => void;
     readOnly?: boolean;
     parameters?: MediaGraphParameterDeclaration[];
+    propsApiRef: React.RefObject<IPropsAPI>;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
-    const { readOnly = false, parameters = [] } = props;
+    const { readOnly = false, parameters = [], propsApiRef } = props;
 
-    const propsApiRef = React.useRef<IPropsAPI>(null);
-    const propsApi = usePropsAPI();
     const svgRef = React.useRef<SVGSVGElement>(null);
+    const propsAPI = usePropsAPI();
 
     // open node inspector panel when recovering state, a node is clicked, or a node is added
     const inspectNode = (node?: ICanvasNode) => {
@@ -88,8 +88,8 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
 
     return (
         <>
-            <RegisterPanel name={"node"} config={new NodePropertiesPanel(propsApi, readOnly, parameters)} />
-            <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsApi)} />
+            <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters)} />
+            <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <Graph
                 svgRef={svgRef}
                 propsAPIRef={propsApiRef}

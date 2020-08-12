@@ -5,12 +5,13 @@ import {
     DialogType,
     Dropdown,
     IDropdownOption,
-    PrimaryButton,
     Spinner,
     SpinnerSize
 } from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../../localization/Localizer";
+import { MediaGraphTopology } from "../../../lva-sdk/lvaSDKtypes";
+import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
 import { sampleOptionsList } from "./sampleList";
 import { Status } from "./statusEnum";
@@ -18,11 +19,12 @@ import { Status } from "./statusEnum";
 interface ISampleSelectorProps {
     status: Status;
     setStatus: React.Dispatch<React.SetStateAction<Status>>;
-    loadTopology: (topology: any) => void;
+    loadTopology: (topology: MediaGraphTopology) => void;
 }
 
 export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (props) => {
     const { status, setStatus, loadTopology } = props;
+    const [selectedSampleName, setSelectedSampleName] = React.useState<string>("");
 
     const dialogContentProps = {
         type: DialogType.close,
@@ -35,11 +37,9 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (pr
         isBlocking: false
     };
 
-    let selectedSampleName = "";
-
     const onChange = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
         if (option) {
-            selectedSampleName = option.key as string;
+            setSelectedSampleName(option.key as string);
         }
     };
 
@@ -92,7 +92,11 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (pr
                 )}
 
                 <DialogFooter>
-                    <PrimaryButton disabled={status === Status.WaitingOnSampleLoad} onClick={confirmSelection} text={Localizer.l("sampleSelectorLoadSampleButtonText")} />
+                    <AdjustedPrimaryButton
+                        disabled={status === Status.WaitingOnSampleLoad || !selectedSampleName}
+                        onClick={confirmSelection}
+                        text={Localizer.l("sampleSelectorLoadSampleButtonText")}
+                    />
                     <DefaultButton disabled={status === Status.WaitingOnSampleLoad} onClick={dismissSelector} text={Localizer.l("cancelButtonText")} />
                 </DialogFooter>
             </Dialog>

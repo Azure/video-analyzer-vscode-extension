@@ -2,11 +2,11 @@ import {
     DefaultButton,
     Dialog,
     DialogFooter,
-    DialogType,
-    PrimaryButton
+    DialogType
 } from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../../localization/Localizer";
+import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
 
 interface IOverwriteConfirmationProps {
     shown: boolean;
@@ -25,7 +25,7 @@ export const OverwriteConfirmation: React.FunctionComponent<IOverwriteConfirmati
         <>
             <Dialog hidden={!props.shown} onDismiss={props.dismiss} dialogContentProps={dialogContentProps}>
                 <DialogFooter>
-                    <PrimaryButton onClick={props.confirm} text={Localizer.l("sampleSelectorOverwriteConfirmButtonText")} />
+                    <AdjustedPrimaryButton onClick={props.confirm} text={Localizer.l("sampleSelectorOverwriteConfirmButtonText")} />
                     <DefaultButton onClick={props.dismiss} text={Localizer.l("sampleSelectorOverwriteKeepButtonText")} />
                 </DialogFooter>
             </Dialog>

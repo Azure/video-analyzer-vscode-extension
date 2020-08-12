@@ -21,7 +21,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
         setTheme(ThemeHelpers.getAdaptedTheme());
     });
-    const { graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, parameters = [] } = props.state;
+    const { graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, instance = { name: "" } } = props.state;
 
     // when unmounting, disconnect the observer to prevent leaked references
     useEffect(() => {
@@ -46,7 +46,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
             {editingTopology ? (
                 <GraphTopology graph={graph} zoomPanSettings={zoomPanSettings} vsCodeSetState={props.vsCodeSetState} />
             ) : (
-                <GraphInstance graph={graph} zoomPanSettings={zoomPanSettings} parameters={parameters} vsCodeSetState={props.vsCodeSetState} />
+                <GraphInstance graph={graph} zoomPanSettings={zoomPanSettings} instance={instance} vsCodeSetState={props.vsCodeSetState} />
             )}
         </ThemeProvider>
     );

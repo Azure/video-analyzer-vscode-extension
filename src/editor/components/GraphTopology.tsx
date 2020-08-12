@@ -2,8 +2,11 @@ import { Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
     CanvasMouseMode,
+    GraphDataChangeType,
     ICanvasData,
     ICanvasNode,
+    IGraphDataChangeEvent,
+    IPropsAPI,
     isSupported,
     IZoomPanSettings,
     ReactDagEditor,
@@ -14,6 +17,9 @@ import {
 import { ExtensionInteraction } from "../../extension/extensionInteraction";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
+import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
+import { GraphInfo } from "../../types/graphTypes";
+import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
@@ -26,7 +32,7 @@ import { Toolbar } from "./Toolbar";
 interface IGraphTopologyProps {
     graph: Graph;
     zoomPanSettings: IZoomPanSettings;
-    vsCodeSetState: (state: any) => void;
+    vsCodeSetState: VSCodeSetState;
 }
 
 export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
@@ -37,26 +43,43 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
     const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
 
+    const propsApiRef = React.useRef<IPropsAPI>(null);
+
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
+        graph.setName(graphTopologyName);
+        graph.setDescription(graphDescription);
         vsCodeSetState({
-            graphData: { ...data, meta: graph.getTopology() },
+            graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
             zoomPanSettings
         });
-    }, [data, zoomPanSettings]);
+    }, [data, zoomPanSettings, graphTopologyName, graphDescription]);
 
     if (!isSupported()) {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
     }
 
-    function setTopology(topology: any) {
+    function setTopology(topology: MediaGraphTopology) {
         graph.setTopology(topology);
+        setGraphTopologyName(topology.name);
+        if (topology.properties && topology.properties.description) {
+            setGraphDescription(topology.properties.description);
+        }
         setData(graph.getICanvasData());
         setDirty(false);
+        if (propsApiRef.current) {
+            propsApiRef.current.dismissSidePanel();
+            propsApiRef.current.resetZoom();
+        }
     }
 
-    function onChange() {
-        setDirty(true);
+    function onChange(ev: IGraphDataChangeEvent) {
+        if (ev.type !== GraphDataChangeType.init) {
+            /* TODO: this event fires on many events including node selection
+               We should listen for a subset of those events, one of which has to be property changes.
+               Because these are not done through the propsAPI, we can't do this right now. */
+            setDirty(true);
+        }
     }
 
     // nodeNames maps an ID to a name, is updated on node add/remove
@@ -92,7 +115,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     };
 
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
-        if (newValue) {
+        if (typeof newValue !== "undefined") {
             setGraphTopologyName(newValue);
         }
     };
@@ -111,7 +134,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
             overflowY: "auto" as const,
             willChange: "transform",
             width: 300,
-            background: "var(--vscode-editorWidget-background)",
             borderRight: "1px solid var(--vscode-editorWidget-border)"
         }
     };
@@ -137,13 +159,13 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                         <TextField
                             label={Localizer.l("sidebarGraphTopologyNameLabel")}
                             required
-                            defaultValue={graphTopologyName}
-                            placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
+                            value={graphTopologyName}
+                            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
                             onChange={onNameChange}
                         />
                         <TextField
                             label={Localizer.l("sidebarGraphDescriptionLabel")}
-                            defaultValue={graphDescription}
+                            value={graphDescription}
                             placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
                             onChange={onDescriptionChange}
                         />
@@ -157,6 +179,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     <Toolbar
                         name={graphTopologyName}
                         primaryAction={saveTopology}
+                        primaryActionEnabled={graphTopologyName.length > 0}
                         cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {
@@ -177,6 +200,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             onNodeRemoved={nodesRemoved}
                             onChange={onChange}
                             parameters={parameters}
+                            propsApiRef={propsApiRef}
                         />
                     </Stack.Item>
                 </Stack>

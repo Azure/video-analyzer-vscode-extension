@@ -1,3 +1,6 @@
+/* eslint-disable */
+// Gives "Unexpected template string expression" because of the ${parameter} syntax
+
 export const sampleTopology = {
     "@apiVersion": "1.0",
     name: "EVRtoAssetsOnMotionDetecion",

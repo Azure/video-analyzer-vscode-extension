@@ -3,6 +3,7 @@ import * as React from "react";
 import {
     CanvasMouseMode,
     ICanvasData,
+    IPropsAPI,
     isSupported,
     IZoomPanSettings,
     ReactDagEditor,
@@ -15,6 +16,7 @@ import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
 import { MediaGraphInstance } from "../../lva-sdk/lvaSDKtypes";
 import { GraphInstanceParameter } from "../../types/graphTypes";
+import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
@@ -26,59 +28,78 @@ import { Toolbar } from "./Toolbar";
 interface IGraphInstanceProps {
     graph: Graph;
     zoomPanSettings: IZoomPanSettings;
-    parameters: GraphInstanceParameter[];
-    vsCodeSetState: (state: any) => void;
+    instance: MediaGraphInstance;
+    vsCodeSetState: VSCodeSetState;
 }
 
 export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
-    const graph = props.graph;
+    const { graph, instance } = props;
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
-    const [graphInstanceName, setGraphInstanceName] = React.useState<string>(graph.getName());
-    const [graphDescription, setGraphDescription] = React.useState<string>("");
+    const [graphInstanceName, setGraphInstanceName] = React.useState<string>(instance.name);
+    const [graphDescription, setGraphDescription] = React.useState<string>((instance.properties && instance.properties.description) || "");
 
-    let initialParams: GraphInstanceParameter[] = props.parameters;
-    if (initialParams.length === 0 && graph.getTopology().properties && graph.getTopology().properties!.parameters) {
-        initialParams = graph.getTopology().properties!.parameters!.map((param) => ({
-            name: param.name,
-            value: param.default || "",
-            type: param.type
-        }));
+    let initialParams: GraphInstanceParameter[] = [];
+    if (graph.getTopology().properties && graph.getTopology().properties!.parameters) {
+        initialParams = graph.getTopology().properties!.parameters!.map((param) => {
+            let value = param.default || "";
+            if (instance.properties && instance.properties.parameters) {
+                const matches = instance.properties.parameters.filter((parameter) => parameter.name === param.name);
+                if (matches) {
+                    value = matches[0].value;
+                }
+            }
+            return {
+                name: param.name,
+                value,
+                type: param.type
+            };
+        });
     }
     const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
+
+    const propsApiRef = React.useRef<IPropsAPI>(null);
 
     // save state in VS Code when data, zoomPanSettings, or parameters change
     const saveState = (update?: any) => {
         props.vsCodeSetState({
             graphData: { ...data, meta: graph.getTopology() },
             zoomPanSettings,
-            parameters,
+            instance: generateInstance(),
             ...update // in case we want to force changes
         });
     };
     const setParameters = (parameters: GraphInstanceParameter[]) => {
         setParametersInternal(parameters);
         // the above might not update parameters immediately
-        saveState({ parameters });
+        saveState({
+            instance: generateInstance()
+        });
     };
     React.useEffect(() => {
         saveState();
-    }, [data, zoomPanSettings]);
+    }, [data, zoomPanSettings, graphInstanceName, graphDescription]);
 
     if (!isSupported()) {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
     }
 
-    const saveInstance = () => {
-        const instance: MediaGraphInstance = {
+    const generateInstance = (): MediaGraphInstance => {
+        return {
             name: graphInstanceName,
             properties: {
                 topologyName: graph.getName(),
                 description: graphDescription,
-                parameters: parameters
+                parameters: parameters.map((parameter) => ({
+                    name: parameter.name,
+                    value: parameter.value
+                }))
             }
         };
-        console.log(instance);
+    };
+
+    const saveInstance = () => {
+        console.log(generateInstance());
     };
 
     const saveAndStartAction = {
@@ -90,7 +111,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     };
 
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
-        if (newValue) {
+        if (typeof newValue !== "undefined") {
             setGraphInstanceName(newValue);
         }
     };
@@ -107,7 +128,6 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
             overflowY: "auto" as const,
             willChange: "transform",
             width: 300,
-            background: "var(--vscode-editorWidget-background)",
             borderRight: "1px solid var(--vscode-editorWidget-border)"
         }
     };
@@ -133,13 +153,13 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                         <TextField
                             label={Localizer.l("sidebarGraphInstanceNameLabel")}
                             required
-                            defaultValue={graphInstanceName}
-                            placeholder={Localizer.l("sidebarGraphInstanceNamePlaceholder")}
+                            value={graphInstanceName}
+                            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
                             onChange={onNameChange}
                         />
                         <TextField
                             label={Localizer.l("sidebarGraphDescriptionLabel")}
-                            defaultValue={graphDescription}
+                            value={graphDescription}
                             placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
                             onChange={onDescriptionChange}
                         />
@@ -152,6 +172,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                     <Toolbar
                         name={graphInstanceName}
                         primaryAction={saveInstance}
+                        primaryActionEnabled={graphInstanceName.length > 0}
                         secondaryAction={saveAndStartAction}
                         cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();
@@ -170,6 +191,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                             setZoomPanSettings={setZoomPanSettings}
                             canvasMouseMode={CanvasMouseMode.pan}
                             readOnly
+                            propsApiRef={propsApiRef}
                         />
                     </Stack.Item>
                 </Stack>

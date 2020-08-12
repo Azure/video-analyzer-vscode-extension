@@ -1,11 +1,13 @@
-import { DefaultButton, PrimaryButton, Stack } from "office-ui-fabric-react";
+import { DefaultButton, Stack } from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../localization/Localizer";
+import { AdjustedPrimaryButton } from "./ThemeAdjustedComponents/AdjustedPrimaryButton";
 
 export interface IGraphPanelProps {
     name: string;
     cancelAction: () => void;
     primaryAction: () => void;
+    primaryActionEnabled: boolean;
     secondaryAction?: {
         text: string;
         callback: () => void;
@@ -13,11 +15,10 @@ export interface IGraphPanelProps {
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
-    const { name, cancelAction, primaryAction, secondaryAction } = props;
+    const { name, cancelAction, primaryAction, primaryActionEnabled, secondaryAction } = props;
 
     const toolbarStyles = {
         padding: 10,
-        background: "var(--vscode-editorWidget-background)",
         borderBottom: "1px solid var(--vscode-editorWidget-border)"
     };
 
@@ -27,7 +28,7 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
             <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
                 <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
                 {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
-                <PrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
+                <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} disabled={!primaryActionEnabled} />
             </Stack>
         </Stack>
     );
