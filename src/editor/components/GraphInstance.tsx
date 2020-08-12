@@ -17,6 +17,7 @@ import Localizer from "../../localization/Localizer";
 import { MediaGraphInstance } from "../../lva-sdk/lvaSDKtypes";
 import { GraphInstanceParameter } from "../../types/graphTypes";
 import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
+import * as Constants from "../../utils/Constants";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
@@ -63,6 +64,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     // save state in VS Code when data, zoomPanSettings, or parameters change
     const saveState = (update?: any) => {
         props.vsCodeSetState({
+            pageViewType: Constants.PageType.graphPage,
             graphData: { ...data, meta: graph.getTopology() },
             zoomPanSettings,
             instance: generateInstance(),
@@ -99,13 +101,25 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     };
 
     const saveInstance = () => {
-        console.log(generateInstance());
+        const vscode = ExtensionInteraction.getVSCode();
+        if (vscode) {
+            vscode.postMessage({
+                command: Constants.PostMessageNames.saveInstance,
+                text: generateInstance()
+            });
+        }
     };
 
     const saveAndStartAction = {
         text: Localizer.l("saveAndStartButtonText"),
         callback: () => {
-            saveInstance();
+            const vscode = ExtensionInteraction.getVSCode();
+            if (vscode) {
+                vscode.postMessage({
+                    command: Constants.PostMessageNames.saveAndActivate,
+                    text: generateInstance()
+                });
+            }
             console.log("And start");
         }
     };
@@ -178,7 +192,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                             const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {
                                 vscode.postMessage({
-                                    command: "closeWindow"
+                                    command: Constants.PostMessageNames.closeWindow
                                 });
                             }
                         }}

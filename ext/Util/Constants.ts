@@ -20,6 +20,15 @@ export class Constants {
     // have a copy of this in react code.
     public static PostMessageNames = {
         closeWindow: "closeWindow",
-        saveGraph: "saveGraph"
+        saveGraph: "saveGraph",
+        saveInstance: "saveInstance",
+        saveAndActivate: "saveAndActivate",
+        getInitialData: "getInitialData",
+        setInitialData: "setInitialData"
+    };
+
+    public static PageTypes = {
+        graphPage: "graphPage",
+        instancePage: "instancePage"
     };
 }

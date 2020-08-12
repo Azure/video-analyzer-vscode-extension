@@ -27,7 +27,7 @@ export class DeviceItem extends vscode.TreeItem implements INode {
                 const devicePromise = this.iotHubData.getModule(deviceConfig.deviceId, currentModuleId).then((module) => {
                     if (module) {
                         moduleList.push(
-                            new ModuleItem(this.iotHubData, module.deviceId, module.moduleId, module.connectionState, vscode.TreeItemCollapsibleState.Collapsed)
+                            new ModuleItem(this.iotHubData, module.deviceId, module.moduleId, module.connectionState, vscode.TreeItemCollapsibleState.Expanded)
                         );
                     } else {
                         //TODO module not found error.

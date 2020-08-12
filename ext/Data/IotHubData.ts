@@ -1,4 +1,5 @@
 import { Client, Registry } from "azure-iothub";
+import { Constants } from "../Util/Constants";
 
 export class IotHubData {
     private iotHubClient?: Client;
@@ -9,7 +10,7 @@ export class IotHubData {
         this.registryClient = Registry.fromConnectionString(connectionString);
     }
 
-    public directMethodCall(deviceId: string, moduleId: string, methodName: string, payload: any): Promise<any> {
+    public directMethodCall(deviceId: string, moduleId: string, methodName: string, payload?: any): Promise<any> {
         return new Promise((resolve, reject) => {
             if (!this.iotHubClient) {
                 reject("Iot hub client not found");
@@ -21,7 +22,7 @@ export class IotHubData {
                 {
                     methodName,
                     payload: {
-                        "@apiVersion": "1.0",
+                        "@apiVersion": Constants.ApiVersion.version1,
                         ...payload
                     },
                     responseTimeoutInSeconds: 10,
@@ -30,6 +31,8 @@ export class IotHubData {
                 (error, result) => {
                     if (error) {
                         reject(error);
+                    } else if (result?.payload?.error) {
+                        reject(result.payload.error);
                     } else {
                         resolve(result.payload);
                     }

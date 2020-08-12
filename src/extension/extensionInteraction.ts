@@ -1,5 +1,6 @@
 import Localizer from "../localization/Localizer";
 import { InitializationParameters } from "../types/vscodeDelegationTypes";
+import { PageType } from "../utils/Constants";
 
 export class ExtensionInteraction {
     private static _vsCode: vscode;
@@ -35,7 +36,7 @@ export class ExtensionInteraction {
             } else {
                 // We won't save/restore state in browser, use noop function
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
-                resolve({ state: {}, vsCodeSetState: () => {} });
+                resolve({ state: { pageViewType: PageType.graphPage }, vsCodeSetState: () => {} });
             }
         });
     }
