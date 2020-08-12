@@ -34,8 +34,6 @@ interface IGraphTopologyProps {
     graph: Graph;
     zoomPanSettings: IZoomPanSettings;
     vsCodeSetState: VSCodeSetState;
-    recoveredName?: string;
-    recoveredDescription?: string;
 }
 
 export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
@@ -43,8 +41,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [dirty, setDirty] = React.useState<boolean>(false);
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
-    const [graphTopologyName, setGraphTopologyName] = React.useState<string>(props.recoveredName || graph.getName());
-    const [graphDescription, setGraphDescription] = React.useState<string>(props.recoveredDescription || graph.getDescription() || "");
+    const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
+    const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const propsApi = usePropsAPI();
@@ -53,9 +51,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     React.useEffect(() => {
         vsCodeSetState({
             graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
-            zoomPanSettings,
-            name: graphTopologyName,
-            description: graphDescription
+            zoomPanSettings
         });
     }, [data, zoomPanSettings, graphTopologyName, graphDescription]);
 
@@ -138,7 +134,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
             overflowY: "auto" as const,
             willChange: "transform",
             width: 300,
-            background: "var(--vscode-editorWidget-background)",
             borderRight: "1px solid var(--vscode-editorWidget-border)"
         }
     };
@@ -165,7 +160,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             label={Localizer.l("sidebarGraphTopologyNameLabel")}
                             required
                             value={graphTopologyName}
-                            placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
+                            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
                             onChange={onNameChange}
                         />
                         <TextField

@@ -5,13 +5,13 @@ import {
     DialogType,
     Dropdown,
     IDropdownOption,
-    PrimaryButton,
     Spinner,
     SpinnerSize
 } from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../../localization/Localizer";
 import { MediaGraphTopology } from "../../../lva-sdk/lvaSDKtypes";
+import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
 import { sampleOptionsList } from "./sampleList";
 import { Status } from "./statusEnum";
@@ -92,7 +92,7 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (pr
                 )}
 
                 <DialogFooter>
-                    <PrimaryButton
+                    <AdjustedPrimaryButton
                         disabled={status === Status.WaitingOnSampleLoad || !selectedSampleName}
                         onClick={confirmSelection}
                         text={Localizer.l("sampleSelectorLoadSampleButtonText")}

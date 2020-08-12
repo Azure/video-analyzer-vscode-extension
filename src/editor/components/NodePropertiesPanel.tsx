@@ -1,4 +1,4 @@
-import { IconButton, Stack } from "office-ui-fabric-react";
+import { Stack } from "office-ui-fabric-react";
 import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { IPanelConfig, IPropsAPI } from "@vienna/react-dag-editor";
@@ -8,6 +8,7 @@ import { MediaGraphParameterDeclaration } from "../../lva-sdk/lvaSDKtypes";
 import { ParameterizeValueCallback } from "../../types/graphTypes";
 import { ParameterEditor } from "./ParameterEditor/ParameterEditor";
 import { PropertyEditor } from "./PropertyEditor/PropertyEditor";
+import { AdjustedIconButton } from "./ThemeAdjustedComponents/AdjustedIconButton";
 
 export class NodePropertiesPanel implements IPanelConfig {
     private readonly _propsAPI: IPropsAPI;
@@ -32,7 +33,7 @@ export class NodePropertiesPanel implements IPanelConfig {
             position: "absolute",
             right: 0,
             top: 0,
-            background: "var(--vscode-editorWidget-background)",
+            background: "var(--vscode-editor-background)",
             height: "100%",
             borderLeft: "1px solid var(--vscode-editorWidget-border)",
             width: 460,
@@ -62,7 +63,7 @@ export class NodePropertiesPanel implements IPanelConfig {
             <div style={panelStyle}>
                 <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: "s1" }}>
                     <h2 style={{ margin: 0 }}>{data.name}</h2>
-                    <IconButton
+                    <AdjustedIconButton
                         iconProps={{
                             iconName: "Clear"
                         }}

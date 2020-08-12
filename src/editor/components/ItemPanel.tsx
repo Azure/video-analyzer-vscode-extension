@@ -66,7 +66,12 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
                 return {
                     title: (
                         <Item key={node.title as string} model={internalNode} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>
-                            <NodeContainer heading={node.title as string} iconName={styles.iconName!} title={description} background="var(--vscode-editor-background)">
+                            <NodeContainer
+                                heading={node.title as string}
+                                iconName={styles.iconName!}
+                                title={description}
+                                background="var(--vscode-editorWidget-background)"
+                            >
                                 <Text
                                     variant="small"
                                     style={{

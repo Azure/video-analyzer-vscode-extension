@@ -14,7 +14,7 @@ export const graphTheme = {
     contextMenuBorder: "var(--vscode-menu-separatorBackground)",
     contextMenuHoverBackground: "var(--vscode-menu-selectionBackground)",
     fontColor: "var(--vscode-foreground)",
-    canvasBackground: "var(--vscode-editor-background)",
+    canvasBackground: "var(--vscode-editorWidget-background)",
     edgeColor: "var(--vscode-breadcrumb-foreground)",
     edgeColorSelected: "var(--vscode-pickerGroup-foreground)",
     minimapShadow: "var(--vscode-widget-shadow)",

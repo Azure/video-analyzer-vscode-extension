@@ -1,4 +1,3 @@
-import { clamp } from "office-ui-fabric-react";
 import * as React from "react";
 import {
     CanvasMouseMode,
@@ -9,14 +8,12 @@ import {
     ICanvasData,
     ICanvasNode,
     IGraphDataChangeEvent,
-    IPoint,
     IPropsAPI,
     IZoomPanSettings,
     RegisterEdge,
     RegisterPanel,
     TSetData,
-    TSetZoomPanSettings,
-    usePropsAPI
+    TSetZoomPanSettings
 } from "@vienna/react-dag-editor";
 import LocalizerHelpers from "../../helpers/LocalizerHelpers";
 import { MediaGraphParameterDeclaration } from "../../lva-sdk/lvaSDKtypes";

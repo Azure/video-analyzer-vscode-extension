@@ -1,7 +1,6 @@
 import {
     Callout,
     IButtonStyles,
-    IconButton,
     IContextualMenuProps,
     IStackStyles,
     IStackTokens,
@@ -11,6 +10,7 @@ import {
 import * as React from "react";
 import { useBoolean, useId } from "@uifabric/react-hooks";
 import Localizer from "../../../localization/Localizer";
+import { AdjustedIconButton } from "../ThemeAdjustedComponents/AdjustedIconButton";
 
 interface IPropertyDescriptionProps {
     name: string;
@@ -82,7 +82,7 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
                     >
                         {name}
                     </Label>
-                    <IconButton
+                    <AdjustedIconButton
                         id={iconButtonId}
                         iconProps={{ iconName: "Info" }}
                         title={Localizer.l("propertyEditorInfoButtonTitle")}
@@ -92,7 +92,7 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
                     />
                 </Stack>
                 {useParameter && (
-                    <IconButton
+                    <AdjustedIconButton
                         iconProps={{ iconName: "More" }}
                         title={Localizer.l("propertyEditorOverflowMenuTitle")}
                         ariaLabel={Localizer.l("propertyEditorOverflowMenuAriaLabel")}
