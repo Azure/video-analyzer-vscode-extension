@@ -82,26 +82,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         }
     }
 
-    // nodeNames maps an ID to a name, is updated on node add/remove
-    const nodeNames: Record<string, string> = {};
-    data.nodes.forEach((node) => {
-        nodeNames[node.id] = node.name || "";
-    });
-    const nodeAdded = (node: ICanvasNode) => {
-        nodeNames[node.id] = node.name || "";
-    };
-    const nodesRemoved = (nodes: Set<string>) => {
-        nodes.forEach((nodeId) => delete nodeNames[nodeId]);
-    };
-    const hasNodeWithName = (name: string) => {
-        for (const nodeId in nodeNames) {
-            if (nodeNames[nodeId] === name) {
-                return true;
-            }
-        }
-        return false;
-    };
-
     const saveTopology = () => {
         graph.setName(graphTopologyName);
         graph.setDescription(graphDescription);
@@ -172,7 +152,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     </div>
                     <div style={panelItemStyles}>
                         <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
-                        <ItemPanel hasNodeWithName={hasNodeWithName} />
+                        <ItemPanel />
                     </div>
                 </Stack.Item>
                 <Stack grow>
@@ -196,8 +176,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             zoomPanSettings={zoomPanSettings}
                             setZoomPanSettings={setZoomPanSettings}
                             canvasMouseMode={CanvasMouseMode.pan}
-                            onNodeAdded={nodeAdded}
-                            onNodeRemoved={nodesRemoved}
                             onChange={onChange}
                             parameters={parameters}
                             propsApiRef={propsApiRef}

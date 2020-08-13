@@ -1,10 +1,6 @@
 import { FontIcon, Stack, Text } from "office-ui-fabric-react";
 import * as React from "react";
-import {
-    IAccessibleTreeStyles,
-    ITreeNode,
-    ReactAccessibleTree
-} from "react-accessible-tree";
+import { IAccessibleTreeStyles, ITreeNode, ReactAccessibleTree } from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../../definitions/Definitions";
@@ -12,30 +8,43 @@ import NodeHelpers from "../../helpers/NodeHelpers";
 import Localizer from "../../localization/Localizer";
 import { NodeContainer } from "./NodeContainer";
 
-interface IProps {
-    hasNodeWithName: (name: string) => boolean;
-}
-
-export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
+export const ItemPanel: React.FunctionComponent = (props) => {
     const [treeData, setTreeData] = React.useState<ITreeNode[]>([]);
     const propsAPI = usePropsAPI();
+
+    const hasNodeWithName = (name: string) => {
+        const nodes = propsAPI.getData().nodes;
+        for (const node of nodes) {
+            if (node.name === name) {
+                return true;
+            }
+        }
+        return false;
+    };
 
     const nodeWillAdd = (node: ICanvasNode): ICanvasNode => {
         // make sure this name hasn't already been used, append number if it has
         let nodeName = node.name || "";
         let duplicateCounter = 1;
-        while (props.hasNodeWithName(nodeName)) {
+        while (hasNodeWithName(nodeName)) {
             nodeName = (node.name || "node") + duplicateCounter;
             duplicateCounter++;
         }
         if (node.data) {
             node.data.nodeProperties.name = nodeName;
+            delete node.data.nodeProperties.dragging;
         }
         return {
             ...node,
             id: uuid(),
             name: nodeName
         };
+    };
+
+    const dragWillStart = (node: ICanvasNode) => {
+        if (node.data) {
+            node.data.nodeProperties.dragging = true;
+        }
     };
 
     const nodeDidAdd = (node: ICanvasNode) => {
@@ -65,7 +74,7 @@ export const ItemPanel: React.FunctionComponent<IProps> = (props) => {
                 const styles = NodeHelpers.getNodeAppearance(internalNode.data!.nodeType);
                 return {
                     title: (
-                        <Item key={node.title as string} model={internalNode} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>
+                        <Item key={node.title as string} model={internalNode} dragWillStart={dragWillStart} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>
                             <NodeContainer
                                 heading={node.title as string}
                                 iconName={styles.iconName!}
