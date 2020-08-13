@@ -3,9 +3,14 @@ import * as path from "path";
 import * as vscode from "vscode";
 import Localizer from "../Util/Localizer";
 
-interface PostMessage {
+interface PostMessageIn {
     name: string;
     callback?: (data?: any) => void;
+}
+
+interface PostMessageOut {
+    name: string;
+    data: { pageType: string; graphData?: any; graphInstance?: any };
 }
 
 /**
@@ -22,19 +27,20 @@ export class GraphEditorPanel {
     private readonly _panel: vscode.WebviewPanel;
     private readonly _extensionPath: string;
     private _disposables: vscode.Disposable[] = [];
-    private _registeredMessages: PostMessage[] = [];
+    private _registeredMessages: PostMessageIn[] = [];
 
-    public static createOrShow(extensionPath: string) {
+    public static createOrShow(extensionPath: string, pageTitle: string) {
         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
 
         // If we already have a panel, show it.
         if (GraphEditorPanel.currentPanel) {
             GraphEditorPanel.currentPanel._panel.reveal(column);
-            return;
+            GraphEditorPanel.currentPanel.dispose();
+            //return;
         }
 
         // Otherwise, create a new panel.
-        const panel = vscode.window.createWebviewPanel(GraphEditorPanel.viewType, Localizer.localize("lva-edge.webview.title"), column || vscode.ViewColumn.One, {
+        const panel = vscode.window.createWebviewPanel(GraphEditorPanel.viewType, pageTitle, column || vscode.ViewColumn.One, {
             // Enable javascript in the webview
             enableScripts: true,
 
@@ -72,18 +78,26 @@ export class GraphEditorPanel {
             this._disposables
         );
 
-        this._panel.webview.onDidReceiveMessage((message) => {
-            const filteredEvents = this._registeredMessages.filter((event) => {
-                return event.name === message.command;
-            });
-            if (filteredEvents?.length === 1 && filteredEvents[0].callback) {
-                filteredEvents[0].callback(message.text);
-            }
-        });
+        this._panel.webview.onDidReceiveMessage(
+            (message) => {
+                const filteredEvents = this._registeredMessages.filter((event) => {
+                    return event.name === message.command;
+                });
+                if (filteredEvents?.length === 1 && filteredEvents[0].callback) {
+                    filteredEvents[0].callback(message.text);
+                }
+            },
+            null,
+            this._disposables
+        );
     }
 
-    public registerPostMessage(message: PostMessage) {
+    public registerPostMessage(message: PostMessageIn) {
         this._registeredMessages.push(message);
+    }
+
+    public postMessage(message: PostMessageOut) {
+        this._panel.webview.postMessage({ command: message.name, data: message.data });
     }
 
     public dispose() {
@@ -101,7 +115,6 @@ export class GraphEditorPanel {
     }
 
     private _update() {
-        this._panel.title = Localizer.localize("lva-edge.webview.title");
         this._panel.webview.html = this._getHtmlForWebview();
     }
 
@@ -151,7 +164,7 @@ export class GraphEditorPanel {
                     <meta http-equiv="Content-Security-Policy" content="img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
 
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${Localizer.localize("lva-edge.webview.title")}</title>
+                    <title>${this._panel.title}</title>
                     ${stylesheetInjection}
                 </head>
                 <body>

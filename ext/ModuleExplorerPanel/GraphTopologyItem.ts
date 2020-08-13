@@ -19,35 +19,45 @@ export class GraphTopologyItem extends vscode.TreeItem {
         super(graphTopology?.name ?? Localizer.localize("createGraphButton"), vscode.TreeItemCollapsibleState.Expanded);
         if (graphTopology) {
             this.iconPath = new vscode.ThemeIcon("primitive-square");
+            this.contextValue = "graphItemContext";
         } else {
             this.iconPath = new vscode.ThemeIcon("add");
-            this.command = { title: Localizer.localize("createGraphButton"), command: "lvaTopologyEditor.start", arguments: [this] };
+            this.command = { title: Localizer.localize("createGraphButton"), command: "lvaTopologyEditor.createGraph", arguments: [this] };
             this.collapsibleState = vscode.TreeItemCollapsibleState.None;
         }
     }
 
     public getChildren(): Promise<INode[]> | INode[] {
-        if (this.graphTopology == null || this._graphInstances == null) {
-            return [];
+        const instanceList: InstanceItem[] = [];
+        if (this.graphTopology && this._graphInstances) {
+            instanceList.push(
+                new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this.graphTopology),
+                ...(this._graphInstances
+                    .filter((instance) => {
+                        return instance?.properties?.topologyName === this.graphTopology?.name;
+                    })
+                    .map((instance) => {
+                        return new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this.graphTopology!, instance);
+                    }) ?? [])
+            );
         }
-        return (
-            this._graphInstances
-                ?.filter((instance) => {
-                    return instance?.properties?.topologyName === this.graphTopology?.name;
-                })
-                ?.map((instance) => {
-                    return new InstanceItem(instance);
-                }) ?? []
-        );
+        return instanceList;
     }
 
     public createNewGraphCommand(context: vscode.ExtensionContext) {
-        const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath);
+        const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("createNewGraphPageTile"));
         if (createGraphPanel) {
             createGraphPanel.registerPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
                 callback: () => {
                     createGraphPanel.dispose();
+                }
+            });
+
+            createGraphPanel.registerPostMessage({
+                name: Constants.PostMessageNames.getInitialData,
+                callback: () => {
+                    createGraphPanel.postMessage({ name: Constants.PostMessageNames.setInitialData, data: { pageType: Constants.PageTypes.graphPage } });
                 }
             });
 
@@ -65,6 +75,57 @@ export class GraphTopologyItem extends vscode.TreeItem {
                     );
                 }
             });
+        }
+    }
+
+    public editGraphCommand(context: vscode.ExtensionContext) {
+        const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("editGraphPageTile"));
+        if (createGraphPanel) {
+            createGraphPanel.registerPostMessage({
+                name: Constants.PostMessageNames.closeWindow,
+                callback: () => {
+                    createGraphPanel.dispose();
+                }
+            });
+
+            createGraphPanel.registerPostMessage({
+                name: Constants.PostMessageNames.getInitialData,
+                callback: () => {
+                    createGraphPanel.postMessage({
+                        name: Constants.PostMessageNames.setInitialData,
+                        data: { pageType: Constants.PageTypes.graphPage, graphData: this.graphTopology }
+                    });
+                }
+            });
+
+            createGraphPanel.registerPostMessage({
+                name: Constants.PostMessageNames.saveGraph,
+                callback: async (topology: any) => {
+                    GraphTopologyData.putGraphTopology(this.iotHubData, this.deviceId, this.moduleId, topology).then(
+                        (response) => {
+                            vscode.commands.executeCommand("moduleExplorer.refresh");
+                            createGraphPanel.dispose();
+                        },
+                        (error) => {
+                            // show errors
+                        }
+                    );
+                }
+            });
+        }
+    }
+
+    public deleteGraphCommand() {
+        if (this.graphTopology) {
+            // TODO we might need a confirmation before delete
+            GraphTopologyData.deleteGraphTopology(this.iotHubData, this.deviceId, this.moduleId, this.graphTopology.name).then(
+                (response) => {
+                    vscode.commands.executeCommand("moduleExplorer.refresh");
+                },
+                (error) => {
+                    // show errors
+                }
+            );
         }
     }
 }
