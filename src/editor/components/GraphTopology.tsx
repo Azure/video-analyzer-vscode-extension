@@ -92,16 +92,18 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     }
 
     const saveTopology = () => {
-        graph.setName(graphTopologyName);
-        graph.setDescription(graphDescription);
-        graph.setGraphDataFromICanvasData(data);
-        const topology = graph.getTopology();
-        const vscode = ExtensionInteraction.getVSCode();
-        if (vscode) {
-            vscode.postMessage({ command: Constants.PostMessageNames.saveGraph, text: topology });
-        } else {
-            // running in browser
-            console.log(topology);
+        if (canContinue()) {
+            graph.setName(graphTopologyName);
+            graph.setDescription(graphDescription);
+            graph.setGraphDataFromICanvasData(data);
+            const topology = graph.getTopology();
+            const vscode = ExtensionInteraction.getVSCode();
+            if (vscode) {
+                vscode.postMessage({ command: Constants.PostMessageNames.saveGraph, text: topology });
+            } else {
+                // running in browser
+                console.log(topology);
+            }
         }
     };
 
@@ -185,7 +187,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     <Toolbar
                         name={graphTopologyName}
                         primaryAction={saveTopology}
-                        canContinue={canContinue}
                         cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {

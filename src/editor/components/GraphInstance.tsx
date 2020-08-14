@@ -89,8 +89,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         if (nameTextFieldRef) {
             nameTextFieldRef.current?.focus();
         }
-  }, [])
-
+    }, []);
 
     if (!isSupported()) {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
@@ -111,29 +110,33 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     };
 
     const saveInstance = () => {
-        const vscode = ExtensionInteraction.getVSCode();
-        if (vscode) {
-            vscode.postMessage({
-                command: Constants.PostMessageNames.saveInstance,
-                text: generateInstance()
-            });
-        } else {
-            // running in browser
-            console.log(generateInstance());
-        }
-    };
-    const saveAndStartAction = {
-        text: Localizer.l("saveAndStartButtonText"),
-        callback: () => {
+        if (canContinue()) {
             const vscode = ExtensionInteraction.getVSCode();
             if (vscode) {
                 vscode.postMessage({
-                    command: Constants.PostMessageNames.saveAndActivate,
+                    command: Constants.PostMessageNames.saveInstance,
                     text: generateInstance()
                 });
             } else {
                 // running in browser
                 console.log(generateInstance());
+            }
+        }
+    };
+    const saveAndStartAction = {
+        text: Localizer.l("saveAndStartButtonText"),
+        callback: () => {
+            if (canContinue()) {
+                const vscode = ExtensionInteraction.getVSCode();
+                if (vscode) {
+                    vscode.postMessage({
+                        command: Constants.PostMessageNames.saveAndActivate,
+                        text: generateInstance()
+                    });
+                } else {
+                    // running in browser
+                    console.log(generateInstance());
+                }
             }
         }
     };
@@ -224,7 +227,6 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                     <Toolbar
                         name={graphInstanceName}
                         primaryAction={saveInstance}
-                        canContinue={canContinue}
                         secondaryAction={saveAndStartAction}
                         cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();

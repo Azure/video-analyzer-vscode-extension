@@ -11,21 +11,14 @@ export interface IGraphPanelProps {
         text: string;
         callback: () => void;
     };
-    canContinue: () => boolean;
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
-    const { name, cancelAction, primaryAction, canContinue, secondaryAction } = props;
+    const { name, cancelAction, primaryAction, secondaryAction } = props;
 
     const toolbarStyles = {
         padding: 10,
         borderBottom: "1px solid var(--vscode-editorWidget-border)"
-    };
-
-    const attemptRunAction = (action: () => void) => {
-        if (canContinue()) {
-            action();
-        }
     };
 
     return (
@@ -33,8 +26,8 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
             <div>{name}</div>
             <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
                 <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
-                {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={() => attemptRunAction(secondaryAction.callback)} />}
-                <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={() => attemptRunAction(primaryAction)} />
+                {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
+                <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
             </Stack>
         </Stack>
     );
