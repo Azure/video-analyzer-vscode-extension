@@ -5,6 +5,7 @@ import {
     GraphDataChangeType,
     GraphFeatures,
     GraphNodeState,
+    GraphValueControlled,
     ICanvasData,
     ICanvasNode,
     IGraphDataChangeEvent,
@@ -28,8 +29,6 @@ export interface IInnerGraphProps {
     setZoomPanSettings: TSetZoomPanSettings;
     canvasMouseMode: CanvasMouseMode;
     isHorizontal?: boolean;
-    onNodeAdded?: (node: ICanvasNode) => void;
-    onNodeRemoved?: (nodes: Set<string>) => void;
     onChange?: (evt: IGraphDataChangeEvent) => void;
     readOnly?: boolean;
     parameters?: MediaGraphParameterDeclaration[];
@@ -71,14 +70,9 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             props.onChange(evt);
         }
         switch (evt.type) {
-            case GraphDataChangeType.addNode:
-                onAddNode(evt.payload);
-                if (props.onNodeAdded && evt.payload) props.onNodeAdded(evt.payload);
-                break;
             case GraphDataChangeType.deleteNode: // in case just a node is removed
             case GraphDataChangeType.deleteMultiple: // in case nodes + attached edges are removed
                 dismissSidePanel();
-                if (props.onNodeRemoved && evt.payload && evt.payload.selectedNodeIds) props.onNodeRemoved(evt.payload.selectedNodeIds);
                 break;
             default:
         }
@@ -90,24 +84,22 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
         <>
             <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
-            <Graph
-                svgRef={svgRef}
-                propsAPIRef={propsApiRef}
-                data={props.data}
-                setData={props.setData}
-                onCanvasClick={dismissSidePanel}
-                zoomPanSettings={props.zoomPanSettings}
-                setPanZoomPanSettings={props.setZoomPanSettings}
-                onNodeClick={onNodeClick}
-                onChange={onChange}
-                defaultNodeShape="module"
-                defaultPortShape="modulePort"
-                defaultEdgeShape="customEdge"
-                canvasMouseMode={props.canvasMouseMode}
-                getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
-                getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
-                features={props.readOnly ? readOnlyFeatures : undefined}
-            />
+            <GraphValueControlled data={props.data} setData={props.setData} zoomPanSettings={props.zoomPanSettings} setZoomPanSettings={props.setZoomPanSettings}>
+                <Graph
+                    svgRef={svgRef}
+                    propsAPIRef={propsApiRef}
+                    onCanvasClick={dismissSidePanel}
+                    onNodeClick={onNodeClick}
+                    onChange={onChange}
+                    defaultNodeShape="module"
+                    defaultPortShape="modulePort"
+                    defaultEdgeShape="customEdge"
+                    canvasMouseMode={props.canvasMouseMode}
+                    getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
+                    getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
+                    features={props.readOnly ? readOnlyFeatures : undefined}
+                />
+            </GraphValueControlled>
         </>
     );
 };

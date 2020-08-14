@@ -1,15 +1,6 @@
 import { IStackStyles } from "office-ui-fabric-react";
 import * as React from "react";
-import {
-    getRectHeight,
-    getRectWidth,
-    GraphNodeState,
-    hasState,
-    ICanvasNode,
-    IItemConfigArgs,
-    IRectConfig,
-    ITheme
-} from "@vienna/react-dag-editor";
+import { getRectHeight, getRectWidth, GraphNodeState, hasState, ICanvasNode, IItemConfigArgs, IRectConfig, ITheme } from "@vienna/react-dag-editor";
 import Localizer from "../../localization/Localizer";
 import { NodeContainer } from "./NodeContainer";
 
@@ -27,6 +18,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
 
         const iconName = node.data && node.data.iconName;
         const nodeType = node.data && node.data.nodeProperties["@type"];
+        const dragging = node.data && node.data.nodeProperties.dragging;
         const description = Localizer.l(nodeType.split(".").pop());
 
         const rectHeight = getRectHeight<ICanvasNode>(this, node);
@@ -41,6 +33,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
                     title={description}
                     selected={hasState(GraphNodeState.selected)(node.state)}
                     hovered={hasState(GraphNodeState.activated)(node.state)}
+                    dragging={dragging}
                 ></NodeContainer>
             </foreignObject>
         );
