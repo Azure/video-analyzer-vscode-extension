@@ -55,9 +55,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
     const onNodeClick = (_e: React.MouseEvent, node: ICanvasNode) => {
         inspectNode(node);
     };
-    const onAddNode = (node?: ICanvasNode) => {
-        inspectNode(node);
-    };
 
     const dismissSidePanel = () => {
         if (propsApiRef.current) {

@@ -1,41 +1,52 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  font-family: var(--vscode-font-family);
-  background: var(--vscode-editor-background);
-  color: var(--vscode-foreground);
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: var(--vscode-font-family);
+    background: var(--vscode-editor-background);
+    color: var(--vscode-foreground);
 }
 
 textarea,
 input[type="text"],
 select {
-  width: 100%;
-  display: block;
-  box-sizing: border-box;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
 }
 
 textarea {
-  height: 60px;
+    height: 60px;
 }
 
 label {
-  display: block;
+    display: block;
 }
 
 .context-menu {
-  border: 0 !important;
-  box-shadow: 0 4px 8px var(--vscode-widget-shadow);
-  border-radius: 3px;
-  overflow: hidden;
+    border: 0 !important;
+    box-shadow: 0 4px 8px var(--vscode-widget-shadow);
+    border-radius: 3px;
+    overflow: hidden;
 }
 
 .context-menu > div {
-  padding: 0.5em 1em;
+    padding: 0.5em 1em;
 }
 
 .context-menu > div:hover {
-  color: var(--vscode-menu-selectionForeground);
+    color: var(--vscode-menu-selectionForeground);
+}
+
+/* pulled from microsoft/vscode  > src/vs/workbench/contrib/welcome/page/browser/welcomePage.ts > buttonColor */
+body[data-vscode-theme-kind="vscode-dark"] .react-dag-editor-container {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body[data-vscode-theme-kind="vscode-light"] .react-dag-editor-container {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+body[data-vscode-theme-kind="vscode-high-contrast"] .react-dag-editor-container {
+    background: rgba(200, 235, 255, 0.042);
 }

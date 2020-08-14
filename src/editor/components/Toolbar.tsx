@@ -7,7 +7,6 @@ export interface IGraphPanelProps {
     name: string;
     cancelAction: () => void;
     primaryAction: () => void;
-    primaryActionEnabled: boolean;
     secondaryAction?: {
         text: string;
         callback: () => void;
@@ -15,7 +14,7 @@ export interface IGraphPanelProps {
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
-    const { name, cancelAction, primaryAction, primaryActionEnabled, secondaryAction } = props;
+    const { name, cancelAction, primaryAction, secondaryAction } = props;
 
     const toolbarStyles = {
         padding: 10,
@@ -28,7 +27,7 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
             <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
                 <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
                 {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
-                <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} disabled={!primaryActionEnabled} />
+                <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
             </Stack>
         </Stack>
     );

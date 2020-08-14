@@ -1,4 +1,4 @@
-import { Stack, TextField } from "office-ui-fabric-react";
+import { ITextField, Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
     CanvasMouseMode,
@@ -39,6 +39,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
     const [graphInstanceName, setGraphInstanceName] = React.useState<string>(instance.name);
     const [graphDescription, setGraphDescription] = React.useState<string>((instance.properties && instance.properties.description) || "");
+    const [graphNameError, setGraphNameError] = React.useState<string>("");
 
     let initialParams: GraphInstanceParameter[] = [];
     if (graph.getTopology().properties && graph.getTopology().properties!.parameters) {
@@ -53,13 +54,15 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
             return {
                 name: param.name,
                 value,
-                type: param.type
+                type: param.type,
+                error: ""
             };
         });
     }
     const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
+    const nameTextFieldRef = React.useRef<ITextField>(null);
 
     // save state in VS Code when data, zoomPanSettings, or parameters change
     const saveState = (update?: any) => {
@@ -81,6 +84,12 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     React.useEffect(() => {
         saveState();
     }, [data, zoomPanSettings, graphInstanceName, graphDescription]);
+    React.useEffect(() => {
+        // on mount
+        if (nameTextFieldRef) {
+            nameTextFieldRef.current?.focus();
+        }
+    }, []);
 
     if (!isSupported()) {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
@@ -101,39 +110,71 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     };
 
     const saveInstance = () => {
-        const vscode = ExtensionInteraction.getVSCode();
-        if (vscode) {
-            vscode.postMessage({
-                command: Constants.PostMessageNames.saveInstance,
-                text: generateInstance()
-            });
-        }
-    };
-
-    const saveAndStartAction = {
-        text: Localizer.l("saveAndStartButtonText"),
-        callback: () => {
+        if (canContinue()) {
             const vscode = ExtensionInteraction.getVSCode();
             if (vscode) {
                 vscode.postMessage({
-                    command: Constants.PostMessageNames.saveAndActivate,
+                    command: Constants.PostMessageNames.saveInstance,
                     text: generateInstance()
                 });
+            } else {
+                // running in browser
+                console.log(generateInstance());
             }
-            console.log("And start");
+        }
+    };
+    const saveAndStartAction = {
+        text: Localizer.l("saveAndStartButtonText"),
+        callback: () => {
+            if (canContinue()) {
+                const vscode = ExtensionInteraction.getVSCode();
+                if (vscode) {
+                    vscode.postMessage({
+                        command: Constants.PostMessageNames.saveAndActivate,
+                        text: generateInstance()
+                    });
+                } else {
+                    // running in browser
+                    console.log(generateInstance());
+                }
+            }
         }
     };
 
+    const validateName = (name: string) => {
+        if (!name) {
+            setGraphNameError(Localizer.l("sidebarGraphInstanceNameMissing"));
+        } else {
+            setGraphNameError("");
+        }
+    };
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
         if (typeof newValue !== "undefined") {
             setGraphInstanceName(newValue);
+            validateName(newValue);
         }
     };
-
     const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
         if (typeof newValue !== "undefined") {
             setGraphDescription(newValue);
         }
+    };
+
+    const canContinue = () => {
+        validateName(graphInstanceName);
+        const nameIsEmpty = graphInstanceName.length === 0;
+        if (nameIsEmpty) {
+            nameTextFieldRef.current!.focus();
+        }
+        let missingParameter = false;
+        parameters.forEach((parameter, index) => {
+            if (!parameter.value) {
+                missingParameter = true;
+                parameter.error = Localizer.l("sidebarGraphInstanceParameterMissing");
+            }
+        });
+        setParameters(parameters);
+        return !nameIsEmpty && !missingParameter;
     };
 
     const panelStyles = {
@@ -145,11 +186,9 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
             borderRight: "1px solid var(--vscode-editorWidget-border)"
         }
     };
-
     const panelItemStyles = {
         padding: 10
     };
-
     const topSidebarStyles = {
         padding: 10,
         borderBottom: "1px solid var(--vscode-editorWidget-border)",
@@ -169,7 +208,9 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                             required
                             value={graphInstanceName}
                             placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+                            errorMessage={graphNameError}
                             onChange={onNameChange}
+                            componentRef={nameTextFieldRef}
                         />
                         <TextField
                             label={Localizer.l("sidebarGraphDescriptionLabel")}
@@ -186,7 +227,6 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
                     <Toolbar
                         name={graphInstanceName}
                         primaryAction={saveInstance}
-                        primaryActionEnabled={graphInstanceName.length > 0}
                         secondaryAction={saveAndStartAction}
                         cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();

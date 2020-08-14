@@ -11,10 +11,10 @@ export interface IGraphPanelProps {
 export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props) => {
     const { parameters, setParameters } = props;
 
-    const customEntryEditFunction = (index: number) => {
-        return (newValue: string) => {
-            parameters[index].value = newValue;
-            setParameters(parameters);
+    const customParameterSetter = (index: number) => {
+        return (newValue: GraphInstanceParameter) => {
+            parameters[index] = newValue;
+            setParameters([...parameters]);
         };
     };
 
@@ -30,7 +30,7 @@ export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props)
             </h2>
             {parameters &&
                 parameters.map((parameter, i) => {
-                    return <GraphPanelEditField key={parameter.name} parameter={parameter} updateParameter={customEntryEditFunction(i)} />;
+                    return <GraphPanelEditField key={parameter.name} parameter={parameter} setParameter={customParameterSetter(i)} />;
                 })}
         </>
     );
@@ -38,37 +38,40 @@ export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props)
 
 interface IGraphPanelEditFieldProps {
     parameter: GraphInstanceParameter;
-    updateParameter: (newValue: string) => void;
+    setParameter: (newValue: GraphInstanceParameter) => void;
 }
 
 const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = (props) => {
-    const { parameter, updateParameter } = props;
+    const { parameter, setParameter } = props;
+    const { name, type, error } = parameter;
     const [value, setValue] = React.useState<string>(parameter.value);
 
     const onChange = (event: React.FormEvent, newValue?: string) => {
         if (newValue !== undefined) {
             setValue(newValue);
-            updateParameter(newValue);
+            setParameter({ ...parameter, value: newValue });
+            validateInput(newValue);
         }
     };
 
     const validateInput = (value: string) => {
+        let error = "";
         if (!value) {
-            return Localizer.l("propertyEditorValidationEmpty");
+            error = Localizer.l("sidebarGraphInstanceParameterMissing");
         }
 
         // TODO: Perform additional validation
 
-        return "";
+        setParameter({ ...parameter, error });
     };
 
     return (
         <TextField
-            label={parameter.name}
+            label={name}
             value={value}
-            placeholder={Localizer.l("sidebarGraphInstanceParameterPlaceholder").format(parameter.type)}
+            placeholder={Localizer.l("sidebarGraphInstanceParameterPlaceholder").format(type)}
             onChange={onChange}
-            onGetErrorMessage={validateInput}
+            errorMessage={error}
             required
         />
     );

@@ -1,10 +1,9 @@
-import { DefaultButton, Stack, TextField } from "office-ui-fabric-react";
+import { ITextField, Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
     CanvasMouseMode,
     GraphDataChangeType,
     ICanvasData,
-    ICanvasNode,
     IGraphDataChangeEvent,
     IPropsAPI,
     isSupported,
@@ -43,8 +42,10 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
     const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
     const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
+    const [graphNameError, setGraphNameError] = React.useState<string>("");
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
+    const nameTextFieldRef = React.useRef<ITextField>(null);
 
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
@@ -56,6 +57,12 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
             zoomPanSettings
         });
     }, [data, zoomPanSettings, graphTopologyName, graphDescription]);
+    React.useEffect(() => {
+        // on mount
+        if (nameTextFieldRef) {
+            nameTextFieldRef.current?.focus();
+        }
+    }, []);
 
     if (!isSupported()) {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
@@ -85,22 +92,34 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     }
 
     const saveTopology = () => {
-        graph.setName(graphTopologyName);
-        graph.setDescription(graphDescription);
-        graph.setGraphDataFromICanvasData(data);
-        const topology = graph.getTopology();
-        const vscode = ExtensionInteraction.getVSCode();
-        if (vscode) {
-            vscode.postMessage({ command: Constants.PostMessageNames.saveGraph, text: topology });
+        if (canContinue()) {
+            graph.setName(graphTopologyName);
+            graph.setDescription(graphDescription);
+            graph.setGraphDataFromICanvasData(data);
+            const topology = graph.getTopology();
+            const vscode = ExtensionInteraction.getVSCode();
+            if (vscode) {
+                vscode.postMessage({ command: Constants.PostMessageNames.saveGraph, text: topology });
+            } else {
+                // running in browser
+                console.log(topology);
+            }
         }
     };
 
+    const validateName = (name: string) => {
+        if (!name) {
+            setGraphNameError(Localizer.l("sidebarGraphTopologyNameMissing"));
+        } else {
+            setGraphNameError("");
+        }
+    };
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
         if (typeof newValue !== "undefined") {
             setGraphTopologyName(newValue);
+            validateName(newValue);
         }
     };
-
     const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
         if (typeof newValue !== "undefined") {
             setGraphDescription(newValue);
@@ -108,6 +127,14 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     };
 
     const parameters = graph.getParameters();
+    const canContinue = () => {
+        validateName(graphTopologyName);
+        if (!graphTopologyName) {
+            nameTextFieldRef.current!.focus();
+            return false;
+        }
+        return true;
+    };
 
     const panelStyles = {
         root: {
@@ -118,11 +145,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
             borderRight: "1px solid var(--vscode-editorWidget-border)"
         }
     };
-
     const panelItemStyles = {
         padding: 10
     };
-
     const topSidebarStyles = {
         padding: 10,
         borderBottom: "1px solid var(--vscode-editorWidget-border)",
@@ -142,7 +167,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             required
                             value={graphTopologyName}
                             placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+                            errorMessage={graphNameError}
                             onChange={onNameChange}
+                            componentRef={nameTextFieldRef}
                         />
                         <TextField
                             label={Localizer.l("sidebarGraphDescriptionLabel")}
@@ -160,7 +187,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     <Toolbar
                         name={graphTopologyName}
                         primaryAction={saveTopology}
-                        primaryActionEnabled={graphTopologyName.length > 0}
                         cancelAction={() => {
                             const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {
