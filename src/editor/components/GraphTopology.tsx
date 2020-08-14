@@ -1,4 +1,4 @@
-import { Stack, TextField } from "office-ui-fabric-react";
+import { DefaultButton, Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
     CanvasMouseMode,
@@ -20,6 +20,7 @@ import Localizer from "../../localization/Localizer";
 import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
 import { GraphInfo } from "../../types/graphTypes";
 import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
+import * as Constants from "../../utils/Constants";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
@@ -50,6 +51,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         graph.setName(graphTopologyName);
         graph.setDescription(graphDescription);
         vsCodeSetState({
+            pageViewType: Constants.PageType.graphPage,
             graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
             zoomPanSettings
         });
@@ -89,9 +91,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         const topology = graph.getTopology();
         const vscode = ExtensionInteraction.getVSCode();
         if (vscode) {
-            vscode.postMessage({ command: "saveGraph", text: topology });
+            vscode.postMessage({ command: Constants.PostMessageNames.saveGraph, text: topology });
         }
-        console.log(topology);
     };
 
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
@@ -164,7 +165,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             const vscode = ExtensionInteraction.getVSCode();
                             if (vscode) {
                                 vscode.postMessage({
-                                    command: "closeWindow"
+                                    command: Constants.PostMessageNames.closeWindow
                                 });
                             }
                         }}

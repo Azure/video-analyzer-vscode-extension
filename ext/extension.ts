@@ -1,30 +1,14 @@
 import * as vscode from "vscode";
 import { GraphTopologyItem } from "./ModuleExplorerPanel/GraphTopologyItem";
 import { HubItem } from "./ModuleExplorerPanel/HubItem";
+import { InstanceItem } from "./ModuleExplorerPanel/InstanceItem";
 import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
 import { CredentialStore } from "./Util/credentialStore";
 import Localizer from "./Util/Localizer";
-import { GraphEditorPanel } from "./Webview/GraphPanel";
 
 export async function activate(context: vscode.ExtensionContext) {
     const locale = JSON.parse(process.env.VSCODE_NLS_CONFIG || "{}")["locale"];
     Localizer.loadLocalization(locale, context.extensionPath);
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand("lvaTopologyEditor.start", (newGraphItem: GraphTopologyItem) => {
-            //GraphEditorPanel.createOrShow(context.extensionPath);
-            newGraphItem.createNewGraphCommand(context);
-        })
-    );
-
-    if (vscode.window.registerWebviewPanelSerializer) {
-        // Make sure we register a serializer in activation event
-        vscode.window.registerWebviewPanelSerializer(GraphEditorPanel.viewType, {
-            async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel, state: any) {
-                GraphEditorPanel.revive(webviewPanel, context.extensionPath);
-            }
-        });
-    }
 
     const moduleExplorer = new ModuleExplorer(context);
     vscode.window.registerTreeDataProvider("moduleExplorer", moduleExplorer);
@@ -34,17 +18,33 @@ export async function activate(context: vscode.ExtensionContext) {
         moduleExplorer.setConnectionString(config);
     }
 
-    vscode.commands.registerCommand("moduleExplorer.setConnectionString", () => {
-        moduleExplorer.setConnectionString();
-    });
-
     context.subscriptions.push(
+        vscode.commands.registerCommand("moduleExplorer.setConnectionString", () => {
+            moduleExplorer.setConnectionString();
+        }),
+        vscode.commands.registerCommand("lvaTopologyEditor.createGraph", (newGraphItem: GraphTopologyItem) => {
+            newGraphItem.createNewGraphCommand(context);
+        }),
+        vscode.commands.registerCommand("lvaTopologyEditor.createInstance", (newGraphItem: InstanceItem) => {
+            newGraphItem.createNewGraphInstanceCommand(context);
+        }),
         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
             moduleExplorer.refresh();
         }),
-
         vscode.commands.registerCommand("moduleExplorer.deleteHubItem", (node: HubItem) => {
             moduleExplorer.resetConnectionString();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: GraphTopologyItem) => {
+            graphNode.editGraphCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.deleteGraph", (graphNode: GraphTopologyItem) => {
+            graphNode.deleteGraphCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: InstanceItem) => {
+            instanceNode.editInstanceCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.deleteInstance", (instanceNode: InstanceItem) => {
+            instanceNode.deleteInstanceCommand();
         })
     );
 }
