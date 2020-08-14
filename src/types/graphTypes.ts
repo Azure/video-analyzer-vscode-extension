@@ -1,9 +1,5 @@
 import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
-import {
-    MediaGraphNodeInput,
-    MediaGraphParameterType,
-    MediaGraphTopology
-} from "../lva-sdk/lvaSDKtypes";
+import { MediaGraphNodeInput, MediaGraphParameterType, MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
 
 export enum MediaGraphNodeType {
     Source = "source",
@@ -55,6 +51,7 @@ export interface GraphInstanceParameter {
     name: string;
     value: string;
     type: MediaGraphParameterType;
+    error: string;
 }
 
 export interface NestedLocalizedStrings {
