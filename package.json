@@ -28,14 +28,16 @@
             {
                 "command": "moduleExplorer.refresh",
                 "title": "Refresh",
-                "icon": {
-                    "dark": "ext/resources/dark/refresh.svg",
-                    "light": "ext/resources/light/refresh.svg"
-                }
+                "icon": "$(refresh)"
             },
             {
                 "command": "moduleExplorer.deleteHubItem",
                 "title": "delete hub"
+            },
+            {
+                "command": "moduleExplorer.createGraph",
+                "title": "%createGraphButton%",
+                "icon": "$(add)"
             },
             {
                 "command": "moduleExplorer.editGraph",
@@ -44,6 +46,11 @@
             {
                 "command": "moduleExplorer.deleteGraph",
                 "title": "%deleteGraphButton%"
+            },
+            {
+                "command": "moduleExplorer.createInstance",
+                "title": "%createGraphInstanceButton%",
+                "icon": "$(add)"
             },
             {
                 "command": "moduleExplorer.editInstance",
@@ -91,6 +98,16 @@
                 {
                     "command": "moduleExplorer.editInstance",
                     "when": "view == moduleExplorer && viewItem == InstanceItemContext"
+                },
+                {
+                    "command": "moduleExplorer.createGraph",
+                    "when": "view == moduleExplorer && viewItem == graphListContext",
+                    "group": "inline"
+                },
+                {
+                    "command": "moduleExplorer.createInstance",
+                    "when": "view == moduleExplorer && viewItem == instanceListContext",
+                    "group": "inline"
                 }
             ]
         },

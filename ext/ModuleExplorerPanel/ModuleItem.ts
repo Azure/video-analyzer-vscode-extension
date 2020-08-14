@@ -4,7 +4,9 @@ import { GraphTopologyData } from "../Data/GraphTolologyData";
 import { IotHubData } from "../Data/IotHubData";
 import { MediaGraphInstance } from "../lva-sdk/lvaSDKtypes";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
+import { TreeUtils } from "../Util/treeUtils";
 import { GraphTopologyItem } from "./GraphTopologyItem";
+import { GraphTopologyListItem } from "./GraphTopologyListItem";
 import { INode } from "./Node";
 
 export class ModuleItem extends vscode.TreeItem {
@@ -12,23 +14,16 @@ export class ModuleItem extends vscode.TreeItem {
         public iotHubData: IotHubData,
         public readonly deviceId: string,
         public readonly moduleId: string,
-        private connectionState: Device.ConnectionState | undefined,
-        public readonly collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.Expanded
+        private _connectionState: Device.ConnectionState | undefined,
+        private readonly _collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.Expanded
     ) {
-        super(moduleId, vscode.TreeItemCollapsibleState.Expanded);
-        this.iconPath = new vscode.ThemeIcon("plug");
+        super(moduleId, _collapsibleState);
+
+        const state = this._connectionState?.toLowerCase() === "connected" ? "on" : "off";
+        this.iconPath = TreeUtils.getIconPath(`module-${state}`);
     }
 
     public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
-        return new Promise((resolve, reject) => {
-            GraphTopologyData.getGraphTopologies(this.iotHubData, this.deviceId, this.moduleId).then((graphTopologies) => {
-                resolve([
-                    new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId),
-                    ...graphTopologies?.map((topology) => {
-                        return new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId, topology, graphInstances ?? []);
-                    })
-                ]);
-            });
-        });
+        return [new GraphTopologyListItem(this.iotHubData, this.deviceId, this.moduleId, this._collapsibleState)];
     }
 }
