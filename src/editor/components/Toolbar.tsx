@@ -1,39 +1,34 @@
+import { DefaultButton, Stack } from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../localization/Localizer";
-import { PrimaryButton, Stack, DefaultButton } from "office-ui-fabric-react";
+import { AdjustedPrimaryButton } from "./ThemeAdjustedComponents/AdjustedPrimaryButton";
 
 export interface IGraphPanelProps {
-  name: string;
-  closeEditor: () => void;
-  exportGraph: () => void;
+    name: string;
+    cancelAction: () => void;
+    primaryAction: () => void;
+    secondaryAction?: {
+        text: string;
+        callback: () => void;
+    };
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
-  const toolbarStyles = {
-    padding: 10,
-    background: "var(--vscode-editorWidget-background)",
-    borderBottom: "1px solid var(--vscode-editorWidget-border)",
-  };
+    const { name, cancelAction, primaryAction, secondaryAction } = props;
 
-  return (
-    <Stack
-      horizontal
-      horizontalAlign="space-between"
-      verticalAlign="center"
-      tokens={{ childrenGap: "s1" }}
-      style={toolbarStyles}
-    >
-      <div>{props.name}</div>
-      <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
-        <DefaultButton
-          text={Localizer.l("cancelButtonText")}
-          onClick={props.closeEditor}
-        />
-        <PrimaryButton
-          text={Localizer.l("saveButtonText")}
-          onClick={props.exportGraph}
-        />
-      </Stack>
-    </Stack>
-  );
+    const toolbarStyles = {
+        padding: 10,
+        borderBottom: "1px solid var(--vscode-editorWidget-border)"
+    };
+
+    return (
+        <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} style={toolbarStyles}>
+            <div>{name}</div>
+            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
+                <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
+                {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
+                <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
+            </Stack>
+        </Stack>
+    );
 };

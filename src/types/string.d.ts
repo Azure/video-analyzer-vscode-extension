@@ -1,3 +1,3 @@
 interface String {
-  format(...any): string;
+    format(...any): string;
 }

@@ -1,5 +1,20 @@
 {
-  "lva-edge.command.category": "LVA Graph Topology Editor",
-  "lva-edge.command.openSampleGraph.title": "Open sample graph in editor",
-  "lva-edge.webview.title": "LVA Graph Topology"
+    "lva-edge.command.category": "LVA Graph Topology Editor",
+    "lva-edge.command.openSampleGraph.title": "Open sample graph in editor",
+    "lva-edge.webview.title": "LVA Graph Topology",
+    "lva-edge.views.moduleExplorer.name": "LVA Graphs",
+    "connectionString.prompt": "Enter an IoT Hub connection string",
+    "deviceList.prompt": "Select a device",
+    "moduleList.prompt": "Select the live video analytics module",
+    "iotHub.connectionString.validationMessageFormat": "The format should be :",
+    "createGraphButton": "Create graph",
+    "createGraphInstanceButton": "Create instance",
+    "editGraphButton": "Edit graph topology",
+    "deleteGraphButton": "Delete graph topology",
+    "editInstanceButton": "Edit graph instance",
+    "deleteInstanceButton": "Delete graph instance",
+    "createNewGraphPageTile": "Create new graph topology",
+    "editGraphPageTile": "Edit Topology",
+    "createNewInstancePageTile": "Create new graph instance",
+    "editInstancePageTile": "Edit topology instance"
 }

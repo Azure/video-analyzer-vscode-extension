@@ -1,73 +1,78 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import { ITheme, Spinner, SpinnerSize } from "office-ui-fabric-react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
-import { ITheme } from "office-ui-fabric-react";
-import ThemeHelpers from "./helpers/ThemeHelpers";
-import IconSetupHelpers from "./helpers/IconSetupHelpers";
-import { IZoomPanSettings } from "@vienna/react-dag-editor";
-import { sampleTopology } from "./dev/sampleTopologies.js";
-import { GraphTopology } from "./editor/components/GraphTopology";
+import React, { useEffect } from "react";
 import { GraphInstance } from "./editor/components/GraphInstance";
-import { GraphInfo } from "./types/graphTypes";
+import { GraphTopology } from "./editor/components/GraphTopology";
+import { ExtensionInteraction } from "./extension/extensionInteraction";
 import Graph from "./graph/Graph";
+import IconSetupHelpers from "./helpers/IconSetupHelpers";
+import ThemeHelpers from "./helpers/ThemeHelpers";
+import { VSCodeState } from "./types/vscodeDelegationTypes";
+import * as Constants from "./utils/Constants";
 
 IconSetupHelpers.initializeIcons();
 
 interface IProps {
-  graphData?: GraphInfo;
-  zoomPanSettings?: IZoomPanSettings;
-  vsCodeSetState: (state: any) => void;
+    state: VSCodeState;
+    vsCodeSetState: (state: any) => void;
 }
 
 export const App: React.FunctionComponent<IProps> = (props) => {
-  const [theme, setTheme] = React.useState<ITheme>(
-    ThemeHelpers.getAdaptedTheme()
-  );
-  const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
-    setTheme(ThemeHelpers.getAdaptedTheme());
-  });
+    const [theme, setTheme] = React.useState<ITheme>(ThemeHelpers.getAdaptedTheme());
+    const [pageType, setPageType] = React.useState<Constants.PageType>(Constants.PageType.spinner);
 
-  // when unmounting, disconnect the observer to prevent leaked references
-  useEffect(() => {
-    return () => {
-      observer.disconnect();
+    const [graph, setGraph] = React.useState<Graph>(new Graph());
+    const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
+        setTheme(ThemeHelpers.getAdaptedTheme());
+    });
+
+    const { pageViewType, graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, instance = { name: "" } } = props.state;
+
+    // when unmounting, disconnect the observer to prevent leaked references
+    useEffect(() => {
+        return () => {
+            observer.disconnect();
+        };
+    });
+
+    if (pageViewType || graphData) {
+        if (pageType !== pageViewType) {
+            setPageType(pageViewType);
+        }
+        if (graphData) {
+            graph.setGraphData(graphData);
+        }
+    } else {
+        ExtensionInteraction.getVSCode().postMessage({ command: Constants.PostMessageNames.getInitialData });
+        window.addEventListener("message", (event) => {
+            if (event.data?.command === Constants.PostMessageNames.setInitialData) {
+                const { graphData, pageType } = event.data?.data;
+                if (graphData) {
+                    //console.log(graphData);
+                    graph.setTopology(graphData);
+                    console.log(graph);
+                }
+
+                if (pageType) {
+                    setPageType(pageType);
+                }
+            }
+        });
+    }
+
+    const getPageType = (currentPageType: Constants.PageType) => {
+        switch (currentPageType) {
+            case Constants.PageType.graphPage:
+                return <GraphTopology graph={graph} zoomPanSettings={zoomPanSettings} vsCodeSetState={props.vsCodeSetState} />;
+            case Constants.PageType.instancePage:
+                return <GraphInstance graph={graph} zoomPanSettings={zoomPanSettings} instance={instance} vsCodeSetState={props.vsCodeSetState} />;
+            default:
+                return <Spinner size={SpinnerSize.xSmall} />;
+        }
     };
-  });
 
-  const editingTopology = true;
-
-  const graph = new Graph();
-
-  if (props.graphData) {
-    graph.setGraphData(props.graphData);
-  } else {
-    graph.setTopology(sampleTopology);
-  }
-
-  // if there is no state to recover from (in props.graphData or zoomPanSettings), use default
-  // (load sampleTopology) and 1x zoom, no translate (stored in a transformation matrix)
-  // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
-  return (
-    <ThemeProvider theme={theme}>
-      {editingTopology ? (
-        <GraphTopology
-          graph={graph}
-          zoomPanSettings={
-            props.zoomPanSettings || { transformMatrix: [1, 0, 0, 1, 0, 0] }
-          }
-          vsCodeSetState={props.vsCodeSetState}
-        />
-      ) : (
-        <GraphInstance
-          graph={graph}
-          zoomPanSettings={
-            props.zoomPanSettings || { transformMatrix: [1, 0, 0, 1, 0, 0] }
-          }
-          vsCodeSetState={props.vsCodeSetState}
-        />
-      )}
-    </ThemeProvider>
-  );
+    return <ThemeProvider theme={theme}>{getPageType(pageType)}</ThemeProvider>;
 };
 
 export default App;

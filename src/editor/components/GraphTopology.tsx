@@ -1,204 +1,225 @@
-import { Stack, TextField } from "office-ui-fabric-react";
+import { ITextField, Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import {
-  CanvasMouseMode,
-  ICanvasData,
-  ICanvasNode,
-  isSupported,
-  IZoomPanSettings,
-  ReactDagEditor,
-  RegisterNode,
-  RegisterPort,
-  withDefaultPortsPosition,
+    CanvasMouseMode,
+    GraphDataChangeType,
+    ICanvasData,
+    IGraphDataChangeEvent,
+    IPropsAPI,
+    isSupported,
+    IZoomPanSettings,
+    ReactDagEditor,
+    RegisterNode,
+    RegisterPort,
+    withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
+import { ExtensionInteraction } from "../../extension/extensionInteraction";
+import Graph from "../../graph/Graph";
+import Localizer from "../../localization/Localizer";
+import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
+import { GraphInfo, ValidationError } from "../../types/graphTypes";
+import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
+import * as Constants from "../../utils/Constants";
 import { graphTheme as theme } from "../editorTheme";
 import { ContextMenu } from "./ContextMenu";
-import { Toolbar } from "./Toolbar";
 import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
-import Localizer from "../../localization/Localizer";
-import Graph from "../../graph/Graph";
-import { ValidationError } from "../../types/graphTypes";
-import { ValidationErrorPanel } from "./ValidationErrorPanel";
 import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
+import { Toolbar } from "./Toolbar";
+import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 interface IGraphTopologyProps {
-  graph: Graph;
-  zoomPanSettings: IZoomPanSettings;
-  vsCodeSetState: (state: any) => void;
+    graph: Graph;
+    zoomPanSettings: IZoomPanSettings;
+    vsCodeSetState: VSCodeSetState;
 }
 
-export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (
-  props
-) => {
-  const { graph, vsCodeSetState } = props;
-  const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
-  const [dirty, setDirty] = React.useState<boolean>(false);
-  const [zoomPanSettings, setZoomPanSettings] = React.useState<
-    IZoomPanSettings
-  >(props.zoomPanSettings);
-  const [graphTopologyName, setGraphTopologyName] = React.useState<string>(
-    graph.getName()
-  );
-  const [graphDescription, setGraphDescription] = React.useState<string>(
-    graph.getDescription() || ""
-  );
-  const [validationErrors, setValidationErrors] = React.useState<
-    ValidationError[]
-  >([]);
+export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
+    const { graph, vsCodeSetState } = props;
+    const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
+    const [dirty, setDirty] = React.useState<boolean>(false);
+    const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
+    const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
+    const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
+    const [graphNameError, setGraphNameError] = React.useState<string>("");
+    const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
 
-  // save state in VS Code when data or zoomPanSettings change
-  React.useEffect(() => {
-    vsCodeSetState({
-      graphData: { ...data, meta: graph.getTopology() },
-      zoomPanSettings,
-    });
-  }, [data, zoomPanSettings]);
+    const propsApiRef = React.useRef<IPropsAPI>(null);
+    const nameTextFieldRef = React.useRef<ITextField>(null);
 
-  if (!isSupported()) {
-    return <h1>{Localizer.l("browserNotSupported")}</h1>;
-  }
+    // save state in VS Code when data or zoomPanSettings change
+    React.useEffect(() => {
+        graph.setName(graphTopologyName);
+        graph.setDescription(graphDescription);
+        vsCodeSetState({
+            pageViewType: Constants.PageType.graphPage,
+            graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
+            zoomPanSettings
+        });
+    }, [data, zoomPanSettings, graphTopologyName, graphDescription]);
+    React.useEffect(() => {
+        // on mount
+        if (nameTextFieldRef) {
+            nameTextFieldRef.current?.focus();
+        }
+    }, []);
 
-  function setTopology(topology: any) {
-    graph.setTopology(topology);
-    setData(graph.getICanvasData());
-    setDirty(false);
-  }
-
-  function onChange() {
-    setDirty(true);
-  }
-
-  // nodeNames maps an ID to a name, is updated on node add/remove
-  const nodeNames: Record<string, string> = {};
-  data.nodes.forEach((node) => {
-    nodeNames[node.id] = node.name || "";
-  });
-  const nodeAdded = (node: ICanvasNode) => {
-    nodeNames[node.id] = node.name || "";
-  };
-  const nodesRemoved = (nodes: Set<string>) => {
-    nodes.forEach((nodeId) => delete nodeNames[nodeId]);
-  };
-  const hasNodeWithName = (name: string) => {
-    for (const nodeId in nodeNames) {
-      if (nodeNames[nodeId] === name) {
-        return true;
-      }
+    if (!isSupported()) {
+        return <h1>{Localizer.l("browserNotSupported")}</h1>;
     }
-    return false;
-  };
 
-  const exportGraph = () => {
-    graph.setName(graphTopologyName);
-    graph.setDescription(graphDescription);
-    graph.setGraphDataFromICanvasData(data);
-
-    const validationErrors = graph.validate();
-    if (validationErrors.length > 0) {
-      setValidationErrors(validationErrors);
-    } else {
-      setValidationErrors([]);
-      const topology = graph.getTopology();
-      console.log(topology);
+    function setTopology(topology: MediaGraphTopology) {
+        graph.setTopology(topology);
+        setGraphTopologyName(topology.name);
+        if (topology.properties && topology.properties.description) {
+            setGraphDescription(topology.properties.description);
+        }
+        setData(graph.getICanvasData());
+        setDirty(false);
+        if (propsApiRef.current) {
+            propsApiRef.current.dismissSidePanel();
+            propsApiRef.current.resetZoom();
+        }
     }
-  };
 
-  const onNameChange = (event: React.FormEvent, newValue?: string) => {
-    if (newValue) {
-      setGraphTopologyName(newValue);
+    function onChange(ev: IGraphDataChangeEvent) {
+        if (ev.type !== GraphDataChangeType.init) {
+            /* TODO: this event fires on many events including node selection
+               We should listen for a subset of those events, one of which has to be property changes.
+               Because these are not done through the propsAPI, we can't do this right now. */
+            setDirty(true);
+        }
     }
-  };
 
-  const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
-    if (typeof newValue !== "undefined") {
-      setGraphDescription(newValue);
-    }
-  };
+    const saveTopology = () => {
+        if (canContinue()) {
+            graph.setName(graphTopologyName);
+            graph.setDescription(graphDescription);
+            graph.setGraphDataFromICanvasData(data);
+            const topology = graph.getTopology();
+            const vscode = ExtensionInteraction.getVSCode();
+            if (vscode) {
+                vscode.postMessage({ command: Constants.PostMessageNames.saveGraph, text: topology });
+            } else {
+                // running in browser
+                console.log(topology);
+            }
+        }
+    };
 
-  const panelStyles = {
-    root: {
-      boxSizing: "border-box" as const,
-      overflowY: "auto" as const,
-      willChange: "transform",
-      height: "100vh",
-      width: 300,
-      background: "var(--vscode-editorWidget-background)",
-      borderRight: "1px solid var(--vscode-editorWidget-border)",
-    },
-  };
+    const validateName = (name: string) => {
+        if (!name) {
+            setGraphNameError(Localizer.l("sidebarGraphTopologyNameMissing"));
+        } else {
+            setGraphNameError("");
+        }
+    };
+    const onNameChange = (event: React.FormEvent, newValue?: string) => {
+        if (typeof newValue !== "undefined") {
+            setGraphTopologyName(newValue);
+            validateName(newValue);
+        }
+    };
+    const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
+        if (typeof newValue !== "undefined") {
+            setGraphDescription(newValue);
+        }
+    };
 
-  const panelItemStyles = {
-    padding: 10,
-  };
+    const parameters = graph.getParameters();
+    const canContinue = () => {
+        validateName(graphTopologyName);
+        if (!graphTopologyName) {
+            nameTextFieldRef.current!.focus();
+        }
+        const validationErrors = graph.validate();
+        const hasValidationErrors = validationErrors.length > 0;
+        if (hasValidationErrors) {
+            setValidationErrors(validationErrors);
+        } else {
+            setValidationErrors([]);
+        }
+        return graphTopologyName && !hasValidationErrors;
+    };
 
-  const topSidebarStyles = {
-    padding: 10,
-    borderBottom: "1px solid var(--vscode-editorWidget-border)",
-    paddingBottom: 20,
-    marginBottom: 10,
-  };
+    const panelStyles = {
+        root: {
+            boxSizing: "border-box" as const,
+            overflowY: "auto" as const,
+            willChange: "transform",
+            width: 300,
+            borderRight: "1px solid var(--vscode-editorWidget-border)"
+        }
+    };
+    const panelItemStyles = {
+        padding: 10
+    };
+    const topSidebarStyles = {
+        padding: 10,
+        borderBottom: "1px solid var(--vscode-editorWidget-border)",
+        paddingBottom: 20,
+        marginBottom: 10
+    };
 
-  return (
-    <ReactDagEditor theme={theme}>
-      <RegisterNode
-        name="module"
-        config={withDefaultPortsPosition(new NodeBase())}
-      />
-      <RegisterPort name="modulePort" config={modulePort} />
-      <Stack horizontal>
-        <Stack.Item styles={panelStyles}>
-          <div style={topSidebarStyles}>
-            <TextField
-              label={Localizer.l("sidebarGraphTopologyNameLabel")}
-              required
-              defaultValue={graphTopologyName}
-              placeholder={Localizer.l("sidebarGraphTopologyNamePlaceholder")}
-              onChange={onNameChange}
-            />
-            <TextField
-              label={Localizer.l("sidebarGraphDescriptionLabel")}
-              defaultValue={graphDescription}
-              placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-              onChange={onDescriptionChange}
-            />
-          </div>
-          <div style={panelItemStyles}>
-            <SampleSelectorTrigger
-              setTopology={setTopology}
-              hasUnsavedChanges={dirty}
-            />
-            {validationErrors.length > 0 && (
-              <ValidationErrorPanel validationErrors={validationErrors} />
-            )}
-            <ItemPanel hasNodeWithName={hasNodeWithName} />
-          </div>
-        </Stack.Item>
-        <Stack.Item grow>
-          <Toolbar
-            name={graphTopologyName}
-            exportGraph={exportGraph}
-            closeEditor={() => {
-              alert("TODO: Close editor");
-            }}
-          />
-          <Stack.Item grow>
-            <InnerGraph
-              data={data}
-              setData={setData}
-              zoomPanSettings={zoomPanSettings}
-              setZoomPanSettings={setZoomPanSettings}
-              canvasMouseMode={CanvasMouseMode.pan}
-              onNodeAdded={nodeAdded}
-              onNodeRemoved={nodesRemoved}
-              onChange={onChange}
-            />
-          </Stack.Item>
-        </Stack.Item>
-      </Stack>
-      <ContextMenu />
-    </ReactDagEditor>
-  );
+    return (
+        <ReactDagEditor theme={theme}>
+            <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase())} />
+            <RegisterPort name="modulePort" config={modulePort} />
+            <Stack horizontal styles={{ root: { height: "100vh" } }}>
+                <Stack.Item styles={panelStyles}>
+                    <div style={topSidebarStyles}>
+                        <TextField
+                            label={Localizer.l("sidebarGraphTopologyNameLabel")}
+                            required
+                            value={graphTopologyName}
+                            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+                            errorMessage={graphNameError}
+                            onChange={onNameChange}
+                            componentRef={nameTextFieldRef}
+                        />
+                        <TextField
+                            label={Localizer.l("sidebarGraphDescriptionLabel")}
+                            value={graphDescription}
+                            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+                            onChange={onDescriptionChange}
+                        />
+                    </div>
+                    <div style={panelItemStyles}>
+                        <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                        {validationErrors.length > 0 && <ValidationErrorPanel validationErrors={validationErrors} />}
+                        <ItemPanel />
+                    </div>
+                </Stack.Item>
+                <Stack grow>
+                    <Toolbar
+                        name={graphTopologyName}
+                        primaryAction={saveTopology}
+                        cancelAction={() => {
+                            const vscode = ExtensionInteraction.getVSCode();
+                            if (vscode) {
+                                vscode.postMessage({
+                                    command: Constants.PostMessageNames.closeWindow
+                                });
+                            }
+                        }}
+                    />
+                    <Stack.Item grow>
+                        <InnerGraph
+                            data={data}
+                            setData={setData}
+                            zoomPanSettings={zoomPanSettings}
+                            setZoomPanSettings={setZoomPanSettings}
+                            canvasMouseMode={CanvasMouseMode.pan}
+                            onChange={onChange}
+                            parameters={parameters}
+                            propsApiRef={propsApiRef}
+                        />
+                    </Stack.Item>
+                </Stack>
+            </Stack>
+            <ContextMenu />
+        </ReactDagEditor>
+    );
 };

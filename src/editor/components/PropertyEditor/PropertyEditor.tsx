@@ -1,51 +1,58 @@
 import * as React from "react";
 import Definitions from "../../../definitions/Definitions";
+import { ParameterizeValueRequestFunction } from "../../../types/graphTypes";
 import { PropertyEditField } from "./PropertyEditField";
+import { PropertyReadOnlyEditField } from "./PropertyReadonlyEditField";
 
 interface IPropertyEditorProps {
-  nodeProperties: any;
+    nodeProperties: any;
+    readOnly: boolean;
+    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
-export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (
-  props
-) => {
-  const { nodeProperties } = props;
-  const definition = Definitions.getNodeDefinition(nodeProperties);
+export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (props) => {
+    const { nodeProperties, readOnly = false, requestParameterization } = props;
 
-  if (!definition) {
-    return null;
-  }
+    const definition = Definitions.getNodeDefinition(nodeProperties);
 
-  const propertyFields = [];
+    if (!definition) {
+        return null;
+    }
 
-  for (const name in definition.properties) {
-    const property = definition.properties[name];
+    const propertyFields = [];
 
-    if (!property) continue;
+    for (const name in definition.properties) {
+        const property = definition.properties[name];
 
-    // skip the type field (already shown as dropdown by PropertyNestedObject)
-    if (name === "@type") continue;
+        if (!property) continue;
 
-    const key = "property-" + name;
-    propertyFields.push(
-      <div
-        key={key}
-        style={{
-          marginTop: 20,
-        }}
-      >
-        <PropertyEditField
-          name={name}
-          property={property}
-          nodeProperties={nodeProperties}
-          required={
-            (definition.required &&
-              definition.required.includes(name)) as boolean
-          }
-        />
-      </div>
-    );
-  }
+        // skip the type field (already shown as dropdown by PropertyNestedObject)
+        if (name === "@type") continue;
 
-  return <>{propertyFields}</>;
+        const key = "property-" + name;
+        const required = (definition.required && definition.required.includes(name)) as boolean;
+
+        propertyFields.push(
+            <div
+                key={key}
+                style={{
+                    marginTop: 20
+                }}
+            >
+                {readOnly ? (
+                    <PropertyReadOnlyEditField name={name} property={property} nodeProperties={nodeProperties} required={required} />
+                ) : (
+                    <PropertyEditField
+                        name={name}
+                        property={property}
+                        nodeProperties={nodeProperties}
+                        required={required}
+                        requestParameterization={requestParameterization}
+                    />
+                )}
+            </div>
+        );
+    }
+
+    return <>{propertyFields}</>;
 };

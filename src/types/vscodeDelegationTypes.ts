@@ -1,18 +1,22 @@
 import { IZoomPanSettings } from "@vienna/react-dag-editor";
-import { GraphInfo } from "./graphTypes";
+import { MediaGraphInstance } from "../lva-sdk/lvaSDKtypes";
+import { PageType } from "../utils/Constants";
+import { GraphInfo, GraphInstanceParameter } from "./graphTypes";
 
 export type VSCodeSetState = (state: VSCodeState) => void;
 
 export interface VSCodeDelegate {
-  setState: VSCodeSetState;
+    setState: VSCodeSetState;
 }
 
 export interface VSCodeState {
-  graphData?: GraphInfo;
-  zoomPanSettings?: IZoomPanSettings;
+    pageViewType: PageType;
+    graphData?: GraphInfo;
+    zoomPanSettings?: IZoomPanSettings;
+    instance?: MediaGraphInstance;
 }
 
 export interface InitializationParameters {
-  state: VSCodeState;
-  vsCodeSetState: VSCodeSetState;
+    state: VSCodeState;
+    vsCodeSetState: VSCodeSetState;
 }
