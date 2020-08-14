@@ -1,3 +1,5 @@
+import * as vscode from "vscode";
+
 export class Constants {
     public static DeviceConnectionStringKey = "deviceConnectionString";
     public static IotHubConnectionStringKey = "iotHubConnectionString";
@@ -31,4 +33,10 @@ export class Constants {
         graphPage: "graphPage",
         instancePage: "instancePage"
     };
+
+    public static ResourcesFolderPath: string;
+
+    public static initialize(context: vscode.ExtensionContext) {
+        Constants.ResourcesFolderPath = context.asAbsolutePath("ext/resources");
+    }
 }

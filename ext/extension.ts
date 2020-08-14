@@ -1,8 +1,10 @@
 import * as vscode from "vscode";
 import { GraphTopologyItem } from "./ModuleExplorerPanel/GraphTopologyItem";
-import { HubItem } from "./ModuleExplorerPanel/HubItem";
+import { GraphTopologyListItem } from "./ModuleExplorerPanel/GraphTopologyListItem";
 import { InstanceItem } from "./ModuleExplorerPanel/InstanceItem";
+import { InstanceListItem } from "./ModuleExplorerPanel/InstanceListItem";
 import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
+import { Constants } from "./Util/Constants";
 import { CredentialStore } from "./Util/credentialStore";
 import Localizer from "./Util/Localizer";
 
@@ -18,20 +20,22 @@ export async function activate(context: vscode.ExtensionContext) {
         moduleExplorer.setConnectionString(config);
     }
 
+    Constants.initialize(context);
+
     context.subscriptions.push(
         vscode.commands.registerCommand("moduleExplorer.setConnectionString", () => {
             moduleExplorer.setConnectionString();
         }),
-        vscode.commands.registerCommand("lvaTopologyEditor.createGraph", (newGraphItem: GraphTopologyItem) => {
-            newGraphItem.createNewGraphCommand(context);
+        vscode.commands.registerCommand("moduleExplorer.createGraph", (graphListItem: GraphTopologyListItem) => {
+            graphListItem.createNewGraphCommand(context);
         }),
-        vscode.commands.registerCommand("lvaTopologyEditor.createInstance", (newGraphItem: InstanceItem) => {
-            newGraphItem.createNewGraphInstanceCommand(context);
+        vscode.commands.registerCommand("moduleExplorer.createInstance", (instanceListItem: InstanceListItem) => {
+            instanceListItem.createNewGraphInstanceCommand(context);
         }),
         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
             moduleExplorer.refresh();
         }),
-        vscode.commands.registerCommand("moduleExplorer.deleteHubItem", (node: HubItem) => {
+        vscode.commands.registerCommand("moduleExplorer.deleteHubItem", () => {
             moduleExplorer.resetConnectionString();
         }),
         vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: GraphTopologyItem) => {

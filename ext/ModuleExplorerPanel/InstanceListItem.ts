@@ -5,34 +5,45 @@ import { MediaGraphInstance, MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
 import { Constants } from "../Util/Constants";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
-import { TreeUtils } from "../Util/treeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
+import { DeviceItem } from "./DeviceItem";
+import { InstanceItem } from "./InstanceItem";
 import { INode } from "./Node";
 
-export class InstanceItem extends vscode.TreeItem {
+export class InstanceListItem extends vscode.TreeItem implements INode {
+    private _instanceList: InstanceItem[] = [];
     constructor(
         public iotHubData: IotHubData,
         public readonly deviceId: string,
         public readonly moduleId: string,
         private readonly _graphTopology: MediaGraphTopology,
-        private readonly _graphInstance?: MediaGraphInstance
+        private readonly _graphInstances?: MediaGraphInstance[]
     ) {
-        super(_graphInstance?.name ?? Localizer.localize("createGraphInstanceButton"), vscode.TreeItemCollapsibleState.None);
-        if (_graphInstance) {
-            this.iconPath = TreeUtils.getIconPath(`instance`);
-            this.contextValue = "InstanceItemContext";
-        } else {
-            this.iconPath = new vscode.ThemeIcon("add");
-            this.command = { title: Localizer.localize("createGraphInstanceButton"), command: "moduleExplorer.createInstance", arguments: [this] };
+        super(Localizer.localize("graphInstanceListTreeItem"), vscode.TreeItemCollapsibleState.Expanded);
+        this.contextValue = "instanceListContext";
+
+        if (this._graphTopology && this._graphInstances) {
+            const instanceItems =
+                this._graphInstances
+                    .filter((instance) => {
+                        return instance?.properties?.topologyName === this._graphTopology?.name;
+                    })
+                    .map((instance) => {
+                        return new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology!, instance);
+                    }) ?? [];
+            if (instanceItems.length === 0) {
+                this.collapsibleState = vscode.TreeItemCollapsibleState.None;
+            }
+            this._instanceList.push(...instanceItems);
         }
     }
 
     public getChildren(lvaHubConfig: LvaHubConfig): Promise<INode[]> | INode[] {
-        return [];
+        return this._instanceList;
     }
 
-    public editInstanceCommand(context: vscode.ExtensionContext) {
-        const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("editInstancePageTile"));
+    public createNewGraphInstanceCommand(context: vscode.ExtensionContext) {
+        const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("createNewInstancePageTile"));
         if (createGraphPanel) {
             createGraphPanel.registerPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
@@ -40,19 +51,20 @@ export class InstanceItem extends vscode.TreeItem {
                     createGraphPanel.dispose();
                 }
             });
-
             createGraphPanel.registerPostMessage({
                 name: Constants.PostMessageNames.getInitialData,
                 callback: () => {
                     createGraphPanel.postMessage({
                         name: Constants.PostMessageNames.setInitialData,
-                        data: { pageType: Constants.PageTypes.instancePage, graphData: this._graphTopology, graphInstance: this._graphInstance }
+                        data: {
+                            pageType: Constants.PageTypes.instancePage,
+                            graphData: this._graphTopology
+                        }
                     });
                 }
             });
-
             createGraphPanel.registerPostMessage({
-                name: Constants.PostMessageNames.saveGraph,
+                name: Constants.PostMessageNames.saveInstance,
                 callback: async (instance: any) => {
                     GraphInstanceData.putGraphInstance(this.iotHubData, this.deviceId, this.moduleId, instance).then(
                         (response) => {
@@ -65,20 +77,13 @@ export class InstanceItem extends vscode.TreeItem {
                     );
                 }
             });
-        }
-    }
 
-    public deleteInstanceCommand() {
-        if (this._graphInstance) {
-            // TODO we might need a confirmation before delete
-            GraphInstanceData.deleteGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
-                (response) => {
-                    vscode.commands.executeCommand("moduleExplorer.refresh");
-                },
-                (error) => {
-                    // show errors
+            createGraphPanel.registerPostMessage({
+                name: Constants.PostMessageNames.saveAndActivate,
+                callback: async (instance: any) => {
+                    // TODO save and activate
                 }
-            );
+            });
         }
     }
 }
