@@ -17,7 +17,7 @@ import { ExtensionInteraction } from "../../extension/extensionInteraction";
 import Graph from "../../graph/Graph";
 import Localizer from "../../localization/Localizer";
 import { MediaGraphTopology } from "../../lva-sdk/lvaSDKtypes";
-import { GraphInfo } from "../../types/graphTypes";
+import { GraphInfo, ValidationError } from "../../types/graphTypes";
 import { VSCodeSetState } from "../../types/vscodeDelegationTypes";
 import * as Constants from "../../utils/Constants";
 import { graphTheme as theme } from "../editorTheme";
@@ -28,6 +28,7 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 import { Toolbar } from "./Toolbar";
+import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 interface IGraphTopologyProps {
     graph: Graph;
@@ -43,6 +44,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
     const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
     const [graphNameError, setGraphNameError] = React.useState<string>("");
+    const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -131,9 +133,15 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         validateName(graphTopologyName);
         if (!graphTopologyName) {
             nameTextFieldRef.current!.focus();
-            return false;
         }
-        return true;
+        const validationErrors = graph.validate();
+        const hasValidationErrors = validationErrors.length > 0;
+        if (hasValidationErrors) {
+            setValidationErrors(validationErrors);
+        } else {
+            setValidationErrors([]);
+        }
+        return graphTopologyName && !hasValidationErrors;
     };
 
     const panelStyles = {
@@ -180,6 +188,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     </div>
                     <div style={panelItemStyles}>
                         <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                        {validationErrors.length > 0 && <ValidationErrorPanel validationErrors={validationErrors} />}
                         <ItemPanel />
                     </div>
                 </Stack.Item>

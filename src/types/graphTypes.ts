@@ -1,5 +1,9 @@
 import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
-import { MediaGraphNodeInput, MediaGraphParameterType, MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
+import {
+    MediaGraphNodeInput,
+    MediaGraphParameterType,
+    MediaGraphTopology
+} from "../lva-sdk/lvaSDKtypes";
 
 export enum MediaGraphNodeType {
     Source = "source",
@@ -45,6 +49,30 @@ export interface CanvasNodeData {
     iconName: string;
     nodeProperties: CanvasNodeProperties | Record<string, any>;
     nodeType: MediaGraphNodeType;
+}
+
+export interface ValidationError {
+    description: string;
+    type: ValidationErrorType;
+    // if a property is missing
+    property?: string[];
+    // for node count limits and required relations
+    nodeType?: string;
+    // the type that was expected as parent
+    parentType?: string[];
+    // node name
+    nodeName?: string;
+    // an explanatory link if applicable
+    helpLink?: string;
+}
+
+export enum ValidationErrorType {
+    NotConnected,
+    MissingProperty,
+    NodeCountLimit,
+    RequiredDirectlyDownstream,
+    ProhibitedDirectlyDownstream,
+    ProhibitedAnyDownstream
 }
 
 export interface GraphInstanceParameter {

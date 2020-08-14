@@ -1,6 +1,12 @@
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, ICanvasPort } from "@vienna/react-dag-editor";
-import { MediaGraphNodeType, NodeDefinition } from "../types/graphTypes";
+import Definitions from "../definitions/Definitions";
+import {
+    CanvasNodeProperties,
+    MediaGraphNodeType,
+    NodeDefinition
+} from "../types/graphTypes";
+import Helpers from "./Helpers";
 
 export default class NodeHelpers {
     // maps a MediaGraphNodeType to a string to index into the topology JSON
@@ -103,5 +109,62 @@ export default class NodeHelpers {
             }
         }
         return true;
+    }
+
+    /* To be able to switch between multiple different types of properties without
+    loosing the values or properties not needed for the selected type, properties
+    that might not be needed are retained. We can remove these when exporting. */
+    static getTrimmedNodeProperties(nodeProperties: CanvasNodeProperties): CanvasNodeProperties {
+        const definition = Definitions.getNodeDefinition(nodeProperties);
+        const neededProperties: any = {};
+
+        if (!definition) {
+            return {
+                "@type": nodeProperties["@type"],
+                name: nodeProperties.name
+            };
+        }
+
+        // copy over only properties as needed (determined by definition)
+        for (const name in definition.properties) {
+            const property = definition.properties[name];
+            const nestedProperties = (nodeProperties as any)[name];
+
+            // some properties can be false and we want to include that value
+            if (nestedProperties !== undefined) {
+                if (property && property.type === "object") {
+                    if (!Helpers.isEmptyObject(nestedProperties) && nestedProperties["@type"]) {
+                        neededProperties[name] = this.getTrimmedNodeProperties(nestedProperties);
+                    }
+                } else {
+                    neededProperties[name] = nestedProperties;
+                }
+            }
+        }
+
+        return {
+            "@type": nodeProperties["@type"],
+            ...neededProperties
+        };
+    }
+
+    // checks if an array contains a node with the given type
+    static nodeArrayContainsNodeOfType(nodes: ICanvasNode[], nodeType: string) {
+        for (const node of nodes) {
+            if (node.data && node.data.nodeProperties["@type"] === nodeType) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // checks if an array contains a node with the given ID
+    static nodeArrayContainsNodeId(nodes: ICanvasNode[], nodeId: string): boolean {
+        for (const node of nodes) {
+            if (node.id === nodeId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

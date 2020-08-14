@@ -1,12 +1,6 @@
 import dagre from "dagre";
 import { v4 as uuid } from "uuid";
-import {
-    ICanvasData,
-    ICanvasEdge,
-    ICanvasNode
-} from "@vienna/react-dag-editor";
-import Definitions from "../definitions/Definitions";
-import Helpers from "../helpers/Helpers";
+import { ICanvasData } from "@vienna/react-dag-editor";
 import LocalizerHelpers from "../helpers/LocalizerHelpers";
 import NodeHelpers from "../helpers/NodeHelpers";
 import Localizer from "../localization/Localizer";
@@ -22,8 +16,11 @@ import {
     CanvasNodeData,
     CanvasNodeProperties,
     GraphInfo,
-    MediaGraphNodeType
+    MediaGraphNodeType,
+    ValidationError
 } from "../types/graphTypes";
+import GraphData from "./GraphData";
+import GraphValidator from "./GraphValidator";
 
 export default class Graph {
     private static readonly nodeTypeList = [MediaGraphNodeType.Source, MediaGraphNodeType.Processor, MediaGraphNodeType.Sink];
@@ -36,26 +33,24 @@ export default class Graph {
     private processors: MediaGraphProcessorUnion[] = [];
     private sinks: MediaGraphSinkUnion[] = [];
 
-    // output is a list of nodes, edges, and some metadata
-    private nodes: ICanvasNode<CanvasNodeData>[] = [];
-    private edges: ICanvasEdge[] = [];
+    private graphStructureStore = new GraphData();
 
     public setGraphData(graphInfo: GraphInfo) {
         this.graphInformation = graphInfo.meta;
-        this.nodes = graphInfo.nodes;
-        this.edges = graphInfo.edges;
+        this.graphStructureStore.nodes = graphInfo.nodes;
+        this.graphStructureStore.edges = graphInfo.edges;
     }
 
     public setGraphDataFromICanvasData(canvasData: ICanvasData) {
-        this.nodes = [...canvasData.nodes];
-        this.edges = [...canvasData.edges];
+        this.graphStructureStore.nodes = [...canvasData.nodes];
+        this.graphStructureStore.edges = [...canvasData.edges];
     }
 
     // converts internal representation to topology that can be sent using a direct method call
     public setTopology(topology: any) {
         this.graphInformation = topology;
-        this.nodes = [];
-        this.edges = [];
+        this.graphStructureStore.nodes = [];
+        this.graphStructureStore.edges = [];
 
         // go through all the sources, processors, and sinks we are given and flatten them into nodes
         for (const nodeType of Graph.nodeTypeList) {
@@ -73,7 +68,7 @@ export default class Graph {
                         ariaLabel: LocalizerHelpers.getPortAriaLabel(this.getICanvasData(), node, port)
                     };
                 });
-                this.nodes.push({
+                this.graphStructureStore.nodes.push({
                     id: uuid(),
                     name: node.name,
                     ariaLabel: Localizer.l("ariaNodeLabelNodeDescription").format(node.name),
@@ -90,14 +85,14 @@ export default class Graph {
         }
 
         this.forEachNodeInput((node: CanvasNodeProperties, input: MediaGraphNodeInput) => {
-            const sourceNode = this.getNode(input.nodeName || "");
-            const sourcePort = this.getPort(input.nodeName || "", false);
-            const targetNode = this.getNode(node.name);
-            const targetPort = this.getPort(node.name, true);
+            const sourceNode = this.graphStructureStore.getNode(input.nodeName || "");
+            const sourcePort = this.graphStructureStore.getPort(input.nodeName || "", false);
+            const targetNode = this.graphStructureStore.getNode(node.name);
+            const targetPort = this.graphStructureStore.getPort(node.name, true);
 
             // since we know all of the inputs for node, we can form edges (input, node)
             if (sourceNode && sourcePort && targetNode && targetPort) {
-                this.edges.push({
+                this.graphStructureStore.edges.push({
                     source: sourceNode.id,
                     target: targetNode.id,
                     sourcePortId: sourcePort.id,
@@ -110,48 +105,21 @@ export default class Graph {
         this.layoutGraph();
     }
 
-    public setName(name: string) {
-        this.graphInformation.name = name;
-    }
-
-    public setDescription(description: string) {
-        if (!this.graphInformation.properties) {
-            this.graphInformation.properties = {};
-        }
-        if (description === "") {
-            delete this.graphInformation.properties.description;
-        } else {
-            this.graphInformation.properties.description = description;
-        }
-    }
-
-    public getName(): string {
-        return this.graphInformation.name;
-    }
-
-    public getDescription(): string | undefined {
-        if (this.graphInformation.properties) {
-            return this.graphInformation.properties.description;
-        } else {
-            return undefined;
-        }
-    }
-
     public getTopology() {
         this.sources = [];
         this.processors = [];
         this.sinks = [];
 
-        for (const node of this.nodes) {
+        for (const node of this.graphStructureStore.nodes) {
             const nodeData = node.data;
 
             if (nodeData) {
                 // only save used node properties i.e. those that match the selected types
-                const properties = this.getTrimmedNodeProperties(nodeData.nodeProperties as CanvasNodeProperties);
+                const properties = NodeHelpers.getTrimmedNodeProperties(nodeData.nodeProperties as CanvasNodeProperties);
                 properties.name = nodeData.nodeProperties.name;
 
                 // get nodes pointing to this node
-                properties.inputs = this.getNodeInputs(node.id);
+                properties.inputs = this.graphStructureStore.getNodeInputs(node.id);
                 if (properties.inputs.length === 0) {
                     delete properties.inputs;
                 }
@@ -195,18 +163,45 @@ export default class Graph {
         return this.graphInformation.properties?.parameters || [];
     }
 
+    public setName(name: string) {
+        this.graphInformation.name = name;
+    }
+
+    public setDescription(description: string) {
+        if (!this.graphInformation.properties) {
+            this.graphInformation.properties = {};
+        }
+        if (description === "") {
+            delete this.graphInformation.properties.description;
+        } else {
+            this.graphInformation.properties.description = description;
+        }
+    }
+
+    public getName(): string {
+        return this.graphInformation.name;
+    }
+
+    public getDescription(): string | undefined {
+        if (this.graphInformation.properties) {
+            return this.graphInformation.properties.description;
+        } else {
+            return undefined;
+        }
+    }
+
     public getICanvasData(): ICanvasData {
         return {
-            nodes: this.nodes,
-            edges: this.edges
+            nodes: this.graphStructureStore.nodes,
+            edges: this.graphStructureStore.edges
         };
     }
 
     public getGraphInfo(): GraphInfo {
         const graphInfo = {
             meta: this.getTopology(),
-            nodes: this.nodes,
-            edges: this.edges
+            nodes: this.graphStructureStore.nodes,
+            edges: this.graphStructureStore.edges
         };
 
         if (this.graphInformation.properties) {
@@ -216,6 +211,10 @@ export default class Graph {
         }
 
         return graphInfo;
+    }
+
+    public validate(): ValidationError[] {
+        return GraphValidator.validate(this.graphStructureStore);
     }
 
     // Internal functions
@@ -233,46 +232,23 @@ export default class Graph {
         const width = 350;
         const height = 70;
 
-        for (const node of this.nodes) {
+        for (const node of this.graphStructureStore.nodes) {
             g.setNode(node.id, {
                 width: width,
                 height: height
             });
         }
-        for (const edge of this.edges) {
+        for (const edge of this.graphStructureStore.edges) {
             g.setEdge((edge.source as unknown) as dagre.Edge, edge.target);
         }
 
         dagre.layout(g);
 
-        this.nodes = this.nodes.map((node) => ({
+        this.graphStructureStore.nodes = this.graphStructureStore.nodes.map((node) => ({
             ...node,
             x: g.node(node.id).x - width / 2,
             y: g.node(node.id).y - height / 2
         }));
-    }
-
-    // helper that gets a node object from its string
-    private getNode(nodeName: string) {
-        for (const node of this.nodes) {
-            if (node.name === nodeName) {
-                return node;
-            }
-        }
-        return null;
-    }
-
-    // get the input or output port for a node named nodeName
-    private getPort(nodeName: string, input: boolean) {
-        const node = this.getNode(nodeName);
-        if (node && node.ports) {
-            for (const port of node.ports) {
-                if (port.isOutputDisabled === input) {
-                    return port;
-                }
-            }
-        }
-        return null;
     }
 
     // helper to loop through all inputs for all nodes
@@ -294,74 +270,5 @@ export default class Graph {
                 }
             }
         }
-    }
-
-    /* To be able to switch between multiple different types of properties without
-	loosing the values or properties not needed for the selected type, properties
-	that might not be needed are retained. We can remove these when exporting. */
-    private getTrimmedNodeProperties(nodeProperties: CanvasNodeProperties): CanvasNodeProperties {
-        const definition = Definitions.getNodeDefinition(nodeProperties);
-        const neededProperties: any = {};
-
-        if (!definition) {
-            return {
-                "@type": nodeProperties["@type"],
-                name: nodeProperties.name
-            };
-        }
-
-        // copy over only properties as needed (determined by definition)
-        for (const name in definition.properties) {
-            const property = definition.properties[name];
-            const nestedProperties = (nodeProperties as any)[name];
-
-            if (nestedProperties) {
-                if (property && property.type === "object") {
-                    if (!Helpers.isEmptyObject(nestedProperties) && nestedProperties["@type"]) {
-                        neededProperties[name] = this.getTrimmedNodeProperties(nestedProperties);
-                    }
-                } else {
-                    neededProperties[name] = nestedProperties;
-                }
-            }
-        }
-
-        // validate if any required properties are missing
-        for (const name in definition.properties) {
-            const isRequiredProperty = definition.required?.includes(name);
-            const usedProperties = neededProperties[name];
-            const propertyIsMissing = !usedProperties || Helpers.isEmptyObject(usedProperties);
-
-            if (isRequiredProperty && propertyIsMissing) {
-                // TODO bubble up and show with validation errors in interface
-                console.log("Expected to see property", name);
-            }
-        }
-
-        return {
-            "@type": nodeProperties["@type"],
-            ...neededProperties
-        };
-    }
-
-    // helper method that converts a node ID -> name
-    private getNodeName(nodeId: string) {
-        for (const node of this.nodes) {
-            if (node.id === nodeId) {
-                return node.name;
-            }
-        }
-        return null;
-    }
-
-    // converts from edges (u, v) to an array of nodes [u] pointing to v
-    private getNodeInputs(nodeId: string) {
-        const inboundEdges = this.edges.filter((edge) => edge.target === nodeId);
-        return inboundEdges.map(
-            (edge) =>
-                ({
-                    nodeName: this.getNodeName(edge.source)
-                } as MediaGraphNodeInput)
-        );
     }
 }
