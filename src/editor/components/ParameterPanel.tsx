@@ -48,21 +48,16 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
 
     const onChange = (event: React.FormEvent, newValue?: string) => {
         if (newValue !== undefined) {
+            let error = "";
+            if (!newValue) {
+                error = Localizer.l("sidebarGraphInstanceParameterMissing");
+            }
+
+            // TODO: Perform additional validation
+
+            setParameter({ ...parameter, error, value: newValue });
             setValue(newValue);
-            setParameter({ ...parameter, value: newValue });
-            validateInput(newValue);
         }
-    };
-
-    const validateInput = (newValue: string) => {
-        let error = "";
-        if (!newValue) {
-            error = Localizer.l("sidebarGraphInstanceParameterMissing");
-        }
-
-        // TODO: Perform additional validation
-
-        setParameter({ ...parameter, error, value: newValue });
     };
 
     return (
