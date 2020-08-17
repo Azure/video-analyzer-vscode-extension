@@ -1,5 +1,6 @@
 import { ITextField, Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
+import { useBoolean } from "@uifabric/react-hooks";
 import {
     CanvasMouseMode,
     ICanvasData,
@@ -40,6 +41,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     const [graphInstanceName, setGraphInstanceName] = React.useState<string>(instance.name);
     const [graphDescription, setGraphDescription] = React.useState<string>((instance.properties && instance.properties.description) || "");
     const [graphNameError, setGraphNameError] = React.useState<string>("");
+    const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
 
     let initialParams: GraphInstanceParameter[] = [];
     if (graph.getTopology().properties && graph.getTopology().properties!.parameters) {
@@ -187,7 +189,8 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         }
     };
     const panelItemStyles = {
-        padding: 10
+        padding: 10,
+        paddingTop: 0
     };
     const topSidebarStyles = {
         padding: 10,
@@ -200,43 +203,47 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         <ReactDagEditor theme={theme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase())} />
             <RegisterPort name="modulePort" config={modulePort} />
-            <Stack horizontal styles={{ root: { height: "100vh" } }}>
-                <Stack.Item styles={panelStyles}>
-                    <div style={topSidebarStyles}>
-                        <TextField
-                            label={Localizer.l("sidebarGraphInstanceNameLabel")}
-                            required
-                            value={graphInstanceName}
-                            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
-                            errorMessage={graphNameError}
-                            onChange={onNameChange}
-                            componentRef={nameTextFieldRef}
-                        />
-                        <TextField
-                            label={Localizer.l("sidebarGraphDescriptionLabel")}
-                            value={graphDescription}
-                            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-                            onChange={onDescriptionChange}
-                        />
-                    </div>
-                    <div style={panelItemStyles}>
-                        <ParameterPanel parameters={parameters} setParameters={setParameters} />
-                    </div>
-                </Stack.Item>
-                <Stack grow>
-                    <Toolbar
-                        name={graphInstanceName}
-                        primaryAction={saveInstance}
-                        secondaryAction={saveAndStartAction}
-                        cancelAction={() => {
-                            const vscode = ExtensionInteraction.getVSCode();
-                            if (vscode) {
-                                vscode.postMessage({
-                                    command: Constants.PostMessageNames.closeWindow
-                                });
-                            }
-                        }}
-                    />
+            <Stack styles={{ root: { height: "100vh" } }}>
+                <Toolbar
+                    name={graphInstanceName}
+                    primaryAction={saveInstance}
+                    secondaryAction={saveAndStartAction}
+                    cancelAction={() => {
+                        const vscode = ExtensionInteraction.getVSCode();
+                        if (vscode) {
+                            vscode.postMessage({
+                                command: Constants.PostMessageNames.closeWindow
+                            });
+                        }
+                    }}
+                    toggleSidebar={setSidebarIsShown}
+                    isSidebarShown={sidebarIsShown}
+                />
+                <Stack grow horizontal>
+                    {sidebarIsShown && (
+                        <Stack.Item styles={panelStyles}>
+                            <div style={topSidebarStyles}>
+                                <TextField
+                                    label={Localizer.l("sidebarGraphInstanceNameLabel")}
+                                    required
+                                    value={graphInstanceName}
+                                    placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+                                    errorMessage={graphNameError}
+                                    onChange={onNameChange}
+                                    componentRef={nameTextFieldRef}
+                                />
+                                <TextField
+                                    label={Localizer.l("sidebarGraphDescriptionLabel")}
+                                    value={graphDescription}
+                                    placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+                                    onChange={onDescriptionChange}
+                                />
+                            </div>
+                            <div style={panelItemStyles}>
+                                <ParameterPanel parameters={parameters} setParameters={setParameters} />
+                            </div>
+                        </Stack.Item>
+                    )}
                     <Stack.Item grow>
                         <InnerGraph
                             data={data}

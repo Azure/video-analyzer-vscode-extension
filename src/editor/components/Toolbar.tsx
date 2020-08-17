@@ -1,4 +1,9 @@
-import { DefaultButton, Stack } from "office-ui-fabric-react";
+import {
+    ActionButton,
+    DefaultButton,
+    mergeStyles,
+    Stack
+} from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../localization/Localizer";
 import { AdjustedPrimaryButton } from "./ThemeAdjustedComponents/AdjustedPrimaryButton";
@@ -11,24 +16,41 @@ export interface IGraphPanelProps {
         text: string;
         callback: () => void;
     };
+    toggleSidebar: () => void;
+    isSidebarShown: boolean;
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
-    const { name, cancelAction, primaryAction, secondaryAction } = props;
+    const { name, cancelAction, primaryAction, secondaryAction, toggleSidebar, isSidebarShown } = props;
 
     const toolbarStyles = {
-        padding: 10,
-        borderBottom: "1px solid var(--vscode-editorWidget-border)"
+        root: {
+            borderBottom: "1px solid var(--vscode-editorWidget-border)"
+        }
+    };
+
+    const paddedToolbarStyles = {
+        root: mergeStyles(toolbarStyles.root, {
+            padding: 10
+        })
     };
 
     return (
-        <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} style={toolbarStyles}>
-            <div>{name}</div>
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
-                <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
-                {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
-                <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
+        <>
+            <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} styles={paddedToolbarStyles}>
+                <div>{name}</div>
+                <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
+                    {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
+                    <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
+                    <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
+                </Stack>
             </Stack>
-        </Stack>
+            <Stack horizontal tokens={{ childrenGap: "s1" }} styles={toolbarStyles}>
+                <ActionButton iconProps={{ iconName: "Library" }} onClick={toggleSidebar}>
+                    {isSidebarShown ? Localizer.l("toolbarHideLeftSidebar") : Localizer.l("toolbarShowLeftSidebar")}
+                </ActionButton>
+                {props.children}
+            </Stack>
+        </>
     );
 };

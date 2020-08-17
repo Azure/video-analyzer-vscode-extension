@@ -50,3 +50,7 @@ body[data-vscode-theme-kind="vscode-light"] .react-dag-editor-container {
 body[data-vscode-theme-kind="vscode-high-contrast"] .react-dag-editor-container {
     background: rgba(200, 235, 255, 0.042);
 }
+
+h2 {
+    margin: 10px 0;
+}

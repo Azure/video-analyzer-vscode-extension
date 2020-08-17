@@ -1,4 +1,4 @@
-import { DefaultButton } from "office-ui-fabric-react/lib/Button";
+import { ActionButton, DefaultButton } from "office-ui-fabric-react/lib/Button";
 import * as React from "react";
 import Localizer from "../../../localization/Localizer";
 import { MediaGraphTopology } from "../../../lva-sdk/lvaSDKtypes";
@@ -24,8 +24,9 @@ export const SampleSelectorTrigger: React.FunctionComponent<ISampleSelectorTrigg
 
     return (
         <>
-            <DefaultButton text={Localizer.l("sampleSelectorButtonText")} onClick={openSelector} />
-
+            <ActionButton iconProps={{ iconName: "Flow" }} onClick={openSelector}>
+                {Localizer.l("sampleSelectorButtonText")}
+            </ActionButton>
             <SampleSelector status={status} setStatus={setStatus} loadTopology={loadTopology} />
         </>
     );
