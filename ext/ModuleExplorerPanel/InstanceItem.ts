@@ -9,7 +9,8 @@ import {
 import { Constants } from "../Util/Constants";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
-import { TreeUtils } from "../Util/treeUtils";
+import { Logger } from "../Util/Logger";
+import { TreeUtils } from "../Util/TreeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
 import { INode } from "./Node";
 
@@ -45,6 +46,7 @@ export class InstanceItem extends vscode.TreeItem {
     }
 
     public editInstanceCommand(context: vscode.ExtensionContext) {
+        const logger = Logger.getOrCreateOutputChannel();
         const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("editInstancePageTile"));
         if (createGraphPanel) {
             createGraphPanel.registerPostMessage({
@@ -73,6 +75,7 @@ export class InstanceItem extends vscode.TreeItem {
                             createGraphPanel.dispose();
                         },
                         (error) => {
+                            vscode.window.showErrorMessage(error);
                             // show errors
                         }
                     );
@@ -88,6 +91,7 @@ export class InstanceItem extends vscode.TreeItem {
                     vscode.commands.executeCommand("moduleExplorer.refresh");
                 },
                 (error) => {
+                    vscode.window.showErrorMessage(error);
                     // show errors
                 }
             );
@@ -101,6 +105,7 @@ export class InstanceItem extends vscode.TreeItem {
                     vscode.commands.executeCommand("moduleExplorer.refresh");
                 },
                 (error) => {
+                    vscode.window.showErrorMessage(error);
                     // show errors
                 }
             );
@@ -115,7 +120,9 @@ export class InstanceItem extends vscode.TreeItem {
                     vscode.commands.executeCommand("moduleExplorer.refresh");
                 },
                 (error) => {
-                    // show errors
+                    Logger.getOrCreateOutputChannel().appendLog(error.message, { resourceName: this._graphInstance?.name });
+                    Logger.getOrCreateOutputChannel().show();
+                    vscode.window.showErrorMessage(error.message);
                 }
             );
         }
