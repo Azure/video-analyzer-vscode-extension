@@ -68,15 +68,15 @@ export default class Graph {
                         ariaLabel: LocalizerHelpers.getPortAriaLabel(this.getICanvasData(), node, port)
                     };
                 });
+                const newNode = {
+                    nodeProperties: node,
+                    nodeType: nodeType
+                } as CanvasNodeData;
                 this.graphStructureStore.nodes.push({
                     id: uuid(),
                     name: node.name,
                     ariaLabel: Localizer.l("ariaNodeLabelNodeDescription").format(node.name),
-                    data: {
-                        ...NodeHelpers.getNodeAppearance(nodeType),
-                        nodeProperties: node,
-                        nodeType: nodeType
-                    } as CanvasNodeData,
+                    data: { ...NodeHelpers.getNodeAppearance(newNode), ...newNode },
                     ports: ports,
                     x: 0,
                     y: 0

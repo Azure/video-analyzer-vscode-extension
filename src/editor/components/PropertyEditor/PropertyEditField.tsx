@@ -142,7 +142,23 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     if (property.type !== "object" && parameterized) {
-        return <TextField label={name} multiline autoAdjustHeight value={value} required={required} onRenderLabel={onRenderLabel} aria-labelledby={labelId} readOnly />;
+        return (
+            <TextField
+                label={name}
+                multiline
+                autoAdjustHeight
+                value={value}
+                required={required}
+                onRenderLabel={onRenderLabel}
+                aria-labelledby={labelId}
+                disabled
+                styles={{
+                    field: {
+                        color: "var(--vscode-foreground)"
+                    }
+                }}
+            />
+        );
     }
 
     if (property.type === "string" && property.enum) {

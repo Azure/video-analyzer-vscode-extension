@@ -2,6 +2,7 @@ import { v4 as uuid } from "uuid";
 import { ICanvasNode, ICanvasPort } from "@vienna/react-dag-editor";
 import Definitions from "../definitions/Definitions";
 import {
+    CanvasNodeData,
     CanvasNodeProperties,
     MediaGraphNodeType,
     NodeDefinition
@@ -67,23 +68,37 @@ export default class NodeHelpers {
     }
 
     // determines appearance properties for a node
-    static getNodeAppearance(type: MediaGraphNodeType) {
-        switch (type) {
+    static getNodeAppearance(node: CanvasNodeData) {
+        const icons = {
+            "#Microsoft.Media.MediaGraphRtspSource": "SecurityCamera",
+            "#Microsoft.Media.MediaGraphIoTHubMessageSource": "IOT",
+            "#Microsoft.Media.MediaGraphMotionDetectionProcessor": "RedEye",
+            "#Microsoft.Media.MediaGraphFrameRateFilterProcessor": "PlaybackRate1x",
+            "#Microsoft.Media.MediaGraphHttpExtension": "PhotoVideoMedia",
+            "#Microsoft.Media.MediaGraphSignalGateProcessor": "Ringer",
+            "#Microsoft.Media.MediaGraphAssetSink": "FabricAssetLibrary",
+            "#Microsoft.Media.MediaGraphFileSink": "PageData",
+            "#Microsoft.Media.MediaGraphIoTHubMessageSink": "IOT"
+        } as Record<string, string>;
+
+        const icon = icons[node.nodeProperties["@type"]];
+
+        switch (node.nodeType) {
             case MediaGraphNodeType.Source:
                 return {
-                    iconName: "SecurityCamera",
+                    iconName: icon,
                     color: "var(--vscode-terminal-ansiBrightBlue)",
                     colorAlt: "var(--vscode-terminal-ansiBlue)"
                 };
             case MediaGraphNodeType.Processor:
                 return {
-                    iconName: "Processing",
+                    iconName: icon,
                     color: "var(--vscode-terminal-ansiBrightGreen)",
                     colorAlt: "var(--vscode-terminal-ansiGreen)"
                 };
             case MediaGraphNodeType.Sink:
                 return {
-                    iconName: "CloudImportExport",
+                    iconName: icon,
                     color: "var(--vscode-terminal-ansiBrightYellow)",
                     colorAlt: "var(--vscode-terminal-ansiYellow)"
                 };
