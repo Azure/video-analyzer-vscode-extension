@@ -1,8 +1,10 @@
 import {
     ActionButton,
     DefaultButton,
+    FontWeights,
     mergeStyles,
-    Stack
+    Stack,
+    Text
 } from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../localization/Localizer";
@@ -23,6 +25,12 @@ export interface IGraphPanelProps {
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
     const { name, cancelAction, primaryAction, secondaryAction, toggleSidebar, isSidebarShown } = props;
 
+    const titleContainer = {
+        root: {
+            fontWeight: FontWeights.semibold
+        }
+    };
+
     const toolbarStyles = {
         root: {
             borderBottom: "1px solid var(--vscode-editorWidget-border)"
@@ -38,7 +46,7 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
     return (
         <>
             <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} styles={paddedToolbarStyles}>
-                <div>{name}</div>
+                <Text styles={titleContainer}>{name}</Text>
                 <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
                     {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
                     <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
