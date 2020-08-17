@@ -20,14 +20,7 @@ export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props)
 
     return (
         <>
-            <h2
-                style={{
-                    margin: 0,
-                    marginBottom: 10
-                }}
-            >
-                {Localizer.l("sidebarHeadingParameters")}
-            </h2>
+            <h2>{Localizer.l("sidebarHeadingParameters")}</h2>
             {parameters &&
                 parameters.map((parameter, i) => {
                     return <GraphPanelEditField key={parameter.name} parameter={parameter} setParameter={customParameterSetter(i)} />;

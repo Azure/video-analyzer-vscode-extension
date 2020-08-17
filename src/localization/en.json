@@ -24,6 +24,8 @@
     "output": "output",
     "cancelButtonText": "Cancel",
     "closeButtonText": "Close",
+    "toolbarHideLeftSidebar": "Hide panel",
+    "toolbarShowLeftSidebar": "Show panel",
     "sampleSelectorButtonText": "Try sample topologies",
     "sampleSelectorTitle": "Select a Sample Topology",
     "sampleSelectorText": "Jumpstart your topology creation with our built-in samples.",

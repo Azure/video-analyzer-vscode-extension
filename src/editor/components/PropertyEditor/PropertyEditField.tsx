@@ -154,7 +154,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             ...property.enum.map((value: string) => {
                 const localizedEnumValueStrings = Localizer.getLocalizedStrings(`${property.localizationKey}.${value}`);
                 return {
-                    key: value,
+                    key: value.toLowerCase(),
                     text: localizedEnumValueStrings.title,
                     title: localizedEnumValueStrings.description
                 };
@@ -164,7 +164,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             <Dropdown
                 placeholder={localizedPropertyStrings.placeholder}
                 options={options}
-                defaultSelectedKey={value || ""}
+                defaultSelectedKey={value ? value.toLowerCase() : ""}
                 onChange={handleDropdownChange}
                 required={required}
                 onRenderLabel={onRenderLabel}

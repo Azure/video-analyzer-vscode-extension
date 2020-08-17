@@ -1,6 +1,10 @@
 import { FontIcon, Stack, Text } from "office-ui-fabric-react";
 import * as React from "react";
-import { IAccessibleTreeStyles, ITreeNode, ReactAccessibleTree } from "react-accessible-tree";
+import {
+    IAccessibleTreeStyles,
+    ITreeNode,
+    ReactAccessibleTree
+} from "react-accessible-tree";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../../definitions/Definitions";

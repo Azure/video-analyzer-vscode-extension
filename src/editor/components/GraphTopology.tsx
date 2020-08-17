@@ -1,5 +1,6 @@
 import { ITextField, Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
+import { useBoolean } from "@uifabric/react-hooks";
 import {
     CanvasMouseMode,
     GraphDataChangeType,
@@ -45,6 +46,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
     const [graphNameError, setGraphNameError] = React.useState<string>("");
     const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
+    const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -134,6 +136,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         if (!graphTopologyName) {
             nameTextFieldRef.current!.focus();
         }
+        graph.setGraphDataFromICanvasData(data);
         const validationErrors = graph.validate();
         const hasValidationErrors = validationErrors.length > 0;
         if (hasValidationErrors) {
@@ -154,7 +157,8 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         }
     };
     const panelItemStyles = {
-        padding: 10
+        padding: 10,
+        paddingTop: 0
     };
     const topSidebarStyles = {
         padding: 10,
@@ -167,44 +171,49 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         <ReactDagEditor theme={theme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase())} />
             <RegisterPort name="modulePort" config={modulePort} />
-            <Stack horizontal styles={{ root: { height: "100vh" } }}>
-                <Stack.Item styles={panelStyles}>
-                    <div style={topSidebarStyles}>
-                        <TextField
-                            label={Localizer.l("sidebarGraphTopologyNameLabel")}
-                            required
-                            value={graphTopologyName}
-                            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
-                            errorMessage={graphNameError}
-                            onChange={onNameChange}
-                            componentRef={nameTextFieldRef}
-                        />
-                        <TextField
-                            label={Localizer.l("sidebarGraphDescriptionLabel")}
-                            value={graphDescription}
-                            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-                            onChange={onDescriptionChange}
-                        />
-                    </div>
-                    <div style={panelItemStyles}>
-                        <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
-                        {validationErrors.length > 0 && <ValidationErrorPanel validationErrors={validationErrors} />}
-                        <ItemPanel />
-                    </div>
-                </Stack.Item>
-                <Stack grow>
-                    <Toolbar
-                        name={graphTopologyName}
-                        primaryAction={saveTopology}
-                        cancelAction={() => {
-                            const vscode = ExtensionInteraction.getVSCode();
-                            if (vscode) {
-                                vscode.postMessage({
-                                    command: Constants.PostMessageNames.closeWindow
-                                });
-                            }
-                        }}
-                    />
+            <Stack styles={{ root: { height: "100vh" } }}>
+                <Toolbar
+                    name={graphTopologyName}
+                    primaryAction={saveTopology}
+                    cancelAction={() => {
+                        const vscode = ExtensionInteraction.getVSCode();
+                        if (vscode) {
+                            vscode.postMessage({
+                                command: Constants.PostMessageNames.closeWindow
+                            });
+                        }
+                    }}
+                    toggleSidebar={setSidebarIsShown}
+                    isSidebarShown={sidebarIsShown}
+                >
+                    <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                </Toolbar>
+                <Stack grow horizontal>
+                    {sidebarIsShown && (
+                        <Stack.Item styles={panelStyles}>
+                            <div style={topSidebarStyles}>
+                                <TextField
+                                    label={Localizer.l("sidebarGraphTopologyNameLabel")}
+                                    required
+                                    value={graphTopologyName}
+                                    placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+                                    errorMessage={graphNameError}
+                                    onChange={onNameChange}
+                                    componentRef={nameTextFieldRef}
+                                />
+                                <TextField
+                                    label={Localizer.l("sidebarGraphDescriptionLabel")}
+                                    value={graphDescription}
+                                    placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+                                    onChange={onDescriptionChange}
+                                />
+                            </div>
+                            <div style={panelItemStyles}>
+                                {validationErrors.length > 0 && <ValidationErrorPanel validationErrors={validationErrors} />}
+                                <ItemPanel />
+                            </div>
+                        </Stack.Item>
+                    )}
                     <Stack.Item grow>
                         <InnerGraph
                             data={data}
