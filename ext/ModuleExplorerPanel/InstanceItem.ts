@@ -1,7 +1,11 @@
 import * as vscode from "vscode";
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
-import { MediaGraphInstance, MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
+import {
+    MediaGraphInstance,
+    MediaGraphInstanceState,
+    MediaGraphTopology
+} from "../lva-sdk/lvaSDKtypes";
 import { Constants } from "../Util/Constants";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
@@ -20,7 +24,16 @@ export class InstanceItem extends vscode.TreeItem {
         super(_graphInstance?.name ?? Localizer.localize("createGraphInstanceButton"), vscode.TreeItemCollapsibleState.None);
         if (_graphInstance) {
             this.iconPath = TreeUtils.getIconPath(`instance`);
-            this.contextValue = "InstanceItemContext";
+            switch (_graphInstance.properties?.state) {
+                case MediaGraphInstanceState.Active:
+                    this.contextValue = "InstanceItemContextActive";
+                    break;
+                case MediaGraphInstanceState.Inactive:
+                    this.contextValue = "InstanceItemContextInactive";
+                    break;
+                default:
+                    this.contextValue = "InstanceItemContextProgress";
+            }
         } else {
             this.iconPath = new vscode.ThemeIcon("add");
             this.command = { title: Localizer.localize("createGraphInstanceButton"), command: "moduleExplorer.createInstance", arguments: [this] };
@@ -65,6 +78,32 @@ export class InstanceItem extends vscode.TreeItem {
                     );
                 }
             });
+        }
+    }
+
+    public activateInstanceCommand() {
+        if (this._graphInstance) {
+            GraphInstanceData.activateGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
+                (response) => {
+                    vscode.commands.executeCommand("moduleExplorer.refresh");
+                },
+                (error) => {
+                    // show errors
+                }
+            );
+        }
+    }
+
+    public deactivateInstanceCommand() {
+        if (this._graphInstance) {
+            GraphInstanceData.deactivateGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
+                (response) => {
+                    vscode.commands.executeCommand("moduleExplorer.refresh");
+                },
+                (error) => {
+                    // show errors
+                }
+            );
         }
     }
 

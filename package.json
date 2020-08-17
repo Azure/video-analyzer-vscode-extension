@@ -57,6 +57,16 @@
                 "title": "%editInstanceButton%"
             },
             {
+                "command": "moduleExplorer.activateInstance",
+                "title": "%activateInstanceButton%",
+                "enablement": "view == moduleExplorer && viewItem == InstanceItemContextInactive"
+            },
+            {
+                "command": "moduleExplorer.deactivateInstance",
+                "title": "%deactivateInstanceButton%",
+                "enablement": "view == moduleExplorer && viewItem == InstanceItemContextActive"
+            },
+            {
                 "command": "moduleExplorer.deleteInstance",
                 "title": "%deleteInstanceButton%"
             }
@@ -92,12 +102,20 @@
                     "when": "view == moduleExplorer && viewItem == graphItemContext"
                 },
                 {
+                    "command": "moduleExplorer.activateInstance",
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
+                },
+                {
+                    "command": "moduleExplorer.deactivateInstance",
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
+                },
+                {
                     "command": "moduleExplorer.deleteInstance",
-                    "when": "view == moduleExplorer && viewItem == InstanceItemContext"
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
                 },
                 {
                     "command": "moduleExplorer.editInstance",
-                    "when": "view == moduleExplorer && viewItem == InstanceItemContext"
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
                 },
                 {
                     "command": "moduleExplorer.createGraph",
