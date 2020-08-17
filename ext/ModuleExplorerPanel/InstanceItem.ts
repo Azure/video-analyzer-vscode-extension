@@ -15,6 +15,8 @@ import { GraphEditorPanel } from "../Webview/GraphPanel";
 import { INode } from "./Node";
 
 export class InstanceItem extends vscode.TreeItem {
+    private _logger: Logger;
+
     constructor(
         public iotHubData: IotHubData,
         public readonly deviceId: string,
@@ -23,6 +25,7 @@ export class InstanceItem extends vscode.TreeItem {
         private readonly _graphInstance?: MediaGraphInstance
     ) {
         super(_graphInstance?.name ?? Localizer.localize("createGraphInstanceButton"), vscode.TreeItemCollapsibleState.None);
+        this._logger = Logger.getOrCreateOutputChannel();
         if (_graphInstance) {
             this.iconPath = TreeUtils.getIconPath(`instance`);
             switch (_graphInstance.properties?.state) {
@@ -69,30 +72,41 @@ export class InstanceItem extends vscode.TreeItem {
             createGraphPanel.registerPostMessage({
                 name: Constants.PostMessageNames.saveGraph,
                 callback: async (instance: any) => {
-                    GraphInstanceData.putGraphInstance(this.iotHubData, this.deviceId, this.moduleId, instance).then(
-                        (response) => {
-                            vscode.commands.executeCommand("moduleExplorer.refresh");
-                            createGraphPanel.dispose();
-                        },
-                        (error) => {
-                            vscode.window.showErrorMessage(error);
-                            // show errors
-                        }
-                    );
+                    this.saveGraph(createGraphPanel, instance);
+                }
+            });
+            createGraphPanel.registerPostMessage({
+                name: Constants.PostMessageNames.saveAndActivate,
+                callback: async (instance: MediaGraphInstance) => {
+                    this.saveGraph(createGraphPanel, instance).then(() => {
+                        return this.activateInstanceCommand(instance.name);
+                    });
                 }
             });
         }
     }
 
-    public activateInstanceCommand() {
-        if (this._graphInstance) {
-            GraphInstanceData.activateGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
+    public saveGraph(createGraphPanel: GraphEditorPanel, instance: MediaGraphInstance) {
+        return GraphInstanceData.putGraphInstance(this.iotHubData, this.deviceId, this.moduleId, instance).then(
+            (response) => {
+                TreeUtils.refresh();
+                createGraphPanel.dispose();
+            },
+            (error) => {
+                this._logger.logError(`Failed to save the instance "${this._graphInstance?.name}"`, error); // TODO. localize
+            }
+        );
+    }
+
+    public activateInstanceCommand(graphInstanceName?: string) {
+        const instanceName = graphInstanceName || this._graphInstance?.name;
+        if (instanceName) {
+            GraphInstanceData.activateGraphInstance(this.iotHubData, this.deviceId, this.moduleId, instanceName).then(
                 (response) => {
-                    vscode.commands.executeCommand("moduleExplorer.refresh");
+                    TreeUtils.refresh();
                 },
                 (error) => {
-                    vscode.window.showErrorMessage(error);
-                    // show errors
+                    this._logger.logError(`Failed to activate the instance "${instanceName}"`, error); // TODO. localize
                 }
             );
         }
@@ -102,11 +116,10 @@ export class InstanceItem extends vscode.TreeItem {
         if (this._graphInstance) {
             GraphInstanceData.deactivateGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
                 (response) => {
-                    vscode.commands.executeCommand("moduleExplorer.refresh");
+                    TreeUtils.refresh();
                 },
                 (error) => {
-                    vscode.window.showErrorMessage(error);
-                    // show errors
+                    this._logger.logError(`Failed to deactivate the instance "${this._graphInstance?.name}"`, error); // TODO. localize
                 }
             );
         }
@@ -117,12 +130,10 @@ export class InstanceItem extends vscode.TreeItem {
             // TODO we might need a confirmation before delete
             GraphInstanceData.deleteGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
                 (response) => {
-                    vscode.commands.executeCommand("moduleExplorer.refresh");
+                    TreeUtils.refresh();
                 },
                 (error) => {
-                    Logger.getOrCreateOutputChannel().appendLog(error.message, { resourceName: this._graphInstance?.name });
-                    Logger.getOrCreateOutputChannel().show();
-                    vscode.window.showErrorMessage(error.message);
+                    this._logger.logError(`Failed to delete the instance "${this._graphInstance?.name}"`, error); // TODO. localize
                 }
             );
         }

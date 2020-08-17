@@ -10,6 +10,7 @@ export class IoTHubLabelNode extends vscode.TreeItem implements INode {
     constructor(public iotHubData: IotHubData, private readonly _hubName: string) {
         super(_hubName, vscode.TreeItemCollapsibleState.None);
         this.iconPath = TreeUtils.getThemedIconPath("iothub");
+        this.contextValue = "hubItemContext";
     }
 
     public getChildren(): Promise<INode[]> | INode[] {

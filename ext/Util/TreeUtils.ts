@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as path from "path";
+import * as vscode from "vscode";
 import { Constants } from "./Constants";
 
 export class TreeUtils {
@@ -14,5 +15,9 @@ export class TreeUtils {
             light: path.join(Constants.ResourcesFolderPath, "light", `${iconName}.svg`),
             dark: path.join(Constants.ResourcesFolderPath, "dark", `${iconName}.svg`)
         };
+    }
+
+    public static refresh() {
+        vscode.commands.executeCommand("moduleExplorer.refresh");
     }
 }

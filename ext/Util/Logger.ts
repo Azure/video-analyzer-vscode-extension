@@ -1,4 +1,5 @@
 import { OutputChannel, ViewColumn, window } from "vscode";
+import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
 
 const enum LogLevel {
     error = "error",
@@ -38,14 +39,22 @@ export class Logger {
         // tslint:disable: strict-boolean-expressions
         options = options || {};
         const date: Date = options.date || new Date();
-        this.appendLine(`[${date.toLocaleTimeString()}] [Live video analytics]${" " + options.logLevel || ""}${" " + options.resourceName || ""}: ${value}`);
+        this.appendLine(
+            `[${date.toLocaleTimeString()}] [Live video analytics]${options.logLevel ? " " + options.logLevel : ""}${
+                options.resourceName ? " " + options.resourceName : ""
+            }: ${value}`
+        );
     }
 
-    public logError(errorString: string, errorResponse: any) {
+    public logError(errorString: string, errorResponse: DirectMethodError) {
         this.appendLog(errorString, { logLevel: LogLevel.error });
         if (errorResponse) {
             this.appendLog(errorResponse.message, { logLevel: LogLevel.error });
-            this.appendLog(errorResponse.message, { logLevel: LogLevel.error });
+            if (errorResponse.details?.length) {
+                errorResponse.details.forEach((errorDetail: DirectMethodErrorDetail) => {
+                    this.appendLog(errorDetail.message, { logLevel: LogLevel.error, resourceName: errorDetail.code });
+                });
+            }
         }
         this.show();
         this.showErrorNotification(errorString, errorResponse);
