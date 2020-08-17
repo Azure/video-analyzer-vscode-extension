@@ -62,7 +62,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
 
         // TODO: Perform additional validation
 
-        setParameter({ ...parameter, error });
+        setParameter({ ...parameter, error, value });
     };
 
     return (
