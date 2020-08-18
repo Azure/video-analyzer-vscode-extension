@@ -35,9 +35,10 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
         }
     }
 
-    public resetConnectionString() {
+    public async resetConnectionString() {
         this._connectionConfig = (null as unknown) as LvaHubConfig;
         this._iotHubData = (null as unknown) as IotHubData;
+        await CredentialStore.resetConnectionInfo(this.context);
         this.refresh();
     }
 
