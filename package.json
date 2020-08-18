@@ -31,8 +31,8 @@
                 "icon": "$(refresh)"
             },
             {
-                "command": "moduleExplorer.deleteHubItem",
-                "title": "delete hub"
+                "command": "moduleExplorer.resetConnection",
+                "title": "Reset connection"
             },
             {
                 "command": "moduleExplorer.createGraph",
@@ -89,7 +89,7 @@
             ],
             "view/item/context": [
                 {
-                    "command": "moduleExplorer.deleteHubItem",
+                    "command": "moduleExplorer.resetConnection",
                     "when": "view == moduleExplorer && viewItem == hubItemContext",
                     "group": "inline"
                 },

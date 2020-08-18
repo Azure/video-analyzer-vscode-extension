@@ -16,7 +16,7 @@ export class Logger {
 
     public static getOrCreateOutputChannel() {
         if (!this._outputChanelObj) {
-            this._outputChanelObj = new Logger("Live video analytics", "lva-edge-vscode-extension");
+            this._outputChanelObj = new Logger("Live Video Analytics", "lva-edge-vscode-extension");
         }
         return this._outputChanelObj;
     }
@@ -61,7 +61,7 @@ export class Logger {
     }
 
     public showErrorNotification(errorString: string, errorDetails: any) {
-        window.showErrorMessage(errorString);
+        window.showErrorMessage(errorString, { modal: true });
     }
 
     public clear(): void {

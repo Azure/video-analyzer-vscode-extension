@@ -35,7 +35,7 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
             moduleExplorer.refresh();
         }),
-        vscode.commands.registerCommand("moduleExplorer.deleteHubItem", () => {
+        vscode.commands.registerCommand("moduleExplorer.resetConnection", () => {
             moduleExplorer.resetConnectionString();
         }),
         vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: GraphTopologyItem) => {
