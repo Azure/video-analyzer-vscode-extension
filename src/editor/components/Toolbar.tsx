@@ -48,8 +48,8 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
             <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} styles={paddedToolbarStyles}>
                 <Text styles={titleContainer}>{name}</Text>
                 <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }}>
-                    {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
                     <AdjustedPrimaryButton text={Localizer.l("saveButtonText")} onClick={primaryAction} />
+                    {secondaryAction && <DefaultButton text={secondaryAction.text} onClick={secondaryAction.callback} />}
                     <DefaultButton text={Localizer.l("cancelButtonText")} onClick={cancelAction} />
                 </Stack>
             </Stack>

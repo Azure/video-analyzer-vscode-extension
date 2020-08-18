@@ -13,7 +13,7 @@
     "processors": "Processors",
     "sinks": "Sinks",
     "saveButtonText": "Save",
-    "saveAndStartButtonText": "Save and start",
+    "saveAndActivateButtonText": "Save and activate",
     "optionalDefaultValue": "Optional default value",
     "connectedToNodes": "Connected to {0}",
     "nodeNameWithPorts": "Node named {0} with {1}",

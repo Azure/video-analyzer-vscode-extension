@@ -126,7 +126,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         }
     };
     const saveAndStartAction = {
-        text: Localizer.l("saveAndStartButtonText"),
+        text: Localizer.l("saveAndActivateButtonText"),
         callback: () => {
             if (canContinue()) {
                 const vscode = ExtensionInteraction.getVSCode();
