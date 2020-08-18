@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import Helpers from "../../helpers/Helpers";
 import NodeHelpers from "../../helpers/NodeHelpers";
 import {
+    CanvasNodeData,
     MediaGraphNodeType,
     NestedLocalizedStrings,
     NodeDefinition
@@ -114,18 +115,21 @@ export default class DefinitionGenerator {
             children: this.availableNodes
                 .filter((node) => node.nodeType === nodeType)
                 .map((node) => {
+                    const newNode = {
+                        nodeProperties: {
+                            "@type": node["x-ms-discriminator-value"],
+                            name: node.name
+                        },
+                        nodeType: node.nodeType
+                    } as CanvasNodeData;
                     return {
                         id: uuid(),
                         name: Helpers.lowercaseFirstCharacter(node.name),
                         shape: "module",
                         ports: NodeHelpers.getPorts(node),
                         data: {
-                            ...NodeHelpers.getNodeAppearance(node.nodeType),
-                            nodeProperties: {
-                                "@type": node["x-ms-discriminator-value"],
-                                name: node.name
-                            },
-                            nodeType: node.nodeType
+                            ...NodeHelpers.getNodeAppearance(newNode),
+                            ...newNode
                         }
                     };
                 })

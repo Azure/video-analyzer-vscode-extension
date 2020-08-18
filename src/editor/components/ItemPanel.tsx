@@ -10,6 +10,7 @@ import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../../definitions/Definitions";
 import NodeHelpers from "../../helpers/NodeHelpers";
 import Localizer from "../../localization/Localizer";
+import { CanvasNodeData } from "../../types/graphTypes";
 import { NodeContainer } from "./NodeContainer";
 
 export const ItemPanel: React.FunctionComponent = (props) => {
@@ -58,11 +59,9 @@ export const ItemPanel: React.FunctionComponent = (props) => {
 
     const generateAccordionTitle = (node: ITreeNode) => {
         const nodeTypeStringKey = node.searchKeys[0] as string;
-        const styles = NodeHelpers.getNodeAppearance(NodeHelpers.getNodeTypeFromString(nodeTypeStringKey));
         return (
             <Stack horizontal verticalAlign="center" tokens={{ childrenGap: "s1" }} style={{ cursor: "pointer" }}>
-                <FontIcon iconName={node.expanded ? "CaretSolidDown" : "CaretSolidRight"} />
-                <FontIcon iconName={styles.iconName} />
+                <FontIcon iconName={node.expanded ? "ChevronDownMed" : "ChevronRightMed"} />
                 <Text variant="medium">
                     {Localizer.l(nodeTypeStringKey)} ({node.children.length})
                 </Text>
@@ -75,7 +74,10 @@ export const ItemPanel: React.FunctionComponent = (props) => {
             const children = category.children.map((node) => {
                 const internalNode = node.extra as ICanvasNode;
                 const description = Localizer.getLocalizedStrings(internalNode.data!.nodeProperties.name).description;
-                const styles = NodeHelpers.getNodeAppearance(internalNode.data!.nodeType);
+                const styles = NodeHelpers.getNodeAppearance({
+                    nodeProperties: internalNode.data!.nodeProperties,
+                    nodeType: internalNode.data!.nodeType
+                } as CanvasNodeData);
                 return {
                     title: (
                         <Item key={node.title as string} model={internalNode} dragWillStart={dragWillStart} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>

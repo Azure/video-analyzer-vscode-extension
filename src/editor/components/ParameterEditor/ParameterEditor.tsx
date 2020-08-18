@@ -48,7 +48,6 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
         header: [
             theme.fonts.xLargePlus,
             {
-                color: theme.palette.neutralPrimary,
                 display: "flex",
                 alignItems: "center",
                 fontWeight: FontWeights.semibold,

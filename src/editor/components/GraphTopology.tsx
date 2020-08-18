@@ -166,6 +166,12 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         paddingBottom: 20,
         marginBottom: 10
     };
+    const mainEditorStyles = {
+        root: {
+            // uses flex-box, so it will grow, this prevents it from growing taller than the parent (force scroll)
+            height: 0
+        }
+    };
 
     return (
         <ReactDagEditor theme={theme}>
@@ -188,7 +194,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                 >
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
                 </Toolbar>
-                <Stack grow horizontal>
+                <Stack grow horizontal styles={mainEditorStyles}>
                     {sidebarIsShown && (
                         <Stack.Item styles={panelStyles}>
                             <div style={topSidebarStyles}>
