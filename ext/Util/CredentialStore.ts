@@ -46,4 +46,13 @@ export class CredentialStore {
             context.globalState.update(connectionKey, connectionInfo.connectionString);
         }
     }
+
+    public static async resetConnectionInfo(context: vscode.ExtensionContext) {
+        const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.LvaGlobalStateKey);
+        context.globalState.update(Constants.LvaGlobalStateKey, null);
+        if (connectionInfo) {
+            await keytar.deletePassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
+            context.globalState.update(connectionInfo.connectionStringKey, null);
+        }
+    }
 }
