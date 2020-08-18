@@ -1,6 +1,15 @@
 import { Client, Registry } from "azure-iothub";
 import { Constants } from "../Util/Constants";
 
+export interface DirectMethodError {
+    message: string;
+    details: DirectMethodErrorDetail[];
+}
+export interface DirectMethodErrorDetail {
+    message: string;
+    code: string;
+}
+
 export class IotHubData {
     private iotHubClient?: Client;
     private registryClient?: Registry;

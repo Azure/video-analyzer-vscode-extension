@@ -12,6 +12,8 @@
     "editGraphButton": "Edit graph topology",
     "deleteGraphButton": "Delete graph topology",
     "editInstanceButton": "Edit graph instance",
+    "activateInstanceButton": "Activate graph instance",
+    "deactivateInstanceButton": "Deactivate graph instance",
     "deleteInstanceButton": "Delete graph instance",
     "createNewGraphPageTile": "Create new graph topology",
     "editGraphPageTile": "Edit Topology",

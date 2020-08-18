@@ -7,7 +7,10 @@
     "importSorter.importStringConfiguration.quoteMark": "double",
     "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
     "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 0,
-    "cSpell.words": ["localizable"],
+    "cSpell.words": [
+        "enablement",
+        "localizable"
+    ],
     "typescript.updateImportsOnFileMove.enabled": "always",
     "editor.renderWhitespace": "all",
     "editor.formatOnSave": true,

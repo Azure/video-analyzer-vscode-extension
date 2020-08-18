@@ -35,7 +35,7 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
             moduleExplorer.refresh();
         }),
-        vscode.commands.registerCommand("moduleExplorer.deleteHubItem", () => {
+        vscode.commands.registerCommand("moduleExplorer.resetConnection", () => {
             moduleExplorer.resetConnectionString();
         }),
         vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: GraphTopologyItem) => {
@@ -46,6 +46,12 @@ export async function activate(context: vscode.ExtensionContext) {
         }),
         vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: InstanceItem) => {
             instanceNode.editInstanceCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.activateInstance", (instanceNode: InstanceItem) => {
+            instanceNode.activateInstanceCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.deactivateInstance", (instanceNode: InstanceItem) => {
+            instanceNode.deactivateInstanceCommand();
         }),
         vscode.commands.registerCommand("moduleExplorer.deleteInstance", (instanceNode: InstanceItem) => {
             instanceNode.deleteInstanceCommand();

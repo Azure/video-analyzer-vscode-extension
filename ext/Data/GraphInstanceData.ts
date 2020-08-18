@@ -12,6 +12,18 @@ export class GraphInstanceData {
         return iotHubData.directMethodCall(deviceId, moduleId, "GraphInstanceSet", instanceData);
     }
 
+    public static activateGraphInstance(iotHubData: IotHubData, deviceId: string, moduleId: string, instanceName: string): Promise<void> {
+        return iotHubData.directMethodCall(deviceId, moduleId, "GraphInstanceActivate", {
+            name: instanceName
+        });
+    }
+
+    public static deactivateGraphInstance(iotHubData: IotHubData, deviceId: string, moduleId: string, instanceName: string): Promise<void> {
+        return iotHubData.directMethodCall(deviceId, moduleId, "GraphInstanceDeactivate", {
+            name: instanceName
+        });
+    }
+
     public static deleteGraphInstance(iotHubData: IotHubData, deviceId: string, moduleId: string, instanceName: string): Promise<void> {
         return iotHubData.directMethodCall(deviceId, moduleId, "GraphInstanceDelete", {
             name: instanceName

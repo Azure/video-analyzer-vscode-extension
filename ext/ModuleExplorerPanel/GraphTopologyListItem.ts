@@ -5,6 +5,7 @@ import { MediaGraphInstance } from "../lva-sdk/lvaSDKtypes";
 import { Constants } from "../Util/Constants";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
+import { TreeUtils } from "../Util/TreeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
 import { GraphTopologyItem } from "./GraphTopologyItem";
 import { INode } from "./Node";
@@ -54,7 +55,7 @@ export class GraphTopologyListItem extends vscode.TreeItem {
                 callback: async (topology: any) => {
                     GraphTopologyData.putGraphTopology(this.iotHubData, this.deviceId, this.moduleId, topology).then(
                         (response) => {
-                            vscode.commands.executeCommand("moduleExplorer.refresh");
+                            TreeUtils.refresh();
                             createGraphPanel.dispose();
                         },
                         (error) => {
