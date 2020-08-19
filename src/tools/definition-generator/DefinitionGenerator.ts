@@ -28,8 +28,8 @@ export default class DefinitionGenerator {
     }
 
     public constructor(version: string, outputFolder: string) {
-        this.apiDefinition = JSON.parse(fs.readFileSync(DefinitionGenerator.resolveFile(`tools/definition-generator/v${version}/LiveVideoAnalytics.json`), "utf8"));
-        this.usableNodes = JSON.parse(fs.readFileSync(DefinitionGenerator.resolveFile(`tools/definition-generator/v${version}/usableNodes.json`), "utf8"));
+        this.apiDefinition = this.readJson(`tools/definition-generator/v${version}/LiveVideoAnalytics.json`);
+        this.usableNodes = this.readJson(`tools/definition-generator/v${version}/usableNodes.json`);
 
         this.outputFolder = outputFolder;
         this.definitions = this.apiDefinition["definitions"] as any;
@@ -140,14 +140,14 @@ export default class DefinitionGenerator {
 
     public writeFiles() {
         // write to files in appropriate versioned folder
-        const base = DefinitionGenerator.resolveFile(`${this.outputFolder}/v` + this.version);
+        const versionedBase = DefinitionGenerator.resolveFile(`${this.outputFolder}/v` + this.version);
 
-        if (!fs.existsSync(base)) {
-            fs.mkdirSync(base);
+        if (!fs.existsSync(versionedBase)) {
+            fs.mkdirSync(versionedBase);
         }
 
         fs.writeFileSync(
-            base + "/nodes.json",
+            versionedBase + "/nodes.json",
             JSON.stringify(
                 {
                     availableNodes: this.availableNodes,
@@ -159,7 +159,25 @@ export default class DefinitionGenerator {
             "utf8"
         );
 
-        fs.writeFileSync(base + "/i18n.en.json", JSON.stringify(this.localizable, null, 4), "utf8");
+        // load in the existing localization
+        const existingLocalization = this.readJson(this.outputFolder + "/i18n.en.json") || {};
+        const existingKeys = [];
+        const mergedLocalization: Record<string, NestedLocalizedStrings> = {};
+
+        for (const key in this.localizable) {
+            if (existingLocalization[key]) {
+                existingKeys.push(key);
+                mergedLocalization[key] = existingLocalization[key];
+            } else {
+                mergedLocalization[key] = this.localizable[key];
+            }
+        }
+
+        if (existingKeys.length > 0) {
+            console.warn(`${existingKeys.length} keys have already been localized and were left unchanged: ${existingKeys.join(", ")}`);
+        }
+
+        fs.writeFileSync(DefinitionGenerator.resolveFile(this.outputFolder) + "/i18n.en.json", JSON.stringify(mergedLocalization, null, 4), "utf8");
     }
 
     // returns the MediaGraphNodeType given a node definition
@@ -219,5 +237,15 @@ export default class DefinitionGenerator {
             current = current[piece];
         }
         return this.expand(current);
+    }
+
+    // returns the parsed contents of a JSON file
+    private readJson(filePath: string): any {
+        const file = DefinitionGenerator.resolveFile(filePath);
+        if (fs.existsSync(file)) {
+            return JSON.parse(fs.readFileSync(file, "utf8"));
+        } else {
+            return null;
+        }
     }
 }

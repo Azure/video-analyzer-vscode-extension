@@ -6,7 +6,7 @@ export default class Localizer {
 
     static async getLanguage(language: string) {
         const interfaceLocStrings = await import(/* webpackMode: "lazy" */ `./${language}.json`);
-        const swaggerLocStrings = await import(/* webpackMode: "lazy" */ `../definitions/v1.0/i18n.${language}.json`);
+        const swaggerLocStrings = await import(/* webpackMode: "lazy" */ `../definitions/i18n.${language}.json`);
 
         return [interfaceLocStrings, swaggerLocStrings];
     }

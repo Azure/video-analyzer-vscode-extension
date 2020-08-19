@@ -1,5 +1,6 @@
 import { ITreeNode } from "react-accessible-tree";
 import { ICanvasNode } from "@vienna/react-dag-editor";
+import Helpers from "../helpers/Helpers";
 import Localizer from "../localization/Localizer";
 import { CanvasNodeProperties, NodeDefinition } from "../types/graphTypes";
 import * as storedNodes from "./v1.0/nodes.json";
@@ -41,7 +42,7 @@ export default class Definitions {
                     ...node,
                     extra: {
                         ...node.extra,
-                        name: localizedName
+                        name: Helpers.convertToCamel(internalName)
                     },
                     title: localizedName,
                     searchKeys: [localizedName]
