@@ -78,6 +78,8 @@ export const ItemPanel: React.FunctionComponent = (props) => {
                     nodeProperties: initialNode.data!.nodeProperties,
                     nodeType: initialNode.data!.nodeType
                 } as CanvasNodeData);
+                const internalName = initialNode.data!.nodeProperties.name as string;
+                const localizedName = node.title as string;
                 const internalNode = {
                     ...initialNode,
                     data: {
@@ -87,9 +89,9 @@ export const ItemPanel: React.FunctionComponent = (props) => {
                 };
                 return {
                     title: (
-                        <Item key={node.title as string} model={internalNode} dragWillStart={dragWillStart} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>
+                        <Item key={internalName} model={internalNode} dragWillStart={dragWillStart} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>
                             <NodeContainer
-                                heading={node.title as string}
+                                heading={localizedName}
                                 iconName={styles.iconName!}
                                 accentColor={styles.color!}
                                 title={description}
@@ -113,7 +115,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
                         </Item>
                     ),
                     id: uuid(),
-                    searchKeys: [node.title as string],
+                    searchKeys: [localizedName],
                     children: []
                 };
             });

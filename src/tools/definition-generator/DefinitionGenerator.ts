@@ -55,7 +55,7 @@ export default class DefinitionGenerator {
             if (node.description) {
                 const key = nodeName;
                 this.localizable[nodeName] = {
-                    title: nodeName,
+                    title: Helpers.camelToSentenceCase(nodeName),
                     description: node.description
                 } as NestedLocalizedStrings;
                 node.localizationKey = key;
@@ -67,7 +67,7 @@ export default class DefinitionGenerator {
                 if (property.description) {
                     const key = `${nodeName}.${propertyName}`;
                     this.localizable[`${nodeName}.${propertyName}`] = {
-                        title: propertyName,
+                        title: Helpers.camelToSentenceCase(propertyName),
                         description: property.description,
                         placeholder: property.example || ""
                     } as NestedLocalizedStrings;
@@ -81,7 +81,7 @@ export default class DefinitionGenerator {
                         if (value.description) {
                             const key = `${nodeName}.${propertyName}.${value.value}`;
                             this.localizable[key] = {
-                                title: value.value,
+                                title: Helpers.camelToSentenceCase(value.value),
                                 description: value.description
                             } as NestedLocalizedStrings;
                             value.localizationKey = key;
@@ -124,17 +124,14 @@ export default class DefinitionGenerator {
                     } as CanvasNodeData;
                     return {
                         id: uuid(),
-                        name: Helpers.lowercaseFirstCharacter(node.name),
                         shape: "module",
                         ports: NodeHelpers.getPorts(node),
                         data: newNode
                     };
                 })
                 .map((node) => ({
-                    title: node.name,
                     extra: node,
                     id: uuid(),
-                    searchKeys: [node.name],
                     children: []
                 })),
             expanded: true
