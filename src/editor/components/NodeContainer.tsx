@@ -73,7 +73,9 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
             paddingBottom: 8,
             paddingLeft: 4
         },
-        children: { paddingTop: 4 }
+        children: {
+            paddingTop: 4
+        }
     });
 
     return (

@@ -72,16 +72,16 @@ export const ItemPanel: React.FunctionComponent = (props) => {
     if (treeData.length === 0) {
         const treeNodes: ITreeNode[] = Definitions.getItemPanelNodes().map((category, index) => {
             const children = category.children.map((node) => {
-                const initalNode = node.extra as ICanvasNode;
-                const description = Localizer.getLocalizedStrings(initalNode.data!.nodeProperties.name).description;
+                const initialNode = node.extra as ICanvasNode;
+                const description = Localizer.getLocalizedStrings(initialNode.data!.nodeProperties.name).description;
                 const styles = NodeHelpers.getNodeAppearance({
-                    nodeProperties: initalNode.data!.nodeProperties,
-                    nodeType: initalNode.data!.nodeType
+                    nodeProperties: initialNode.data!.nodeProperties,
+                    nodeType: initialNode.data!.nodeType
                 } as CanvasNodeData);
                 const internalNode = {
-                    ...initalNode,
+                    ...initialNode,
                     data: {
-                        ...initalNode.data,
+                        ...initialNode.data,
                         ...styles
                     }
                 };
