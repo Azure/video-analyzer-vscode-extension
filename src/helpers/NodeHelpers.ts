@@ -87,20 +87,17 @@ export default class NodeHelpers {
             case MediaGraphNodeType.Source:
                 return {
                     iconName: icon,
-                    color: "var(--vscode-terminal-ansiBrightBlue)",
-                    colorAlt: "var(--vscode-terminal-ansiBlue)"
+                    color: "var(--node-source-accent-color)"
                 };
             case MediaGraphNodeType.Processor:
                 return {
                     iconName: icon,
-                    color: "var(--vscode-terminal-ansiBrightGreen)",
-                    colorAlt: "var(--vscode-terminal-ansiGreen)"
+                    color: "var(--node-processor-accent-color)"
                 };
             case MediaGraphNodeType.Sink:
                 return {
                     iconName: icon,
-                    color: "var(--vscode-terminal-ansiBrightYellow)",
-                    colorAlt: "var(--vscode-terminal-ansiYellow)"
+                    color: "var(--node-sink-accent-color)"
                 };
             default:
                 return {};

@@ -45,7 +45,6 @@ export interface CanvasNodeProperties {
 
 export interface CanvasNodeData {
     color: string;
-    colorAlt: string;
     iconName: string;
     nodeProperties: CanvasNodeProperties | Record<string, any>;
     nodeType: MediaGraphNodeType;
@@ -77,6 +76,7 @@ export enum ValidationErrorType {
 
 export interface GraphInstanceParameter {
     name: string;
+    defaultValue: string;
     value: string;
     type: MediaGraphParameterType;
     error: string;

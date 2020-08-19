@@ -33,6 +33,9 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
     const [selectedValue, setSelectedValue] = React.useState<string>("");
     const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
 
+    // use the advanced editor if there are more than two parameters
+    const useAdvancedEditor = prevValue.split("${").length > 2;
+
     const theme = getTheme();
 
     const contentStyles = mergeStyleSets({
@@ -107,6 +110,7 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
                         }
                     }}
                     onLinkClick={resetSelectedValue}
+                    defaultSelectedIndex={useAdvancedEditor ? 1 : 0}
                 >
                     <PivotItem headerText={Localizer.l("parameterEditorPivotBasicTabLabel")}>
                         <ParameterEditorSimple

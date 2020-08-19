@@ -40,7 +40,7 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (pr
                 }}
             >
                 {readOnly ? (
-                    <PropertyReadOnlyEditField name={name} property={property} nodeProperties={nodeProperties} required={required} />
+                    <PropertyReadOnlyEditField name={name} property={property} nodeProperties={nodeProperties} />
                 ) : (
                     <PropertyEditField
                         name={name}

@@ -175,7 +175,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
 
     return (
         <ReactDagEditor theme={theme}>
-            <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase())} />
+            <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase(/* readOnly */ false))} />
             <RegisterPort name="modulePort" config={modulePort} />
             <Stack styles={{ root: { height: "100vh" } }}>
                 <Toolbar

@@ -1,10 +1,23 @@
-import { IStackStyles } from "office-ui-fabric-react";
 import * as React from "react";
-import { getRectHeight, getRectWidth, GraphNodeState, hasState, ICanvasNode, IItemConfigArgs, IRectConfig, ITheme } from "@vienna/react-dag-editor";
+import {
+    getRectHeight,
+    getRectWidth,
+    GraphNodeState,
+    hasState,
+    ICanvasNode,
+    IItemConfigArgs,
+    IRectConfig
+} from "@vienna/react-dag-editor";
 import Localizer from "../../localization/Localizer";
 import { NodeContainer } from "./NodeContainer";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
+    private readonly readOnly: boolean;
+
+    constructor(readOnly: boolean) {
+        this.readOnly = readOnly;
+    }
+
     public getMinHeight = (curNode: ICanvasNode): number => {
         return 50;
     };
@@ -16,45 +29,28 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
     public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
         const node = args.model;
 
-        const iconName = node.data && node.data.iconName;
-        const nodeType = node.data && node.data.nodeProperties["@type"];
-        const dragging = node.data && node.data.nodeProperties.dragging;
+        const iconName = node.data!.iconName;
+        const accentColor = node.data!.color;
+        const nodeType = node.data!.nodeProperties["@type"];
+        const dragging = node.data!.nodeProperties.dragging;
         const description = Localizer.l(nodeType.split(".").pop());
 
         const rectHeight = getRectHeight<ICanvasNode>(this, node);
         const rectWidth = getRectWidth<ICanvasNode>(this, node);
-        const opacity = hasState(GraphNodeState.unconnectedToSelected)(node.state) ? "60%" : "100%";
 
         return (
-            <foreignObject transform={`translate(${node.x}, ${node.y})`} height={rectHeight} width={rectWidth} opacity={opacity} overflow="visible">
+            <foreignObject transform={`translate(${node.x}, ${node.y})`} height={rectHeight} width={rectWidth} overflow="visible">
                 <NodeContainer
                     heading={node.name as string}
                     iconName={iconName}
+                    accentColor={accentColor}
                     title={description}
                     selected={hasState(GraphNodeState.selected)(node.state)}
                     hovered={hasState(GraphNodeState.activated)(node.state)}
                     dragging={dragging}
-                ></NodeContainer>
+                    isDraggable={!this.readOnly}
+                />
             </foreignObject>
         );
-    };
-
-    protected readonly getNodeStyle = (node: ICanvasNode, theme: ITheme): IStackStyles => {
-        let borderColor = node.data ? node.data.color : theme.defaultBorderColor;
-
-        if (hasState(GraphNodeState.activated | GraphNodeState.selected)(node.state)) {
-            borderColor = node.data ? node.data.colorAlt : theme.nodeActivateStroke;
-        }
-
-        return {
-            root: {
-                height: getRectHeight<ICanvasNode>(this, node),
-                padding: 8,
-                backgroundColor: theme.nodeFill,
-                borderRadius: 4,
-                cursor: "move",
-                border: `2px solid ${borderColor}`
-            }
-        };
     };
 }

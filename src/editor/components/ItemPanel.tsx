@@ -72,20 +72,30 @@ export const ItemPanel: React.FunctionComponent = (props) => {
     if (treeData.length === 0) {
         const treeNodes: ITreeNode[] = Definitions.getItemPanelNodes().map((category, index) => {
             const children = category.children.map((node) => {
-                const internalNode = node.extra as ICanvasNode;
-                const description = Localizer.getLocalizedStrings(internalNode.data!.nodeProperties.name).description;
+                const initialNode = node.extra as ICanvasNode;
+                const description = Localizer.getLocalizedStrings(initialNode.data!.nodeProperties.name).description;
                 const styles = NodeHelpers.getNodeAppearance({
-                    nodeProperties: internalNode.data!.nodeProperties,
-                    nodeType: internalNode.data!.nodeType
+                    nodeProperties: initialNode.data!.nodeProperties,
+                    nodeType: initialNode.data!.nodeType
                 } as CanvasNodeData);
+                const internalNode = {
+                    ...initialNode,
+                    data: {
+                        ...initialNode.data,
+                        ...styles
+                    }
+                };
                 return {
                     title: (
                         <Item key={node.title as string} model={internalNode} dragWillStart={dragWillStart} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>
                             <NodeContainer
                                 heading={node.title as string}
                                 iconName={styles.iconName!}
+                                accentColor={styles.color!}
                                 title={description}
                                 background="var(--vscode-editorWidget-background)"
+                                isDraggable
+                                hideShadow
                             >
                                 <Text
                                     variant="small"

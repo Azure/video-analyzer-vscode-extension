@@ -1,4 +1,4 @@
-import { TextField } from "office-ui-fabric-react";
+import { mergeStyleSets, Text, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import Localizer from "../../localization/Localizer";
 import { GraphInstanceParameter } from "../../types/graphTypes";
@@ -21,6 +21,7 @@ export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props)
     return (
         <>
             <h2>{Localizer.l("sidebarHeadingParameters")}</h2>
+            <p>{Localizer.l("sidebarGraphInstanceParameterText")}</p>
             {parameters &&
                 parameters.map((parameter, i) => {
                     return <GraphPanelEditField key={parameter.name} parameter={parameter} setParameter={customParameterSetter(i)} />;
@@ -36,13 +37,13 @@ interface IGraphPanelEditFieldProps {
 
 const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = (props) => {
     const { parameter, setParameter } = props;
-    const { name, type, error } = parameter;
-    const [value, setValue] = React.useState<string>(parameter.value);
+    const { name, defaultValue, type, error } = parameter;
+    const [value, setValue] = React.useState<string>("");
 
     const onChange = (event: React.FormEvent, newValue?: string) => {
         if (newValue !== undefined) {
             let error = "";
-            if (!newValue) {
+            if (!defaultValue && !newValue) {
                 error = Localizer.l("sidebarGraphInstanceParameterMissing");
             }
 
@@ -53,14 +54,31 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
         }
     };
 
+    const styles = mergeStyleSets({
+        textField: {
+            marginBottom: 5
+        },
+        defaultText: {
+            marginBottom: 5
+        }
+    });
+
     return (
-        <TextField
-            label={name}
-            value={value}
-            placeholder={Localizer.l("sidebarGraphInstanceParameterPlaceholder").format(type)}
-            onChange={onChange}
-            errorMessage={error}
-            required
-        />
+        <>
+            <TextField
+                label={name}
+                value={value}
+                placeholder={Localizer.l("sidebarGraphInstanceParameterPlaceholder").format(type)}
+                onChange={onChange}
+                errorMessage={error}
+                required={!defaultValue}
+                className={styles.textField}
+            />
+            {defaultValue && (
+                <Text variant="small" className={styles.defaultText} block>
+                    {Localizer.l("sidebarGraphInstanceParameterDefaultText").format(defaultValue)}
+                </Text>
+            )}
+        </>
     );
 };
