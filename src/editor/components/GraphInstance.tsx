@@ -46,16 +46,17 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     let initialParams: GraphInstanceParameter[] = [];
     if (graph.getTopology().properties && graph.getTopology().properties!.parameters) {
         initialParams = graph.getTopology().properties!.parameters!.map((param) => {
-            let value = param.default || "";
+            let defaultValue = param.default || "";
             if (instance.properties && instance.properties.parameters) {
                 const matches = instance.properties.parameters.filter((parameter) => parameter.name === param.name);
                 if (matches) {
-                    value = matches[0].value;
+                    defaultValue = matches[0].value;
                 }
             }
             return {
                 name: param.name,
-                value,
+                defaultValue,
+                value: "",
                 type: param.type,
                 error: ""
             };
@@ -103,10 +104,12 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
             properties: {
                 topologyName: graph.getName(),
                 description: graphDescription,
-                parameters: parameters.map((parameter) => ({
-                    name: parameter.name,
-                    value: parameter.value
-                }))
+                parameters: parameters
+                    .filter((parameter) => parameter.value.length > 0)
+                    .map((parameter) => ({
+                        name: parameter.name,
+                        value: parameter.value
+                    }))
             }
         };
     };
@@ -170,7 +173,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         }
         let missingParameter = false;
         parameters.forEach((parameter, index) => {
-            if (!parameter.value) {
+            if (!parameter.defaultValue && !parameter.value) {
                 missingParameter = true;
                 parameter.error = Localizer.l("sidebarGraphInstanceParameterMissing");
             }

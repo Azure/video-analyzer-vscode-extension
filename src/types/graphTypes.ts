@@ -76,6 +76,7 @@ export enum ValidationErrorType {
 
 export interface GraphInstanceParameter {
     name: string;
+    defaultValue: string;
     value: string;
     type: MediaGraphParameterType;
     error: string;

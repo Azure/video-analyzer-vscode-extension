@@ -1,6 +1,4 @@
-import { IStackStyles } from "office-ui-fabric-react";
 import * as React from "react";
-import { Color } from "vscode";
 import {
     getRectHeight,
     getRectWidth,
@@ -8,8 +6,7 @@ import {
     hasState,
     ICanvasNode,
     IItemConfigArgs,
-    IRectConfig,
-    ITheme
+    IRectConfig
 } from "@vienna/react-dag-editor";
 import Localizer from "../../localization/Localizer";
 import { NodeContainer } from "./NodeContainer";
