@@ -20,7 +20,7 @@ To avoid redundant recalculation of the list of available nodes shown in the sid
 
 During this pre-computation, two files are generated in the `src/definitions/data` folder: `nodes.json` and `i18n.en.json`. The second file contains all localizable description strings extracted from the node definitions. `nodes.json` only contains placeholders, the descriptions are localized when the editor runs.
 
-If needed (for example when a new version is released), replace `src/definitions/definition.json` with the updated Swagger definition and run `npm run create-definitions` to create the updated pre-computed files. By default, only new values are added to the `i18n.en.json` file. Already localized values are left unchanged. The `nodes.json` file is overwritten each time.
+If needed (for example when a new version is released), replace `src/definitions/definition.json` with the updated Swagger definition and run `npm run create-definitions` to create the updated pre-computed files. Only new values are added to the `i18n.en.json` file. Already localized values are left unchanged. To regenerate this file from scratch, delete it and rerun the definition generator. You can also regenerate specific keys by deleting them from the file and running the command. The `nodes.json` file is overwritten each time.
 
 ### Type Definitions
 
