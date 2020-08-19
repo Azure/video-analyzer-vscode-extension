@@ -36,7 +36,8 @@ export const PropertyDescription: React.FunctionComponent<IPropertyDescriptionPr
         root: { maxWidth: 300, padding: 10 }
     };
     const iconButtonStyles: Partial<IButtonStyles> = {
-        root: { marginBottom: -3 }
+        root: { marginBottom: -3, height: 26, width: 26 },
+        icon: { fontSize: 14 }
     };
 
     const clearValue = () => {

@@ -2555,12 +2555,12 @@
         {
           "title": "rtspSource",
           "extra": {
-            "id": "ebb99e14-bf32-4cf5-8ab6-86a8aa7258ee",
+            "id": "c08de5f7-898a-4d06-9048-0a323b57ecd1",
             "name": "rtspSource",
             "shape": "module",
             "ports": [
               {
-                "id": "afc8e335-6567-406b-9d7a-b61cf98533ce",
+                "id": "254b19f7-a0d3-462b-8b8f-f067fa981edd",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2568,9 +2568,6 @@
               }
             ],
             "data": {
-              "iconName": "SecurityCamera",
-              "color": "var(--vscode-terminal-ansiBrightBlue)",
-              "colorAlt": "var(--vscode-terminal-ansiBlue)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphRtspSource",
                 "name": "MediaGraphRtspSource"
@@ -2578,7 +2575,7 @@
               "nodeType": "source"
             }
           },
-          "id": "7439d169-3660-47b8-b1a1-78bceb6b08a6",
+          "id": "fc032143-b241-48c7-bb0b-8a2ffd26f317",
           "searchKeys": [
             "rtspSource"
           ],
@@ -2587,12 +2584,12 @@
         {
           "title": "ioTHubMessageSource",
           "extra": {
-            "id": "b903a204-e81f-4788-b933-f63e5ee67d6b",
+            "id": "14428117-d2c8-4ed3-a35f-f9a60a20a8f3",
             "name": "ioTHubMessageSource",
             "shape": "module",
             "ports": [
               {
-                "id": "d8007f24-32c1-424b-b845-5430a54ef716",
+                "id": "22f029af-8c4a-4f1f-ada5-0de3dc998d9f",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2600,9 +2597,6 @@
               }
             ],
             "data": {
-              "iconName": "IOT",
-              "color": "var(--vscode-terminal-ansiBrightBlue)",
-              "colorAlt": "var(--vscode-terminal-ansiBlue)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSource",
                 "name": "MediaGraphIoTHubMessageSource"
@@ -2610,7 +2604,7 @@
               "nodeType": "source"
             }
           },
-          "id": "575ef5af-58aa-4b5d-a627-18af3b5d065c",
+          "id": "d0790afc-da2e-4fd3-b705-1e030bacb27d",
           "searchKeys": [
             "ioTHubMessageSource"
           ],
@@ -2629,19 +2623,19 @@
         {
           "title": "motionDetectionProcessor",
           "extra": {
-            "id": "6f0be660-c16f-42f7-a0b6-8a9101684d30",
+            "id": "e2e733bc-995e-44a0-b1cd-7efe7bc5c94c",
             "name": "motionDetectionProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "504231d2-deca-4ab7-bde5-5cfd9b7947a4",
+                "id": "2864ee20-03f3-4a6d-899f-703261d340d5",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "90f46e11-9d03-4b13-a42f-a84b1b99e633",
+                "id": "88e2dc7d-663f-4ba6-a58a-cdefc0d74af4",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2649,9 +2643,6 @@
               }
             ],
             "data": {
-              "iconName": "RedEye",
-              "color": "var(--vscode-terminal-ansiBrightGreen)",
-              "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
                 "name": "MediaGraphMotionDetectionProcessor"
@@ -2659,7 +2650,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "9057731f-418e-4330-9fe9-a7fa676ff9e7",
+          "id": "51abac26-38f7-4696-8bf0-61f421b94f8f",
           "searchKeys": [
             "motionDetectionProcessor"
           ],
@@ -2668,19 +2659,19 @@
         {
           "title": "httpExtension",
           "extra": {
-            "id": "8847a031-3d30-4865-a3ff-26de604203be",
+            "id": "7025e00f-d136-44e0-8c26-b258130fec98",
             "name": "httpExtension",
             "shape": "module",
             "ports": [
               {
-                "id": "6991b9a0-9961-4b5b-a343-ce2eed3ba46f",
+                "id": "32eed4bf-dc24-483e-b3f6-9ce791e1940c",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "0b2a1b08-b3c7-4f4e-a773-f0705842c4fe",
+                "id": "17bc7a33-d095-47f7-9ebd-96a05d6f8b8e",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2688,9 +2679,6 @@
               }
             ],
             "data": {
-              "iconName": "PhotoVideoMedia",
-              "color": "var(--vscode-terminal-ansiBrightGreen)",
-              "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphHttpExtension",
                 "name": "MediaGraphHttpExtension"
@@ -2698,7 +2686,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "d4c2ed9d-da78-413e-87e8-8ab972f9c1c2",
+          "id": "9c6876b1-4977-4e98-a673-6a52fb969467",
           "searchKeys": [
             "httpExtension"
           ],
@@ -2707,19 +2695,19 @@
         {
           "title": "signalGateProcessor",
           "extra": {
-            "id": "4e59d2a5-e27b-4948-b75b-36c25f812493",
+            "id": "5b824f1d-47b4-46ab-9cfc-aacfff73a2f1",
             "name": "signalGateProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "2a39f73b-3f0b-4d20-a476-0e822243cf0c",
+                "id": "d971609f-be6e-4fda-8e6e-396e65ca81e7",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "8e873445-cd11-41c1-a4fd-cd13044c5d3e",
+                "id": "921fc748-1308-4f88-beb2-b77be8d0a28a",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2727,9 +2715,6 @@
               }
             ],
             "data": {
-              "iconName": "Ringer",
-              "color": "var(--vscode-terminal-ansiBrightGreen)",
-              "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphSignalGateProcessor",
                 "name": "MediaGraphSignalGateProcessor"
@@ -2737,7 +2722,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "d9c415ab-3a2a-4c05-b6c0-3baf44d01ee1",
+          "id": "8fd78ca7-51f3-428b-a9d8-178d2fb91745",
           "searchKeys": [
             "signalGateProcessor"
           ],
@@ -2746,19 +2731,19 @@
         {
           "title": "frameRateFilterProcessor",
           "extra": {
-            "id": "5ffe5ba8-13f3-4bb2-8335-124d9d602df5",
+            "id": "93f52dd1-5109-44fc-9e6e-d83c05161886",
             "name": "frameRateFilterProcessor",
             "shape": "module",
             "ports": [
               {
-                "id": "48f70878-b5bc-498c-81e6-6cac81f9f577",
+                "id": "c716aeec-a088-477b-8ebc-87d1f96dbf7c",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "430eaf4c-00fc-428b-badf-cfe578c47b95",
+                "id": "dfaf12e2-4f75-44c4-b809-51de60dd636c",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2766,9 +2751,6 @@
               }
             ],
             "data": {
-              "iconName": "PlaybackRate1x",
-              "color": "var(--vscode-terminal-ansiBrightGreen)",
-              "colorAlt": "var(--vscode-terminal-ansiGreen)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphFrameRateFilterProcessor",
                 "name": "MediaGraphFrameRateFilterProcessor"
@@ -2776,7 +2758,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "ba85bcf3-8db6-40bb-9a4e-f39a606ae98c",
+          "id": "954eb914-f627-4a1b-a58c-7f9cbb82f7d8",
           "searchKeys": [
             "frameRateFilterProcessor"
           ],
@@ -2795,12 +2777,12 @@
         {
           "title": "ioTHubMessageSink",
           "extra": {
-            "id": "10631907-001b-40fb-8555-b5b6a22ba341",
+            "id": "b25715d7-22a4-4f28-ac9c-2d00849d6a8e",
             "name": "ioTHubMessageSink",
             "shape": "module",
             "ports": [
               {
-                "id": "b0de0110-de19-4c36-a86a-a19065e315c3",
+                "id": "e1ddeef2-2c79-433d-978f-aa9d3d5d036c",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2808,9 +2790,6 @@
               }
             ],
             "data": {
-              "iconName": "IOT",
-              "color": "var(--vscode-terminal-ansiBrightYellow)",
-              "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink",
                 "name": "MediaGraphIoTHubMessageSink"
@@ -2818,7 +2797,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "02c83642-fdab-4861-b671-a73ca01c133c",
+          "id": "5f0c74ab-e082-4bf2-a6c9-7667b3d89286",
           "searchKeys": [
             "ioTHubMessageSink"
           ],
@@ -2827,12 +2806,12 @@
         {
           "title": "fileSink",
           "extra": {
-            "id": "f8fccfe2-2daa-49fc-a037-61e7edd85485",
+            "id": "91ac8fb9-42fc-42cc-9947-2eebb2e68cb3",
             "name": "fileSink",
             "shape": "module",
             "ports": [
               {
-                "id": "c4641e9d-4f44-4420-ac4f-879e06a47fd8",
+                "id": "4b6af38c-bf8d-4af3-817a-ffd48b5ae41a",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2840,9 +2819,6 @@
               }
             ],
             "data": {
-              "iconName": "PageData",
-              "color": "var(--vscode-terminal-ansiBrightYellow)",
-              "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphFileSink",
                 "name": "MediaGraphFileSink"
@@ -2850,7 +2826,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "6392bfb5-31cf-4cbb-abba-894ccb0a3a1e",
+          "id": "b4e2ebc9-1169-4ae3-9eb1-7c5d0f467685",
           "searchKeys": [
             "fileSink"
           ],
@@ -2859,12 +2835,12 @@
         {
           "title": "assetSink",
           "extra": {
-            "id": "85026ccd-9e59-4d41-96c8-96c6cabacac3",
+            "id": "7dbc1b23-6040-4cb7-94e3-360e7f1153db",
             "name": "assetSink",
             "shape": "module",
             "ports": [
               {
-                "id": "6fea6e79-c52c-4832-9c2b-dad75a8386a8",
+                "id": "dd05493c-ac64-4bf3-8eba-a3e655b2063f",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2872,9 +2848,6 @@
               }
             ],
             "data": {
-              "iconName": "FabricAssetLibrary",
-              "color": "var(--vscode-terminal-ansiBrightYellow)",
-              "colorAlt": "var(--vscode-terminal-ansiYellow)",
               "nodeProperties": {
                 "@type": "#Microsoft.Media.MediaGraphAssetSink",
                 "name": "MediaGraphAssetSink"
@@ -2882,7 +2855,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "5752c702-f4e8-4755-be53-8ff12dca3673",
+          "id": "2231aa10-bbb8-4b52-ae05-1298bf4180dd",
           "searchKeys": [
             "assetSink"
           ],

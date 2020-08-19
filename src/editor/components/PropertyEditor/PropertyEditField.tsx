@@ -29,6 +29,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     if (property.type !== "boolean" && property.type !== "string") {
         initValue = JSON.stringify(initValue);
     }
+    if (property.type === "string" && initValue && typeof initValue === "number") {
+        initValue = initValue + "";
+    }
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(initValue);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
@@ -145,8 +148,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         return (
             <TextField
                 label={name}
-                multiline
-                autoAdjustHeight
                 value={value}
                 required={required}
                 onRenderLabel={onRenderLabel}

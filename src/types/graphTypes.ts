@@ -45,7 +45,6 @@ export interface CanvasNodeProperties {
 
 export interface CanvasNodeData {
     color: string;
-    colorAlt: string;
     iconName: string;
     nodeProperties: CanvasNodeProperties | Record<string, any>;
     nodeType: MediaGraphNodeType;

@@ -8,15 +8,14 @@ interface IPropertyReadOnlyEditFieldProps {
     name: string;
     property: any;
     nodeProperties: any;
-    required: boolean;
 }
 
 export const PropertyReadOnlyEditField: React.FunctionComponent<IPropertyReadOnlyEditFieldProps> = (props) => {
-    const { name, property, nodeProperties, required } = props;
+    const { name, property, nodeProperties } = props;
     const labelId: string = useId("label");
 
     if (property.type === "object") {
-        return <PropertyNestedObject name={name} property={property} nodeProperties={nodeProperties[name]} required={required} readOnly />;
+        return <PropertyNestedObject name={name} property={property} nodeProperties={nodeProperties[name]} required={false} readOnly />;
     }
 
     const value = nodeProperties[name];
@@ -25,7 +24,7 @@ export const PropertyReadOnlyEditField: React.FunctionComponent<IPropertyReadOnl
 
     return (
         <>
-            <PropertyDescription name={name} required={required} property={property} labelId={labelId} />
+            <PropertyDescription name={name} required={false} property={property} labelId={labelId} />
             <div aria-labelledby={labelId}>{value ? selectedValue : <i>{Localizer.l("propertyEditorNoneValueLabel")}</i>}</div>
         </>
     );

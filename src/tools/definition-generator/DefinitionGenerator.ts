@@ -127,10 +127,7 @@ export default class DefinitionGenerator {
                         name: Helpers.lowercaseFirstCharacter(node.name),
                         shape: "module",
                         ports: NodeHelpers.getPorts(node),
-                        data: {
-                            ...NodeHelpers.getNodeAppearance(newNode),
-                            ...newNode
-                        }
+                        data: newNode
                     };
                 })
                 .map((node) => ({
