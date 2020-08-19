@@ -70,7 +70,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
     // save state in VS Code when data, zoomPanSettings, or parameters change
     const saveState = (update?: any) => {
         props.vsCodeSetState({
-            pageViewType: Constants.PageType.graphPage,
+            pageViewType: Constants.PageType.instancePage,
             graphData: { ...data, meta: graph.getTopology() },
             zoomPanSettings,
             instance: generateInstance(),

@@ -2553,14 +2553,12 @@
       ],
       "children": [
         {
-          "title": "rtspSource",
           "extra": {
-            "id": "c08de5f7-898a-4d06-9048-0a323b57ecd1",
-            "name": "rtspSource",
+            "id": "535ceeeb-92aa-49f0-b6e1-5b88e8b8a0a3",
             "shape": "module",
             "ports": [
               {
-                "id": "254b19f7-a0d3-462b-8b8f-f067fa981edd",
+                "id": "a78c25aa-d024-4ce9-b8a1-c94a904df999",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2575,21 +2573,16 @@
               "nodeType": "source"
             }
           },
-          "id": "fc032143-b241-48c7-bb0b-8a2ffd26f317",
-          "searchKeys": [
-            "rtspSource"
-          ],
+          "id": "737bfb81-3034-46d8-b461-c7757b9e7bbf",
           "children": []
         },
         {
-          "title": "ioTHubMessageSource",
           "extra": {
-            "id": "14428117-d2c8-4ed3-a35f-f9a60a20a8f3",
-            "name": "ioTHubMessageSource",
+            "id": "6bcc8e74-1045-488c-9aa9-f67095e7dbb2",
             "shape": "module",
             "ports": [
               {
-                "id": "22f029af-8c4a-4f1f-ada5-0de3dc998d9f",
+                "id": "a003c259-3fe2-4fe8-8f05-473822a2bb44",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2604,10 +2597,7 @@
               "nodeType": "source"
             }
           },
-          "id": "d0790afc-da2e-4fd3-b705-1e030bacb27d",
-          "searchKeys": [
-            "ioTHubMessageSource"
-          ],
+          "id": "2cef531e-3695-41a0-8f58-91fe286142b1",
           "children": []
         }
       ],
@@ -2621,21 +2611,19 @@
       ],
       "children": [
         {
-          "title": "motionDetectionProcessor",
           "extra": {
-            "id": "e2e733bc-995e-44a0-b1cd-7efe7bc5c94c",
-            "name": "motionDetectionProcessor",
+            "id": "b1750fee-ca3d-403e-9571-0cb7b3d2d4ee",
             "shape": "module",
             "ports": [
               {
-                "id": "2864ee20-03f3-4a6d-899f-703261d340d5",
+                "id": "1a99da49-b89e-48a5-b95d-61e1b49bf362",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "88e2dc7d-663f-4ba6-a58a-cdefc0d74af4",
+                "id": "4a4d5b45-7443-4101-9b92-2aec7d295767",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2650,28 +2638,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "51abac26-38f7-4696-8bf0-61f421b94f8f",
-          "searchKeys": [
-            "motionDetectionProcessor"
-          ],
+          "id": "f30621f7-2610-475a-86ac-0571cbbe0d18",
           "children": []
         },
         {
-          "title": "httpExtension",
           "extra": {
-            "id": "7025e00f-d136-44e0-8c26-b258130fec98",
-            "name": "httpExtension",
+            "id": "0924fdd6-06a4-4689-9b1b-0e543ef169e8",
             "shape": "module",
             "ports": [
               {
-                "id": "32eed4bf-dc24-483e-b3f6-9ce791e1940c",
+                "id": "157c0f9d-4efc-4358-827c-0c8d30cc806b",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "17bc7a33-d095-47f7-9ebd-96a05d6f8b8e",
+                "id": "a05d7d4e-0227-404e-819d-22ca31e8b7af",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2686,28 +2669,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "9c6876b1-4977-4e98-a673-6a52fb969467",
-          "searchKeys": [
-            "httpExtension"
-          ],
+          "id": "10bc8ec8-2c74-45ad-8fa9-b8bd3cb97e7f",
           "children": []
         },
         {
-          "title": "signalGateProcessor",
           "extra": {
-            "id": "5b824f1d-47b4-46ab-9cfc-aacfff73a2f1",
-            "name": "signalGateProcessor",
+            "id": "bb857578-f1a9-4ebe-be65-1fb4460f9ec1",
             "shape": "module",
             "ports": [
               {
-                "id": "d971609f-be6e-4fda-8e6e-396e65ca81e7",
+                "id": "4f29378d-9fa8-4d9c-820e-b93b250a1f64",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "921fc748-1308-4f88-beb2-b77be8d0a28a",
+                "id": "484abf14-35c6-4493-ae07-a618e79c1e7e",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2722,28 +2700,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "8fd78ca7-51f3-428b-a9d8-178d2fb91745",
-          "searchKeys": [
-            "signalGateProcessor"
-          ],
+          "id": "8d5833ae-cca7-44b4-89d6-f5e999de058e",
           "children": []
         },
         {
-          "title": "frameRateFilterProcessor",
           "extra": {
-            "id": "93f52dd1-5109-44fc-9e6e-d83c05161886",
-            "name": "frameRateFilterProcessor",
+            "id": "bb201045-0b1a-4f42-9970-179eed0fe877",
             "shape": "module",
             "ports": [
               {
-                "id": "c716aeec-a088-477b-8ebc-87d1f96dbf7c",
+                "id": "bbbf0765-a093-414b-93df-a4de7190aac1",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "dfaf12e2-4f75-44c4-b809-51de60dd636c",
+                "id": "804cdf45-34cb-42a2-bb5c-d94be648d62f",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2758,10 +2731,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "954eb914-f627-4a1b-a58c-7f9cbb82f7d8",
-          "searchKeys": [
-            "frameRateFilterProcessor"
-          ],
+          "id": "80bb02a6-f007-4196-aa90-ec1377aabfb5",
           "children": []
         }
       ],
@@ -2775,14 +2745,12 @@
       ],
       "children": [
         {
-          "title": "ioTHubMessageSink",
           "extra": {
-            "id": "b25715d7-22a4-4f28-ac9c-2d00849d6a8e",
-            "name": "ioTHubMessageSink",
+            "id": "086f3cf5-c39f-47c6-94ff-48c1ac77afdd",
             "shape": "module",
             "ports": [
               {
-                "id": "e1ddeef2-2c79-433d-978f-aa9d3d5d036c",
+                "id": "9aad0e6d-96b8-4bc6-a513-54b1f7f840a0",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2797,21 +2765,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "5f0c74ab-e082-4bf2-a6c9-7667b3d89286",
-          "searchKeys": [
-            "ioTHubMessageSink"
-          ],
+          "id": "9adc9270-6b6d-4174-bf6a-da20d4800ace",
           "children": []
         },
         {
-          "title": "fileSink",
           "extra": {
-            "id": "91ac8fb9-42fc-42cc-9947-2eebb2e68cb3",
-            "name": "fileSink",
+            "id": "791b1d41-5f12-47aa-89a3-120987df1b9a",
             "shape": "module",
             "ports": [
               {
-                "id": "4b6af38c-bf8d-4af3-817a-ffd48b5ae41a",
+                "id": "58893f5e-90a0-48fd-90bc-099a8337a9c0",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2826,21 +2789,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "b4e2ebc9-1169-4ae3-9eb1-7c5d0f467685",
-          "searchKeys": [
-            "fileSink"
-          ],
+          "id": "eaef146c-4f50-45fd-932c-7d6375b98f12",
           "children": []
         },
         {
-          "title": "assetSink",
           "extra": {
-            "id": "7dbc1b23-6040-4cb7-94e3-360e7f1153db",
-            "name": "assetSink",
+            "id": "61394a8d-520b-4929-b2cc-942bdb249720",
             "shape": "module",
             "ports": [
               {
-                "id": "dd05493c-ac64-4bf3-8eba-a3e655b2063f",
+                "id": "05b0861a-a45e-4523-8896-a62723b58db6",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2855,10 +2813,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "2231aa10-bbb8-4b52-ae05-1298bf4180dd",
-          "searchKeys": [
-            "assetSink"
-          ],
+          "id": "beeb9b8f-2bbb-4edf-962f-32a8a7017cd1",
           "children": []
         }
       ],
