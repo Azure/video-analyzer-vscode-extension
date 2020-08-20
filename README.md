@@ -1,4 +1,4 @@
-# LVA Graph Topology Editor
+# LVA Edge Graph Extension for VS Code
 
 ## Usage
 
@@ -11,6 +11,8 @@ Run `npm run dev` and a new browser window should open with the editor. Changes 
 ### Run in VS Code
 
 Run `npm run compile` and press <kbd>F5</kbd> in VS Code. You should see the extension in the bottom right, expand it if needed. On first run, you need to connect to an Azure IoT Hub using a connection string. You can then manage graph topologies and instances on the chosen device.
+
+You can get a connection string by following the instructions in the [Quickstart](https://docs.microsoft.com/en-us/azure/media-services/live-video-analytics-edge/get-started-detect-motion-emit-events-quickstart). Follow the steps up until _Configure the Azure IoT Tools extension_ and use the connection string in this extension instead of Azure IoT Tools.
 
 ## Notes
 
