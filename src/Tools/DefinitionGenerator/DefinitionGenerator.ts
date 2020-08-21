@@ -1,12 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
-import {
-    CanvasNodeData,
-    MediaGraphNodeType,
-    NestedLocalizedStrings,
-    NodeDefinition
-} from "../../Webview/Types/GraphTypes";
+import { CanvasNodeData, MediaGraphNodeType, NestedLocalizedStrings, NodeDefinition } from "../../Webview/Types/GraphTypes";
 import Helpers from "../../Webview/Utils/Helpers";
 import NodeHelpers from "../../Webview/Utils/NodeHelpers";
 
@@ -24,12 +19,12 @@ export default class DefinitionGenerator {
     private static readonly nodeTypeList = [MediaGraphNodeType.Source, MediaGraphNodeType.Processor, MediaGraphNodeType.Sink];
 
     private static resolveFile(filePath: string) {
-        return path.join(__dirname, "/../../../../src", filePath);
+        return path.join(__dirname, "/../../../src", filePath);
     }
 
     public constructor(version: string, outputFolder: string) {
-        this.apiDefinition = this.readJson(`Common/Tools/DefinitionGenerator/v${version}/LiveVideoAnalytics.json`);
-        this.usableNodes = this.readJson(`Common/Tools/DefinitionGenerator/v${version}/usableNodes.json`);
+        this.apiDefinition = this.readJson(`Tools/DefinitionGenerator/v${version}/LiveVideoAnalytics.json`);
+        this.usableNodes = this.readJson(`Tools/DefinitionGenerator/v${version}/usableNodes.json`);
 
         this.outputFolder = outputFolder;
         this.definitions = this.apiDefinition["definitions"] as any;

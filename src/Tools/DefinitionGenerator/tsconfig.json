@@ -3,7 +3,7 @@
         "module": "commonjs",
         "target": "es2019",
         "lib": ["ES2019", "DOM"],
-        "outDir": "../../../../DefinitionGenerator",
+        "outDir": "../../../DefinitionGenerator",
         "sourceMap": false,
         "strict": true,
         "moduleResolution": "node",
