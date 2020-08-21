@@ -6,9 +6,9 @@ import {
     MediaGraphNodeType,
     NestedLocalizedStrings,
     NodeDefinition
-} from "../../../Webview/Types/GraphTypes";
-import Helpers from "../../../Webview/Utils/Helpers";
-import NodeHelpers from "../../../Webview/Utils/NodeHelpers";
+} from "../../Webview/Types/GraphTypes";
+import Helpers from "../../Webview/Utils/Helpers";
+import NodeHelpers from "../../Webview/Utils/NodeHelpers";
 
 export default class DefinitionGenerator {
     private apiDefinition: any;
