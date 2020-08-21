@@ -145,7 +145,7 @@
         "dev": "react-scripts start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
-        "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
+        "create-definitions": "tsc -p ./src/Common/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Common/Tools/DefinitionGenerator/entry.js",
         "refreshVSToken": "vsts-npm-auth -config .npmrc"
     },
     "dependencies": {

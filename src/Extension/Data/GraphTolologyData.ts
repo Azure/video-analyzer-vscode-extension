@@ -1,4 +1,4 @@
-import { MediaGraphTopology } from "../../Types/LVASDKTypes";
+import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
 import { IotHubData } from "./IotHubData";
 
 export class GraphTopologyData {

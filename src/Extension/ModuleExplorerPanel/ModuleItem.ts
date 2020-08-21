@@ -1,6 +1,6 @@
 import { Device } from "azure-iothub";
 import * as vscode from "vscode";
-import { MediaGraphInstance } from "../../Types/LVASDKTypes";
+import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
 import { IotHubData } from "../Data/IotHubData";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
 import { TreeUtils } from "../Util/TreeUtils";

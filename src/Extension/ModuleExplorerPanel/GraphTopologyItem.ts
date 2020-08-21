@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import {
     MediaGraphInstance,
     MediaGraphTopology
-} from "../../Types/LVASDKTypes";
+} from "../../Common/Types/LVASDKTypes";
 import { GraphTopologyData } from "../Data/GraphTolologyData";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";

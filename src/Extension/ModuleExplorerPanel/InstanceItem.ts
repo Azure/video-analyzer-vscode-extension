@@ -3,7 +3,7 @@ import {
     MediaGraphInstance,
     MediaGraphInstanceState,
     MediaGraphTopology
-} from "../../Types/LVASDKTypes";
+} from "../../Common/Types/LVASDKTypes";
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
