@@ -17,7 +17,7 @@
         "type": "git",
         "url": "https://github.com/Azure/lva-edge-vscode-extension"
     },
-    "main": "./out/extension.js",
+    "main": "./out/Extension/extension.js",
     "contributes": {
         "commands": [
             {
@@ -141,11 +141,11 @@
         "compile": "npm run compile-react && npm run compile-ext",
         "compile-react": "react-scripts build",
         "eject-react": "react-scripts eject",
-        "compile-ext": "tsc -p tsconfig.ext.json",
+        "compile-ext": "tsc -p src/Extension/tsconfig.json",
         "dev": "react-scripts start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
-        "create-definitions": "tsc -p tsconfig.definitiongen.json && node ./definition-generator/tools/definition-generator/entry.js",
+        "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
         "refreshVSToken": "vsts-npm-auth -config .npmrc"
     },
     "dependencies": {

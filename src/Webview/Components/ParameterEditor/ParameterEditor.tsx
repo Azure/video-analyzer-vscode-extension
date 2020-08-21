@@ -1,0 +1,134 @@
+import {
+    DefaultButton,
+    FontWeights,
+    getTheme,
+    mergeStyleSets,
+    Modal,
+    Pivot,
+    PivotItem,
+    Stack
+} from "office-ui-fabric-react";
+import * as React from "react";
+import { useId } from "@uifabric/react-hooks";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import Localizer from "../../Localization/Localizer";
+import { ParameterizeValueCallback } from "../../Types/GraphTypes";
+import { AdjustedIconButton } from "../ThemeAdjustedComponents/AdjustedIconButton";
+import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
+import { createParameter } from "./createParameter";
+import { ParameterEditorAdvanced } from "./ParameterEditorAdvanced";
+import { ParameterEditorSimple } from "./ParameterEditorSimple";
+
+interface IParameterEditorProps {
+    onSelectValue: ParameterizeValueCallback;
+    parameters: MediaGraphParameterDeclaration[];
+    isShown: boolean;
+    hideModal: () => void;
+    propertyName: string;
+    prevValue?: string;
+}
+
+export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) => {
+    const { onSelectValue, parameters, isShown, hideModal, propertyName, prevValue = "" } = props;
+    const [selectedValue, setSelectedValue] = React.useState<string>("");
+    const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
+
+    // use the advanced editor if there are more than two parameters
+    const useAdvancedEditor = prevValue.split("${").length > 2;
+
+    const theme = getTheme();
+
+    const contentStyles = mergeStyleSets({
+        container: {
+            display: "flex",
+            flexFlow: "column nowrap",
+            width: 600 // TODO: Is this too wide?
+        },
+        scrollContainer: {
+            display: "flex",
+            flexDirection: "column"
+        },
+        header: [
+            theme.fonts.xLargePlus,
+            {
+                display: "flex",
+                alignItems: "center",
+                fontWeight: FontWeights.semibold,
+                padding: "12px 12px 14px 24px"
+            }
+        ],
+        body: {
+            flex: 1,
+            padding: "0 24px",
+            overflowY: "auto"
+        },
+        footer: {
+            padding: 24
+        }
+    });
+
+    const titleId = useId("title");
+
+    const onClickUse = () => {
+        if (parameterCreationConfiguration) {
+            createParameter(parameterCreationConfiguration, parameters);
+            onSelectValue(`$\{${parameterCreationConfiguration.name}}`);
+        } else if (selectedValue) {
+            onSelectValue(selectedValue);
+        }
+        hideModal();
+    };
+
+    const resetSelectedValue = () => {
+        setSelectedValue("");
+        setParameterCreationConfiguration(undefined);
+    };
+
+    return (
+        <Modal
+            titleAriaId={titleId}
+            isOpen={isShown}
+            onDismiss={hideModal}
+            isBlocking={false}
+            containerClassName={contentStyles.container}
+            scrollableContentClassName={contentStyles.scrollContainer}
+        >
+            <Stack horizontal horizontalAlign="space-between" className={contentStyles.header}>
+                <span id={titleId}>{Localizer.l("parameterEditorTitle").format(propertyName)}</span>
+                <AdjustedIconButton iconProps={{ iconName: "Cancel" }} ariaLabel={Localizer.l("parameterEditorCloseButtonAriaLabel")} onClick={hideModal} />
+            </Stack>
+            <div className={contentStyles.body}>
+                {Localizer.l("parameterEditorText")}
+                <Pivot
+                    aria-label={Localizer.l("parameterEditorPivotAriaLabel")}
+                    styles={{
+                        root: {
+                            marginTop: 10
+                        },
+                        itemContainer: {
+                            paddingTop: 10
+                        }
+                    }}
+                    onLinkClick={resetSelectedValue}
+                    defaultSelectedIndex={useAdvancedEditor ? 1 : 0}
+                >
+                    <PivotItem headerText={Localizer.l("parameterEditorPivotBasicTabLabel")}>
+                        <ParameterEditorSimple
+                            parameters={parameters}
+                            setSelectedValue={setSelectedValue}
+                            setParameterCreationConfiguration={setParameterCreationConfiguration}
+                            resetSelectedValue={resetSelectedValue}
+                        />
+                    </PivotItem>
+                    <PivotItem headerText={Localizer.l("parameterEditorPivotAdvancedTabLabel")}>
+                        <ParameterEditorAdvanced parameters={parameters} setSelectedValue={setSelectedValue} prevValue={prevValue} />
+                    </PivotItem>
+                </Pivot>
+            </div>
+            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }} className={contentStyles.footer}>
+                <AdjustedPrimaryButton text={Localizer.l("parameterEditorUseParameterInPropertyButtonText")} onClick={onClickUse} />
+                <DefaultButton text={Localizer.l("cancelButtonText")} onClick={hideModal} />
+            </Stack>
+        </Modal>
+    );
+};
