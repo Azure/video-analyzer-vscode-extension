@@ -1,11 +1,9 @@
 import { Device } from "azure-iothub";
 import * as vscode from "vscode";
-import { GraphTopologyData } from "../Data/GraphTolologyData";
+import { MediaGraphInstance } from "../../Types/LVASDKTypes";
 import { IotHubData } from "../Data/IotHubData";
-import { MediaGraphInstance } from "../lva-sdk/lvaSDKtypes";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
-import { TreeUtils } from "../Util/treeUtils";
-import { GraphTopologyItem } from "./GraphTopologyItem";
+import { TreeUtils } from "../Util/TreeUtils";
 import { GraphTopologyListItem } from "./GraphTopologyListItem";
 import { INode } from "./Node";
 

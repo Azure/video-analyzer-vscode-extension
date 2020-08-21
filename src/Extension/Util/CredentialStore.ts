@@ -5,7 +5,7 @@
 import * as keytar from "keytar";
 import { v4 as uuid } from "uuid";
 import * as vscode from "vscode";
-import { Constants } from "./constants";
+import { Constants } from "./Constants";
 import { DeviceConfig, LvaHubConfig } from "./ExtensionUtils";
 
 interface CredentialLvaHubConfig {

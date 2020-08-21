@@ -1,5 +1,4 @@
-import { MediaGraphInstance } from "../lva-sdk/lvaSDKtypes";
-import { Constants } from "../Util/Constants";
+import { MediaGraphInstance } from "../../Types/LVASDKTypes";
 import { IotHubData } from "./IotHubData";
 
 export class GraphInstanceData {

@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
-import { CredentialStore } from "../Util/credentialStore";
+import { CredentialStore } from "../Util/CredentialStore";
 import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
 import { DeviceListItem } from "./DeviceListItem";
 import { GraphTopologyListItem } from "./GraphTopologyListItem";

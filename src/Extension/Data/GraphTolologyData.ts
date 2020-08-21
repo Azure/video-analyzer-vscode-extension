@@ -1,5 +1,4 @@
-import { MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
-import { Constants } from "../Util/Constants";
+import { MediaGraphTopology } from "../../Types/LVASDKTypes";
 import { IotHubData } from "./IotHubData";
 
 export class GraphTopologyData {

@@ -37,6 +37,6 @@ export class Constants {
     public static ResourcesFolderPath: string;
 
     public static initialize(context: vscode.ExtensionContext) {
-        Constants.ResourcesFolderPath = context.asAbsolutePath("ext/resources");
+        Constants.ResourcesFolderPath = context.asAbsolutePath("src/Extension/Resources");
     }
 }

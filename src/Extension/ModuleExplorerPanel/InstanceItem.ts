@@ -1,11 +1,11 @@
 import * as vscode from "vscode";
-import { GraphInstanceData } from "../Data/GraphInstanceData";
-import { IotHubData } from "../Data/IotHubData";
 import {
     MediaGraphInstance,
     MediaGraphInstanceState,
     MediaGraphTopology
-} from "../lva-sdk/lvaSDKtypes";
+} from "../../Types/LVASDKTypes";
+import { GraphInstanceData } from "../Data/GraphInstanceData";
+import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";

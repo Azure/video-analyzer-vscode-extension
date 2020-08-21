@@ -5,7 +5,7 @@ import { InstanceItem } from "./ModuleExplorerPanel/InstanceItem";
 import { InstanceListItem } from "./ModuleExplorerPanel/InstanceListItem";
 import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
 import { Constants } from "./Util/Constants";
-import { CredentialStore } from "./Util/credentialStore";
+import { CredentialStore } from "./Util/CredentialStore";
 import Localizer from "./Util/Localizer";
 
 export async function activate(context: vscode.ExtensionContext) {

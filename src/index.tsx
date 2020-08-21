@@ -1,8 +1,8 @@
-import "./bootstrap.js";
+import "./React/bootstrap.js";
 import "./Utils/StringHelpers";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./React/App";
 import { InitializationParameters } from "./Types/VSCodeDelegationTypes";
 import { ExtensionInteraction } from "./Utils/ExtensionInteraction";
 

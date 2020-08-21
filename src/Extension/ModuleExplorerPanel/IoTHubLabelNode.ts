@@ -3,7 +3,7 @@
 
 import * as vscode from "vscode";
 import { IotHubData } from "../Data/IotHubData";
-import { TreeUtils } from "../Util/treeUtils";
+import { TreeUtils } from "../Util/TreeUtils";
 import { INode } from "./Node";
 
 export class IoTHubLabelNode extends vscode.TreeItem implements INode {

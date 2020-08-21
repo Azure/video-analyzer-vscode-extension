@@ -1,11 +1,14 @@
 import * as vscode from "vscode";
+import {
+    MediaGraphInstance,
+    MediaGraphTopology
+} from "../../Types/LVASDKTypes";
 import { GraphTopologyData } from "../Data/GraphTolologyData";
 import { IotHubData } from "../Data/IotHubData";
-import { MediaGraphInstance, MediaGraphTopology } from "../lva-sdk/lvaSDKtypes";
 import { Constants } from "../Util/Constants";
 import Localizer from "../Util/Localizer";
 import { Logger } from "../Util/Logger";
-import { TreeUtils } from "../Util/treeUtils";
+import { TreeUtils } from "../Util/TreeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
 import { InstanceListItem } from "./InstanceListItem";
 import { INode } from "./Node";
