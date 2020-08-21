@@ -1,16 +1,18 @@
-# LVA Graph Topology Editor
+# LVA Edge Graph Extension for VS Code
 
 ## Usage
 
-Install dependencies using `npm install` and then run `npm run create-definitions` to generate static graph definitions.
+Ensure you can access internal resources with `npm run refreshVSToken`, then install the dependencies using `npm install`.
 
 ### Run in Browser for Development
 
-Run `npm run dev` and a new browser window should open with the editor. Changes to files will trigger a rebuild and refresh the browser.
+Run `npm run dev` and a new browser window should open with the editor. Changes to files will trigger a rebuild and refresh the browser. This view will only show the topology editor. To test all functionality, you need to run the actual extension as explained below.
 
 ### Run in VS Code
 
-Run `npm run compile` and press <kbd>F5</kbd> in VS Code. Then press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> and run `LVA Graph Topology Editor: Open sample graph in editor` from the menu to see a preview.
+Run `npm run compile` and press <kbd>F5</kbd> in VS Code. You should see the extension in the bottom right, expand it if needed. On first run, you need to connect to an Azure IoT Hub using a connection string. You can then manage graph topologies and instances on the chosen device.
+
+You can get a connection string by following the instructions in the [Quickstart](https://docs.microsoft.com/en-us/azure/media-services/live-video-analytics-edge/get-started-detect-motion-emit-events-quickstart). Follow the steps up until _Configure the Azure IoT Tools extension_ and use the connection string in this extension instead of Azure IoT Tools.
 
 ## Notes
 
@@ -20,7 +22,9 @@ To avoid redundant recalculation of the list of available nodes shown in the sid
 
 During this pre-computation, two files are generated in the `src/definitions/data` folder: `nodes.json` and `i18n.en.json`. The second file contains all localizable description strings extracted from the node definitions. `nodes.json` only contains placeholders, the descriptions are localized when the editor runs.
 
-If needed (for example when a new version is released), replace `src/definitions/definition.json` with the updated Swagger definition and run `npm run create-definitions` to create the updated pre-computed files. Only new values are added to the `i18n.en.json` file. Already localized values are left unchanged. To regenerate this file from scratch, delete it and rerun the definition generator. You can also regenerate specific keys by deleting them from the file and running the command. The `nodes.json` file is overwritten each time.
+If needed (for example when a new version is released), create a new folder in `tools/definition-generator` for the version you are introducing. Add a `LiveVideoAnalytics.json` file with the updated Swagger definitions and a list `usableNodes.json`. Update `tools/definition-generator/entry.ts` with the version you are targeting and run `npm run create-definitions` to create the a new set of pre-computed files.
+
+Only new values are added to the `i18n.en.json` file. Already localized values are left unchanged. To regenerate this file from scratch, delete it and rerun the definition generator. You can also regenerate specific keys by deleting them from the file and running the command. The `nodes.json` file is overwritten each time.
 
 ### Type Definitions
 
@@ -37,9 +41,9 @@ If needed (for example when a new version is released), replace `src/definitions
 
 ### Theme
 
-When run in VS Code, the editor will automatically adapt to the user's theme. Avoid using pre-defined colors and try to use `var(--vscode-*)` variables defined by VS Code to theme UI elements.
+When run in VS Code, the editor will automatically adapt to the user's theme. Avoid using pre-defined colors and try to use `var(--vscode-*)` CSS variables defined by VS Code to theme UI elements. You can also add new variables scoped to the user's theme kind (light, dark, high contrast) in `App.css`.
 
-Since these variables are not available when run in the browser for development mode, variables from the default light theme have been predefined in `public/index.html`.
+Since the VS Code theme variables are not available when run in the browser for development mode, variables from the default light theme have been predefined in `public/index.html`.
 
 ## Contributing
 
