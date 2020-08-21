@@ -2,14 +2,14 @@ import "./App.css";
 import { ITheme, Spinner, SpinnerSize } from "office-ui-fabric-react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import React, { useEffect } from "react";
-import { GraphInstance } from "./editor/components/GraphInstance";
-import { GraphTopology } from "./editor/components/GraphTopology";
-import { ExtensionInteraction } from "./extension/extensionInteraction";
-import Graph from "./graph/Graph";
-import IconSetupHelpers from "./helpers/IconSetupHelpers";
-import ThemeHelpers from "./helpers/ThemeHelpers";
-import { VSCodeState } from "./types/vscodeDelegationTypes";
-import * as Constants from "./utils/Constants";
+import Graph from "./Models/GraphData";
+import { GraphInstance } from "./React/Components/GraphInstance";
+import { GraphTopology } from "./React/Components/GraphTopology";
+import { VSCodeState } from "./Types/VSCodeDelegationTypes";
+import * as Constants from "./Utils/Constants";
+import { ExtensionInteraction } from "./Utils/ExtensionInteraction";
+import IconSetupHelpers from "./Utils/IconSetupHelpers";
+import ThemeHelpers from "./Utils/ThemeHelpers";
 
 IconSetupHelpers.initializeIcons();
 

@@ -1,10 +1,10 @@
 import "./bootstrap.js";
-import "./scripts/formatString";
+import "./Utils/StringHelpers";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { ExtensionInteraction } from "./extension/extensionInteraction";
-import { InitializationParameters } from "./types/vscodeDelegationTypes";
+import { InitializationParameters } from "./Types/VSCodeDelegationTypes";
+import { ExtensionInteraction } from "./Utils/ExtensionInteraction";
 
 ExtensionInteraction.initializeEnvironment((window as any).language).then((params: InitializationParameters) => {
     // if we are running in VS Code and have stored state, we can recover it from state

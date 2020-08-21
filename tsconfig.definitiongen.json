@@ -3,7 +3,7 @@
         "module": "commonjs",
         "target": "es2019",
         "lib": ["ES2019", "DOM"],
-        "outDir": "definition-generator",
+        "outDir": "DefinitionGenerator",
         "sourceMap": false,
         "strict": true,
         "rootDir": "src",
@@ -13,5 +13,5 @@
         "isolatedModules": true,
         "esModuleInterop": true
     },
-    "files": ["src/tools/definition-generator/entry.ts"]
+    "files": ["src/Tools/DefinitionGenerator/entry.ts"]
 }
