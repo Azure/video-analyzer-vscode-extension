@@ -7,6 +7,5 @@
         "sourceMap": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true
-    },
-    "exclude": ["Tools", "React"]
+    }
 }
