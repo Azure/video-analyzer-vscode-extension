@@ -36,6 +36,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
         };
     });
 
+    console.log(pageViewType);
     if (pageViewType || graphData) {
         if (pageType !== pageViewType) {
             setPageType(pageViewType);

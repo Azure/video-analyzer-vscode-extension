@@ -17,7 +17,7 @@ export class DeviceListItem extends vscode.TreeItem implements INode {
             lvaHubConfig.devices?.forEach(async (currentDevice) => {
                 const devicePromise = this.iotHubData.getDevice(currentDevice.deviceId).then((device) => {
                     if (device) {
-                        deviceList.push(new DeviceItem(this.iotHubData, device.deviceId));
+                        deviceList.push(new DeviceItem(this.iotHubData, device.deviceId, device.connectionState));
                     } else {
                         //TODO device not found error.
                     }

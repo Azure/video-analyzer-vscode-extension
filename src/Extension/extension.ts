@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import { GraphTopologyItem } from "./ModuleExplorerPanel/GraphTopologyItem";
 import { GraphTopologyListItem } from "./ModuleExplorerPanel/GraphTopologyListItem";
 import { InstanceItem } from "./ModuleExplorerPanel/InstanceItem";
-import { InstanceListItem } from "./ModuleExplorerPanel/InstanceListItem";
 import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
 import { Constants } from "./Util/Constants";
 import { CredentialStore } from "./Util/CredentialStore";
@@ -26,11 +25,11 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand("moduleExplorer.setConnectionString", () => {
             moduleExplorer.setConnectionString();
         }),
-        vscode.commands.registerCommand("moduleExplorer.createGraph", (graphListItem: GraphTopologyListItem) => {
-            graphListItem.createNewGraphCommand(context);
+        vscode.commands.registerCommand("moduleExplorer.createGraph", (graphListNode: GraphTopologyListItem) => {
+            graphListNode.createNewGraphCommand(context);
         }),
-        vscode.commands.registerCommand("moduleExplorer.createInstance", (instanceListItem: InstanceListItem) => {
-            instanceListItem.createNewGraphInstanceCommand(context);
+        vscode.commands.registerCommand("moduleExplorer.createInstance", (graphNode: GraphTopologyItem) => {
+            graphNode.createNewGraphInstanceCommand(context);
         }),
         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
             moduleExplorer.refresh();

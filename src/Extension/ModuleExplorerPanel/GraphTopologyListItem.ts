@@ -5,12 +5,14 @@ import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
+import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
 import { GraphTopologyItem } from "./GraphTopologyItem";
 import { INode } from "./Node";
 
 export class GraphTopologyListItem extends vscode.TreeItem {
+    private _logger: Logger;
     constructor(
         public iotHubData: IotHubData,
         public readonly deviceId: string,
@@ -19,6 +21,7 @@ export class GraphTopologyListItem extends vscode.TreeItem {
     ) {
         super(Localizer.localize("graphTopologyListTreeItem"), _collapsibleState);
         this.contextValue = "graphListContext";
+        this._logger = Logger.getOrCreateOutputChannel();
     }
 
     public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
@@ -59,7 +62,7 @@ export class GraphTopologyListItem extends vscode.TreeItem {
                             createGraphPanel.dispose();
                         },
                         (error) => {
-                            // show errors
+                            this._logger.logError(`Failed to create the graph "${topology.name}"`, error); // TODO. localize
                         }
                     );
                 }
