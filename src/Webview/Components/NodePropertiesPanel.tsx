@@ -36,7 +36,7 @@ export class NodePropertiesPanel implements IPanelConfig {
             bottom: 0,
             background: "var(--vscode-editor-background)",
             borderLeft: "1px solid var(--vscode-editorWidget-border)",
-            width: 460,
+            width: 340,
             zIndex: 1000,
             padding: 10,
             overflowY: "auto"

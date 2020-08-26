@@ -49,9 +49,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
             if (event.data?.command === Constants.PostMessageNames.setInitialData) {
                 const { graphData, pageType } = event.data?.data;
                 if (graphData) {
-                    //console.log(graphData);
                     graph.setTopology(graphData);
-                    console.log(graph);
                 }
 
                 if (pageType) {

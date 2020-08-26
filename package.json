@@ -123,9 +123,17 @@
                     "group": "inline"
                 },
                 {
+                    "command": "moduleExplorer.createGraph",
+                    "when": "view == moduleExplorer && viewItem == graphListContext"
+                },
+                {
                     "command": "moduleExplorer.createInstance",
-                    "when": "view == moduleExplorer && viewItem == instanceListContext",
+                    "when": "view == moduleExplorer && viewItem == graphItemContext",
                     "group": "inline"
+                },
+                {
+                    "command": "moduleExplorer.createInstance",
+                    "when": "view == moduleExplorer && viewItem == graphItemContext"
                 }
             ]
         },
@@ -142,7 +150,7 @@
         "compile-react": "react-scripts build",
         "eject-react": "react-scripts eject",
         "compile-ext": "tsc -p src/Extension/tsconfig.json",
-        "dev": "react-scripts start",
+        "dev": "set PORT=3006 && react-scripts start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
         "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",

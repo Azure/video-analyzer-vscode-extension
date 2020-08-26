@@ -51,7 +51,7 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
             let defaultValue = param.default || "";
             if (instance.properties && instance.properties.parameters) {
                 const matches = instance.properties.parameters.filter((parameter) => parameter.name === param.name);
-                if (matches) {
+                if (matches?.length) {
                     defaultValue = matches[0].value;
                 }
             }
