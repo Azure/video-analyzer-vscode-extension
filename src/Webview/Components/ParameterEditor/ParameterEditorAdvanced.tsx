@@ -1,12 +1,17 @@
 import {
     DefaultButton,
-    IButtonStyles,
-    IStyle,
-    Link,
-    Stack,
-    Text,
-    TextField
-} from "office-ui-fabric-react";
+    IButtonStyles
+} from "office-ui-fabric-react/lib/Button";
+import {
+    DetailsList,
+    DetailsListLayoutMode,
+    SelectionMode
+} from "office-ui-fabric-react/lib/DetailsList";
+import { Link } from "office-ui-fabric-react/lib/Link";
+import { Stack } from "office-ui-fabric-react/lib/Stack";
+import { IStyle } from "office-ui-fabric-react/lib/Styling";
+import { Text } from "office-ui-fabric-react/lib/Text";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
 import * as React from "react";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
@@ -38,28 +43,37 @@ export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAd
         };
 
         return (
-            <Stack tokens={{ childrenGap: "s1" }}>
-                {items.map((item) => {
-                    const appendVariable = () => {
-                        appendText(`$\{${item.name}}`);
-                    };
+            <DetailsList
+                items={items}
+                columns={[
+                    { key: "name", name: "name", fieldName: "name", minWidth: 10 },
+                    { key: "type", name: "type", fieldName: "type", minWidth: 10 },
+                    { key: "default", name: "default", fieldName: "default", minWidth: 10 }
+                ]}
+                selectionMode={SelectionMode.single}
+            />
+            // <Stack tokens={{ childrenGap: "s1" }}>
+            //     {items.map((item) => {
+            //         const appendVariable = () => {
+            //             appendText(`$\{${item.name}}`);
+            //         };
 
-                    return (
-                        <DefaultButton
-                            text={item.name}
-                            styles={buttonStyles}
-                            onClick={appendVariable}
-                            onRenderText={(props) => (
-                                <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }}>
-                                    <strong>{props!.text}</strong>
-                                    <Link>{Localizer.l("parameterEditorAdvancedEditorInsertLinkText")}</Link>
-                                </Stack>
-                            )}
-                            onRenderChildren={() => <Text variant={"medium"}>{item.type}</Text>}
-                        />
-                    );
-                })}
-            </Stack>
+            //         return (
+            //             <DefaultButton
+            //                 text={item.name}
+            //                 styles={buttonStyles}
+            //                 onClick={appendVariable}
+            //                 onRenderText={(props) => (
+            //                     <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }}>
+            //                         <strong>{props!.text}</strong>
+            //                         <Link>{Localizer.l("parameterEditorAdvancedEditorInsertLinkText")}</Link>
+            //                     </Stack>
+            //                 )}
+            //                 onRenderChildren={() => <Text variant={"medium"}>{item.type}</Text>}
+            //             />
+            //         );
+            //     })}
+            // </Stack>
         );
     };
 

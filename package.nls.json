@@ -22,5 +22,7 @@
     "devicesListTreeItem": "Devices",
     "modulesListTreeItem": "Modules",
     "graphTopologyListTreeItem": "Graph Topologies",
-    "graphInstanceListTreeItem": "Graph Instances"
+    "graphInstanceListTreeItem": "Graph Instances",
+    "deviceList.NoItems": "No Devices found in this IOT Hub, please setup a device with LVA module and come back.",
+    "moduleList.NoItems": "No modules installed on this device, please install LVA module and come back."
 }
