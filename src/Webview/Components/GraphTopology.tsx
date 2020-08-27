@@ -241,6 +241,9 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     }}
                     toggleSidebar={setSidebarIsShown}
                     isSidebarShown={sidebarIsShown}
+                    validationErrors={validationErrors.length}
+                    showValidationErrors={showValidationErrors}
+                    toggleValidationErrorPanel={toggleValidationErrorPanel}
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
