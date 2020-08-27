@@ -38,7 +38,6 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 import { Toolbar } from "./Toolbar";
-import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 interface IGraphTopologyProps {
     graph: Graph;
@@ -56,6 +55,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const [graphNameError, setGraphNameError] = React.useState<string>();
     const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
+    const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -167,6 +167,10 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         }
     };
 
+    const toggleValidationErrorPanel = () => {
+        setShowValidationErrors(!showValidationErrors);
+    };
+
     const parameters = graph.getParameters();
     const canContinue = () => {
         return new Promise<boolean>((resolve) => {
@@ -228,6 +232,9 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     }}
                     toggleSidebar={setSidebarIsShown}
                     isSidebarShown={sidebarIsShown}
+                    validationErrors={validationErrors.length}
+                    showValidationErrors={showValidationErrors}
+                    toggleValidationErrorPanel={toggleValidationErrorPanel}
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
@@ -253,7 +260,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                                 />
                             </div>
                             <div style={panelItemStyles}>
-                                {validationErrors.length > 0 && <ValidationErrorPanel validationErrors={validationErrors} />}
                                 <ItemPanel />
                             </div>
                         </Stack.Item>
@@ -269,6 +275,9 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                             triggerValidation={canContinue}
                             parameters={parameters}
                             propsApiRef={propsApiRef}
+                            validationErrors={validationErrors}
+                            showValidationErrors={showValidationErrors}
+                            toggleValidationErrorPanel={toggleValidationErrorPanel}
                         />
                     </Stack.Item>
                 </Stack>
