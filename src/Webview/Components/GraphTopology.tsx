@@ -36,7 +36,7 @@ interface IGraphTopologyProps {
     vsCodeSetState: VSCodeSetState;
 }
 
-export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
+const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const { graph, vsCodeSetState } = props;
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [dirty, setDirty] = React.useState<boolean>(false);
@@ -237,3 +237,5 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         </ReactDagEditor>
     );
 };
+
+export default GraphTopology;

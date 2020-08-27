@@ -1,8 +1,12 @@
 import {
     ChoiceGroup,
+    DetailsList,
+    DetailsListLayoutMode,
     IChoiceGroupOption,
-    IStyle,
-    Text
+    IColumn,
+    ScrollablePane,
+    Selection,
+    SelectionMode
 } from "office-ui-fabric-react";
 import * as React from "react";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
@@ -51,34 +55,34 @@ export const ParameterEditorSimple: React.FunctionComponent<IParameterEditorSimp
         resetSelectedValue();
     };
 
-    const onParameterValueChange = (ev?: React.FormEvent, option?: IChoiceGroupOption) => {
-        if (option && option.key) {
-            setSelectedValue(`$\{${option.key}}`);
-        }
-    };
+    const selection = new Selection({
+        onSelectionChanged: () => {
+            const selectedItems = selection.getSelection();
+            if (selectedItems?.length) {
+                console.log(selectedItems);
+                setSelectedValue(`$\{${(selectedItems[0] as IColumn).name}}`);
+            }
+        },
+        selectionMode: SelectionMode.single
+    });
 
     const renderItemList = (items: MediaGraphParameterDeclaration[], entryContainerStyles: React.CSSProperties, entryDetailsStyles: React.CSSProperties) => {
-        const options: IChoiceGroupOption[] = items.map((item) => ({
-            key: item.name,
-            text: item.name,
-            onRenderLabel: (props, render) => {
-                return (
-                    <>
-                        {render!(props)}
-                        <div style={entryDetailsStyles}>
-                            <Text variant={"medium"}>{item.type}</Text>
-                        </div>
-                    </>
-                );
-            },
-            styles: {
-                root: entryContainerStyles as IStyle,
-                field: {
-                    fontWeight: "bold" as const
-                }
-            }
-        }));
-        return <ChoiceGroup options={options} styles={{ root: { marginTop: -8 } }} onChange={onParameterValueChange} />;
+        return (
+            <div style={{ position: "relative", minHeight: 200 }}>
+                <ScrollablePane>
+                    <DetailsList
+                        items={items}
+                        columns={[
+                            { key: "name", name: "name", fieldName: "name", minWidth: 10, isRowHeader: true },
+                            { key: "type", name: "type", fieldName: "type", minWidth: 80 },
+                            { key: "default", name: "default", fieldName: "default", minWidth: 80 }
+                        ]}
+                        selectionMode={SelectionMode.single}
+                        selection={selection}
+                    />
+                </ScrollablePane>
+            </div>
+        );
     };
 
     return (

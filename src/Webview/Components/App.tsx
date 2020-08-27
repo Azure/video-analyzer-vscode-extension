@@ -8,9 +8,9 @@ import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
 import IconSetupHelpers from "../Utils/IconSetupHelpers";
 import ThemeHelpers from "../Utils/ThemeHelpers";
-import { GraphInstance } from "./GraphInstance";
-import { GraphTopology } from "./GraphTopology";
 
+const GraphInstance = React.lazy(() => import("./GraphInstance"));
+const GraphTopology = React.lazy(() => import("./GraphTopology"));
 IconSetupHelpers.initializeIcons();
 
 interface IProps {
@@ -70,7 +70,11 @@ export const App: React.FunctionComponent<IProps> = (props) => {
         }
     };
 
-    return <ThemeProvider theme={theme}>{getPageType(pageType)}</ThemeProvider>;
+    return (
+        <ThemeProvider theme={theme}>
+            <React.Suspense fallback={<></>}>{getPageType(pageType)}</React.Suspense>
+        </ThemeProvider>
+    );
 };
 
 export default App;

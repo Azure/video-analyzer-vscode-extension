@@ -6,9 +6,10 @@ import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { ParameterizeValueCallback } from "../Types/GraphTypes";
-import { ParameterEditor } from "./ParameterEditor/ParameterEditor";
 import { PropertyEditor } from "./PropertyEditor/PropertyEditor";
 import { AdjustedIconButton } from "./ThemeAdjustedComponents/AdjustedIconButton";
+
+const ParameterEditor = React.lazy(() => import("./ParameterEditor/ParameterEditor"));
 
 export class NodePropertiesPanel implements IPanelConfig {
     private readonly propsAPI: IPropsAPI;
@@ -74,14 +75,16 @@ export class NodePropertiesPanel implements IPanelConfig {
                 </Stack>
                 {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
                 <PropertyEditor nodeProperties={nodeProperties} readOnly={this.readOnly} requestParameterization={requestParameterization} />
-                <ParameterEditor
-                    onSelectValue={setNewParameterizedValue}
-                    parameters={this.parameters}
-                    isShown={isParameterModalOpen}
-                    hideModal={hideModal}
-                    propertyName={parameterizationConfiguration?.name || ""}
-                    prevValue={parameterizationConfiguration?.prevValue || ""}
-                />
+                <React.Suspense fallback={<></>}>
+                    <ParameterEditor
+                        onSelectValue={setNewParameterizedValue}
+                        parameters={this.parameters}
+                        isShown={isParameterModalOpen}
+                        hideModal={hideModal}
+                        propertyName={parameterizationConfiguration?.name || ""}
+                        prevValue={parameterizationConfiguration?.prevValue || ""}
+                    />
+                </React.Suspense>
             </div>
         );
     }

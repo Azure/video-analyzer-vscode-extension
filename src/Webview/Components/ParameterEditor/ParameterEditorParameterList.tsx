@@ -1,9 +1,11 @@
 import {
     DefaultButton,
+    Dropdown,
     getTheme,
     Link,
     SearchBox,
-    Stack
+    Stack,
+    TextField
 } from "office-ui-fabric-react";
 import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
@@ -53,8 +55,8 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
     };
 
     const onCreateFormAddClick = () => {
-        if (parameterCreationConfiguration && onAddNew) {
-            createParameter(parameterCreationConfiguration, parameters);
+        if (parameterCreationConfiguration?.name && parameterCreationConfiguration?.type && onAddNew) {
+            createParameter(parameterCreationConfiguration, parameters); //TODO. check for duplicates
             onAddNew(`$\{${parameterCreationConfiguration.name}}`);
         }
     };
@@ -78,29 +80,24 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
     };
 
     return (
-        <Stack tokens={{ childrenGap: "s1" }} style={parameterListStyles}>
-            {isCreateFormShown && (
-                <div
-                    style={{
-                        marginBottom: 10
-                    }}
-                >
-                    <ParameterEditorCreateForm setParameterCreationConfiguration={setParameterCreationConfiguration} />
-                    <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }} styles={{ root: { marginTop: 10 } }}>
-                        <Link onClick={toggleCreateForm}>Hide form</Link>
-                        <DefaultButton text="Add" onClick={onCreateFormAddClick} />
-                    </Stack>
-                </div>
-            )}
-            <Stack tokens={{ childrenGap: "s1" }} style={parameterListItemContainerStyles}>
-                <Stack horizontal tokens={{ childrenGap: "s1" }}>
-                    <SearchBox placeholder={Localizer.l("parameterEditorParameterListSearchPlaceholder")} onChange={onSearchChange} styles={{ root: { flexGrow: 1 } }} />
-                    {onAddNew && !isCreateFormShown && (
-                        <DefaultButton text={Localizer.l("parameterEditorParameterListAddButtonLabel")} iconProps={{ iconName: "Add" }} onClick={toggleCreateForm} />
-                    )}
-                </Stack>
-                {renderItemList(shownFilteredItems.length > 0 ? shownFilteredItems : items, parameterListEntryStyles, parameterListEntryDetailsStyles)}
+        <Stack tokens={{ childrenGap: "s1" }} style={parameterListItemContainerStyles}>
+            <Stack horizontal tokens={{ childrenGap: "s1" }}>
+                <SearchBox placeholder={Localizer.l("parameterEditorParameterListSearchPlaceholder")} onChange={onSearchChange} styles={{ root: { flexGrow: 1 } }} />
+                {onAddNew && !isCreateFormShown && (
+                    <DefaultButton text={Localizer.l("parameterEditorParameterListAddButtonLabel")} iconProps={{ iconName: "Add" }} onClick={toggleCreateForm} />
+                )}
             </Stack>
+            {isCreateFormShown && (
+                <Stack horizontal tokens={{ childrenGap: "s1" }} verticalAlign={"end"}>
+                    <ParameterEditorCreateForm setParameterCreationConfiguration={setParameterCreationConfiguration} horizontal={true} />
+                    <DefaultButton
+                        iconProps={{ iconName: "Add" }}
+                        onClick={onCreateFormAddClick}
+                        disabled={parameterCreationConfiguration == null || parameterCreationConfiguration.name == null || parameterCreationConfiguration.type == null}
+                    />
+                </Stack>
+            )}
+            {renderItemList(shownFilteredItems.length > 0 ? shownFilteredItems : items, parameterListEntryStyles, parameterListEntryDetailsStyles)}
         </Stack>
     );
 };
