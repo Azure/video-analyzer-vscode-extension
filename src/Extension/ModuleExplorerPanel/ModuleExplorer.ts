@@ -64,9 +64,17 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
         }
 
         if (element instanceof GraphTopologyListItem) {
-            return GraphInstanceData.getGraphInstances(this._iotHubData, element.deviceId, element.moduleId).then((graphInstances) => {
-                return element.getChildren(this._connectionConfig, graphInstances);
-            });
+            return GraphInstanceData.getGraphInstances(this._iotHubData, element.deviceId, element.moduleId).then(
+                (graphInstances) => {
+                    return element.getChildren(this._connectionConfig, graphInstances);
+                },
+                (error) => {
+                    // if(error.message == "Not found"){
+
+                    // }
+                    return [];
+                }
+            );
         }
         return element.getChildren(this._connectionConfig);
     }

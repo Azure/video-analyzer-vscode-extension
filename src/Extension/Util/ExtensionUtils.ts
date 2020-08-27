@@ -58,8 +58,11 @@ export class ExtensionUtils {
 
     public static async showDevicesInListDialog(iotHubData: IotHubData) {
         const devices = await iotHubData.getDevices();
-        if (!devices) {
-            return;
+        if (!devices?.length) {
+            vscode.window.showQuickPick<DeviceQuickPickItem>([], {
+                placeHolder: Localizer.localize("deviceList.NoItems")
+            });
+            return null;
         }
         return vscode.window
             .showQuickPick<DeviceQuickPickItem>(
@@ -79,7 +82,10 @@ export class ExtensionUtils {
     public static async showModulesInListDialog(iotHubData: IotHubData, deviceId: string) {
         const modules = await iotHubData.getModules(deviceId);
         if (!modules) {
-            return;
+            vscode.window.showQuickPick<DeviceQuickPickItem>([], {
+                placeHolder: Localizer.localize("moduleList.NoItems")
+            });
+            return null;
         }
         return vscode.window
             .showQuickPick<ModuleQuickPickItem>(

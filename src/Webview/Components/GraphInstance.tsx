@@ -36,7 +36,7 @@ interface IGraphInstanceProps {
     vsCodeSetState: VSCodeSetState;
 }
 
-export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
+const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const { graph, instance } = props;
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
@@ -272,3 +272,5 @@ export const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (prop
         </ReactDagEditor>
     );
 };
+
+export default GraphInstance;

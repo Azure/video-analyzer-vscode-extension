@@ -1,9 +1,11 @@
 import {
     DefaultButton,
+    Dialog,
+    DialogFooter,
+    DialogType,
     FontWeights,
     getTheme,
     mergeStyleSets,
-    Modal,
     Pivot,
     PivotItem,
     Stack
@@ -28,7 +30,7 @@ interface IParameterEditorProps {
     prevValue?: string;
 }
 
-export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) => {
+const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) => {
     const { onSelectValue, parameters, isShown, hideModal, propertyName, prevValue = "" } = props;
     const [selectedValue, setSelectedValue] = React.useState<string>("");
     const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
@@ -40,30 +42,16 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
 
     const contentStyles = mergeStyleSets({
         container: {
-            display: "flex",
-            flexFlow: "column nowrap",
-            width: 600 // TODO: Is this too wide?
+            minWidth: 600,
+            maxHeight: 400
+        },
+        body: {
+            flex: 1,
+            overflowY: "auto"
         },
         scrollContainer: {
             display: "flex",
             flexDirection: "column"
-        },
-        header: [
-            theme.fonts.xLargePlus,
-            {
-                display: "flex",
-                alignItems: "center",
-                fontWeight: FontWeights.semibold,
-                padding: "12px 12px 14px 24px"
-            }
-        ],
-        body: {
-            flex: 1,
-            padding: "0 24px",
-            overflowY: "auto"
-        },
-        footer: {
-            padding: 24
         }
     });
 
@@ -71,7 +59,7 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
 
     const onClickUse = () => {
         if (parameterCreationConfiguration) {
-            createParameter(parameterCreationConfiguration, parameters);
+            createParameter(parameterCreationConfiguration, parameters); // TODO. check for duplicates.
             onSelectValue(`$\{${parameterCreationConfiguration.name}}`);
         } else if (selectedValue) {
             onSelectValue(selectedValue);
@@ -85,26 +73,24 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
     };
 
     return (
-        <Modal
-            titleAriaId={titleId}
-            isOpen={isShown}
+        <Dialog
+            hidden={!isShown}
             onDismiss={hideModal}
-            isBlocking={false}
-            containerClassName={contentStyles.container}
-            scrollableContentClassName={contentStyles.scrollContainer}
+            maxWidth={800}
+            dialogContentProps={{
+                //className: contentStyles.container,
+                styles: { inner: { minWidth: 600 }, innerContent: { maxHeight: 800 } },
+                titleProps: { id: titleId },
+                type: DialogType.normal,
+                title: Localizer.l("parameterEditorTitle").format(propertyName),
+                subText: Localizer.l("parameterEditorText")
+            }}
+            modalProps={{ isBlocking: true, titleAriaId: titleId, topOffsetFixed: true }}
         >
-            <Stack horizontal horizontalAlign="space-between" className={contentStyles.header}>
-                <span id={titleId}>{Localizer.l("parameterEditorTitle").format(propertyName)}</span>
-                <AdjustedIconButton iconProps={{ iconName: "Cancel" }} ariaLabel={Localizer.l("parameterEditorCloseButtonAriaLabel")} onClick={hideModal} />
-            </Stack>
             <div className={contentStyles.body}>
-                {Localizer.l("parameterEditorText")}
                 <Pivot
                     aria-label={Localizer.l("parameterEditorPivotAriaLabel")}
                     styles={{
-                        root: {
-                            marginTop: 10
-                        },
                         itemContainer: {
                             paddingTop: 10
                         }
@@ -125,10 +111,12 @@ export const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (
                     </PivotItem>
                 </Pivot>
             </div>
-            <Stack horizontal horizontalAlign="end" tokens={{ childrenGap: "s1" }} className={contentStyles.footer}>
+            <DialogFooter>
                 <AdjustedPrimaryButton text={Localizer.l("parameterEditorUseParameterInPropertyButtonText")} onClick={onClickUse} />
                 <DefaultButton text={Localizer.l("cancelButtonText")} onClick={hideModal} />
-            </Stack>
-        </Modal>
+            </DialogFooter>
+        </Dialog>
     );
 };
+
+export default ParameterEditor;

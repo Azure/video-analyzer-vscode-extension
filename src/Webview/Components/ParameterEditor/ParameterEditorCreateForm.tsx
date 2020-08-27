@@ -1,4 +1,9 @@
-import { Dropdown, IDropdownOption, TextField } from "office-ui-fabric-react";
+import {
+    Dropdown,
+    IDropdownOption,
+    Stack,
+    TextField
+} from "office-ui-fabric-react";
 import * as React from "react";
 import {
     MediaGraphParameterDeclaration,
@@ -7,11 +12,12 @@ import {
 import Localizer from "../../Localization/Localizer";
 
 interface IParameterEditorCreateFormProps {
+    horizontal?: boolean;
     setParameterCreationConfiguration: (newParameter: MediaGraphParameterDeclaration) => void;
 }
 
 export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditorCreateFormProps> = (props) => {
-    const { setParameterCreationConfiguration } = props;
+    const { setParameterCreationConfiguration, horizontal } = props;
 
     const options = [
         { key: "String", text: "String" },
@@ -33,33 +39,15 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
         });
     }, [parameterName, parameterType, parameterDefaultValue]);
 
-    const onParameterNameChange = (event: React.FormEvent, newValue?: string) => {
-        if (newValue !== undefined) {
-            setParameterName(newValue);
-        }
-    };
-
-    const onParameterTypeChange = (event: React.FormEvent, option?: IDropdownOption) => {
-        if (option !== undefined) {
-            const newType = option.key as MediaGraphParameterType;
-            setParameterType(newType);
-        }
-    };
-
-    const onParameterDefaultValueChange = (event: React.FormEvent, newValue?: string) => {
-        if (newValue !== undefined) {
-            setParameterDefaultValue(newValue);
-        }
-    };
-
     return (
-        <>
+        <Stack horizontal={horizontal} tokens={horizontal ? { childrenGap: "s1" } : {}}>
             <TextField
                 label={Localizer.l("parameterEditorCreateFormNameFieldLabel")}
                 placeholder={Localizer.l("parameterEditorCreateFormNameFieldPlaceholder")}
                 required
-                value={parameterName}
-                onChange={onParameterNameChange}
+                onChange={(event, newValue?) => {
+                    setParameterName(newValue ?? "");
+                }}
             />
             <Dropdown
                 label={Localizer.l("parameterEditorCreateFormTypeDropdownLabel")}
@@ -67,14 +55,18 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
                 options={options}
                 required
                 selectedKey={parameterType as string}
-                onChange={onParameterTypeChange}
+                onChange={(event, option?) => {
+                    setParameterType((option?.key ?? options[0].key) as MediaGraphParameterType);
+                }}
             />
             <TextField
                 label={Localizer.l("parameterEditorCreateFormDefaultFieldLabel")}
                 placeholder={Localizer.l("parameterEditorCreateFormDefaultFieldPlaceholder")}
                 value={parameterDefaultValue}
-                onChange={onParameterDefaultValueChange}
+                onChange={(event, newValue?) => {
+                    setParameterDefaultValue(newValue ?? "");
+                }}
             />
-        </>
+        </Stack>
     );
 };
