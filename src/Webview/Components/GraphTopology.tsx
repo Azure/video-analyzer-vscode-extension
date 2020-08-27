@@ -28,7 +28,6 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 import { Toolbar } from "./Toolbar";
-import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 interface IGraphTopologyProps {
     graph: Graph;
@@ -46,6 +45,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
     const [graphNameError, setGraphNameError] = React.useState<string>("");
     const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
+    const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -129,6 +129,10 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         }
     };
 
+    const toggleValidationErrorPanel = () => {
+        setShowValidationErrors(!showValidationErrors);
+    };
+
     const parameters = graph.getParameters();
     const canContinue = () => {
         validateName(graphTopologyName);
@@ -142,6 +146,7 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
             setValidationErrors(validationErrors);
         } else {
             setValidationErrors([]);
+            setShowValidationErrors(false);
         }
         return graphTopologyName && !hasValidationErrors;
     };
@@ -190,6 +195,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     }}
                     toggleSidebar={setSidebarIsShown}
                     isSidebarShown={sidebarIsShown}
+                    validationErrors={validationErrors.length}
+                    showValidationErrors={showValidationErrors}
+                    toggleValidationErrorPanel={toggleValidationErrorPanel}
                 >
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
                 </Toolbar>
@@ -214,7 +222,6 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                                 />
                             </div>
                             <div style={panelItemStyles}>
-                                {validationErrors.length > 0 && <ValidationErrorPanel validationErrors={validationErrors} />}
                                 <ItemPanel />
                             </div>
                         </Stack.Item>
@@ -229,6 +236,9 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                             onChange={onChange}
                             parameters={parameters}
                             propsApiRef={propsApiRef}
+                            validationErrors={validationErrors}
+                            showValidationErrors={showValidationErrors}
+                            toggleValidationErrorPanel={toggleValidationErrorPanel}
                         />
                     </Stack.Item>
                 </Stack>

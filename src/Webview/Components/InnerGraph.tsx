@@ -18,9 +18,11 @@ import {
     usePropsAPI
 } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
+import { ValidationError } from "../Types/GraphTypes";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { NodePropertiesPanel } from "./NodePropertiesPanel";
+import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 export interface IInnerGraphProps {
     data: ICanvasData;
@@ -33,6 +35,9 @@ export interface IInnerGraphProps {
     readOnly?: boolean;
     parameters?: MediaGraphParameterDeclaration[];
     propsApiRef: React.RefObject<IPropsAPI>;
+    validationErrors?: ValidationError[];
+    showValidationErrors?: boolean;
+    toggleValidationErrorPanel?: () => void;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
@@ -75,10 +80,21 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
         }
     };
 
+    const itemStyles: React.CSSProperties = {
+        maxHeight: "200px"
+    };
+
     const readOnlyFeatures = new Set(["a11yFeatures", "canvasScrollable", "panCanvas", "clickNodeToSelect", "sidePanel", "editNode"]) as Set<GraphFeatures>;
 
     return (
         <>
+            {props.showValidationErrors && props.validationErrors && props.validationErrors.length > 0 ? (
+                <div style={itemStyles}>
+                    <ValidationErrorPanel validationErrors={props.validationErrors} toggleValidationErrorPanel={props.toggleValidationErrorPanel} />
+                </div>
+            ) : (
+                ""
+            )}
             <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <GraphValueControlled data={props.data} setData={props.setData} zoomPanSettings={props.zoomPanSettings} setZoomPanSettings={props.setZoomPanSettings}>
