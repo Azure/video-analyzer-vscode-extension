@@ -82,8 +82,8 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
                 {props.children}
                 {validationErrors && validationErrors > 0 ? (
                     <Stack horizontal horizontalAlign="end" style={itemStyles}>
-                        <ActionButton iconProps={{ iconName: "CompletedSolid" }} onClick={toggleValidationErrorPanel}>
-                            There are {props.validationErrors} errors that need to be resolved. <span style={{ textDecoration: "underline" }}> View Errors</span>.
+                        <ActionButton iconProps={{ iconName: "StatusErrorFull", style: { color: "red" } }} onClick={toggleValidationErrorPanel}>
+                            {Localizer.l("toolbarValidationText").format(props.validationErrors)}
                         </ActionButton>
                     </Stack>
                 ) : (
