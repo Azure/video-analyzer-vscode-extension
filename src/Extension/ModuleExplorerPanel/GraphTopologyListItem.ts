@@ -1,5 +1,8 @@
 import * as vscode from "vscode";
-import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
+import {
+    MediaGraphInstance,
+    MediaGraphTopology
+} from "../../Common/Types/LVASDKTypes";
 import { GraphTopologyData } from "../Data/GraphTolologyData";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
@@ -13,6 +16,7 @@ import { INode } from "./Node";
 
 export class GraphTopologyListItem extends vscode.TreeItem {
     private _logger: Logger;
+    private _graphTopologies: MediaGraphTopology[] = [];
     constructor(
         public iotHubData: IotHubData,
         public readonly deviceId: string,
@@ -27,6 +31,7 @@ export class GraphTopologyListItem extends vscode.TreeItem {
     public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
         return new Promise((resolve, reject) => {
             GraphTopologyData.getGraphTopologies(this.iotHubData, this.deviceId, this.moduleId).then((graphTopologies) => {
+                this._graphTopologies = graphTopologies;
                 resolve(
                     graphTopologies?.map((topology) => {
                         return new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId, topology, graphInstances ?? []);
@@ -39,21 +44,25 @@ export class GraphTopologyListItem extends vscode.TreeItem {
     public createNewGraphCommand(context: vscode.ExtensionContext) {
         const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("createNewGraphPageTile"));
         if (createGraphPanel) {
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
                 callback: () => {
                     createGraphPanel.dispose();
                 }
             });
 
-            createGraphPanel.registerPostMessage({
-                name: Constants.PostMessageNames.getInitialData,
-                callback: () => {
-                    createGraphPanel.postMessage({ name: Constants.PostMessageNames.setInitialData, data: { pageType: Constants.PageTypes.graphPage } });
-                }
+            createGraphPanel.setupInitialMessage({ pageType: Constants.PageTypes.graphPage });
+
+            createGraphPanel.setupNameCheckMessage((name) => {
+                return (
+                    this._graphTopologies.length === 0 ||
+                    this._graphTopologies.filter((graph) => {
+                        return graph.name === name;
+                    }).length === 0
+                );
             });
 
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveGraph,
                 callback: async (topology: any) => {
                     GraphTopologyData.putGraphTopology(this.iotHubData, this.deviceId, this.moduleId, topology).then(

@@ -178,7 +178,7 @@ export default class GraphValidator {
                 errors.push({
                     // localized later
                     description: "errorPanelMissingPropertyText",
-                    type: ValidationErrorType.MissingProperty,
+                    type: ValidationErrorType.MissingField,
                     property: thisPropertyPath
                 });
             } else if (property!.type === "object" && !Helpers.isEmptyObject(nestedProperties)) {

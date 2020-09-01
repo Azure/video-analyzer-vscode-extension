@@ -1,16 +1,22 @@
-import { filter } from "lodash";
 import * as path from "path";
 import * as vscode from "vscode";
+import { Constants } from "../Util/Constants";
 import Localizer from "../Util/Localizer";
 
-interface PostMessageIn {
+interface RegisteredMessage {
     name: string;
     callback?: (data?: any) => void;
 }
 
-interface PostMessageOut {
+interface PostMessage {
     name: string;
-    data: { pageType: string; graphData?: any; graphInstance?: any };
+    data: any;
+}
+
+interface PostMessageInitialData {
+    pageType: string;
+    graphData?: any;
+    graphInstance?: any;
 }
 
 /**
@@ -27,7 +33,7 @@ export class GraphEditorPanel {
     private readonly _panel: vscode.WebviewPanel;
     private readonly _extensionPath: string;
     private _disposables: vscode.Disposable[] = [];
-    private _registeredMessages: PostMessageIn[] = [];
+    private _registeredMessages: RegisteredMessage[] = [];
 
     public static createOrShow(extensionPath: string, pageTitle: string) {
         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
@@ -79,12 +85,12 @@ export class GraphEditorPanel {
         );
 
         this._panel.webview.onDidReceiveMessage(
-            (message) => {
+            (message: PostMessage) => {
                 const filteredEvents = this._registeredMessages.filter((event) => {
-                    return event.name === message.command;
+                    return event.name === message.name;
                 });
                 if (filteredEvents?.length === 1 && filteredEvents[0].callback) {
-                    filteredEvents[0].callback(message.text);
+                    filteredEvents[0].callback(message.data);
                 }
             },
             null,
@@ -92,12 +98,36 @@ export class GraphEditorPanel {
         );
     }
 
-    public registerPostMessage(message: PostMessageIn) {
+    public waitForPostMessage(message: RegisteredMessage) {
         this._registeredMessages.push(message);
     }
 
-    public postMessage(message: PostMessageOut) {
-        this._panel.webview.postMessage({ command: message.name, data: message.data });
+    public setupInitialMessage(data: PostMessageInitialData) {
+        this.waitForPostMessage({
+            name: Constants.PostMessageNames.getInitialData,
+            callback: () => {
+                this.postMessage({
+                    name: Constants.PostMessageNames.setInitialData,
+                    data: data
+                });
+            }
+        });
+    }
+
+    public setupNameCheckMessage(checkNameAvailability: (name: string) => boolean) {
+        this.waitForPostMessage({
+            name: Constants.PostMessageNames.nameAvailableCheck,
+            callback: (name: string) => {
+                this.postMessage({ name: Constants.PostMessageNames.nameAvailableCheck, data: checkNameAvailability(name) });
+            }
+        });
+    }
+
+    public postMessage(message: PostMessage, callBackMessage?: RegisteredMessage) {
+        if (callBackMessage) {
+            this.waitForPostMessage(callBackMessage);
+        }
+        this._panel.webview.postMessage(message);
     }
 
     public dispose() {

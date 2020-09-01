@@ -22,7 +22,8 @@ export class InstanceItem extends vscode.TreeItem {
         public readonly deviceId: string,
         public readonly moduleId: string,
         private readonly _graphTopology: MediaGraphTopology,
-        private readonly _graphInstance?: MediaGraphInstance
+        private readonly _graphInstance?: MediaGraphInstance,
+        private _nameCheckCallback?: (name: string) => boolean
     ) {
         super(_graphInstance?.name ?? Localizer.localize("createGraphInstanceButton"), vscode.TreeItemCollapsibleState.None);
         this._logger = Logger.getOrCreateOutputChannel();
@@ -52,30 +53,26 @@ export class InstanceItem extends vscode.TreeItem {
         const logger = Logger.getOrCreateOutputChannel();
         const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("editInstancePageTile"));
         if (createGraphPanel) {
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
                 callback: () => {
                     createGraphPanel.dispose();
                 }
             });
 
-            createGraphPanel.registerPostMessage({
-                name: Constants.PostMessageNames.getInitialData,
-                callback: () => {
-                    createGraphPanel.postMessage({
-                        name: Constants.PostMessageNames.setInitialData,
-                        data: { pageType: Constants.PageTypes.instancePage, graphData: this._graphTopology, graphInstance: this._graphInstance }
-                    });
-                }
+            createGraphPanel.setupInitialMessage({ pageType: Constants.PageTypes.instancePage, graphData: this._graphTopology, graphInstance: this._graphInstance });
+
+            createGraphPanel.setupNameCheckMessage((name) => {
+                return this._nameCheckCallback == null || this._nameCheckCallback(name);
             });
 
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveGraph,
                 callback: async (instance: any) => {
                     this.saveGraph(createGraphPanel, instance);
                 }
             });
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveAndActivate,
                 callback: async (instance: MediaGraphInstance) => {
                     this.saveGraph(createGraphPanel, instance).then(() => {

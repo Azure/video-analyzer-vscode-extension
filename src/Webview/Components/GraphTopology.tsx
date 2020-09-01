@@ -17,10 +17,15 @@ import {
 import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
-import { GraphInfo, ValidationError } from "../Types/GraphTypes";
+import {
+    GraphInfo,
+    ValidationError,
+    ValidationErrorType
+} from "../Types/GraphTypes";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
+import PostMessage from "../Utils/PostMessage";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
@@ -43,12 +48,13 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
     const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
     const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
-    const [graphNameError, setGraphNameError] = React.useState<string>("");
+    const [graphNameError, setGraphNameError] = React.useState<string>();
     const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
+    let graphNameValidationError: ValidationError | undefined;
 
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
@@ -95,28 +101,55 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     }
 
     const saveTopology = () => {
-        if (canContinue()) {
-            graph.setName(graphTopologyName);
-            graph.setDescription(graphDescription);
-            graph.setGraphDataFromICanvasData(data);
-            const topology = graph.getTopology();
-            const vscode = ExtensionInteraction.getVSCode();
-            if (vscode) {
-                vscode.postMessage({ command: Constants.PostMessageNames.saveGraph, text: topology });
-            } else {
-                // running in browser
-                console.log(topology);
+        canContinue().then((canSave: boolean) => {
+            if (canSave) {
+                graph.setName(graphTopologyName);
+                graph.setDescription(graphDescription);
+                graph.setGraphDataFromICanvasData(data);
+                const topology = graph.getTopology();
+                if (ExtensionInteraction.getVSCode()) {
+                    PostMessage.sendMessageToParent({ name: Constants.PostMessageNames.saveGraph, data: topology });
+                } else {
+                    // running in browser
+                    console.log(topology);
+                }
             }
-        }
+        });
     };
 
     const validateName = (name: string) => {
-        if (!name) {
-            setGraphNameError(Localizer.l("sidebarGraphTopologyNameMissing"));
-        } else {
-            setGraphNameError("");
-        }
+        return new Promise<string>((resolve, reject) => {
+            if (!name) {
+                graphNameValidationError = { description: "sidebarGraphTopologyNameMissing", type: ValidationErrorType.MissingField };
+                setGraphNameError(Localizer.l(graphNameValidationError.description));
+                resolve();
+                return;
+            }
+            if (ExtensionInteraction.getVSCode()) {
+                PostMessage.sendMessageToParent(
+                    {
+                        name: Constants.PostMessageNames.nameAvailableCheck,
+                        data: name
+                    },
+                    {
+                        name: Constants.PostMessageNames.nameAvailableCheck,
+                        callback: (nameAvailable: boolean, args) => {
+                            graphNameValidationError = nameAvailable ? undefined : { description: "nameNotAvailableError", type: ValidationErrorType.NameAlreadyInUse };
+                            setGraphNameError(nameAvailable ? "" : Localizer.l("nameNotAvailableError"));
+                            args.resolve();
+                        },
+                        optionalParams: { resolve, reject },
+                        onlyOnce: true
+                    }
+                );
+            } else {
+                graphNameValidationError = undefined;
+                setGraphNameError(undefined);
+                resolve();
+            }
+        });
     };
+
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
         if (typeof newValue !== "undefined") {
             setGraphTopologyName(newValue);
@@ -131,19 +164,20 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
 
     const parameters = graph.getParameters();
     const canContinue = () => {
-        validateName(graphTopologyName);
-        if (!graphTopologyName) {
-            nameTextFieldRef.current!.focus();
-        }
-        graph.setGraphDataFromICanvasData(data);
-        const validationErrors = graph.validate();
-        const hasValidationErrors = validationErrors.length > 0;
-        if (hasValidationErrors) {
-            setValidationErrors(validationErrors);
-        } else {
-            setValidationErrors([]);
-        }
-        return graphTopologyName && !hasValidationErrors;
+        return new Promise<boolean>((resolve) => {
+            const validationErrors: ValidationError[] = [];
+            validateName(graphTopologyName).then(() => {
+                if (graphNameValidationError) {
+                    nameTextFieldRef.current!.focus();
+                    validationErrors.push(graphNameValidationError);
+                }
+                graph.setGraphDataFromICanvasData(data);
+                validationErrors.push(...graph.validate());
+                const hasValidationErrors = validationErrors.length > 0;
+                setValidationErrors(hasValidationErrors ? validationErrors : []);
+                resolve(!hasValidationErrors);
+            });
+        });
     };
 
     const panelStyles = {
@@ -181,10 +215,9 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     name={graphTopologyName}
                     primaryAction={saveTopology}
                     cancelAction={() => {
-                        const vscode = ExtensionInteraction.getVSCode();
-                        if (vscode) {
-                            vscode.postMessage({
-                                command: Constants.PostMessageNames.closeWindow
+                        if (ExtensionInteraction.getVSCode()) {
+                            PostMessage.sendMessageToParent({
+                                name: Constants.PostMessageNames.closeWindow
                             });
                         }
                     }}

@@ -1,6 +1,7 @@
 import Localizer from "../Localization/Localizer";
 import { InitializationParameters } from "../Types/VSCodeDelegationTypes";
 import { PageType } from "./Constants";
+import PostMessage from "./PostMessage";
 
 export class ExtensionInteraction {
     private static _vsCode: vscode;
@@ -19,20 +20,14 @@ export class ExtensionInteraction {
             // Check if this is running in VS Code (might be developing in React)
             const vscode = this.getVSCode();
             if (vscode) {
-                (function () {
-                    const oldState = vscode.getState() || {};
+                const oldState = vscode.getState() || {};
 
-                    // Handle messages sent from the extension to the webview
-                    window.addEventListener("message", (event) => {
-                        const message = event.data;
-                        // use message.command
-                    });
+                PostMessage.RegisterPostMessageParent(vscode);
 
-                    resolve({
-                        state: oldState,
-                        vsCodeSetState: vscode.setState
-                    });
-                })();
+                resolve({
+                    state: oldState,
+                    vsCodeSetState: vscode.setState
+                });
             } else {
                 // We won't save/restore state in browser, use noop function
                 // eslint-disable-next-line @typescript-eslint/no-empty-function

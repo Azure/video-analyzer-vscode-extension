@@ -112,5 +112,6 @@
     "propertyEditorValidationUndefined": "This value cannot be undefined.",
     "propertyEditorValidationEmpty": "This value cannot be empty.",
     "propertyEditorValidationUndefinedOrEmpty": "This value cannot be undefined or empty.",
-    "propertyEditorValidationInvalidJSON": "The entered JSON does not validate."
+    "propertyEditorValidationInvalidJSON": "The entered JSON does not validate.",
+    "nameNotAvailableError": "Name is not available"
 }

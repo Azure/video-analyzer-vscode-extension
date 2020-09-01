@@ -94,7 +94,7 @@ export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAd
             <TextField
                 label="Value format"
                 // eslint-disable-next-line no-template-curly-in-string
-                placeholder="Enter value format (ex: ${parameterName}-${System.DateTime})"
+                placeholder="Enter value format (ex: ${parameterName}-${System.DateTime})" //TODO. localize
                 value={value}
                 onChange={onChangeValue}
             />

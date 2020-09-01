@@ -66,12 +66,14 @@ export interface ValidationError {
 }
 
 export enum ValidationErrorType {
-    NotConnected,
-    MissingProperty,
-    NodeCountLimit,
-    RequiredDirectlyDownstream,
-    ProhibitedDirectlyDownstream,
-    ProhibitedAnyDownstream
+    NotConnected = "NotConnected",
+    NameAlreadyInUse = "NameAlreadyInUse",
+    RegexValidation = "RegexValidation",
+    MissingField = "MissingField",
+    NodeCountLimit = "NodeCountLimit",
+    RequiredDirectlyDownstream = "RequiredDirectlyDownstream",
+    ProhibitedDirectlyDownstream = "ProhibitedDirectlyDownstream",
+    ProhibitedAnyDownstream = "ProhibitedAnyDownstream"
 }
 
 export interface GraphInstanceParameter {

@@ -4,7 +4,8 @@ export enum PostMessageNames {
     saveInstance = "saveInstance",
     saveAndActivate = "saveAndActivate",
     getInitialData = "getInitialData",
-    setInitialData = "setInitialData"
+    setInitialData = "setInitialData",
+    nameAvailableCheck = "nameAvailableCheck"
 }
 
 export enum PageType {

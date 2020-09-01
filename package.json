@@ -163,7 +163,7 @@
         "dagre": "^0.8.5",
         "eslint": "^6.8.0",
         "keytar": "^6.0.1",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.20",
         "office-ui-fabric-react": "^7.117.1",
         "react": "^16.13.1",
         "react-accessible-tree": "^1.0.3",

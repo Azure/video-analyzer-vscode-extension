@@ -7,6 +7,7 @@ import { VSCodeState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
 import IconSetupHelpers from "../Utils/IconSetupHelpers";
+import PostMessage from "../Utils/PostMessage";
 import ThemeHelpers from "../Utils/ThemeHelpers";
 
 const GraphInstance = React.lazy(() => import("./GraphInstance"));
@@ -44,19 +45,24 @@ export const App: React.FunctionComponent<IProps> = (props) => {
             graph.setGraphData(graphData);
         }
     } else {
-        ExtensionInteraction.getVSCode().postMessage({ command: Constants.PostMessageNames.getInitialData });
-        window.addEventListener("message", (event) => {
-            if (event.data?.command === Constants.PostMessageNames.setInitialData) {
-                const { graphData, pageType } = event.data?.data;
-                if (graphData) {
-                    graph.setTopology(graphData);
-                }
+        PostMessage.sendMessageToParent(
+            { name: Constants.PostMessageNames.getInitialData },
+            {
+                name: Constants.PostMessageNames.setInitialData,
+                callback: (initialData) => {
+                    console.log(initialData);
+                    const { graphData, pageType } = initialData;
+                    if (graphData) {
+                        graph.setTopology(graphData);
+                    }
 
-                if (pageType) {
-                    setPageType(pageType);
-                }
+                    if (pageType) {
+                        setPageType(pageType);
+                    }
+                },
+                onlyOnce: true
             }
-        });
+        );
     }
 
     const getPageType = (currentPageType: Constants.PageType) => {

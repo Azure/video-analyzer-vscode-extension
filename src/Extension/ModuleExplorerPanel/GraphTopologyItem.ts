@@ -21,7 +21,8 @@ export class GraphTopologyItem extends vscode.TreeItem {
         public readonly deviceId: string,
         public readonly moduleId: string,
         private readonly _graphTopology: MediaGraphTopology,
-        private readonly _graphInstances?: MediaGraphInstance[]
+        private readonly _graphInstances?: MediaGraphInstance[],
+        private _nameCheckCallback?: (name: string) => boolean
     ) {
         super(_graphTopology.name, vscode.TreeItemCollapsibleState.Expanded);
         this.iconPath = TreeUtils.getIconPath(`graph`);
@@ -52,24 +53,20 @@ export class GraphTopologyItem extends vscode.TreeItem {
     public editGraphCommand(context: vscode.ExtensionContext) {
         const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("editGraphPageTile"));
         if (createGraphPanel) {
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
                 callback: () => {
                     createGraphPanel.dispose();
                 }
             });
 
-            createGraphPanel.registerPostMessage({
-                name: Constants.PostMessageNames.getInitialData,
-                callback: () => {
-                    createGraphPanel.postMessage({
-                        name: Constants.PostMessageNames.setInitialData,
-                        data: { pageType: Constants.PageTypes.graphPage, graphData: this._graphTopology }
-                    });
-                }
+            createGraphPanel.setupInitialMessage({ pageType: Constants.PageTypes.graphPage, graphData: this._graphTopology });
+
+            createGraphPanel.setupNameCheckMessage((name) => {
+                return this._nameCheckCallback == null || this._nameCheckCallback(name);
             });
 
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveGraph,
                 callback: async (topology: MediaGraphTopology) => {
                     GraphTopologyData.putGraphTopology(this.iotHubData, this.deviceId, this.moduleId, topology).then(
@@ -103,25 +100,26 @@ export class GraphTopologyItem extends vscode.TreeItem {
     public createNewGraphInstanceCommand(context: vscode.ExtensionContext) {
         const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("createNewInstancePageTile"));
         if (createGraphPanel) {
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
                 callback: () => {
                     createGraphPanel.dispose();
                 }
             });
-            createGraphPanel.registerPostMessage({
-                name: Constants.PostMessageNames.getInitialData,
-                callback: () => {
-                    createGraphPanel.postMessage({
-                        name: Constants.PostMessageNames.setInitialData,
-                        data: {
-                            pageType: Constants.PageTypes.instancePage,
-                            graphData: this._graphTopology
-                        }
-                    });
-                }
+
+            createGraphPanel.setupInitialMessage({ pageType: Constants.PageTypes.instancePage, graphData: this._graphTopology });
+
+            createGraphPanel.setupNameCheckMessage((name) => {
+                return (
+                    this._graphInstances == null ||
+                    this._graphInstances.length == 0 ||
+                    this._graphInstances.filter((graph) => {
+                        return graph.name === name;
+                    }).length === 0
+                );
             });
-            createGraphPanel.registerPostMessage({
+
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveInstance,
                 callback: async (instance: MediaGraphInstance) => {
                     const graphInstance = new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology, instance);
@@ -129,7 +127,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
                 }
             });
 
-            createGraphPanel.registerPostMessage({
+            createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveAndActivate,
                 callback: async (instance: MediaGraphInstance) => {
                     const graphInstance = new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology, instance);
