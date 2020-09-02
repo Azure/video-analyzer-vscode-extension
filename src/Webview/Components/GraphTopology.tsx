@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     ITextField,
     Stack,
     TextField,
@@ -215,6 +216,14 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         }
     };
 
+    const validationErrorStyles: React.CSSProperties = {
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "flex-end",
+        flex: 1,
+        paddingRight: "5%"
+    };
+
     return (
         <ReactDagEditor theme={Constants.graphTheme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase(/* readOnly */ false))} />
@@ -232,12 +241,18 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     }}
                     toggleSidebar={setSidebarIsShown}
                     isSidebarShown={sidebarIsShown}
-                    validationErrors={validationErrors.length}
-                    showValidationErrors={showValidationErrors}
-                    toggleValidationErrorPanel={toggleValidationErrorPanel}
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                    {validationErrors && validationErrors.length > 0 ? (
+                        <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
+                            <ActionButton iconProps={{ iconName: "StatusErrorFull", style: { color: "red" } }} onClick={toggleValidationErrorPanel}>
+                                {Localizer.l("toolbarValidationText").format(validationErrors.length)}
+                            </ActionButton>
+                        </Stack>
+                    ) : (
+                        ""
+                    )}
                 </Toolbar>
                 <Stack grow horizontal styles={mainEditorStyles}>
                     {sidebarIsShown && (

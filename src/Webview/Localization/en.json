@@ -70,7 +70,7 @@
     "ariaHasBothPortsLabel": "input and output port",
     "ariaInputPortDescription": "Input port of {0}",
     "ariaOutputPortDescription": "Output port of {0}",
-    "errorPanelHeading": "Validation Errors",
+    "errorPanelHeading": "Errors",
     "errorPanelOnlyOneNodeOfTypeAllowedText": "Only one node of type {0} is allowed per graph.",
     "errorPanelMissingPropertyText": "Missing property {0} on node {1}.",
     "errorPanelGraphNotConnectedText": "Graph is not connected (contains orphaned nodes).",
