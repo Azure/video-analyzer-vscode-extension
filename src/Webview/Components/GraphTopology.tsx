@@ -260,6 +260,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                             setZoomPanSettings={setZoomPanSettings}
                             canvasMouseMode={CanvasMouseMode.pan}
                             onChange={onChange}
+                            triggerValidation={canContinue}
                             parameters={parameters}
                             propsApiRef={propsApiRef}
                         />
