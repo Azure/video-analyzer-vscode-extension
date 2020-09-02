@@ -21,23 +21,10 @@ export interface IGraphPanelProps {
     };
     toggleSidebar: () => void;
     isSidebarShown: boolean;
-    validationErrors?: number;
-    showValidationErrors?: boolean;
-    toggleValidationErrorPanel?: () => void;
 }
 
 export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
-    const {
-        name,
-        cancelAction,
-        primaryAction,
-        secondaryAction,
-        toggleSidebar,
-        isSidebarShown,
-        validationErrors,
-        showValidationErrors,
-        toggleValidationErrorPanel
-    } = props;
+    const { name, cancelAction, primaryAction, secondaryAction, toggleSidebar, isSidebarShown } = props;
 
     const titleContainer = {
         root: {
@@ -57,14 +44,6 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
         })
     };
 
-    const itemStyles: React.CSSProperties = {
-        alignItems: "center",
-        display: "flex",
-        justifyContent: "flex-end",
-        flex: 1,
-        paddingRight: "5%"
-    };
-
     return (
         <>
             <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} styles={paddedToolbarStyles}>
@@ -80,15 +59,6 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
                     {isSidebarShown ? Localizer.l("toolbarHideLeftSidebar") : Localizer.l("toolbarShowLeftSidebar")}
                 </ActionButton>
                 {props.children}
-                {validationErrors && validationErrors > 0 ? (
-                    <Stack horizontal horizontalAlign="end" style={itemStyles}>
-                        <ActionButton iconProps={{ iconName: "StatusErrorFull", style: { color: "red" } }} onClick={toggleValidationErrorPanel}>
-                            {Localizer.l("toolbarValidationText").format(props.validationErrors)}
-                        </ActionButton>
-                    </Stack>
-                ) : (
-                    ""
-                )}
             </Stack>
         </>
     );
