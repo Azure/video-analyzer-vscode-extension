@@ -18,10 +18,15 @@ import {
 } from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
-import { GraphInstanceParameter } from "../Types/GraphTypes";
+import {
+    GraphInstanceParameter,
+    ValidationError,
+    ValidationErrorType
+} from "../Types/GraphTypes";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
+import PostMessage from "../Utils/PostMessage";
 import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
 import { NodeBase } from "./NodeBase";
@@ -40,10 +45,12 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const { graph, instance } = props;
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
-    const [graphInstanceName, setGraphInstanceName] = React.useState<string>(instance.name);
-    const [graphDescription, setGraphDescription] = React.useState<string>((instance.properties && instance.properties.description) || "");
-    const [graphNameError, setGraphNameError] = React.useState<string>("");
+    const [instanceName, setInstanceName] = React.useState<string>(instance.name);
+    const [instanceDescription, setInstanceDescription] = React.useState<string>((instance.properties && instance.properties.description) || "");
+    const [instanceNameError, setInstanceNameError] = React.useState<string>();
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
+
+    let instanceNameValidationError: ValidationError | undefined;
 
     let initialParams: GraphInstanceParameter[] = [];
     if (graph.getTopology().properties && graph.getTopology().properties!.parameters) {
@@ -88,7 +95,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     };
     React.useEffect(() => {
         saveState();
-    }, [data, zoomPanSettings, graphInstanceName, graphDescription]);
+    }, [data, zoomPanSettings, instanceName, instanceDescription]);
     React.useEffect(() => {
         // on mount
         if (nameTextFieldRef) {
@@ -102,10 +109,10 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
 
     const generateInstance = (): MediaGraphInstance => {
         return {
-            name: graphInstanceName,
+            name: instanceName,
             properties: {
                 topologyName: graph.getName(),
-                description: graphDescription,
+                description: instanceDescription,
                 parameters: parameters
                     .filter((parameter) => parameter.value.length > 0)
                     .map((parameter) => ({
@@ -117,71 +124,105 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     };
 
     const saveInstance = () => {
-        if (canContinue()) {
-            const vscode = ExtensionInteraction.getVSCode();
-            if (vscode) {
-                vscode.postMessage({
-                    command: Constants.PostMessageNames.saveInstance,
-                    text: generateInstance()
-                });
-            } else {
-                // running in browser
-                console.log(generateInstance());
-            }
-        }
-    };
-    const saveAndStartAction = {
-        text: Localizer.l("saveAndActivateButtonText"),
-        callback: () => {
-            if (canContinue()) {
-                const vscode = ExtensionInteraction.getVSCode();
-                if (vscode) {
-                    vscode.postMessage({
-                        command: Constants.PostMessageNames.saveAndActivate,
-                        text: generateInstance()
+        canContinue().then((canSave: boolean) => {
+            if (canSave) {
+                if (ExtensionInteraction.getVSCode()) {
+                    PostMessage.sendMessageToParent({
+                        name: Constants.PostMessageNames.saveInstance,
+                        data: generateInstance()
                     });
                 } else {
                     // running in browser
                     console.log(generateInstance());
                 }
             }
+        });
+    };
+
+    const saveAndStartAction = {
+        text: Localizer.l("saveAndActivateButtonText"),
+        callback: () => {
+            canContinue().then((canSave: boolean) => {
+                if (canSave) {
+                    if (ExtensionInteraction.getVSCode()) {
+                        PostMessage.sendMessageToParent({
+                            name: Constants.PostMessageNames.saveAndActivate,
+                            data: generateInstance()
+                        });
+                    } else {
+                        // running in browser
+                        console.log(generateInstance());
+                    }
+                }
+            });
         }
     };
 
     const validateName = (name: string) => {
-        if (!name) {
-            setGraphNameError(Localizer.l("sidebarGraphInstanceNameMissing"));
-        } else {
-            setGraphNameError("");
-        }
+        return new Promise<string>((resolve, reject) => {
+            if (!name) {
+                instanceNameValidationError = { description: "sidebarGraphInstanceNameMissing", type: ValidationErrorType.MissingField };
+                setInstanceNameError(Localizer.l(instanceNameValidationError.description));
+                resolve();
+                return;
+            }
+            if (ExtensionInteraction.getVSCode()) {
+                PostMessage.sendMessageToParent(
+                    {
+                        name: Constants.PostMessageNames.nameAvailableCheck,
+                        data: name
+                    },
+                    {
+                        name: Constants.PostMessageNames.nameAvailableCheck,
+                        callback: (nameAvailable: boolean, args) => {
+                            instanceNameValidationError = nameAvailable
+                                ? undefined
+                                : { description: "nameNotAvailableError", type: ValidationErrorType.NameAlreadyInUse };
+                            setInstanceNameError(nameAvailable ? "" : Localizer.l("nameNotAvailableError"));
+                            args.resolve();
+                        },
+                        optionalParams: { resolve, reject },
+                        onlyOnce: true
+                    }
+                );
+            } else {
+                instanceNameValidationError = undefined;
+                setInstanceNameError(undefined);
+                resolve();
+            }
+        });
     };
+
     const onNameChange = (event: React.FormEvent, newValue?: string) => {
         if (typeof newValue !== "undefined") {
-            setGraphInstanceName(newValue);
+            setInstanceName(newValue);
             validateName(newValue);
         }
     };
     const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
         if (typeof newValue !== "undefined") {
-            setGraphDescription(newValue);
+            setInstanceDescription(newValue);
         }
     };
 
     const canContinue = () => {
-        validateName(graphInstanceName);
-        const nameIsEmpty = graphInstanceName.length === 0;
-        if (nameIsEmpty) {
-            nameTextFieldRef.current!.focus();
-        }
-        let missingParameter = false;
-        parameters.forEach((parameter, index) => {
-            if (!parameter.defaultValue && !parameter.value) {
-                missingParameter = true;
-                parameter.error = Localizer.l("sidebarGraphInstanceParameterMissing");
-            }
+        //TODO. user validation panel for errors.
+        return new Promise<boolean>((resolve) => {
+            validateName(instanceName).then(() => {
+                if (instanceNameValidationError) {
+                    nameTextFieldRef.current!.focus();
+                }
+                let missingParameter = false;
+                parameters.forEach((parameter, index) => {
+                    if (!parameter.defaultValue && !parameter.value) {
+                        missingParameter = true;
+                        parameter.error = Localizer.l("sidebarGraphInstanceParameterMissing");
+                    }
+                });
+                setParameters(parameters);
+                resolve(!instanceNameValidationError && !missingParameter);
+            });
         });
-        setParameters(parameters);
-        return !nameIsEmpty && !missingParameter;
     };
 
     const panelStyles = {
@@ -216,14 +257,13 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
             <RegisterPort name="modulePort" config={modulePort} />
             <Stack styles={{ root: { height: "100vh" } }}>
                 <Toolbar
-                    name={graphInstanceName}
+                    name={instanceName}
                     primaryAction={saveInstance}
                     secondaryAction={saveAndStartAction}
                     cancelAction={() => {
-                        const vscode = ExtensionInteraction.getVSCode();
-                        if (vscode) {
-                            vscode.postMessage({
-                                command: Constants.PostMessageNames.closeWindow
+                        if (ExtensionInteraction.getVSCode()) {
+                            PostMessage.sendMessageToParent({
+                                name: Constants.PostMessageNames.closeWindow
                             });
                         }
                     }}
@@ -237,15 +277,15 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                                 <TextField
                                     label={Localizer.l("sidebarGraphInstanceNameLabel")}
                                     required
-                                    value={graphInstanceName}
+                                    value={instanceName}
                                     placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
-                                    errorMessage={graphNameError}
+                                    errorMessage={instanceNameError}
                                     onChange={onNameChange}
                                     componentRef={nameTextFieldRef}
                                 />
                                 <TextField
                                     label={Localizer.l("sidebarGraphDescriptionLabel")}
-                                    value={graphDescription}
+                                    value={instanceDescription}
                                     placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
                                     onChange={onDescriptionChange}
                                 />

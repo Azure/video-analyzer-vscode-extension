@@ -30,13 +30,14 @@ export interface IInnerGraphProps {
     canvasMouseMode: CanvasMouseMode;
     isHorizontal?: boolean;
     onChange?: (evt: IGraphDataChangeEvent) => void;
+    triggerValidation?: () => void;
     readOnly?: boolean;
     parameters?: MediaGraphParameterDeclaration[];
     propsApiRef: React.RefObject<IPropsAPI>;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
-    const { readOnly = false, parameters = [], propsApiRef } = props;
+    const { readOnly = false, parameters = [], propsApiRef, triggerValidation } = props;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
     const propsAPI = usePropsAPI();
@@ -53,12 +54,20 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
         }
     });
     const onNodeClick = (_e: React.MouseEvent, node: ICanvasNode) => {
+        if (propsApiRef?.current?.getVisiblePanelName()) {
+            if (triggerValidation) {
+                triggerValidation();
+            }
+        }
         inspectNode(node);
     };
 
     const dismissSidePanel = () => {
         if (propsApiRef.current) {
             propsApiRef.current.dismissSidePanel();
+        }
+        if (triggerValidation) {
+            triggerValidation();
         }
     };
 
