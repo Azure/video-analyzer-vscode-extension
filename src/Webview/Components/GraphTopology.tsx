@@ -1,4 +1,9 @@
-import { ITextField, Stack, TextField } from "office-ui-fabric-react";
+import {
+    ActionButton,
+    ITextField,
+    Stack,
+    TextField
+} from "office-ui-fabric-react";
 import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import {
@@ -177,6 +182,14 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
         }
     };
 
+    const validationErrorStyles: React.CSSProperties = {
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "flex-end",
+        flex: 1,
+        paddingRight: "5%"
+    };
+
     return (
         <ReactDagEditor theme={Constants.graphTheme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase(/* readOnly */ false))} />
@@ -195,11 +208,17 @@ export const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (prop
                     }}
                     toggleSidebar={setSidebarIsShown}
                     isSidebarShown={sidebarIsShown}
-                    validationErrors={validationErrors.length}
-                    showValidationErrors={showValidationErrors}
-                    toggleValidationErrorPanel={toggleValidationErrorPanel}
                 >
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                    {validationErrors && validationErrors.length > 0 ? (
+                        <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
+                            <ActionButton iconProps={{ iconName: "StatusErrorFull", style: { color: "red" } }} onClick={toggleValidationErrorPanel}>
+                                {Localizer.l("toolbarValidationText").format(validationErrors.length)}
+                            </ActionButton>
+                        </Stack>
+                    ) : (
+                        ""
+                    )}
                 </Toolbar>
                 <Stack grow horizontal styles={mainEditorStyles}>
                     {sidebarIsShown && (
