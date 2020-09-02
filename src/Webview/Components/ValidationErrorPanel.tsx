@@ -35,7 +35,7 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
     return (
         <>
             <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} style={{ margin: "0%" }}>
-                <h2 style={{ marginLeft: "1%" }}>{Localizer.l("errorPanelHeading")}</h2>
+                <div style={{ marginLeft: "1%", fontWeight: 600 }}>{Localizer.l("errorPanelHeading")}</div>
                 <AdjustedIconButton
                     iconProps={{
                         iconName: "Clear"
@@ -49,7 +49,7 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
                 {validationErrors.map((error) => {
                     const text = createErrorText(error);
                     return (
-                        <MessageBar messageBarType={MessageBarType.error} isMultiline={true} dismissButtonAriaLabel="Close" key={text}>
+                        <MessageBar isMultiline={true} dismissButtonAriaLabel="Close" key={text}>
                             {text}
                             {error.helpLink && (
                                 <Link href={error.helpLink} target="_blank">
