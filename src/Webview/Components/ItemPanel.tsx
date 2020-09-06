@@ -1,10 +1,13 @@
-import { FontIcon, Stack, Text } from "office-ui-fabric-react";
+import "./ItemPanel.css";
+import { Text } from "office-ui-fabric-react";
 import * as React from "react";
 import {
-    IAccessibleTreeStyles,
-    ITreeNode,
-    ReactAccessibleTree
-} from "react-accessible-tree";
+    Accordion,
+    AccordionItem,
+    AccordionItemButton,
+    AccordionItemHeading,
+    AccordionItemPanel
+} from "react-accessible-accordion";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
@@ -14,7 +17,6 @@ import NodeHelpers from "../Utils/NodeHelpers";
 import { NodeContainer } from "./NodeContainer";
 
 export const ItemPanel: React.FunctionComponent = (props) => {
-    const [treeData, setTreeData] = React.useState<ITreeNode[]>([]);
     const propsAPI = usePropsAPI();
 
     const hasNodeWithName = (name: string) => {
@@ -57,106 +59,82 @@ export const ItemPanel: React.FunctionComponent = (props) => {
         propsAPI.selectNodeById(node.id);
     };
 
-    const generateAccordionTitle = (node: ITreeNode) => {
+    const generateAccordionTitle = (node: any) => {
         const nodeTypeStringKey = node.searchKeys[0] as string;
         return (
-            <Stack horizontal verticalAlign="center" tokens={{ childrenGap: "s1" }} style={{ cursor: "pointer" }}>
-                <FontIcon iconName={node.expanded ? "ChevronDownMed" : "ChevronRightMed"} />
-                <Text variant="medium">
-                    {Localizer.l(nodeTypeStringKey)} ({node.children.length})
-                </Text>
-            </Stack>
+            <Text variant="medium" style={{ marginLeft: 10, fontWeight: 600 }}>
+                {Localizer.l(nodeTypeStringKey)} ({node.children.length})
+            </Text>
         );
-    };
-
-    if (treeData.length === 0) {
-        const treeNodes: ITreeNode[] = Definitions.getItemPanelNodes().map((category, index) => {
-            const children = category.children.map((node) => {
-                const initialNode = node.extra as ICanvasNode;
-                const description = Localizer.getLocalizedStrings(initialNode.data!.nodeProperties.name).description;
-                const styles = NodeHelpers.getNodeAppearance({
-                    nodeProperties: initialNode.data!.nodeProperties,
-                    nodeType: initialNode.data!.nodeType
-                } as CanvasNodeData);
-                const internalName = initialNode.data!.nodeProperties.name as string;
-                const localizedName = node.title as string;
-                const internalNode = {
-                    ...initialNode,
-                    data: {
-                        ...initialNode.data,
-                        ...styles
-                    }
-                };
-                return {
-                    title: (
-                        <Item key={internalName} model={internalNode} dragWillStart={dragWillStart} nodeWillAdd={nodeWillAdd} nodeDidAdd={nodeDidAdd}>
-                            <NodeContainer
-                                heading={localizedName}
-                                iconName={styles.iconName!}
-                                accentColor={styles.color!}
-                                title={description}
-                                background="var(--vscode-editorWidget-background)"
-                                isDraggable
-                                hideShadow
-                            >
-                                <Text
-                                    variant="small"
-                                    style={{
-                                        overflow: "hidden",
-                                        display: "-webkit-box",
-                                        // these properties aren't recognized
-                                        ["-webkit-line-clamp" as any]: "2",
-                                        ["-webkit-box-orient" as any]: "vertical"
-                                    }}
-                                >
-                                    {description}
-                                </Text>
-                            </NodeContainer>
-                        </Item>
-                    ),
-                    id: uuid(),
-                    searchKeys: [localizedName],
-                    children: []
-                };
-            });
-            // collapse all except first by default
-            category.expanded = index === 0;
-            category.title = generateAccordionTitle(category);
-            return {
-                ...category,
-                children
-            };
-        });
-        setTreeData(treeNodes);
-    }
-
-    const onChange = (nextData: ITreeNode[]) => {
-        nextData.forEach((category) => {
-            category.title = generateAccordionTitle(category);
-        });
-        setTreeData(nextData);
-    };
-
-    const treeViewStyles: IAccessibleTreeStyles = {
-        root: {
-            padding: 0,
-            margin: 0
-        },
-        group: {
-            paddingTop: 5,
-            paddingLeft: 0
-        },
-        item: {
-            listStyle: "none",
-            padding: "5px 0"
-        }
     };
 
     return (
         <>
             <h2>{Localizer.l("sidebarTopologyComponentTitle")}</h2>
             <p>{Localizer.l("sidebarTopologyComponentText")}</p>
-            <ReactAccessibleTree treeData={treeData} onChange={onChange} styles={treeViewStyles} />
+            <Accordion allowZeroExpanded preExpanded={[Definitions.getItemPanelNodes()[0].id]}>
+                {Definitions.getItemPanelNodes().map((category, index) => {
+                    const children = category.children.map((node) => {
+                        const initialNode = node.extra as ICanvasNode;
+                        const description = Localizer.getLocalizedStrings(initialNode.data!.nodeProperties.name).description;
+                        const styles = NodeHelpers.getNodeAppearance({
+                            nodeProperties: initialNode.data!.nodeProperties,
+                            nodeType: initialNode.data!.nodeType
+                        } as CanvasNodeData);
+                        const internalName = initialNode.data!.nodeProperties.name as string;
+                        const localizedName = node.title as string;
+                        const internalNode = {
+                            ...initialNode,
+                            data: {
+                                ...initialNode.data,
+                                ...styles
+                            }
+                        };
+                        return (
+                            <Item
+                                key={internalName}
+                                model={internalNode}
+                                dragWillStart={dragWillStart}
+                                nodeWillAdd={nodeWillAdd}
+                                nodeDidAdd={nodeDidAdd}
+                                style={{ margin: "5px 0" }}
+                            >
+                                <NodeContainer
+                                    heading={localizedName}
+                                    iconName={styles.iconName!}
+                                    accentColor={styles.color!}
+                                    title={description}
+                                    background="var(--vscode-editorWidget-background)"
+                                    isDraggable
+                                    hideShadow
+                                >
+                                    <Text
+                                        variant="small"
+                                        style={{
+                                            overflow: "hidden",
+                                            display: "-webkit-box",
+                                            // these properties aren't recognized
+                                            ["-webkit-line-clamp" as any]: "2",
+                                            ["-webkit-box-orient" as any]: "vertical"
+                                        }}
+                                    >
+                                        {description}
+                                    </Text>
+                                </NodeContainer>
+                            </Item>
+                        );
+                    });
+
+                    return (
+                        <AccordionItem style={{ padding: "5px 0" }} uuid={category.id}>
+                            <AccordionItemHeading>
+                                <AccordionItemButton>{generateAccordionTitle(category)}</AccordionItemButton>
+                            </AccordionItemHeading>
+                            <AccordionItemPanel>{children}</AccordionItemPanel>
+                        </AccordionItem>
+                    );
+                })}
+            </Accordion>
         </>
     );
 };

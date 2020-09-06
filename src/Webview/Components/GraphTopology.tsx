@@ -1,5 +1,10 @@
-import { ITextField, Stack, TextField } from "office-ui-fabric-react";
-import * as React from "react";
+import {
+    ITextField,
+    Stack,
+    TextField,
+    VerticalDivider
+} from "office-ui-fabric-react";
+import React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import {
     CanvasMouseMode,
@@ -224,6 +229,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     toggleSidebar={setSidebarIsShown}
                     isSidebarShown={sidebarIsShown}
                 >
+                    <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
                 </Toolbar>
                 <Stack grow horizontal styles={mainEditorStyles}>

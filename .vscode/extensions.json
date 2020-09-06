@@ -9,6 +9,7 @@
         "streetsidesoftware.code-spell-checker",
         "mike-co.import-sorter",
         "vsciot-vscode.azure-iot-toolkit",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "chakrounanas.turbo-console-log"
     ]
 }

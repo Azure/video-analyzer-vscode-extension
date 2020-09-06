@@ -1,0 +1,45 @@
+.accordion__button {
+    background-color: var(--vscode-editor-background);
+    cursor: pointer;
+    padding: 8px 0;
+    text-align: left;
+    border: none;
+}
+
+.accordion__button:before {
+    display: inline-block;
+    content: "";
+    height: 8px;
+    width: 8px;
+    margin: 3px;
+    border-bottom: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    transform: rotate(-45deg);
+}
+
+.accordion__button[aria-expanded="true"]::before,
+.accordion__button[aria-selected="true"]::before {
+    transform: rotate(45deg);
+}
+
+[hidden] {
+    display: none;
+}
+
+.accordion__panel {
+    animation: fadein 0.35s ease-in;
+}
+
+/* -------------------------------------------------- */
+/* ---------------- Animation part ------------------ */
+/* -------------------------------------------------- */
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
