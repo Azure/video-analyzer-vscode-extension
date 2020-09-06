@@ -1,3 +1,4 @@
+import { get, nth } from "lodash";
 import { OutputChannel, ViewColumn, window } from "vscode";
 import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
 
@@ -35,24 +36,29 @@ export class Logger {
         this._outputChannel.appendLine(value);
     }
 
-    public appendLog(value: string, options?: { logLevel?: string; resourceName?: string; date?: Date }): void {
+    public appendLog(value: string, options?: { logLevel?: string; target?: string; date?: Date }): void {
         // tslint:disable: strict-boolean-expressions
         options = options || {};
         const date: Date = options.date || new Date();
         this.appendLine(
             `[${date.toLocaleTimeString()}] [Live video analytics]${options.logLevel ? " " + options.logLevel : ""}${
-                options.resourceName ? " " + options.resourceName : ""
+                options.target ? ` [target: ${options.target}]` : ""
             }: ${value}`
         );
     }
 
-    public logError(errorString: string, errorResponse: DirectMethodError) {
+    public logError(errorString: string, errorResponse: DirectMethodError, data?: any) {
         this.appendLog(errorString, { logLevel: LogLevel.error });
         if (errorResponse) {
             this.appendLog(errorResponse.message, { logLevel: LogLevel.error });
             if (errorResponse.details?.length) {
                 errorResponse.details.forEach((errorDetail: DirectMethodErrorDetail) => {
-                    this.appendLog(errorDetail.message, { logLevel: LogLevel.error, resourceName: errorDetail.code });
+                    const split = (errorDetail as any).target.split(".");
+                    const propertyName = nth(split, 3);
+                    this.appendLog(`${propertyName ? "[Property: " + propertyName + "] " : ""} ${errorDetail.message}`, {
+                        logLevel: LogLevel.error,
+                        target: data && split?.length > 3 ? get(data, `${split[1]}.${split[2]}.name`) : (errorDetail as any).target
+                    });
                 });
             }
         }

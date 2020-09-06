@@ -64,14 +64,14 @@ export class GraphTopologyListItem extends vscode.TreeItem {
 
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveGraph,
-                callback: async (topology: any) => {
+                callback: async (topology: MediaGraphTopology) => {
                     GraphTopologyData.putGraphTopology(this.iotHubData, this.deviceId, this.moduleId, topology).then(
                         (response) => {
                             TreeUtils.refresh();
                             createGraphPanel.dispose();
                         },
                         (error) => {
-                            this._logger.logError(`Failed to create the graph "${topology.name}"`, error); // TODO. localize
+                            this._logger.logError(`Failed to create the graph "${topology.name}"`, error, topology); // TODO. localize
                         }
                     );
                 }

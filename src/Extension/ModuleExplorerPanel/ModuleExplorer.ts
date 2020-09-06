@@ -6,7 +6,6 @@ import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
 import { DeviceListItem } from "./DeviceListItem";
 import { GraphTopologyListItem } from "./GraphTopologyListItem";
 import { IoTHubLabelNode } from "./IoTHubLabelNode";
-import { ModuleItem } from "./ModuleItem";
 import { INode } from "./Node";
 
 export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
