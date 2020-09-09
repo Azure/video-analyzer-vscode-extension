@@ -20,12 +20,31 @@ interface INodeContainerProps {
     background?: string;
     isDraggable: boolean;
     hideShadow?: boolean;
+    setNodeRef?: (nodeRef: React.RefObject<HTMLDivElement>) => void;
+    nodeRef?: React.RefObject<HTMLDivElement>;
 }
 
 export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (props) => {
-    const { iconName, accentColor, heading, title, children = [], selected = false, dragging = false, hovered = false, isDraggable, hideShadow = false } = props;
+    const {
+        iconName,
+        accentColor,
+        heading,
+        title,
+        children = [],
+        selected = false,
+        dragging = false,
+        hovered = false,
+        isDraggable,
+        hideShadow = false,
+        setNodeRef,
+        nodeRef
+    } = props;
+    //let {nodeRef } = props;
     const propsAPI = usePropsAPI();
-
+    // const nodeRef = React.useRef<HTMLDivElement>(null);
+    // if (setNodeRef) {
+    //     setNodeRef(nodeRef);
+    // }
     const transformMatrix = propsAPI.getZoomPanSettings().transformMatrix;
     const transform = dragging ? `matrix(${transformMatrix.join(",")})` : "none";
 
@@ -79,7 +98,7 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
     });
 
     return (
-        <>
+        <div ref={nodeRef}>
             <Stack horizontal className={styles.card}>
                 <Stack.Item className={styles.accentBar}>
                     <FontIcon iconName={iconName} className={styles.icon} />
@@ -91,6 +110,6 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
                     <Stack.Item className={styles.children}>{children}</Stack.Item>
                 </Stack>
             </Stack>
-        </>
+        </div>
     );
 };

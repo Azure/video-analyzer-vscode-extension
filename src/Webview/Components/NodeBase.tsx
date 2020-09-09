@@ -5,6 +5,7 @@ import {
     GraphNodeState,
     hasState,
     ICanvasNode,
+    ICanvasPort,
     IItemConfigArgs,
     IRectConfig
 } from "@vienna/react-dag-editor";
@@ -13,18 +14,41 @@ import { NodeContainer } from "./NodeContainer";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
     private readonly readOnly: boolean;
+    private ref?: React.RefObject<HTMLDivElement>;
+    private height = 50;
 
+    private newRef = React.useRef<HTMLDivElement>(null);
     constructor(readOnly: boolean) {
         this.readOnly = readOnly;
     }
 
     public getMinHeight = (curNode: ICanvasNode): number => {
-        return 50;
+        if (this.ref?.current?.clientHeight) {
+            this.height = this.ref?.current?.clientHeight;
+        }
+        return this.height;
     };
 
     public getMinWidth = (): number => {
         return 280;
     };
+
+    public getPorts = (args: { model: ICanvasNode }): ICanvasPort[] => {
+        const ports = args.model.ports;
+
+        return (
+            ports?.map((port) => {
+                return {
+                    ...port,
+                    position: [0.5, 0]
+                };
+            }) ?? []
+        );
+    };
+
+    private setRef(ref: React.RefObject<HTMLDivElement>) {
+        this.ref = ref;
+    }
 
     public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
         const node = args.model;
@@ -36,6 +60,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         const description = Localizer.l(nodeType.split(".").pop());
 
         const rectHeight = getRectHeight<ICanvasNode>(this, node);
+        console.log("NodeBase -> rectHeight", rectHeight);
         const rectWidth = getRectWidth<ICanvasNode>(this, node);
 
         return (
@@ -49,6 +74,8 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
                     hovered={hasState(GraphNodeState.activated)(node.state)}
                     dragging={dragging}
                     isDraggable={!this.readOnly}
+                    children={<div style={{ height: 70 }}></div>}
+                    setNodeRef={this.setRef.bind(this)}
                 />
             </foreignObject>
         );

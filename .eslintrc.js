@@ -8,7 +8,7 @@ module.exports = {
         node: true
     },
     plugins: ["@typescript-eslint"],
-    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:react-hooks/recommended"],
     rules: {
         semi: [2, "always"],
         "@typescript-eslint/no-unused-vars": 0,

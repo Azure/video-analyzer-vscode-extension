@@ -158,7 +158,7 @@
     },
     "dependencies": {
         "@types/keytar": "^4.4.2",
-        "@vienna/react-dag-editor": "^1.77.0",
+        "@vienna/react-dag-editor": "^1.80.2",
         "azure-iothub": "^1.12.4",
         "dagre": "^0.8.5",
         "eslint": "^6.8.0",
@@ -181,6 +181,7 @@
         "@types/vscode": "^1.38.0",
         "@typescript-eslint/eslint-plugin": "^3.0.2",
         "@typescript-eslint/parser": "^3.0.2",
+        "eslint-plugin-react-hooks": "^4.1.0",
         "prettier": "^2.0.5",
         "typescript": "^3.9.4"
     },
