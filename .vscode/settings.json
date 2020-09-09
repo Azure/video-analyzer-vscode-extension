@@ -19,5 +19,6 @@
     "html.format.wrapAttributes": "preserve-aligned",
     "editor.codeActionsOnSave": {
         "source.fixAll": false
-    }
+    },
+    "turboConsoleLog.addSemicolonInTheEnd": true
 }
