@@ -7,6 +7,7 @@ import {
 import * as React from "react";
 import Localizer from "../Localization/Localizer";
 import { ValidationError, ValidationErrorType } from "../Types/GraphTypes";
+import { Badge } from "./Badge";
 import { AdjustedIconButton } from "./ThemeAdjustedComponents/AdjustedIconButton";
 
 export interface IGraphPanelProps {
@@ -35,7 +36,9 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
     return (
         <>
             <Stack horizontal horizontalAlign="space-between" verticalAlign="center" tokens={{ childrenGap: "s1" }} style={{ margin: "0%" }}>
-                <div style={{ marginLeft: "1%", fontWeight: 600 }}>{Localizer.l("errorPanelHeading")}</div>
+                <div style={{ marginLeft: "1%", fontWeight: 600, display: "flex", flexDirection: "row" }}>
+                    {Localizer.l("errorPanelHeading")} {props.validationErrors ? <Badge content={props.validationErrors.length} /> : ""}
+                </div>
                 <AdjustedIconButton
                     iconProps={{
                         iconName: "Clear"
