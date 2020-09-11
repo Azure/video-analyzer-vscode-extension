@@ -251,10 +251,9 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                                 onClick={toggleValidationErrorPanel}
                             >
                                 <span style={{ color: "var(--vscode-errorForeground)" }}>
-                                    {Localizer.l("toolbarValidationText").format(
-                                        validationErrors.length === 1 ? Localizer.l("toolbarValidationIs") : Localizer.l("toolbarValidationAre"),
-                                        validationErrors.length
-                                    )}
+                                    {validationErrors.length === 1
+                                        ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
+                                        : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
                                     <u>{Localizer.l("ToolbarValidationErrors")}</u>
                                 </span>
                             </ActionButton>
