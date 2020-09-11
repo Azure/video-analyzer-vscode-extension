@@ -1,4 +1,5 @@
 import {
+    ActionButton,
     ITextField,
     Stack,
     TextField,
@@ -38,7 +39,6 @@ import { NodeBase } from "./NodeBase";
 import { modulePort } from "./Port";
 import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 import { Toolbar } from "./Toolbar";
-import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 interface IGraphTopologyProps {
     graph: Graph;
@@ -56,6 +56,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const [graphNameError, setGraphNameError] = React.useState<string>();
     const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
+    const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -167,6 +168,10 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         }
     };
 
+    const toggleValidationErrorPanel = () => {
+        setShowValidationErrors(!showValidationErrors);
+    };
+
     const parameters = graph.getParameters();
     const canContinue = () => {
         return new Promise<boolean>((resolve) => {
@@ -211,6 +216,14 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         }
     };
 
+    const validationErrorStyles: React.CSSProperties = {
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "flex-end",
+        flex: 1,
+        paddingRight: "5%"
+    };
+
     return (
         <ReactDagEditor theme={Constants.graphTheme}>
             <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase(/* readOnly */ false))} />
@@ -231,6 +244,23 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                    {validationErrors && validationErrors.length > 0 ? (
+                        <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
+                            <ActionButton
+                                iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
+                                onClick={toggleValidationErrorPanel}
+                            >
+                                <span style={{ color: "var(--vscode-errorForeground)" }}>
+                                    {validationErrors.length === 1
+                                        ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
+                                        : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
+                                    <u>{Localizer.l("ToolbarValidationErrors")}</u>
+                                </span>
+                            </ActionButton>
+                        </Stack>
+                    ) : (
+                        ""
+                    )}
                 </Toolbar>
                 <Stack grow horizontal styles={mainEditorStyles}>
                     {sidebarIsShown && (
@@ -253,7 +283,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                                 />
                             </div>
                             <div style={panelItemStyles}>
-                                {validationErrors.length > 0 && <ValidationErrorPanel validationErrors={validationErrors} />}
                                 <ItemPanel />
                             </div>
                         </Stack.Item>
@@ -269,6 +298,9 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                             triggerValidation={canContinue}
                             parameters={parameters}
                             propsApiRef={propsApiRef}
+                            validationErrors={validationErrors}
+                            showValidationErrors={showValidationErrors}
+                            toggleValidationErrorPanel={toggleValidationErrorPanel}
                         />
                     </Stack.Item>
                 </Stack>
