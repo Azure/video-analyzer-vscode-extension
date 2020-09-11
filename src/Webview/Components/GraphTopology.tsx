@@ -246,9 +246,15 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
                     {validationErrors && validationErrors.length > 0 ? (
                         <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
-                            <ActionButton iconProps={{ iconName: "StatusErrorFull", style: { color: "red" } }} onClick={toggleValidationErrorPanel}>
+                            <ActionButton
+                                iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
+                                onClick={toggleValidationErrorPanel}
+                            >
                                 <span style={{ color: "var(--vscode-errorForeground)" }}>
-                                    {Localizer.l("toolbarValidationText").format(validationErrors.length)}
+                                    {Localizer.l("toolbarValidationText").format(
+                                        validationErrors.length === 1 ? Localizer.l("toolbarValidationIs") : Localizer.l("toolbarValidationAre"),
+                                        validationErrors.length
+                                    )}
                                     <u>{Localizer.l("ToolbarValidationErrors")}</u>
                                 </span>
                             </ActionButton>
