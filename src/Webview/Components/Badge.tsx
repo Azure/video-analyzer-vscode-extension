@@ -14,12 +14,12 @@ export const Badge: React.FunctionComponent<BadgeProps> = (props) => {
 
     const badgeContent: React.CSSProperties = {
         borderRadius: "25px",
-        backgroundColor: "gray",
+        backgroundColor: "var(--vscode-foreground)",
         minWidth: "25px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        color: "white"
+        color: "var(--vscode-editor-background)"
     };
 
     return (

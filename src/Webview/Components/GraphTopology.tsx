@@ -247,7 +247,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     {validationErrors && validationErrors.length > 0 ? (
                         <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
                             <ActionButton iconProps={{ iconName: "StatusErrorFull", style: { color: "red" } }} onClick={toggleValidationErrorPanel}>
-                                <span style={{ color: "red" }}>
+                                <span style={{ color: "var(--vscode-errorForeground)" }}>
                                     {Localizer.l("toolbarValidationText").format(validationErrors.length)}
                                     <u>{Localizer.l("ToolbarValidationErrors")}</u>
                                 </span>
