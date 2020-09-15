@@ -17,7 +17,6 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
     private ref?: React.RefObject<HTMLDivElement>;
     private height = 50;
 
-    private newRef = React.useRef<HTMLDivElement>(null);
     constructor(readOnly: boolean) {
         this.readOnly = readOnly;
     }
@@ -74,7 +73,6 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
                     hovered={hasState(GraphNodeState.activated)(node.state)}
                     dragging={dragging}
                     isDraggable={!this.readOnly}
-                    children={<div style={{ height: 70 }}></div>}
                     setNodeRef={this.setRef.bind(this)}
                 />
             </foreignObject>

@@ -27,7 +27,8 @@ export class Constants {
         saveAndActivate: "saveAndActivate",
         getInitialData: "getInitialData",
         setInitialData: "setInitialData",
-        nameAvailableCheck: "nameAvailableCheck"
+        nameAvailableCheck: "nameAvailableCheck",
+        failedOperationReason: "failedOperationReason"
     };
 
     public static PageTypes = {

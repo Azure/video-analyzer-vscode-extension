@@ -114,7 +114,16 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 graph.setGraphDataFromICanvasData(data);
                 const topology = graph.getTopology();
                 if (ExtensionInteraction.getVSCode()) {
-                    PostMessage.sendMessageToParent({ name: Constants.PostMessageNames.saveGraph, data: topology });
+                    PostMessage.sendMessageToParent(
+                        { name: Constants.PostMessageNames.saveGraph, data: topology },
+                        {
+                            name: Constants.PostMessageNames.failedOperationReason,
+                            onlyOnce: true,
+                            callback: (error) => {
+                                console.log("saveTopology -> error", error);
+                            }
+                        }
+                    );
                 } else {
                     // running in browser
                     console.log(topology);
