@@ -10,6 +10,7 @@
     "browserNotSupported": "Browser not supported",
     "sidebarHeadingParameters": "Parameters",
     "sources": "Sources",
+    "manageParamatersButtonText": "Manage parameters",
     "processors": "Processors",
     "sinks": "Sinks",
     "saveButtonText": "Save",

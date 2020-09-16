@@ -37,6 +37,7 @@ import { ContextMenu } from "./ContextMenu";
 import { InnerGraph } from "./InnerGraph";
 import { ItemPanel } from "./ItemPanel";
 import { NodeBase } from "./NodeBase";
+import { ParameterSelectorTrigger } from "./ParameterSelector/ParameterSelectorTrigger";
 import { modulePort } from "./Port";
 import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 import { Toolbar } from "./Toolbar";
@@ -268,6 +269,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                    <ParameterSelectorTrigger parameters={parameters} />
                     {validationErrors && validationErrors.length > 0 ? (
                         <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
                             <ActionButton
