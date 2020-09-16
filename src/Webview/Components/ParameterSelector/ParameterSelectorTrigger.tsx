@@ -11,8 +11,6 @@ export const ParameterSelectorTrigger: React.FunctionComponent<IParameterSelecto
     const [isOpen, toggleSelector] = useState(false);
 
     const toggleParameterSelector = () => {
-        console.log("toggle ", isOpen);
-        console.log("parameters", props.parameters);
         toggleSelector(!isOpen);
     };
 

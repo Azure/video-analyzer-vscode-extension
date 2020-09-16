@@ -87,6 +87,8 @@
     "propertyEditorNoneValueLabel": "None",
     "propertyEditorBooleanTrueLabel": "True",
     "propertyEditorBooleanFalseLabel": "False",
+    "newParameter": "New parameter",
+    "parameters": "Parameters",
     "parameterEditorTitle": "Define value for {0}",
     "parameterEditorCloseButtonAriaLabel": "Close parameter editor",
     "parameterEditorText": "Create or select a parameter to insert into your value format.",
@@ -120,5 +122,6 @@
     "propertyEditorValidationEmpty": "This value cannot be empty.",
     "propertyEditorValidationUndefinedOrEmpty": "This value cannot be undefined or empty.",
     "propertyEditorValidationInvalidJSON": "The entered JSON does not validate.",
-    "nameNotAvailableError": "Name is not available"
+    "nameNotAvailableError": "Name is not available",
+    "hideForm": "Hide form"
 }
