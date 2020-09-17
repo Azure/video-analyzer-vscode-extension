@@ -8,7 +8,9 @@ import {
 } from "office-ui-fabric-react";
 import React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
+import { createParameter } from "../ParameterEditor/createParameter";
 import { ParameterEditorCreateForm } from "../ParameterEditor/ParameterEditorCreateForm";
 import { EditableParameter } from "./EditableParameter";
 
@@ -21,16 +23,17 @@ interface ParameterSelectorProps {
 const addIcon: IIconProps = { iconName: "Add" };
 
 export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> = (props) => {
+    const { isOpen, onClose, parameters } = props;
     const [addNewIsShown, { toggle: setAddNewIsShown }] = useBoolean(false);
     const [searchParameter, setSearchParameters] = React.useState<string>("");
+    const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
 
-    console.log("params", props.parameters);
     const createParameterFields = () => {
-        if (props.parameters) {
+        if (parameters) {
             return (
                 <Stack style={{ paddingTop: "10px" }}>
                     {getParameters().map((p: any, idx: number) => {
-                        return <EditableParameter object={p} />;
+                        return <EditableParameter object={p} key={p.name} />;
                     })}
                 </Stack>
             );
@@ -38,20 +41,25 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     };
 
     const searchFunction = (search: any) => {
-        console.log("search event", search);
         setSearchParameters(search);
     };
 
     const getParameters = () => {
-        return props.parameters.filter((parameter: any) => {
+        return parameters.filter((parameter: any) => {
             return parameter.name.toLowerCase().includes(searchParameter.toLowerCase());
         });
     };
 
+    const onCreateFormAddClick = () => {
+        if (parameterCreationConfiguration?.name && parameterCreationConfiguration?.type) {
+            createParameter(parameterCreationConfiguration, parameters); //TODO. check for duplicates
+            setAddNewIsShown();
+        }
+    };
+
     return (
         <div>
-            <Panel isOpen={props.isOpen} onDismiss={props.onClose} closeButtonAriaLabel="Close">
-                {/* spot for add icon component */}
+            <Panel isOpen={isOpen} onDismiss={onClose} closeButtonAriaLabel="Close">
                 {addNewIsShown ? (
                     <Stack style={{ paddingBottom: "20px" }}>
                         <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
@@ -62,13 +70,15 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                                 {Localizer.l("hideForm")}
                             </Text>
                         </Stack>
-                        <ParameterEditorCreateForm
-                            setParameterCreationConfiguration={() => {
-                                return "";
-                            }}
-                        />
-                        <Stack style={{ paddingTop: "15px", justifyContent: "flex-end" }}>
-                            <DefaultButton text="Add" style={{ flexGrow: 0 }} />
+                        <Stack>
+                            <ParameterEditorCreateForm setParameterCreationConfiguration={setParameterCreationConfiguration} />
+                            <DefaultButton
+                                text="Add"
+                                onClick={onCreateFormAddClick}
+                                disabled={
+                                    parameterCreationConfiguration == null || parameterCreationConfiguration.name == null || parameterCreationConfiguration.type == null
+                                }
+                            />
                         </Stack>
                     </Stack>
                 ) : (
