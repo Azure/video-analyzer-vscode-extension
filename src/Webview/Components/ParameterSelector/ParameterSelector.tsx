@@ -72,13 +72,17 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                         </Stack>
                         <Stack>
                             <ParameterEditorCreateForm setParameterCreationConfiguration={setParameterCreationConfiguration} />
-                            <DefaultButton
-                                text="Add"
-                                onClick={onCreateFormAddClick}
-                                disabled={
-                                    parameterCreationConfiguration == null || parameterCreationConfiguration.name == null || parameterCreationConfiguration.type == null
-                                }
-                            />
+                            <Stack style={{ paddingTop: "15px" }}>
+                                <DefaultButton
+                                    text="Add"
+                                    onClick={onCreateFormAddClick}
+                                    disabled={
+                                        parameterCreationConfiguration == null ||
+                                        parameterCreationConfiguration.name == null ||
+                                        parameterCreationConfiguration.type == null
+                                    }
+                                />
+                            </Stack>
                         </Stack>
                     </Stack>
                 ) : (
