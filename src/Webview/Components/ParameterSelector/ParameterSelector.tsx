@@ -10,7 +10,11 @@ import React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
-import { createParameter } from "../ParameterEditor/createParameter";
+import {
+    createParameter,
+    deleteParameter,
+    editParameter
+} from "../ParameterEditor/createParameter";
 import { ParameterEditorCreateForm } from "../ParameterEditor/ParameterEditorCreateForm";
 import { EditableParameter } from "./EditableParameter";
 
@@ -27,13 +31,25 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     const [addNewIsShown, { toggle: setAddNewIsShown }] = useBoolean(false);
     const [searchParameter, setSearchParameters] = React.useState<string>("");
     const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
+    const [editedParameter, setEditedParameter] = React.useState<number>(-1);
 
     const createParameterFields = () => {
         if (parameters) {
             return (
                 <Stack style={{ paddingTop: "10px" }}>
                     {getParameters().map((p: any, idx: number) => {
-                        return <EditableParameter object={p} key={p.name} />;
+                        return (
+                            <EditableParameter
+                                object={p}
+                                key={idx}
+                                id={idx}
+                                showEdit={idx === editedParameter}
+                                onDeleteParameterClick={onDeleteParameterClick}
+                                onEditParameterClick={onEditParameterClick}
+                                onEditSaveParameterClick={onEditSaveParameterClick}
+                                setParameterCreationConfiguration={setParameterCreationConfiguration}
+                            />
+                        );
                     })}
                 </Stack>
             );
@@ -55,6 +71,21 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
             createParameter(parameterCreationConfiguration, parameters); //TODO. check for duplicates
             setAddNewIsShown();
         }
+    };
+
+    const onEditParameterClick = (index: number) => {
+        setEditedParameter(index);
+    };
+
+    const onEditSaveParameterClick = (index: number) => {
+        if (parameterCreationConfiguration?.name && parameterCreationConfiguration?.type) {
+            editParameter(parameterCreationConfiguration, parameters, index);
+        }
+        setEditedParameter(-1);
+    };
+
+    const onDeleteParameterClick = (index: number) => {
+        deleteParameter(index, parameters);
     };
 
     return (

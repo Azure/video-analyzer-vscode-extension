@@ -120,5 +120,9 @@
     "propertyEditorValidationUndefinedOrEmpty": "This value cannot be undefined or empty.",
     "propertyEditorValidationInvalidJSON": "The entered JSON does not validate.",
     "nameNotAvailableError": "Name is not available",
-    "hideForm": "Hide form"
+    "hideForm": "Hide form",
+    "editParametersEditButtonText": "Edit",
+    "editParametersCancelButtonText": "Cancel",
+    "editParametersDeleteButtonText": "Delete",
+    "editParametersSaveButtonText": "Save"
 }
