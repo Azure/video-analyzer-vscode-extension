@@ -25,6 +25,7 @@ import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import {
     GraphInfo,
+    ServerError,
     ValidationError,
     ValidationErrorType
 } from "../Types/GraphTypes";
@@ -55,8 +56,10 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
     const [graphNameError, setGraphNameError] = React.useState<string>();
     const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
+    const [serverErrors, setServerErrors] = React.useState<ValidationError[]>([]);
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
     const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
+    let errorsFromResponse: ValidationError[] = [];
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -71,7 +74,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
             graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
             zoomPanSettings
         });
-    }, [data, zoomPanSettings, graphTopologyName, graphDescription]);
+    }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
     React.useEffect(() => {
         // on mount
         if (nameTextFieldRef) {
@@ -107,7 +110,8 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     }
 
     const saveTopology = () => {
-        canContinue().then((canSave: boolean) => {
+        errorsFromResponse = [];
+        canContinue([]).then((canSave: boolean) => {
             if (canSave) {
                 graph.setName(graphTopologyName);
                 graph.setDescription(graphDescription);
@@ -119,8 +123,16 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                         {
                             name: Constants.PostMessageNames.failedOperationReason,
                             onlyOnce: true,
-                            callback: (error) => {
-                                console.log("saveTopology -> error", error);
+                            callback: (errors: ServerError[]) => {
+                                errorsFromResponse = errors.map((error) => {
+                                    return {
+                                        description: error.value,
+                                        type: ValidationErrorType.ServerError,
+                                        ...(error.nodeName && { nodeName: error.nodeName }),
+                                        ...(error.nodeProperty && { property: [error.nodeProperty] })
+                                    } as ValidationError;
+                                });
+                                canContinue(errorsFromResponse);
                             }
                         }
                     );
@@ -182,7 +194,11 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     };
 
     const parameters = graph.getParameters();
-    const canContinue = () => {
+    const canContinue = (errorsFromResponse?: ValidationError[]) => {
+        if (errorsFromResponse) {
+            // save errors in the state, to remember when canContinue is called by node triggerValidation
+            setServerErrors(errorsFromResponse ?? []);
+        }
         return new Promise<boolean>((resolve) => {
             const validationErrors: ValidationError[] = [];
             validateName(graphTopologyName).then(() => {
@@ -191,10 +207,9 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     validationErrors.push(graphNameValidationError);
                 }
                 graph.setGraphDataFromICanvasData(data);
-                validationErrors.push(...graph.validate());
-                const hasValidationErrors = validationErrors.length > 0;
-                setValidationErrors(hasValidationErrors ? validationErrors : []);
-                resolve(!hasValidationErrors);
+                validationErrors.push(...graph.validate(propsApiRef, errorsFromResponse ?? serverErrors));
+                setValidationErrors(validationErrors);
+                resolve(!validationErrors.length);
             });
         });
     };

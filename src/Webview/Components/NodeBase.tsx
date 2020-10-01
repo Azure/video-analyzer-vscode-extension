@@ -57,6 +57,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         const nodeType = node.data!.nodeProperties["@type"];
         const dragging = node.data!.nodeProperties.dragging;
         const description = Localizer.l(nodeType.split(".").pop());
+        const hasErrors = node.data!.hasErrors;
 
         const rectHeight = getRectHeight<ICanvasNode>(this, node);
         console.log("NodeBase -> rectHeight", rectHeight);
@@ -72,6 +73,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
                     selected={hasState(GraphNodeState.selected)(node.state)}
                     hovered={hasState(GraphNodeState.activated)(node.state)}
                     dragging={dragging}
+                    hasErrors={hasErrors}
                     isDraggable={!this.readOnly}
                     setNodeRef={this.setRef.bind(this)}
                 />

@@ -1,7 +1,8 @@
-import { ICanvasNode } from "@vienna/react-dag-editor";
+import { ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
 import {
     CanvasNodeProperties,
+    ServerError,
     ValidationError,
     ValidationErrorType
 } from "../Types/GraphTypes";
@@ -13,8 +14,12 @@ import GraphValidationRules from "./GraphValidationRules";
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
 
 export default class GraphValidator {
-    public static validate(nodesAndEdges: GraphData): ValidationError[] {
-        const errors: ValidationError[] = [];
+    public static validate(
+        graphPropsApi: React.RefObject<IPropsAPI<any, any, any, any>>,
+        nodesAndEdges: GraphData,
+        errorsFromService?: ValidationError[]
+    ): ValidationError[] {
+        const errors: ValidationError[] = [...(errorsFromService ?? [])];
 
         if (!nodesAndEdges.isGraphConnected()) {
             errors.push({
@@ -32,12 +37,33 @@ export default class GraphValidator {
             if (nodeData) {
                 // check for required properties
                 const properties = NodeHelpers.getTrimmedNodeProperties(nodeData.nodeProperties as CanvasNodeProperties);
+                const missingPropErrors = this.getMissingProperties(properties);
                 errors.push(
-                    ...this.getMissingProperties(properties).map((error) => ({
+                    ...missingPropErrors.map((error) => ({
                         nodeName: node.name,
                         ...error
                     }))
                 );
+                const serverErrorsFound = errorsFromService?.some((error) => {
+                    return error.nodeName === nodeData.nodeProperties.name;
+                });
+                graphPropsApi.current?.updateData((prevData: ICanvasData) => {
+                    return {
+                        ...prevData,
+                        nodes: prevData.nodes.map((currNode) => {
+                            if (currNode.id === node.id) {
+                                return {
+                                    ...currNode,
+                                    data: {
+                                        ...(currNode.data as ICanvasData),
+                                        hasErrors: missingPropErrors?.length > 0 || serverErrorsFound
+                                    }
+                                };
+                            }
+                            return currNode;
+                        })
+                    };
+                });
 
                 // count the number of nodes of each type
                 if (!(properties["@type"] in nodesByType)) {

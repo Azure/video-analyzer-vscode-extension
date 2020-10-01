@@ -71,8 +71,9 @@ export class GraphTopologyListItem extends vscode.TreeItem {
                             createGraphPanel.dispose();
                         },
                         (error) => {
-                            createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: error });
-                            this._logger.logError(`Failed to create the graph "${topology.name}"`, error, topology); // TODO. localize
+                            const errorList = createGraphPanel.parseDirectMethodError(error, topology);
+                            createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: errorList });
+                            this._logger.logError(`Failed to create the graph "${topology.name}"`, errorList); // TODO. localize
                         }
                     );
                 }

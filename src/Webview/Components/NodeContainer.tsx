@@ -7,6 +7,7 @@ import {
 } from "office-ui-fabric-react";
 import * as React from "react";
 import { usePropsAPI } from "@vienna/react-dag-editor";
+import { StatusIcon } from "./StatusIcon";
 
 interface INodeContainerProps {
     heading: string;
@@ -22,6 +23,7 @@ interface INodeContainerProps {
     hideShadow?: boolean;
     setNodeRef?: (nodeRef: React.RefObject<HTMLDivElement>) => void;
     nodeRef?: React.RefObject<HTMLDivElement>;
+    hasErrors?: boolean;
 }
 
 export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (props) => {
@@ -37,7 +39,8 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
         isDraggable,
         hideShadow = false,
         setNodeRef,
-        nodeRef
+        nodeRef,
+        hasErrors
     } = props;
     //let {nodeRef } = props;
     const propsAPI = usePropsAPI();
@@ -90,10 +93,14 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
             paddingTop: 6,
             paddingRight: 6,
             paddingBottom: 8,
-            paddingLeft: 4
+            paddingLeft: 4,
+            flexGrow: 1
         },
         children: {
             paddingTop: 4
+        },
+        statusIcon: {
+            userSelect: "none"
         }
     });
 
@@ -104,9 +111,16 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
                     <FontIcon iconName={iconName} className={styles.icon} />
                 </Stack.Item>
                 <Stack title={title} className={styles.content} tokens={{ childrenGap: "s2" }}>
-                    <Text variant="medium" className={styles.headingText}>
-                        {heading}
-                    </Text>
+                    <Stack horizontal>
+                        <Stack.Item grow>
+                            <Text variant="medium" className={styles.headingText}>
+                                {heading}
+                            </Text>
+                        </Stack.Item>
+                        <Stack.Item align="end" className={styles.statusIcon}>
+                            <StatusIcon hasErrors={hasErrors ?? false} />
+                        </Stack.Item>
+                    </Stack>
                     <Stack.Item className={styles.children}>{children}</Stack.Item>
                 </Stack>
             </Stack>
