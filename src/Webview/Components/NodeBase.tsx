@@ -5,6 +5,7 @@ import {
     GraphNodeState,
     hasState,
     ICanvasNode,
+    ICanvasPort,
     IItemConfigArgs,
     IRectConfig
 } from "@vienna/react-dag-editor";
@@ -13,18 +14,40 @@ import { NodeContainer } from "./NodeContainer";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
     private readonly readOnly: boolean;
+    private ref?: React.RefObject<HTMLDivElement>;
+    private height = 50;
 
     constructor(readOnly: boolean) {
         this.readOnly = readOnly;
     }
 
     public getMinHeight = (curNode: ICanvasNode): number => {
-        return 50;
+        if (this.ref?.current?.clientHeight) {
+            this.height = this.ref?.current?.clientHeight;
+        }
+        return this.height;
     };
 
     public getMinWidth = (): number => {
         return 280;
     };
+
+    public getPorts = (args: { model: ICanvasNode }): ICanvasPort[] => {
+        const ports = args.model.ports;
+
+        return (
+            ports?.map((port) => {
+                return {
+                    ...port,
+                    position: [0.5, 0]
+                };
+            }) ?? []
+        );
+    };
+
+    private setRef(ref: React.RefObject<HTMLDivElement>) {
+        this.ref = ref;
+    }
 
     public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
         const node = args.model;
@@ -34,8 +57,10 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         const nodeType = node.data!.nodeProperties["@type"];
         const dragging = node.data!.nodeProperties.dragging;
         const description = Localizer.l(nodeType.split(".").pop());
+        const hasErrors = node.data!.hasErrors;
 
         const rectHeight = getRectHeight<ICanvasNode>(this, node);
+        console.log("NodeBase -> rectHeight", rectHeight);
         const rectWidth = getRectWidth<ICanvasNode>(this, node);
 
         return (
@@ -48,7 +73,9 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
                     selected={hasState(GraphNodeState.selected)(node.state)}
                     hovered={hasState(GraphNodeState.activated)(node.state)}
                     dragging={dragging}
+                    hasErrors={hasErrors}
                     isDraggable={!this.readOnly}
+                    setNodeRef={this.setRef.bind(this)}
                 />
             </foreignObject>
         );

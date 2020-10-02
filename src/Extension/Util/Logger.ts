@@ -1,10 +1,19 @@
+import { get, nth } from "lodash";
 import { OutputChannel, ViewColumn, window } from "vscode";
 import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
 
-const enum LogLevel {
+export const enum LogLevel {
     error = "error",
     info = "info",
     warn = "warning"
+}
+
+export interface ErrorOption {
+    value: string;
+    logLevel?: string;
+    nodeName?: string;
+    nodeProperty?: string;
+    date?: Date;
 }
 
 export class Logger {
@@ -35,29 +44,24 @@ export class Logger {
         this._outputChannel.appendLine(value);
     }
 
-    public appendLog(value: string, options?: { logLevel?: string; resourceName?: string; date?: Date }): void {
-        // tslint:disable: strict-boolean-expressions
-        options = options || {};
+    public appendLog(options: ErrorOption): void {
         const date: Date = options.date || new Date();
         this.appendLine(
             `[${date.toLocaleTimeString()}] [Live video analytics]${options.logLevel ? " " + options.logLevel : ""}${
-                options.resourceName ? " " + options.resourceName : ""
-            }: ${value}`
+                options.nodeName ? ` [target: ${options.nodeName}]:` : ""
+            } ${options.nodeProperty ? ` [property: ${options.nodeProperty}]:` : ""} ${options.value}`
         );
     }
 
-    public logError(errorString: string, errorResponse: DirectMethodError) {
-        this.appendLog(errorString, { logLevel: LogLevel.error });
-        if (errorResponse) {
-            this.appendLog(errorResponse.message, { logLevel: LogLevel.error });
-            if (errorResponse.details?.length) {
-                errorResponse.details.forEach((errorDetail: DirectMethodErrorDetail) => {
-                    this.appendLog(errorDetail.message, { logLevel: LogLevel.error, resourceName: errorDetail.code });
-                });
-            }
+    public logError(errorString: string, errors: ErrorOption[]) {
+        this.appendLog({ value: errorString, logLevel: LogLevel.error });
+        if (errors?.length) {
+            errors.forEach((error) => {
+                this.appendLog(error);
+            });
+            this.show();
+            this.showErrorNotification(errorString, errors.join(","));
         }
-        this.show();
-        this.showErrorNotification(errorString, errorResponse);
     }
 
     public showErrorNotification(errorString: string, errorDetails: any) {

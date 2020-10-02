@@ -1,7 +1,10 @@
+import { get, nth } from "lodash";
 import * as path from "path";
 import * as vscode from "vscode";
+import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
 import Localizer from "../Util/Localizer";
+import { ErrorOption, Logger, LogLevel } from "../Util/Logger";
 
 interface RegisteredMessage {
     name: string;
@@ -128,6 +131,26 @@ export class GraphEditorPanel {
             this.waitForPostMessage(callBackMessage);
         }
         this._panel.webview.postMessage(message);
+    }
+
+    public parseDirectMethodError(errorResponse: DirectMethodError, data: any) {
+        const errors: ErrorOption[] = [];
+        if (errorResponse) {
+            errors.push({ value: errorResponse.message, logLevel: LogLevel.error });
+            if (errorResponse.details?.length) {
+                errorResponse.details.forEach((errorDetail: DirectMethodErrorDetail) => {
+                    const split = (errorDetail as any).target.split(".");
+                    const propertyName = nth(split, 3) as string;
+                    errors.push({
+                        value: `${errorDetail.message}`,
+                        nodeProperty: propertyName,
+                        logLevel: LogLevel.error,
+                        nodeName: data && split?.length > 3 ? get(data, `${split[1]}.${split[2]}.name`) : (errorDetail as any).target
+                    });
+                });
+            }
+        }
+        return errors;
     }
 
     public dispose() {

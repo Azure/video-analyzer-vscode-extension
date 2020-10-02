@@ -1,6 +1,6 @@
 import dagre from "dagre";
 import { v4 as uuid } from "uuid";
-import { ICanvasData } from "@vienna/react-dag-editor";
+import { ICanvasData, IPropsAPI } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
     MediaGraphParameterDeclaration,
@@ -213,8 +213,8 @@ export default class Graph {
         return graphInfo;
     }
 
-    public validate(): ValidationError[] {
-        return GraphValidator.validate(this.graphStructureStore);
+    public validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any, any>>, errorsFromService?: ValidationError[]): ValidationError[] {
+        return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
 
     // Internal functions

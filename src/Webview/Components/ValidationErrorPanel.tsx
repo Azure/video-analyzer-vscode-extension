@@ -21,13 +21,17 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
     const createErrorText = (error: ValidationError) => {
         switch (error.type) {
             case ValidationErrorType.MissingField:
-                return (error.property && Localizer.l(error.description).format(error.property.join(" - "), error.nodeName)) || Localizer.l(error.description);
+                return (error.property && Localizer.l(error.description).format(error.nodeName, error.property.join(" - "))) || Localizer.l(error.description);
             case ValidationErrorType.NodeCountLimit:
                 return Localizer.l(error.description).format(error.nodeType);
             case ValidationErrorType.RequiredDirectlyDownstream:
             case ValidationErrorType.ProhibitedDirectlyDownstream:
             case ValidationErrorType.ProhibitedAnyDownstream:
                 return error.parentType && Localizer.l(error.description).format(error.nodeType, error.parentType.join(", "));
+            case ValidationErrorType.ServerError:
+                return `${Localizer.l("errorPanelServerErrorText")} ${error.nodeName ? Localizer.l("errorPanelServerErrorNodeNameText").format(error.nodeName) : ""}${
+                    error.property ? Localizer.l("errorPanelServerErrorPropertyText").format(error.property) : ""
+                } ${error.description}`;
             default:
                 return Localizer.l(error.description);
         }
@@ -52,7 +56,7 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
                 {validationErrors.map((error) => {
                     const text = createErrorText(error);
                     return (
-                        <MessageBar isMultiline={true} dismissButtonAriaLabel="Close" key={text}>
+                        <MessageBar messageBarType={MessageBarType.error} isMultiline={true} dismissButtonAriaLabel="Close" key={text}>
                             {text}
                             {error.helpLink && (
                                 <Link href={error.helpLink} target="_blank">

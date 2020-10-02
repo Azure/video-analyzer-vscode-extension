@@ -48,6 +48,7 @@ export interface CanvasNodeData {
     iconName: string;
     nodeProperties: CanvasNodeProperties | Record<string, any>;
     nodeType: MediaGraphNodeType;
+    hasErrors?: boolean;
 }
 
 export interface ValidationError {
@@ -73,7 +74,16 @@ export enum ValidationErrorType {
     NodeCountLimit = "NodeCountLimit",
     RequiredDirectlyDownstream = "RequiredDirectlyDownstream",
     ProhibitedDirectlyDownstream = "ProhibitedDirectlyDownstream",
-    ProhibitedAnyDownstream = "ProhibitedAnyDownstream"
+    ProhibitedAnyDownstream = "ProhibitedAnyDownstream",
+    ServerError = "ServerError"
+}
+
+export interface ServerError {
+    value: string;
+    logLevel?: string;
+    nodeName?: string;
+    nodeProperty?: string;
+    date?: Date;
 }
 
 export interface GraphInstanceParameter {

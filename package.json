@@ -71,6 +71,15 @@
                 "title": "%deleteInstanceButton%"
             }
         ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "moduleExplorer",
+                    "title": "%lva-edge.views.moduleExplorer.name%",
+                    "icon": "Extension/resources/instance.svg"
+                }
+            ]
+        },
         "views": {
             "explorer": [
                 {
@@ -150,7 +159,7 @@
         "compile-react": "react-scripts build",
         "eject-react": "react-scripts eject",
         "compile-ext": "tsc -p src/Extension/tsconfig.json",
-        "dev": "set PORT=3006 && react-scripts start",
+        "dev": "set PORT=3008 && react-scripts start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
         "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
@@ -158,7 +167,7 @@
     },
     "dependencies": {
         "@types/keytar": "^4.4.2",
-        "@vienna/react-dag-editor": "^1.77.0",
+        "@vienna/react-dag-editor": "^1.80.2",
         "azure-iothub": "^1.12.4",
         "dagre": "^0.8.5",
         "eslint": "^6.8.0",
@@ -181,6 +190,7 @@
         "@types/vscode": "^1.38.0",
         "@typescript-eslint/eslint-plugin": "^3.0.2",
         "@typescript-eslint/parser": "^3.0.2",
+        "eslint-plugin-react-hooks": "^4.1.0",
         "prettier": "^2.0.5",
         "typescript": "^3.9.4"
     },

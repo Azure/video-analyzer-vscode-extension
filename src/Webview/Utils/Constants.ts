@@ -5,7 +5,8 @@ export enum PostMessageNames {
     saveAndActivate = "saveAndActivate",
     getInitialData = "getInitialData",
     setInitialData = "setInitialData",
-    nameAvailableCheck = "nameAvailableCheck"
+    nameAvailableCheck = "nameAvailableCheck",
+    failedOperationReason = "failedOperationReason"
 }
 
 export enum PageType {
