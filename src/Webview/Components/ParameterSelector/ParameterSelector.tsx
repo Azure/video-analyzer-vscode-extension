@@ -2,14 +2,21 @@ import {
     DefaultButton,
     IIconProps,
     Panel,
+    PrimaryButton,
     SearchBox,
     Stack,
     Text
 } from "office-ui-fabric-react";
+import {
+    Dialog,
+    DialogFooter,
+    DialogType
+} from "office-ui-fabric-react/lib/Dialog";
 import React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
+import { ParameterChangeValidation } from "../../Types/GraphTypes";
 import {
     createParameter,
     deleteParameter,
@@ -20,21 +27,27 @@ import { EditableParameter } from "./EditableParameter";
 
 interface ParameterSelectorProps {
     isOpen: boolean;
-    onClose: () => void;
     parameters: any;
+    paramsThatWillChange: ParameterChangeValidation[];
+    onClose: () => void;
+    checkParameter: (parameter: MediaGraphParameterDeclaration) => void;
+    deleteParametersFromNodes: (parameter: MediaGraphParameterDeclaration) => void;
 }
 
 const addIcon: IIconProps = { iconName: "Add" };
 
 export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> = (props) => {
-    const { isOpen, onClose, parameters } = props;
+    const { isOpen, onClose, paramsThatWillChange, checkParameter, parameters, deleteParametersFromNodes } = props;
     const [addNewIsShown, { toggle: setAddNewIsShown }] = useBoolean(false);
+    const [showDeleteDialog, { toggle: toggleShowDeleteDialog }] = useBoolean(false);
     const [searchParameter, setSearchParameters] = React.useState<string>("");
     const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
     const [editedParameter, setEditedParameter] = React.useState<number>(-1);
+    const [focusedDeleteParameter, setFocusedDeleteParameter] = React.useState<number>(-1);
 
     const createParameterFields = () => {
         if (parameters) {
+            // console.log("parameters", parameters);
             return (
                 <Stack style={{ paddingTop: "10px" }}>
                     {getParameters().map((p: any, idx: number) => {
@@ -54,6 +67,13 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                 </Stack>
             );
         }
+    };
+
+    const dialogContentProps = {
+        type: DialogType.normal,
+        title: "Delete parameter?",
+        closeButtonAriaLabel: "Close",
+        subText: "The following nodes will lose their parameters. Do you want to delete this parameter?"
     };
 
     const searchFunction = (search: any) => {
@@ -85,11 +105,40 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     };
 
     const onDeleteParameterClick = (index: number) => {
-        deleteParameter(index, parameters);
+        //setdeleteFocusedParameter
+        setFocusedDeleteParameter(index);
+        //show deleteDialogBox = true
+        toggleShowDeleteDialog();
+        //send back the parameter that is going to be deleted
+        checkParameter(parameters[index]);
+    };
+
+    const onDeleteParameterDialogClick = () => {
+        // remove deleted parameters from graph.data
+        deleteParametersFromNodes(parameters[focusedDeleteParameter]);
+        //delete Parameter
+        deleteParameter(focusedDeleteParameter, parameters);
+        setFocusedDeleteParameter(-1);
+        toggleShowDeleteDialog();
     };
 
     return (
         <div>
+            <Dialog hidden={!showDeleteDialog} onDismiss={toggleShowDeleteDialog} dialogContentProps={dialogContentProps}>
+                {paramsThatWillChange
+                    ? paramsThatWillChange.map((m1) => {
+                          return (
+                              <p key={m1.nodeId}>
+                                  {m1.nodeName} - {m1.value}
+                              </p>
+                          );
+                      })
+                    : ""}
+                <DialogFooter>
+                    <PrimaryButton onClick={onDeleteParameterDialogClick} text="Send" />
+                    <DefaultButton onClick={toggleShowDeleteDialog} text="Don't send" />
+                </DialogFooter>
+            </Dialog>
             <Panel isOpen={isOpen} onDismiss={onClose} closeButtonAriaLabel="Close">
                 {addNewIsShown ? (
                     <Stack style={{ paddingBottom: "20px" }}>

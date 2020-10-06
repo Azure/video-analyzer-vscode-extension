@@ -20,11 +20,15 @@ import {
     RegisterPort,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
-import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
+import {
+    MediaGraphParameterDeclaration,
+    MediaGraphTopology
+} from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import {
     GraphInfo,
+    ParameterChangeValidation,
     ServerError,
     ValidationError,
     ValidationErrorType
@@ -61,6 +65,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
     const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
     let errorsFromResponse: ValidationError[] = [];
+    const [paramsThatWillChange, setParamsThatWillChange] = React.useState<ParameterChangeValidation[]>([]);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -194,6 +199,16 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         setShowValidationErrors(!showValidationErrors);
     };
 
+    //type will be test or delete (maybe add edit here too, if they want the validation before you save edited param)
+    const checkParameters = (parameter: MediaGraphParameterDeclaration) => {
+        const paramChanges = graph.checkForParamsInGraphNode(parameter);
+        setParamsThatWillChange(paramChanges);
+    };
+
+    const deleteParametersFromNodes = (parameter: MediaGraphParameterDeclaration) => {
+        graph.setGraphNodeData(graph.deleteParamsFromGraph(parameter));
+    };
+
     const parameters = graph.getParameters();
     const canContinue = (errorsFromResponse?: ValidationError[]) => {
         if (errorsFromResponse) {
@@ -269,7 +284,12 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
-                    <ParameterSelectorTrigger parameters={parameters} />
+                    <ParameterSelectorTrigger
+                        parameters={parameters}
+                        checkParameter={checkParameters}
+                        paramsThatWillChange={paramsThatWillChange}
+                        deleteParametersFromNodes={deleteParametersFromNodes}
+                    />
                     {validationErrors && validationErrors.length > 0 ? (
                         <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
                             <ActionButton

@@ -1,6 +1,6 @@
 import dagre from "dagre";
 import { v4 as uuid } from "uuid";
-import { ICanvasData, IPropsAPI } from "@vienna/react-dag-editor";
+import { ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
     MediaGraphParameterDeclaration,
@@ -39,6 +39,13 @@ export default class Graph {
         this.graphInformation = graphInfo.meta;
         this.graphStructureStore.nodes = graphInfo.nodes;
         this.graphStructureStore.edges = graphInfo.edges;
+    }
+
+    public setGraphNodeData(canvasNodeData: ICanvasNode<CanvasNodeData, any>[]) {
+        // new node data input to be saved as nodesData
+        console.log("setGraphNOdeData", canvasNodeData);
+        this.graphStructureStore.nodes = canvasNodeData;
+        console.log("graph info", this.graphStructureStore.nodes);
     }
 
     public setGraphDataFromICanvasData(canvasData: ICanvasData) {
@@ -216,6 +223,82 @@ export default class Graph {
     public validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any, any>>, errorsFromService?: ValidationError[]): ValidationError[] {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
+
+    public checkForParamsInGraphNode(parameter: MediaGraphParameterDeclaration) {
+        return GraphValidator.checkForParamsInGraphNode(this.graphStructureStore.nodes, parameter.name);
+    }
+
+    public deleteParamsFromGraph(parameter: any) {
+        const validatedParameter = "${" + parameter.name + "}";
+        const nodes = this.graphStructureStore.nodes;
+        const newNodes = [];
+
+        console.log("----- delete start -----");
+
+        for (const node of nodes) {
+            const tempNode = this.recursiveDeleteParamsFromGraph(node, validatedParameter);
+            // console.log("-*- temp node -*-", tempNode);
+            newNodes.push(tempNode);
+        }
+
+        console.log("!!!NEW NODES!!!", newNodes);
+
+        return newNodes;
+    }
+
+    private recursiveDeleteParamsFromGraph(node: any, parameterName: string) {
+        const nodeProperties = Object.keys(node);
+        const newObj: any = {};
+        for (let i = 0; i < nodeProperties.length; i++) {
+            if (typeof node[nodeProperties[i]] != "string" && typeof node[nodeProperties[i]] != "number" && typeof node[nodeProperties[i]] != "boolean") {
+                //recursive go down another level
+                // console.log("recursion", node[nodeProperties[i]]);
+                newObj[nodeProperties[i]] = this.recursiveDeleteParamsFromGraph(node[nodeProperties[i]], parameterName);
+                // console.log("newObj after recursion", nodeProperties[i], newObj);
+            } else {
+                if (node[nodeProperties[i]] === parameterName) {
+                    // console.log("found one", nodeProperties[i], node[nodeProperties[i]]);
+                    newObj[nodeProperties[i]] = "";
+                    // console.log("^newObj^", newObj);
+                } else {
+                    newObj[nodeProperties[i]] = node[nodeProperties[i]];
+                }
+            }
+        }
+        // console.log("newobj b4 return", newObj);
+        return newObj;
+    }
+
+    // public deleteParamsFromGraph(parameter: any) {
+    //     console.log("edit/delete GD", this.graphStructureStore.nodes, parameter);
+    //     const validatedParameter = "${" + parameter.name + "}";
+    //     const nodes = this.graphStructureStore.nodes;
+    //     const newNodes = [];
+    //     for (let i = 0; i < nodes.length; i++) {
+    //         const properties = NodeHelpers.getTrimmedNodeProperties(nodes[i].data?.nodeProperties as CanvasNodeProperties);
+    //         const tempNode = nodes[i];
+    //         if (properties.endpoint) {
+    //             //check URL
+    //             if (properties.endpoint?.url === validatedParameter) {
+    //                 console.log("URL");
+    //                 tempNode.data ? (tempNode.data.nodeProperties.endpoint.url = "") : console.log("delete url fail");
+    //             }
+    //             //check Credentials
+    //             if (properties.endpoint?.credentials) {
+    //                 const credentials = properties.endpoint.credentials;
+    //                 const credentialKeys = Object.keys(credentials);
+    //                 console.log("Credentials!", credentials, credentialKeys);
+    //                 for (let i = 0; i < credentialKeys.length; i++) {
+    //                     if (credentials[credentialKeys[i]] === validatedParameter) {
+    //                         tempNode.data ? (tempNode.data.nodeProperties.endpoint.credentials[credentialKeys[i]] = "") : console.log("failure credentials");
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         newNodes.push(tempNode);
+    //     }
+    //     return newNodes;
+    // }
 
     // Internal functions
 
