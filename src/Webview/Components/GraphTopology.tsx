@@ -178,16 +178,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         setShowValidationErrors(!showValidationErrors);
     };
 
-    //type will be test or delete (maybe add edit here too, if they want the validation before you save edited param)
-    const checkParameters = (parameter: MediaGraphParameterDeclaration) => {
-        const paramChanges = graph.checkForParamsInGraphNode(parameter.name);
-        setParamsThatWillChange(paramChanges);
-    };
-
-    const deleteParametersFromNodes = (parameter: MediaGraphParameterDeclaration) => {
-        graph.deleteParamsFromGraph(parameter);
-    };
-
     const parameters = graph.getParameters();
     const canContinue = () => {
         return new Promise<boolean>((resolve) => {
@@ -260,12 +250,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
-                    <ParameterSelectorTrigger
-                        parameters={parameters}
-                        checkParameter={checkParameters}
-                        paramsThatWillChange={paramsThatWillChange}
-                        deleteParametersFromNodes={deleteParametersFromNodes}
-                    />
+                    <ParameterSelectorTrigger parameters={parameters} graph={graph} />
                     {validationErrors && validationErrors.length > 0 ? (
                         <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
                             <ActionButton
