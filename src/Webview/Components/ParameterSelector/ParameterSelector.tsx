@@ -44,29 +44,6 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     const [focusedDeleteParameter, setFocusedDeleteParameter] = React.useState<number>(-1);
     const [paramsThatWillChange, setParamsThatWillChange] = React.useState<ParameterChangeValidation[]>([]);
 
-    const createParameterFields = () => {
-        if (parameters) {
-            return (
-                <Stack style={{ paddingTop: "10px" }}>
-                    {getParameters().map((p: any, idx: number) => {
-                        return (
-                            <EditableParameter
-                                object={p}
-                                key={idx}
-                                id={idx}
-                                showEdit={idx === editedParameter}
-                                onDeleteParameterClick={onDeleteParameterClick}
-                                onEditParameterClick={onEditParameterClick}
-                                onEditSaveParameterClick={onEditSaveParameterClick}
-                                setParameterCreationConfiguration={setParameterCreationConfiguration}
-                            />
-                        );
-                    })}
-                </Stack>
-            );
-        }
-    };
-
     const dialogContentProps = {
         type: DialogType.normal,
         title: "Delete parameter?",
@@ -103,24 +80,18 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     };
 
     const onDeleteParameterClick = (index: number) => {
-        //setdeleteFocusedParameter
         setFocusedDeleteParameter(index);
-        //show deleteDialogBox = true
         toggleShowDeleteDialog();
-        //send back the parameter that is going to be deleted
         checkParameter(parameters[index]);
     };
 
     const onDeleteParameterDialogClick = () => {
-        // remove deleted parameters from graph.data
         deleteParametersFromNodes(parameters[focusedDeleteParameter]);
-        //delete Parameter
         deleteParameter(focusedDeleteParameter, parameters);
         setFocusedDeleteParameter(-1);
         toggleShowDeleteDialog();
     };
 
-    //type will be test or delete (maybe add edit here too, if they want the validation before you save edited param)
     const checkParameter = (parameter: MediaGraphParameterDeclaration) => {
         const paramChanges = graph.checkForParamsInGraphNode(parameter.name);
         setParamsThatWillChange(paramChanges);
@@ -129,6 +100,31 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     const deleteParametersFromNodes = (parameter: MediaGraphParameterDeclaration) => {
         graph.deleteParamsFromGraph(parameter);
     };
+
+    const createParameterFields = () => {
+        if (parameters) {
+            return (
+                <Stack style={{ paddingTop: "10px" }}>
+                    {getParameters().map((p: any, idx: number) => {
+                        return (
+                            <EditableParameter
+                                object={p}
+                                key={idx}
+                                id={idx}
+                                showEdit={idx === editedParameter}
+                                onDeleteParameterClick={onDeleteParameterClick}
+                                onEditParameterClick={onEditParameterClick}
+                                onEditSaveParameterClick={onEditSaveParameterClick}
+                                setParameterCreationConfiguration={setParameterCreationConfiguration}
+                            />
+                        );
+                    })}
+                </Stack>
+            );
+        }
+    };
+
+    console.log("parameters", parameters);
 
     return (
         <div>

@@ -233,21 +233,21 @@ export default class Graph {
     }
 
     // recursively returns an array that shows what properties will be affected if the parameter is deleted
-    private recursiveCheckForParamsInGraphNode(obj: any, nodeName: string, nodeId: string, parameterName: string) {
+    private recursiveCheckForParamsInGraphNode(nestedNode: any, nodeName: string, nodeId: string, parameterName: string) {
         let errors: ParameterChangeValidation[] = [];
-        const objProperties = Object.keys(obj);
+        const nestedPropertyKeys = Object.keys(nestedNode);
 
-        for (let i = 0; i < objProperties.length; i++) {
-            if (typeof obj[objProperties[i]] != "string") {
-                const tempErrors = this.recursiveCheckForParamsInGraphNode(obj[objProperties[i]], nodeName, nodeId, parameterName);
+        for (let i = 0; i < nestedPropertyKeys.length; i++) {
+            if (typeof nestedNode[nestedPropertyKeys[i]] != "string") {
+                const tempErrors = this.recursiveCheckForParamsInGraphNode(nestedNode[nestedPropertyKeys[i]], nodeName, nodeId, parameterName);
                 errors = errors.concat(tempErrors);
             }
-            if (obj[objProperties[i]] === parameterName) {
-                // if (obj[objProperties[i]] != null && obj[objProperties[i]].includes(parameterName)) {
+            // if (obj[objProperties[i]] === parameterName) {
+            if (nestedNode[nestedPropertyKeys[i]] != null && nestedNode[nestedPropertyKeys[i]].indexOf(parameterName) != -1) {
                 const tempObj: ParameterChangeValidation = {
                     nodeId: nodeId,
                     nodeName: nodeName,
-                    value: objProperties[i]
+                    value: nestedPropertyKeys[i]
                 };
                 errors.push(tempObj);
             }
