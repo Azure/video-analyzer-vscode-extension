@@ -180,12 +180,12 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
 
     //type will be test or delete (maybe add edit here too, if they want the validation before you save edited param)
     const checkParameters = (parameter: MediaGraphParameterDeclaration) => {
-        const paramChanges = graph.checkForParamsInGraphNode(parameter);
+        const paramChanges = graph.checkForParamsInGraphNode(parameter.name);
         setParamsThatWillChange(paramChanges);
     };
 
     const deleteParametersFromNodes = (parameter: MediaGraphParameterDeclaration) => {
-        graph.setGraphNodeData(graph.deleteParamsFromGraph(parameter));
+        graph.deleteParamsFromGraph(parameter);
     };
 
     const parameters = graph.getParameters();
