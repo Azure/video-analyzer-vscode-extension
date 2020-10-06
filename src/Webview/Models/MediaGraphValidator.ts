@@ -2,6 +2,7 @@ import { ICanvasNode } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
 import {
     CanvasNodeProperties,
+    ParameterChangeValidation,
     ValidationError,
     ValidationErrorType
 } from "../Types/GraphTypes";
@@ -75,6 +76,51 @@ export default class GraphValidator {
                 errors.push(...this.checkForProhibitedAnywhereDownstream(nodeType, allParents));
             }
         }
+
+        return errors;
+    }
+
+    public static checkForParamsInGraphNode(nodes: any, parameterName: string) {
+        const validatedParameter = "${" + parameterName + "}";
+        let errors: ParameterChangeValidation[] = [];
+        console.log("checkforparamsingraphnode***", nodes, parameterName);
+        console.log("***", validatedParameter);
+        for (const node of nodes) {
+            if (node.data) {
+                const newErrors = this.recursiveCheckForParamsInGraphNode(node.data, node.name, node.id, validatedParameter);
+                console.log("****new errors****", newErrors);
+                errors = errors.concat(newErrors);
+            }
+        }
+
+        return errors;
+    }
+
+    // recursively returns an array that shows what properties will be affected if the parameter is deleted
+    private static recursiveCheckForParamsInGraphNode(obj: any, nodeName: string, nodeId: string, parameterName: string) {
+        let errors: ParameterChangeValidation[] = [];
+        const objProperties = Object.keys(obj);
+        console.log("obj properties", objProperties);
+
+        for (let i = 0; i < objProperties.length; i++) {
+            if (typeof obj[objProperties[i]] != "string") {
+                console.log("not a string, but object, needs recursion!");
+                // errors.concat(this.recursiveCheckForParamsInGraphNode(obj[objProperties[i]], nodeName, nodeId, parameterName));
+                const tempErrors = this.recursiveCheckForParamsInGraphNode(obj[objProperties[i]], nodeName, nodeId, parameterName);
+                errors = errors.concat(tempErrors);
+                console.log("&&errors after recursion", errors);
+            }
+            if (obj[objProperties[i]] === parameterName) {
+                console.log("++got one!", obj[objProperties[i]]);
+                const tempObj: ParameterChangeValidation = {
+                    nodeId: nodeId,
+                    nodeName: nodeName,
+                    value: objProperties[i]
+                };
+                errors.push(tempObj);
+            }
+        }
+        console.log("recursive errors", errors);
 
         return errors;
     }
