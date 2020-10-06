@@ -28,26 +28,24 @@ import { EditableParameter } from "./EditableParameter";
 interface ParameterSelectorProps {
     isOpen: boolean;
     parameters: any;
-    paramsThatWillChange: ParameterChangeValidation[];
+    graph: any;
     onClose: () => void;
-    checkParameter: (parameter: MediaGraphParameterDeclaration) => void;
-    deleteParametersFromNodes: (parameter: MediaGraphParameterDeclaration) => void;
 }
 
 const addIcon: IIconProps = { iconName: "Add" };
 
 export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> = (props) => {
-    const { isOpen, onClose, paramsThatWillChange, checkParameter, parameters, deleteParametersFromNodes } = props;
+    const { isOpen, onClose, parameters, graph } = props;
     const [addNewIsShown, { toggle: setAddNewIsShown }] = useBoolean(false);
     const [showDeleteDialog, { toggle: toggleShowDeleteDialog }] = useBoolean(false);
     const [searchParameter, setSearchParameters] = React.useState<string>("");
     const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
     const [editedParameter, setEditedParameter] = React.useState<number>(-1);
     const [focusedDeleteParameter, setFocusedDeleteParameter] = React.useState<number>(-1);
+    const [paramsThatWillChange, setParamsThatWillChange] = React.useState<ParameterChangeValidation[]>([]);
 
     const createParameterFields = () => {
         if (parameters) {
-            // console.log("parameters", parameters);
             return (
                 <Stack style={{ paddingTop: "10px" }}>
                     {getParameters().map((p: any, idx: number) => {
@@ -120,6 +118,16 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
         deleteParameter(focusedDeleteParameter, parameters);
         setFocusedDeleteParameter(-1);
         toggleShowDeleteDialog();
+    };
+
+    //type will be test or delete (maybe add edit here too, if they want the validation before you save edited param)
+    const checkParameter = (parameter: MediaGraphParameterDeclaration) => {
+        const paramChanges = graph.checkForParamsInGraphNode(parameter.name);
+        setParamsThatWillChange(paramChanges);
+    };
+
+    const deleteParametersFromNodes = (parameter: MediaGraphParameterDeclaration) => {
+        graph.deleteParamsFromGraph(parameter);
     };
 
     return (
