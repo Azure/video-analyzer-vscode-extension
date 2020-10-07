@@ -16,7 +16,6 @@ import React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
-import { ParameterChangeValidation } from "../../Types/GraphTypes";
 import {
     createParameter,
     deleteParameter,
@@ -30,6 +29,12 @@ interface ParameterSelectorProps {
     parameters: any;
     graph: any;
     onClose: () => void;
+}
+
+export interface ParameterChangeValidation {
+    nodeId: string;
+    nodeName: string;
+    value: string;
 }
 
 const addIcon: IIconProps = { iconName: "Add" };
@@ -74,6 +79,9 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
 
     const onEditSaveParameterClick = (index: number) => {
         if (parameterCreationConfiguration?.name && parameterCreationConfiguration?.type) {
+            if (parameterCreationConfiguration.name != parameters[index].name) {
+                graph.editParamsFromGraph(parameters[index].name, parameterCreationConfiguration.name);
+            }
             editParameter(parameterCreationConfiguration, parameters, index);
         }
         setEditedParameter(-1);
@@ -108,7 +116,7 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                     {getParameters().map((p: any, idx: number) => {
                         return (
                             <EditableParameter
-                                object={p}
+                                data={p}
                                 key={idx}
                                 id={idx}
                                 showEdit={idx === editedParameter}
@@ -124,8 +132,6 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
         }
     };
 
-    console.log("parameters", parameters);
-
     return (
         <div>
             <Dialog hidden={!showDeleteDialog} onDismiss={toggleShowDeleteDialog} dialogContentProps={dialogContentProps}>
@@ -139,8 +145,8 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                       })
                     : ""}
                 <DialogFooter>
-                    <PrimaryButton onClick={onDeleteParameterDialogClick} text="Send" />
-                    <DefaultButton onClick={toggleShowDeleteDialog} text="Don't send" />
+                    <PrimaryButton onClick={onDeleteParameterDialogClick} text={Localizer.l("editParametersDeleteButtonText")} />
+                    <DefaultButton onClick={toggleShowDeleteDialog} text={Localizer.l("editParametersCancelButtonText")} />
                 </DialogFooter>
             </Dialog>
             <Panel isOpen={isOpen} onDismiss={onClose} closeButtonAriaLabel="Close">

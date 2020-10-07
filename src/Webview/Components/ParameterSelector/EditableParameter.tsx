@@ -6,7 +6,7 @@ import { ParameterEditorCreateForm } from "../ParameterEditor/ParameterEditorCre
 
 interface EditableParameterProps {
     id?: number;
-    object: any;
+    data: any;
     showEdit: boolean;
     onDeleteParameterClick: (index: number) => void;
     onEditParameterClick: (index: number) => void;
@@ -15,7 +15,7 @@ interface EditableParameterProps {
 }
 
 export const EditableParameter: React.FunctionComponent<EditableParameterProps> = (props) => {
-    const { id, object, showEdit, onDeleteParameterClick, onEditParameterClick, onEditSaveParameterClick, setParameterCreationConfiguration } = props;
+    const { id, data, showEdit, onDeleteParameterClick, onEditParameterClick, onEditSaveParameterClick, setParameterCreationConfiguration } = props;
     const editableParamContainer: React.CSSProperties = {
         display: "flex",
         flexDirection: "row",
@@ -73,7 +73,12 @@ export const EditableParameter: React.FunctionComponent<EditableParameterProps> 
             {showEdit ? (
                 <>
                     <Stack style={attributes}>
-                        <ParameterEditorCreateForm setParameterCreationConfiguration={setParameterCreationConfiguration} />
+                        <ParameterEditorCreateForm
+                            setParameterCreationConfiguration={setParameterCreationConfiguration}
+                            name={data.name}
+                            value={data.default}
+                            type={data.type}
+                        />
                     </Stack>
                     <Stack style={editIcons}>
                         <IconButton
@@ -100,9 +105,9 @@ export const EditableParameter: React.FunctionComponent<EditableParameterProps> 
                         </div>
                         <div style={parameterAttributes}>
                             <Text variant={"medium"} style={{ fontWeight: "bold" }}>
-                                {object.name}
+                                {data.name}
                             </Text>
-                            <Text variant={"small"}>{object.type}</Text>
+                            <Text variant={"small"}>{data.type}</Text>
                         </div>
                     </Stack>
                     <Stack style={editIcons}>

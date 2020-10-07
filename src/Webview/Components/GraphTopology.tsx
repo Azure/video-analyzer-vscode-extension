@@ -28,7 +28,6 @@ import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import {
     GraphInfo,
-    ParameterChangeValidation,
     ValidationError,
     ValidationErrorType
 } from "../Types/GraphTypes";
@@ -62,7 +61,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
     const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
-    const [paramsThatWillChange, setParamsThatWillChange] = React.useState<ParameterChangeValidation[]>([]);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);

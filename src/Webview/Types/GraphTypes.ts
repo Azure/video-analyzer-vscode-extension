@@ -44,12 +44,6 @@ export interface CanvasNodeProperties {
     endpoint?: any;
 }
 
-export interface ParameterChangeValidation {
-    nodeId: string;
-    nodeName: string;
-    value: string;
-}
-
 export interface CanvasNodeData {
     color: string;
     iconName: string;
