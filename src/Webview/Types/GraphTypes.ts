@@ -41,7 +41,6 @@ export interface CanvasNodeProperties {
     "@type": string;
     inputs?: MediaGraphNodeInput[];
     name: string;
-    endpoint?: any;
 }
 
 export interface CanvasNodeData {

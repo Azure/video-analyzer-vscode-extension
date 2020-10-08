@@ -20,10 +20,7 @@ import {
     RegisterPort,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
-import {
-    MediaGraphParameterDeclaration,
-    MediaGraphTopology
-} from "../../Common/Types/LVASDKTypes";
+import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import {
@@ -248,7 +245,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 >
                     <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
                     <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
-                    <ParameterSelectorTrigger parameters={parameters} graph={graph} />
+                    <ParameterSelectorTrigger parameters={parameters} graph={graph} propsApiRef={propsApiRef} />
                     {validationErrors && validationErrors.length > 0 ? (
                         <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
                             <ActionButton
