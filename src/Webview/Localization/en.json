@@ -127,5 +127,9 @@
     "editParametersEditButtonText": "Edit",
     "editParametersCancelButtonText": "Cancel",
     "editParametersDeleteButtonText": "Delete",
-    "editParametersSaveButtonText": "Save"
+    "editParametersRemoveButtonText": "Remove",
+    "editParametersSaveButtonText": "Save",
+    "deleteParamaterDialogTitle": "Remove parameter",
+    "deleteParameterDialogText": "Removing the parameter sets linked properties to empty and may cause graph errors. Please confirm removal of parameter.",
+    "deleteParameterDialogLinkedProperties": "Linked properties"
 }

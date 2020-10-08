@@ -224,8 +224,8 @@ export default class Graph {
         let resultNodes: ParameterChangeValidation[] = [];
         for (const node of nodes) {
             if (node.data && node.name) {
-                const newErrors = this.recursiveCheckForParamsInGraphNode(node.data, node.name, node.id, parameterString);
-                resultNodes = resultNodes.concat(newErrors);
+                const nodeDrillDown: string[] = [node.name];
+                resultNodes = resultNodes.concat(this.recursiveCheckForParamsInGraphNode(node.data, node.name, node.id, parameterString, nodeDrillDown));
             }
         }
 
@@ -233,21 +233,24 @@ export default class Graph {
     }
 
     // recursively returns an array that shows what properties will be affected if the parameter is deleted
-    private recursiveCheckForParamsInGraphNode(nestedNode: any, nodeName: string, nodeId: string, parameterName: string) {
+    private recursiveCheckForParamsInGraphNode(nestedNode: any, nodeName: string, nodeId: string, parameterName: string, nodeDrillDown: string[]) {
         let itemsThatWillChange: ParameterChangeValidation[] = [];
         const propertyKeys = Object.keys(nestedNode);
 
         for (let i = 0; i < propertyKeys.length; i++) {
-            if (typeof nestedNode[propertyKeys[i]] != "number" && typeof nestedNode[propertyKeys[i]] != "boolean") {
-                if (typeof nestedNode[propertyKeys[i]] != "string") {
-                    const newItem = this.recursiveCheckForParamsInGraphNode(nestedNode[propertyKeys[i]], nodeName, nodeId, parameterName);
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+                if (typeof propertyValue != "string") {
+                    nodeDrillDown.push(propertyKeys[i]);
+                    const newItem = this.recursiveCheckForParamsInGraphNode(propertyValue, nodeName, nodeId, parameterName, nodeDrillDown);
                     itemsThatWillChange = itemsThatWillChange.concat(newItem);
                 } else {
-                    if (nestedNode[propertyKeys[i]] != null && nestedNode[propertyKeys[i]].indexOf(parameterName) != -1) {
+                    if (propertyValue != null && propertyValue.indexOf(parameterName) != -1) {
+                        nodeDrillDown.push(propertyKeys[i]);
                         const tempObj: ParameterChangeValidation = {
                             nodeId: nodeId,
                             nodeName: nodeName,
-                            value: propertyKeys[i]
+                            value: nodeDrillDown
                         };
                         itemsThatWillChange.push(tempObj);
                     }
@@ -269,11 +272,12 @@ export default class Graph {
     private recursiveDeleteParamsFromGraph(nestedNode: any, parameterName: string) {
         const propertyKeys = Object.keys(nestedNode);
         for (let i = 0; i < propertyKeys.length; i++) {
-            if (typeof nestedNode[propertyKeys[i]] != "number" && typeof nestedNode[propertyKeys[i]] != "boolean") {
-                if (typeof nestedNode[propertyKeys[i]] != "string") {
-                    this.recursiveDeleteParamsFromGraph(nestedNode[propertyKeys[i]], parameterName);
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+                if (typeof propertyValue != "string") {
+                    this.recursiveDeleteParamsFromGraph(propertyValue, parameterName);
                 } else {
-                    if (nestedNode[propertyKeys[i]] != null && nestedNode[propertyKeys[i]].indexOf(parameterName) != -1) {
+                    if (propertyValue != null && propertyValue.indexOf(parameterName) != -1) {
                         nestedNode[propertyKeys[i]] = "";
                     }
                 }
@@ -294,12 +298,13 @@ export default class Graph {
     private recursiveEditParamsFromGraph(nestedNode: any, oldParameterName: string, newParameterName: string) {
         const propertyKeys = Object.keys(nestedNode);
         for (let i = 0; i < propertyKeys.length; i++) {
-            if (typeof nestedNode[propertyKeys[i]] != "number" && typeof nestedNode[propertyKeys[i]] != "boolean") {
-                if (typeof nestedNode[propertyKeys[i]] != "string") {
-                    this.recursiveEditParamsFromGraph(nestedNode[propertyKeys[i]], oldParameterName, newParameterName);
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+                if (typeof propertyValue != "string") {
+                    this.recursiveEditParamsFromGraph(propertyValue, oldParameterName, newParameterName);
                 } else {
-                    if (nestedNode[propertyKeys[i]] != null && nestedNode[propertyKeys[i]].indexOf(oldParameterName) != -1) {
-                        nestedNode[propertyKeys[i]] = nestedNode[propertyKeys[i]].replace(oldParameterName, newParameterName);
+                    if (propertyValue != null && propertyValue.indexOf(oldParameterName) != -1) {
+                        nestedNode[propertyKeys[i]] = propertyValue.replace(oldParameterName, newParameterName);
                     }
                 }
             }

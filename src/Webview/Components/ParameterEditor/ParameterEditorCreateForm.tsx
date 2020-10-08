@@ -30,9 +30,9 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
         { key: "Bool", text: "Bool" }
     ];
 
-    const [parameterName, setParameterName] = React.useState<string>(name ? name : "");
-    const [parameterType, setParameterType] = React.useState<MediaGraphParameterType>((type ? type : options[0].key) as MediaGraphParameterType);
-    const [parameterDefaultValue, setParameterDefaultValue] = React.useState<string>(value ? value : "");
+    const [parameterName, setParameterName] = React.useState<string>(name ?? "");
+    const [parameterType, setParameterType] = React.useState<MediaGraphParameterType>((type ?? options[0].key) as MediaGraphParameterType);
+    const [parameterDefaultValue, setParameterDefaultValue] = React.useState<string>(value ?? "");
 
     React.useEffect(() => {
         setParameterCreationConfiguration({

@@ -14,6 +14,7 @@ import {
 } from "office-ui-fabric-react/lib/Dialog";
 import React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
+import { IPropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import {
@@ -28,19 +29,20 @@ interface ParameterSelectorProps {
     isOpen: boolean;
     parameters: any;
     graph: any;
+    propsApiRef: React.RefObject<IPropsAPI>;
     onClose: () => void;
 }
 
 export interface ParameterChangeValidation {
     nodeId: string;
     nodeName: string;
-    value: string;
+    value: string[];
 }
 
 const addIcon: IIconProps = { iconName: "Add" };
 
 export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> = (props) => {
-    const { isOpen, onClose, parameters, graph } = props;
+    const { isOpen, onClose, parameters, graph, propsApiRef } = props;
     const [addNewIsShown, { toggle: setAddNewIsShown }] = useBoolean(false);
     const [showDeleteDialog, { toggle: toggleShowDeleteDialog }] = useBoolean(false);
     const [searchParameter, setSearchParameters] = React.useState<string>("");
@@ -51,9 +53,9 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
 
     const dialogContentProps = {
         type: DialogType.normal,
-        title: "Delete parameter?",
+        title: Localizer.l("deleteParamaterDialogTitle"),
         closeButtonAriaLabel: "Close",
-        subText: "The following nodes will lose their parameters. Do you want to delete this parameter?"
+        subText: Localizer.l("deleteParameterDialogText")
     };
 
     const searchFunction = (search: any) => {
@@ -132,20 +134,38 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
         }
     };
 
+    const buildNodeDrillDown = (node: any) => {
+        let newString = node[0];
+        for (let i = 2; i < node.length; i++) {
+            newString += ` > ${node[i]}`;
+        }
+
+        return newString;
+    };
+
     return (
         <div>
-            <Dialog hidden={!showDeleteDialog} onDismiss={toggleShowDeleteDialog} dialogContentProps={dialogContentProps}>
-                {paramsThatWillChange
-                    ? paramsThatWillChange.map((m1) => {
-                          return (
-                              <p key={m1.nodeId}>
-                                  {m1.nodeName} - {m1.value}
-                              </p>
-                          );
-                      })
-                    : ""}
+            <Dialog maxWidth="400px" hidden={!showDeleteDialog} onDismiss={toggleShowDeleteDialog} dialogContentProps={dialogContentProps}>
+                {paramsThatWillChange.length > 0 ? (
+                    <Stack>
+                        <Stack style={{ paddingBottom: "10px" }}>
+                            <Text variant="large">{Localizer.l("deleteParameterDialogLinkedProperties")}</Text>
+                        </Stack>
+                        <Stack>
+                            {paramsThatWillChange.map((m1) => {
+                                return (
+                                    <Text key={m1.nodeId} variant="medium">
+                                        {buildNodeDrillDown(m1.value)}
+                                    </Text>
+                                );
+                            })}
+                        </Stack>
+                    </Stack>
+                ) : (
+                    ""
+                )}
                 <DialogFooter>
-                    <PrimaryButton onClick={onDeleteParameterDialogClick} text={Localizer.l("editParametersDeleteButtonText")} />
+                    <PrimaryButton onClick={onDeleteParameterDialogClick} text={Localizer.l("editParametersRemoveButtonText")} />
                     <DefaultButton onClick={toggleShowDeleteDialog} text={Localizer.l("editParametersCancelButtonText")} />
                 </DialogFooter>
             </Dialog>
