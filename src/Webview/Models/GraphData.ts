@@ -1,6 +1,6 @@
 import dagre from "dagre";
 import { v4 as uuid } from "uuid";
-import { ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
+import { ICanvasData, IPropsAPI } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
     MediaGraphParameterDeclaration,
