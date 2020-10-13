@@ -1,7 +1,7 @@
-import { Stack } from "office-ui-fabric-react";
+import { Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
-import { IPanelConfig, IPropsAPI, usePropsAPI } from "@vienna/react-dag-editor";
+import { IPanelConfig, usePropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
@@ -15,13 +15,15 @@ interface INodePropertiesPanel {
     readOnly: boolean;
     data: any;
     parameters: MediaGraphParameterDeclaration[];
+    updateNodeName: (oldName: string, newName: string) => void;
 }
 
 const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (props) => {
-    const { readOnly, parameters, data } = props;
+    const { readOnly, parameters, data, updateNodeName } = props;
     const propsAPI = usePropsAPI();
 
     const [isParameterModalOpen, { setTrue: showModal, setFalse: hideModal }] = useBoolean(false);
+    const [nodeName, setNodeName] = React.useState(data.name);
     const [parameterizationConfiguration, setParameterizationConfiguration] = React.useState<{
         name: string;
         callback: ParameterizeValueCallback;
@@ -63,10 +65,17 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
         propsAPI.selectNodeById([]);
     };
 
+    const updateName = (e: any) => {
+        setNodeName(e.target.value);
+        if (updateNodeName) {
+            updateNodeName(data.name, e.target.value);
+        }
+    };
+
     return (
         <div style={panelStyle}>
             <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: "s1" }}>
-                <h2 style={{ margin: 0 }}>{data.name}</h2>
+                <h2 style={{ margin: 0 }}>{Localizer.getLocalizedStrings(definition.localizationKey).title}</h2>
                 <AdjustedIconButton
                     iconProps={{
                         iconName: "Clear"
@@ -77,6 +86,7 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
                 />
             </Stack>
             {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
+            <TextField label={Localizer.getLocalizedStrings(definition.localizationKey).title + "name"} onChange={updateName} value={nodeName} />
             <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} />
             <React.Suspense fallback={<></>}>
                 <ParameterEditor
@@ -95,12 +105,13 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
 export class NodePropertiesPanel implements IPanelConfig {
     private readonly readOnly: boolean;
     private parameters: MediaGraphParameterDeclaration[];
-    constructor(readOnly: boolean, parameters: MediaGraphParameterDeclaration[]) {
+    constructor(readOnly: boolean, parameters: MediaGraphParameterDeclaration[], updateName: (oldName: string, newName: string) => void) {
         this.readOnly = readOnly;
         this.parameters = parameters;
+        this.updateNodeName = updateName;
     }
     public render(data: any): React.ReactElement {
-        return <NodePropertiesPanelCore readOnly={this.readOnly} parameters={this.parameters} data={data} />;
+        return <NodePropertiesPanelCore readOnly={this.readOnly} parameters={this.parameters} data={data} updateNodeName={this.updateNodeName} />;
     }
 
     public panelDidOpen(): void {
@@ -109,5 +120,9 @@ export class NodePropertiesPanel implements IPanelConfig {
 
     public panelDidDismiss(): void {
         //
+    }
+
+    public updateNodeName(oldName: string, newName: string): void {
+        this.updateNodeName(oldName, newName);
     }
 }

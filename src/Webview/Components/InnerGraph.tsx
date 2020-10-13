@@ -39,10 +39,11 @@ export interface IInnerGraphProps {
     validationErrors?: ValidationError[];
     showValidationErrors?: boolean;
     toggleValidationErrorPanel?: () => void;
+    updateNodeName: (oldName: string, newName: string) => void | undefined;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
-    const { readOnly = false, parameters = [], propsApiRef, triggerValidation } = props;
+    const { readOnly = false, parameters = [], propsApiRef, triggerValidation, updateNodeName } = props;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
     const propsAPI = usePropsAPI();
@@ -104,7 +105,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             ) : (
                 ""
             )}
-            <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters)} />
+            <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters, updateNodeName)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <GraphValueControlled data={props.data} setData={props.setData} zoomPanSettings={props.zoomPanSettings} setZoomPanSettings={props.setZoomPanSettings}>
                 <Graph

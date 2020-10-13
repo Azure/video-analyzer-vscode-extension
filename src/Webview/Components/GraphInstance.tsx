@@ -304,6 +304,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                             canvasMouseMode={CanvasMouseMode.pan}
                             readOnly
                             propsApiRef={propsApiRef}
+                            updateNodeName={() => {}}
                         />
                     </Stack.Item>
                 </Stack>
