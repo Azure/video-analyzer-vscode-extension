@@ -2,7 +2,6 @@ import { ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
 import {
     CanvasNodeProperties,
-    ParameterChangeValidation,
     ServerError,
     ValidationError,
     ValidationErrorType
