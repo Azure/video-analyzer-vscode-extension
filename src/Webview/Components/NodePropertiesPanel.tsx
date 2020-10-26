@@ -3,6 +3,8 @@ import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { IPanelConfig, usePropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
+import { PropertyEditField } from "../Components/PropertyEditor/PropertyEditField";
+import { PropertyReadOnlyEditField } from "../Components/PropertyEditor/PropertyReadonlyEditField";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { ParameterizeValueCallback } from "../Types/GraphTypes";
@@ -44,6 +46,7 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
     };
 
     const nodeProperties = data.data.nodeProperties as any;
+
     const definition = Definitions.getNodeDefinition(nodeProperties);
 
     const requestParameterization = (propertyName: string, callback: ParameterizeValueCallback, prevValue?: string) => {
@@ -65,13 +68,6 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
         propsAPI.selectNodeById([]);
     };
 
-    const updateName = (e: any) => {
-        setNodeName(e.target.value);
-        if (updateNodeName) {
-            updateNodeName(data.name, e.target.value);
-        }
-    };
-
     return (
         <div style={panelStyle}>
             <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: "s1" }}>
@@ -86,7 +82,18 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
                 />
             </Stack>
             {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
-            <TextField label={Localizer.getLocalizedStrings(definition.localizationKey).title + "name"} onChange={updateName} value={nodeName} />
+            {readOnly ? (
+                <PropertyReadOnlyEditField name={definition.name} property={definition.name} nodeProperties={nodeProperties} />
+            ) : (
+                <PropertyEditField
+                    name={Localizer.l("name")}
+                    property={{ localizationKey: "MediaGraph.nodeName", type: "string" }}
+                    nodeProperties={nodeProperties}
+                    required={true}
+                    requestParameterization={requestParameterization}
+                    updateNodeName={updateNodeName}
+                />
+            )}
             <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} />
             <React.Suspense fallback={<></>}>
                 <ParameterEditor

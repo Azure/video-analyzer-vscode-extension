@@ -146,10 +146,16 @@
         "description": "The default value for the parameter, to be used if the graph instance does not specify a value.",
         "placeholder": ""
     },
+    "MediaGraph.nodeName": {
+        "title": "Node name",
+        "description": "The name of the node",
+        "placeholder": ""
+    },
     "MediaGraphSource": {
         "title": "Source",
         "description": "Media graph source."
     },
+
     "MediaGraphSource.@type": {
         "title": "@type",
         "description": "The type of the source node. The discriminator for derived types.",
