@@ -14,10 +14,13 @@ import Localizer from "../../Localization/Localizer";
 interface IParameterEditorCreateFormProps {
     horizontal?: boolean;
     setParameterCreationConfiguration: (newParameter: MediaGraphParameterDeclaration) => void;
+    name?: string;
+    type?: string;
+    value?: string;
 }
 
 export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditorCreateFormProps> = (props) => {
-    const { setParameterCreationConfiguration, horizontal } = props;
+    const { setParameterCreationConfiguration, horizontal, name, type, value } = props;
 
     const options = [
         { key: "String", text: "String" },
@@ -27,9 +30,9 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
         { key: "Bool", text: "Bool" }
     ];
 
-    const [parameterName, setParameterName] = React.useState<string>("");
-    const [parameterType, setParameterType] = React.useState<MediaGraphParameterType>(options[0].key as MediaGraphParameterType);
-    const [parameterDefaultValue, setParameterDefaultValue] = React.useState<string>("");
+    const [parameterName, setParameterName] = React.useState<string>(name ?? "");
+    const [parameterType, setParameterType] = React.useState<MediaGraphParameterType>((type ?? options[0].key) as MediaGraphParameterType);
+    const [parameterDefaultValue, setParameterDefaultValue] = React.useState<string>(value ?? "");
 
     React.useEffect(() => {
         setParameterCreationConfiguration({
@@ -40,11 +43,12 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
     }, [parameterName, parameterType, parameterDefaultValue]);
 
     return (
-        <Stack horizontal={horizontal} tokens={horizontal ? { childrenGap: "s1" } : {}}>
+        <Stack style={{ flexGrow: 1 }} horizontal={horizontal} tokens={horizontal ? { childrenGap: "s1" } : {}}>
             <TextField
                 label={Localizer.l("parameterEditorCreateFormNameFieldLabel")}
                 placeholder={Localizer.l("parameterEditorCreateFormNameFieldPlaceholder")}
                 required
+                value={parameterName}
                 onChange={(event, newValue?) => {
                     setParameterName(newValue ?? "");
                 }}

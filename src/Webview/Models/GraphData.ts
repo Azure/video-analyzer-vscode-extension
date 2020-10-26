@@ -1,6 +1,6 @@
 import dagre from "dagre";
 import { v4 as uuid } from "uuid";
-import { ICanvasData, IPropsAPI } from "@vienna/react-dag-editor";
+import { ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
     MediaGraphParameterDeclaration,
@@ -9,6 +9,7 @@ import {
     MediaGraphSourceUnion,
     MediaGraphTopology
 } from "../../Common/Types/LVASDKTypes";
+import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
 import Localizer from "../Localization/Localizer";
 import {
     CanvasNodeData,
@@ -215,6 +216,99 @@ export default class Graph {
 
     public validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any, any>>, errorsFromService?: ValidationError[]): ValidationError[] {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
+    }
+
+    public checkForParamsInGraphNode(parameter: string) {
+        const nodes = this.graphStructureStore.nodes;
+        const parameterString = "${" + parameter + "}";
+        let resultNodes: ParameterChangeValidation[] = [];
+        for (const node of nodes) {
+            if (node.data && node.name) {
+                const nodeDrillDown: string[] = [node.name];
+                resultNodes = resultNodes.concat(this.recursiveCheckForParamsInGraphNode(node.data, node.name, node.id, parameterString, nodeDrillDown));
+            }
+        }
+
+        return resultNodes;
+    }
+
+    // recursively returns an array that shows what properties will be affected if the parameter is deleted
+    private recursiveCheckForParamsInGraphNode(nestedNode: any, nodeName: string, nodeId: string, parameterName: string, nodeDrillDown: string[]) {
+        let itemsThatWillChange: ParameterChangeValidation[] = [];
+        const propertyKeys = Object.keys(nestedNode);
+
+        for (let i = 0; i < propertyKeys.length; i++) {
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+                if (typeof propertyValue != "string") {
+                    nodeDrillDown.push(propertyKeys[i]);
+                    const newItem = this.recursiveCheckForParamsInGraphNode(propertyValue, nodeName, nodeId, parameterName, nodeDrillDown);
+                    itemsThatWillChange = itemsThatWillChange.concat(newItem);
+                } else {
+                    if (propertyValue != null && propertyValue.indexOf(parameterName) != -1) {
+                        nodeDrillDown.push(propertyKeys[i]);
+                        const tempObj: ParameterChangeValidation = {
+                            nodeId: nodeId,
+                            nodeName: nodeName,
+                            value: nodeDrillDown
+                        };
+                        itemsThatWillChange.push(tempObj);
+                    }
+                }
+            }
+        }
+
+        return itemsThatWillChange;
+    }
+
+    public deleteParamsFromGraph(parameter: any) {
+        const parameterName = "${" + parameter.name + "}";
+        const graphNodes = this.graphStructureStore.nodes;
+        for (const node of graphNodes) {
+            this.recursiveDeleteParamsFromGraph(node, parameterName);
+        }
+    }
+
+    private recursiveDeleteParamsFromGraph(nestedNode: any, parameterName: string) {
+        const propertyKeys = Object.keys(nestedNode);
+        for (let i = 0; i < propertyKeys.length; i++) {
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+                if (typeof propertyValue != "string") {
+                    this.recursiveDeleteParamsFromGraph(propertyValue, parameterName);
+                } else {
+                    if (propertyValue != null && propertyValue.indexOf(parameterName) != -1) {
+                        nestedNode[propertyKeys[i]] = "";
+                    }
+                }
+            }
+        }
+    }
+
+    public editParamsFromGraph(oldParameterName: string, newParameterName: string) {
+        const oldName = "${" + oldParameterName + "}";
+        const newName = "${" + newParameterName + "}";
+
+        const graphNodes = this.graphStructureStore.nodes;
+        for (const node of graphNodes) {
+            this.recursiveEditParamsFromGraph(node, oldName, newName);
+        }
+    }
+
+    private recursiveEditParamsFromGraph(nestedNode: any, oldParameterName: string, newParameterName: string) {
+        const propertyKeys = Object.keys(nestedNode);
+        for (let i = 0; i < propertyKeys.length; i++) {
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+                if (typeof propertyValue != "string") {
+                    this.recursiveEditParamsFromGraph(propertyValue, oldParameterName, newParameterName);
+                } else {
+                    if (propertyValue != null && propertyValue.indexOf(oldParameterName) != -1) {
+                        nestedNode[propertyKeys[i]] = propertyValue.replace(oldParameterName, newParameterName);
+                    }
+                }
+            }
+        }
     }
 
     // Internal functions
