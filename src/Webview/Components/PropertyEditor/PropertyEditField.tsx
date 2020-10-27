@@ -20,23 +20,27 @@ interface IPropertyEditFieldProps {
     nodeProperties: any;
     required: boolean;
     requestParameterization?: ParameterizeValueRequestFunction;
+    updateNodeName?: (oldName: string, newName: string) => void;
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
-    const { name, property, nodeProperties, required, requestParameterization } = props;
-
-    let initValue = nodeProperties[name];
-    if (property.type !== "boolean" && property.type !== "string") {
-        initValue = JSON.stringify(initValue);
-    }
-    if (property.type === "string" && initValue && typeof initValue === "number") {
-        initValue = initValue + "";
-    }
+    const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
-    const [value, setValue] = React.useState<string>(initValue);
+    const [value, setValue] = React.useState<string>(getInitialValue);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
 
     const parameterized = !!(value && value.includes("${"));
+
+    function getInitialValue() {
+        let initValue = nodeProperties[name];
+        if (property.type !== "boolean" && property.type !== "string") {
+            initValue = JSON.stringify(initValue);
+        }
+        if (property.type === "string" && initValue && typeof initValue === "number") {
+            initValue = initValue + "";
+        }
+        return initValue;
+    }
 
     function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
         if (item) {
@@ -61,6 +65,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function setNewValue(newValue: string) {
+        if (updateNodeName) {
+            updateNodeName(value, newValue);
+        }
         setValue(newValue);
 
         switch (property.type) {

@@ -215,6 +215,23 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         });
     };
 
+    const updateNodeName = (oldName: string, newName: string) => {
+        propsApiRef.current?.updateData((prevData: ICanvasData) => {
+            return {
+                ...prevData,
+                nodes: prevData.nodes.map((currNode) => {
+                    if (currNode.name === oldName) {
+                        return {
+                            ...currNode,
+                            name: newName
+                        };
+                    }
+                    return currNode;
+                })
+            };
+        });
+    };
+
     const panelStyles = {
         root: {
             boxSizing: "border-box" as const,
@@ -327,6 +344,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                             validationErrors={validationErrors}
                             showValidationErrors={showValidationErrors}
                             toggleValidationErrorPanel={toggleValidationErrorPanel}
+                            updateNodeName={updateNodeName}
                         />
                     </Stack.Item>
                 </Stack>
