@@ -86,7 +86,7 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
                 <PropertyReadOnlyEditField name={definition.name} property={definition.name} nodeProperties={nodeProperties} />
             ) : (
                 <PropertyEditField
-                    name={Localizer.l("nameProperty")}
+                    name={"name"}
                     property={{ localizationKey: "MediaGraph.nodeName", type: "string" }}
                     nodeProperties={nodeProperties}
                     required={true}

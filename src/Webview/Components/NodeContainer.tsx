@@ -118,7 +118,7 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
                             {nodeName ? (
                                 <Stack>
                                     <Text variant="small">{nodeType}</Text>
-                                    <Text variant="medium" className={styles.headingText}>
+                                    <Text variant="large" className={styles.headingText}>
                                         {nodeName}
                                     </Text>
                                 </Stack>
