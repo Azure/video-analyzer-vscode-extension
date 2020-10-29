@@ -10,7 +10,8 @@ import { usePropsAPI } from "@vienna/react-dag-editor";
 import { StatusIcon } from "./StatusIcon";
 
 interface INodeContainerProps {
-    heading: string;
+    nodeType: string;
+    nodeName?: string;
     title?: string;
     iconName: string;
     accentColor: string;
@@ -30,7 +31,8 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
     const {
         iconName,
         accentColor,
-        heading,
+        nodeType,
+        nodeName,
         title,
         children = [],
         selected = false,
@@ -113,9 +115,18 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
                 <Stack title={title} className={styles.content} tokens={{ childrenGap: "s2" }}>
                     <Stack horizontal>
                         <Stack.Item grow>
-                            <Text variant="medium" className={styles.headingText}>
-                                {heading}
-                            </Text>
+                            {nodeName ? (
+                                <Stack>
+                                    <Text variant="small">{nodeType}</Text>
+                                    <Text variant="medium" className={styles.headingText}>
+                                        {nodeName}
+                                    </Text>
+                                </Stack>
+                            ) : (
+                                <Text variant="medium" className={styles.headingText}>
+                                    {nodeType}
+                                </Text>
+                            )}
                         </Stack.Item>
                         <Stack.Item align="end" className={styles.statusIcon}>
                             <StatusIcon hasErrors={hasErrors ?? false} />
