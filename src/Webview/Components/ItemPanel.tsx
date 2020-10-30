@@ -100,7 +100,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
                                 style={{ margin: "5px 0" }}
                             >
                                 <NodeContainer
-                                    heading={localizedName}
+                                    nodeType={localizedName}
                                     iconName={styles.iconName!}
                                     accentColor={styles.color!}
                                     title={description}

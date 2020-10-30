@@ -9,13 +9,14 @@ import {
     IItemConfigArgs,
     IRectConfig
 } from "@vienna/react-dag-editor";
+import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { NodeContainer } from "./NodeContainer";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
     private readonly readOnly: boolean;
     private ref?: React.RefObject<HTMLDivElement>;
-    private height = 50;
+    private height = 52;
 
     constructor(readOnly: boolean) {
         this.readOnly = readOnly;
@@ -55,18 +56,20 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         const iconName = node.data!.iconName;
         const accentColor = node.data!.color;
         const nodeType = node.data!.nodeProperties["@type"];
+        const definition = Definitions.getNodeDefinition(node.data?.nodeProperties);
+        const nodeNameType = Localizer.l("nodeContainerNodeType").format(Localizer.getLocalizedStrings(definition.localizationKey).title);
         const dragging = node.data!.nodeProperties.dragging;
         const description = Localizer.l(nodeType.split(".").pop());
         const hasErrors = node.data!.hasErrors;
 
         const rectHeight = getRectHeight<ICanvasNode>(this, node);
-        console.log("NodeBase -> rectHeight", rectHeight);
         const rectWidth = getRectWidth<ICanvasNode>(this, node);
 
         return (
             <foreignObject transform={`translate(${node.x}, ${node.y})`} height={rectHeight} width={rectWidth} overflow="visible">
                 <NodeContainer
-                    heading={node.name as string}
+                    nodeName={node.name as string}
+                    nodeType={nodeNameType as string}
                     iconName={iconName}
                     accentColor={accentColor}
                     title={description}

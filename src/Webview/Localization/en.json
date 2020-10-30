@@ -14,7 +14,7 @@
     "processors": "Processors",
     "sinks": "Sinks",
     "saveButtonText": "Save",
-    "name": "Name",
+    "nodeContainerNodeType": "{0} name:",
     "saveAndActivateButtonText": "Save and activate",
     "optionalDefaultValue": "Optional default value",
     "connectedToNodes": "Connected to {0}",
