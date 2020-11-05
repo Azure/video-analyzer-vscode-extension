@@ -1,0 +1,11 @@
+{
+    "sources": ["#Microsoft.Media.MediaGraphRtspSource", "#Microsoft.Media.MediaGraphIoTHubMessageSource"],
+    "processors": [
+        "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
+        "#Microsoft.Media.MediaGraphHttpExtension",
+        "#Microsoft.Media.MediaGraphSignalGateProcessor",
+        "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension",
+        "#Microsoft.Media.MediaGraphGrpcExtension"
+    ],
+    "sinks": ["#Microsoft.Media.MediaGraphIoTHubMessageSink", "#Microsoft.Media.MediaGraphFileSink", "#Microsoft.Media.MediaGraphAssetSink"]
+}

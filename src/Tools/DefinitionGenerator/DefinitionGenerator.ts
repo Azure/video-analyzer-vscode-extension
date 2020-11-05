@@ -1,7 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
-import { CanvasNodeData, MediaGraphNodeType, NestedLocalizedStrings, NodeDefinition } from "../../Webview/Types/GraphTypes";
+import {
+    CanvasNodeData,
+    MediaGraphNodeType,
+    NestedLocalizedStrings,
+    NodeDefinition
+} from "../../Webview/Types/GraphTypes";
 import Helpers from "../../Webview/Utils/Helpers";
 import NodeHelpers from "../../Webview/Utils/NodeHelpers";
 
@@ -50,7 +55,7 @@ export default class DefinitionGenerator {
             if (node.description) {
                 const key = nodeName;
                 this.localizable[nodeName] = {
-                    title: Helpers.camelToSentenceCase(nodeName),
+                    title: Helpers.camelToSentenceCase(nodeName, true),
                     description: node.description
                 } as NestedLocalizedStrings;
                 node.localizationKey = key;
@@ -62,7 +67,7 @@ export default class DefinitionGenerator {
                 if (property.description) {
                     const key = `${nodeName}.${propertyName}`;
                     this.localizable[`${nodeName}.${propertyName}`] = {
-                        title: Helpers.camelToSentenceCase(propertyName),
+                        title: Helpers.camelToSentenceCase(propertyName, false),
                         description: property.description,
                         placeholder: property.example || ""
                     } as NestedLocalizedStrings;
@@ -76,7 +81,7 @@ export default class DefinitionGenerator {
                         if (value.description) {
                             const key = `${nodeName}.${propertyName}.${value.value}`;
                             this.localizable[key] = {
-                                title: Helpers.camelToSentenceCase(value.value),
+                                title: Helpers.camelToSentenceCase(value.value, false),
                                 description: value.description
                             } as NestedLocalizedStrings;
                             value.localizationKey = key;
@@ -156,7 +161,7 @@ export default class DefinitionGenerator {
         );
 
         // load in the existing localization
-        const existingLocalization = this.readJson(`Webview/${this.outputFolder}/i18n.en.json`) || {};
+        const existingLocalization = this.readJson(`${versionedBase}/i18n.en.json`) || {};
         const existingKeys = [];
         const mergedLocalization: Record<string, NestedLocalizedStrings> = {};
 
@@ -173,7 +178,7 @@ export default class DefinitionGenerator {
             console.warn(`${existingKeys.length} keys have already been localized and were left unchanged: ${existingKeys.join(", ")}`);
         }
 
-        fs.writeFileSync(DefinitionGenerator.resolveFile(`Webview/${this.outputFolder}/i18n.en.json`), JSON.stringify(mergedLocalization, null, 4), "utf8");
+        fs.writeFileSync(`${versionedBase}/i18n.en.json`, JSON.stringify(mergedLocalization, null, 4), "utf8");
     }
 
     // returns the MediaGraphNodeType given a node definition
