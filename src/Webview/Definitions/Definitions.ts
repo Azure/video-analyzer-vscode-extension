@@ -3,7 +3,7 @@ import { ICanvasNode } from "@vienna/react-dag-editor";
 import Localizer from "../Localization/Localizer";
 import { CanvasNodeProperties, NodeDefinition } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
-import * as storedNodes from "./v1.0/nodes.json";
+import * as storedNodes from "./v2.0.0/nodes.json"; // TODO  load the correct version when needed support for multiple versions
 
 const availableNodes: NodeDefinition[] = storedNodes.availableNodes as NodeDefinition[];
 const itemPanelNodes: any[] = storedNodes.itemPanelNodes;

@@ -1,0 +1,3018 @@
+{
+  "availableNodes": [
+    {
+      "name": "MediaGraphInstance",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "@apiVersion": {
+          "type": "string"
+        },
+        "systemData": {
+          "parsedRef": "#/definitions/MediaGraphSystemData",
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "MediaGraphSystemData.createdAt"
+            },
+            "lastModifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "MediaGraphSystemData.lastModifiedAt"
+            }
+          },
+          "localizationKey": "MediaGraphSystemData"
+        },
+        "properties": {
+          "parsedRef": "#/definitions/MediaGraphInstanceProperties",
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "localizationKey": "MediaGraphInstanceProperties.description"
+            },
+            "topologyName": {
+              "type": "string",
+              "localizationKey": "MediaGraphInstanceProperties.topologyName"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/MediaGraphParameterDefinition",
+                "type": "object",
+                "required": [
+                  "name",
+                  "value"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphParameterDefinition.name"
+                  },
+                  "value": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphParameterDefinition.value"
+                  }
+                },
+                "localizationKey": "MediaGraphParameterDefinition"
+              },
+              "localizationKey": "MediaGraphInstanceProperties.parameters"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "Inactive",
+                "Activating",
+                "Active",
+                "Deactivating"
+              ],
+              "x-ms-enum": {
+                "name": "MediaGraphInstanceState",
+                "values": [
+                  {
+                    "localizationKey": "MediaGraphInstanceProperties.state.Inactive"
+                  },
+                  {
+                    "localizationKey": "MediaGraphInstanceProperties.state.Activating"
+                  },
+                  {
+                    "localizationKey": "MediaGraphInstanceProperties.state.Active"
+                  },
+                  {
+                    "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
+                  }
+                ],
+                "modelAsString": false
+              },
+              "localizationKey": "MediaGraphInstanceProperties.state"
+            }
+          },
+          "localizationKey": "MediaGraphInstanceProperties"
+        }
+      },
+      "localizationKey": "MediaGraphInstance"
+    },
+    {
+      "name": "MediaGraphInstanceProperties",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "localizationKey": "MediaGraphInstanceProperties.description"
+        },
+        "topologyName": {
+          "type": "string",
+          "localizationKey": "MediaGraphInstanceProperties.topologyName"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphParameterDefinition",
+            "type": "object",
+            "required": [
+              "name",
+              "value"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "localizationKey": "MediaGraphParameterDefinition.name"
+              },
+              "value": {
+                "type": "string",
+                "localizationKey": "MediaGraphParameterDefinition.value"
+              }
+            },
+            "localizationKey": "MediaGraphParameterDefinition"
+          },
+          "localizationKey": "MediaGraphInstanceProperties.parameters"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "Inactive",
+            "Activating",
+            "Active",
+            "Deactivating"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphInstanceState",
+            "values": [
+              {
+                "localizationKey": "MediaGraphInstanceProperties.state.Inactive"
+              },
+              {
+                "localizationKey": "MediaGraphInstanceProperties.state.Activating"
+              },
+              {
+                "localizationKey": "MediaGraphInstanceProperties.state.Active"
+              },
+              {
+                "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
+              }
+            ],
+            "modelAsString": false
+          },
+          "localizationKey": "MediaGraphInstanceProperties.state"
+        }
+      },
+      "localizationKey": "MediaGraphInstanceProperties"
+    },
+    {
+      "name": "MediaGraphParameterDefinition",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "localizationKey": "MediaGraphParameterDefinition.name"
+        },
+        "value": {
+          "type": "string",
+          "localizationKey": "MediaGraphParameterDefinition.value"
+        }
+      },
+      "localizationKey": "MediaGraphParameterDefinition"
+    },
+    {
+      "name": "MediaGraphInstanceCollection",
+      "nodeType": "other",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphInstance",
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "@apiVersion": {
+                "type": "string"
+              },
+              "systemData": {
+                "parsedRef": "#/definitions/MediaGraphSystemData",
+                "type": "object",
+                "properties": {
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "MediaGraphSystemData.createdAt"
+                  },
+                  "lastModifiedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "MediaGraphSystemData.lastModifiedAt"
+                  }
+                },
+                "localizationKey": "MediaGraphSystemData"
+              },
+              "properties": {
+                "parsedRef": "#/definitions/MediaGraphInstanceProperties",
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphInstanceProperties.description"
+                  },
+                  "topologyName": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphInstanceProperties.topologyName"
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/MediaGraphParameterDefinition",
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "value"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphParameterDefinition.name"
+                        },
+                        "value": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphParameterDefinition.value"
+                        }
+                      },
+                      "localizationKey": "MediaGraphParameterDefinition"
+                    },
+                    "localizationKey": "MediaGraphInstanceProperties.parameters"
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "Inactive",
+                      "Activating",
+                      "Active",
+                      "Deactivating"
+                    ],
+                    "x-ms-enum": {
+                      "name": "MediaGraphInstanceState",
+                      "values": [
+                        {
+                          "localizationKey": "MediaGraphInstanceProperties.state.Inactive"
+                        },
+                        {
+                          "localizationKey": "MediaGraphInstanceProperties.state.Activating"
+                        },
+                        {
+                          "localizationKey": "MediaGraphInstanceProperties.state.Active"
+                        },
+                        {
+                          "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
+                        }
+                      ],
+                      "modelAsString": false
+                    },
+                    "localizationKey": "MediaGraphInstanceProperties.state"
+                  }
+                },
+                "localizationKey": "MediaGraphInstanceProperties"
+              }
+            },
+            "localizationKey": "MediaGraphInstance"
+          },
+          "localizationKey": "MediaGraphInstanceCollection.value"
+        },
+        "@continuationToken": {
+          "type": "string",
+          "localizationKey": "MediaGraphInstanceCollection.@continuationToken"
+        }
+      },
+      "localizationKey": "MediaGraphInstanceCollection"
+    },
+    {
+      "name": "MediaGraphTopologyCollection",
+      "nodeType": "other",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphTopology",
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "@apiVersion": {
+                "type": "string"
+              },
+              "systemData": {
+                "parsedRef": "#/definitions/MediaGraphSystemData",
+                "type": "object",
+                "properties": {
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "MediaGraphSystemData.createdAt"
+                  },
+                  "lastModifiedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "MediaGraphSystemData.lastModifiedAt"
+                  }
+                },
+                "localizationKey": "MediaGraphSystemData"
+              },
+              "properties": {
+                "parsedRef": "#/definitions/MediaGraphTopologyProperties",
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/MediaGraphParameterDeclaration",
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "type"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "maxLength": 64,
+                          "localizationKey": "MediaGraphParameterDeclaration.name"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "String",
+                            "SecretString",
+                            "Int",
+                            "Double",
+                            "Bool"
+                          ],
+                          "x-ms-enum": {
+                            "name": "MediaGraphParameterType",
+                            "values": [
+                              {
+                                "localizationKey": "MediaGraphParameterDeclaration.type.String"
+                              },
+                              {
+                                "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
+                              },
+                              {
+                                "localizationKey": "MediaGraphParameterDeclaration.type.Int"
+                              },
+                              {
+                                "localizationKey": "MediaGraphParameterDeclaration.type.Double"
+                              },
+                              {
+                                "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
+                              }
+                            ],
+                            "modelAsString": false
+                          }
+                        },
+                        "description": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphParameterDeclaration.description"
+                        },
+                        "default": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphParameterDeclaration.default"
+                        }
+                      },
+                      "localizationKey": "MediaGraphParameterDeclaration"
+                    }
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/MediaGraphSource",
+                      "type": "object",
+                      "required": [
+                        "@type",
+                        "name"
+                      ],
+                      "discriminator": "@type",
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphSource.@type"
+                        },
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphSource.name"
+                        }
+                      },
+                      "localizationKey": "MediaGraphSource"
+                    }
+                  },
+                  "processors": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/MediaGraphProcessor",
+                      "type": "object",
+                      "required": [
+                        "@type",
+                        "inputs",
+                        "name"
+                      ],
+                      "discriminator": "@type",
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphProcessor.@type"
+                        },
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphProcessor.name"
+                        },
+                        "inputs": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/MediaGraphNodeInput",
+                            "type": "object",
+                            "properties": {
+                              "nodeName": {
+                                "type": "string",
+                                "localizationKey": "MediaGraphNodeInput.nodeName"
+                              },
+                              "outputSelectors": {
+                                "type": "array",
+                                "items": {
+                                  "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                                  "properties": {
+                                    "property": {
+                                      "type": "string",
+                                      "enum": [
+                                        "mediaType"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "MediaGraphOutputSelectorProperty",
+                                        "values": [
+                                          {
+                                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                                          }
+                                        ],
+                                        "modelAsString": false
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.property"
+                                    },
+                                    "operator": {
+                                      "type": "string",
+                                      "enum": [
+                                        "is",
+                                        "isNot"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "MediaGraphOutputSelectorOperator",
+                                        "values": [
+                                          {
+                                            "localizationKey": "MediaGraphOutputSelector.operator.is"
+                                          },
+                                          {
+                                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                                          }
+                                        ],
+                                        "modelAsString": false
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.operator"
+                                    },
+                                    "value": {
+                                      "type": "string",
+                                      "localizationKey": "MediaGraphOutputSelector.value"
+                                    }
+                                  },
+                                  "localizationKey": "MediaGraphOutputSelector"
+                                },
+                                "localizationKey": "MediaGraphNodeInput.outputSelectors"
+                              }
+                            },
+                            "localizationKey": "MediaGraphNodeInput"
+                          },
+                          "localizationKey": "MediaGraphProcessor.inputs"
+                        }
+                      },
+                      "localizationKey": "MediaGraphProcessor"
+                    }
+                  },
+                  "sinks": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/MediaGraphSink",
+                      "type": "object",
+                      "required": [
+                        "@type",
+                        "inputs",
+                        "name"
+                      ],
+                      "discriminator": "@type",
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphSink.@type"
+                        },
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphSink.name"
+                        },
+                        "inputs": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/MediaGraphNodeInput",
+                            "type": "object",
+                            "properties": {
+                              "nodeName": {
+                                "type": "string",
+                                "localizationKey": "MediaGraphNodeInput.nodeName"
+                              },
+                              "outputSelectors": {
+                                "type": "array",
+                                "items": {
+                                  "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                                  "properties": {
+                                    "property": {
+                                      "type": "string",
+                                      "enum": [
+                                        "mediaType"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "MediaGraphOutputSelectorProperty",
+                                        "values": [
+                                          {
+                                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                                          }
+                                        ],
+                                        "modelAsString": false
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.property"
+                                    },
+                                    "operator": {
+                                      "type": "string",
+                                      "enum": [
+                                        "is",
+                                        "isNot"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "MediaGraphOutputSelectorOperator",
+                                        "values": [
+                                          {
+                                            "localizationKey": "MediaGraphOutputSelector.operator.is"
+                                          },
+                                          {
+                                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                                          }
+                                        ],
+                                        "modelAsString": false
+                                      },
+                                      "localizationKey": "MediaGraphOutputSelector.operator"
+                                    },
+                                    "value": {
+                                      "type": "string",
+                                      "localizationKey": "MediaGraphOutputSelector.value"
+                                    }
+                                  },
+                                  "localizationKey": "MediaGraphOutputSelector"
+                                },
+                                "localizationKey": "MediaGraphNodeInput.outputSelectors"
+                              }
+                            },
+                            "localizationKey": "MediaGraphNodeInput"
+                          },
+                          "localizationKey": "MediaGraphSink.inputs"
+                        }
+                      },
+                      "localizationKey": "MediaGraphSink"
+                    }
+                  }
+                },
+                "localizationKey": "MediaGraphTopologyProperties"
+              }
+            },
+            "localizationKey": "MediaGraphTopology"
+          },
+          "localizationKey": "MediaGraphTopologyCollection.value"
+        },
+        "@continuationToken": {
+          "type": "string",
+          "localizationKey": "MediaGraphTopologyCollection.@continuationToken"
+        }
+      },
+      "localizationKey": "MediaGraphTopologyCollection"
+    },
+    {
+      "name": "MediaGraphTopology",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "@apiVersion": {
+          "type": "string"
+        },
+        "systemData": {
+          "parsedRef": "#/definitions/MediaGraphSystemData",
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "MediaGraphSystemData.createdAt"
+            },
+            "lastModifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "MediaGraphSystemData.lastModifiedAt"
+            }
+          },
+          "localizationKey": "MediaGraphSystemData"
+        },
+        "properties": {
+          "parsedRef": "#/definitions/MediaGraphTopologyProperties",
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/MediaGraphParameterDeclaration",
+                "type": "object",
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "localizationKey": "MediaGraphParameterDeclaration.name"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "String",
+                      "SecretString",
+                      "Int",
+                      "Double",
+                      "Bool"
+                    ],
+                    "x-ms-enum": {
+                      "name": "MediaGraphParameterType",
+                      "values": [
+                        {
+                          "localizationKey": "MediaGraphParameterDeclaration.type.String"
+                        },
+                        {
+                          "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
+                        },
+                        {
+                          "localizationKey": "MediaGraphParameterDeclaration.type.Int"
+                        },
+                        {
+                          "localizationKey": "MediaGraphParameterDeclaration.type.Double"
+                        },
+                        {
+                          "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
+                        }
+                      ],
+                      "modelAsString": false
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphParameterDeclaration.description"
+                  },
+                  "default": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphParameterDeclaration.default"
+                  }
+                },
+                "localizationKey": "MediaGraphParameterDeclaration"
+              }
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/MediaGraphSource",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphSource.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphSource.name"
+                  }
+                },
+                "localizationKey": "MediaGraphSource"
+              }
+            },
+            "processors": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/MediaGraphProcessor",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "inputs",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphProcessor.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphProcessor.name"
+                  },
+                  "inputs": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/MediaGraphNodeInput",
+                      "type": "object",
+                      "properties": {
+                        "nodeName": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphNodeInput.nodeName"
+                        },
+                        "outputSelectors": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                            "properties": {
+                              "property": {
+                                "type": "string",
+                                "enum": [
+                                  "mediaType"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "MediaGraphOutputSelectorProperty",
+                                  "values": [
+                                    {
+                                      "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                                    }
+                                  ],
+                                  "modelAsString": false
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.property"
+                              },
+                              "operator": {
+                                "type": "string",
+                                "enum": [
+                                  "is",
+                                  "isNot"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "MediaGraphOutputSelectorOperator",
+                                  "values": [
+                                    {
+                                      "localizationKey": "MediaGraphOutputSelector.operator.is"
+                                    },
+                                    {
+                                      "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                                    }
+                                  ],
+                                  "modelAsString": false
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.operator"
+                              },
+                              "value": {
+                                "type": "string",
+                                "localizationKey": "MediaGraphOutputSelector.value"
+                              }
+                            },
+                            "localizationKey": "MediaGraphOutputSelector"
+                          },
+                          "localizationKey": "MediaGraphNodeInput.outputSelectors"
+                        }
+                      },
+                      "localizationKey": "MediaGraphNodeInput"
+                    },
+                    "localizationKey": "MediaGraphProcessor.inputs"
+                  }
+                },
+                "localizationKey": "MediaGraphProcessor"
+              }
+            },
+            "sinks": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/MediaGraphSink",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "inputs",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphSink.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "MediaGraphSink.name"
+                  },
+                  "inputs": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/MediaGraphNodeInput",
+                      "type": "object",
+                      "properties": {
+                        "nodeName": {
+                          "type": "string",
+                          "localizationKey": "MediaGraphNodeInput.nodeName"
+                        },
+                        "outputSelectors": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                            "properties": {
+                              "property": {
+                                "type": "string",
+                                "enum": [
+                                  "mediaType"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "MediaGraphOutputSelectorProperty",
+                                  "values": [
+                                    {
+                                      "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                                    }
+                                  ],
+                                  "modelAsString": false
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.property"
+                              },
+                              "operator": {
+                                "type": "string",
+                                "enum": [
+                                  "is",
+                                  "isNot"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "MediaGraphOutputSelectorOperator",
+                                  "values": [
+                                    {
+                                      "localizationKey": "MediaGraphOutputSelector.operator.is"
+                                    },
+                                    {
+                                      "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                                    }
+                                  ],
+                                  "modelAsString": false
+                                },
+                                "localizationKey": "MediaGraphOutputSelector.operator"
+                              },
+                              "value": {
+                                "type": "string",
+                                "localizationKey": "MediaGraphOutputSelector.value"
+                              }
+                            },
+                            "localizationKey": "MediaGraphOutputSelector"
+                          },
+                          "localizationKey": "MediaGraphNodeInput.outputSelectors"
+                        }
+                      },
+                      "localizationKey": "MediaGraphNodeInput"
+                    },
+                    "localizationKey": "MediaGraphSink.inputs"
+                  }
+                },
+                "localizationKey": "MediaGraphSink"
+              }
+            }
+          },
+          "localizationKey": "MediaGraphTopologyProperties"
+        }
+      },
+      "localizationKey": "MediaGraphTopology"
+    },
+    {
+      "name": "MediaGraphTopologyProperties",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphParameterDeclaration",
+            "type": "object",
+            "required": [
+              "name",
+              "type"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 64,
+                "localizationKey": "MediaGraphParameterDeclaration.name"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "String",
+                  "SecretString",
+                  "Int",
+                  "Double",
+                  "Bool"
+                ],
+                "x-ms-enum": {
+                  "name": "MediaGraphParameterType",
+                  "values": [
+                    {
+                      "localizationKey": "MediaGraphParameterDeclaration.type.String"
+                    },
+                    {
+                      "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
+                    },
+                    {
+                      "localizationKey": "MediaGraphParameterDeclaration.type.Int"
+                    },
+                    {
+                      "localizationKey": "MediaGraphParameterDeclaration.type.Double"
+                    },
+                    {
+                      "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
+                    }
+                  ],
+                  "modelAsString": false
+                }
+              },
+              "description": {
+                "type": "string",
+                "localizationKey": "MediaGraphParameterDeclaration.description"
+              },
+              "default": {
+                "type": "string",
+                "localizationKey": "MediaGraphParameterDeclaration.default"
+              }
+            },
+            "localizationKey": "MediaGraphParameterDeclaration"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphSource",
+            "type": "object",
+            "required": [
+              "@type",
+              "name"
+            ],
+            "discriminator": "@type",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "localizationKey": "MediaGraphSource.@type"
+              },
+              "name": {
+                "type": "string",
+                "localizationKey": "MediaGraphSource.name"
+              }
+            },
+            "localizationKey": "MediaGraphSource"
+          }
+        },
+        "processors": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphProcessor",
+            "type": "object",
+            "required": [
+              "@type",
+              "inputs",
+              "name"
+            ],
+            "discriminator": "@type",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "localizationKey": "MediaGraphProcessor.@type"
+              },
+              "name": {
+                "type": "string",
+                "localizationKey": "MediaGraphProcessor.name"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/MediaGraphNodeInput",
+                  "type": "object",
+                  "properties": {
+                    "nodeName": {
+                      "type": "string",
+                      "localizationKey": "MediaGraphNodeInput.nodeName"
+                    },
+                    "outputSelectors": {
+                      "type": "array",
+                      "items": {
+                        "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                        "properties": {
+                          "property": {
+                            "type": "string",
+                            "enum": [
+                              "mediaType"
+                            ],
+                            "x-ms-enum": {
+                              "name": "MediaGraphOutputSelectorProperty",
+                              "values": [
+                                {
+                                  "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                                }
+                              ],
+                              "modelAsString": false
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.property"
+                          },
+                          "operator": {
+                            "type": "string",
+                            "enum": [
+                              "is",
+                              "isNot"
+                            ],
+                            "x-ms-enum": {
+                              "name": "MediaGraphOutputSelectorOperator",
+                              "values": [
+                                {
+                                  "localizationKey": "MediaGraphOutputSelector.operator.is"
+                                },
+                                {
+                                  "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                                }
+                              ],
+                              "modelAsString": false
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.operator"
+                          },
+                          "value": {
+                            "type": "string",
+                            "localizationKey": "MediaGraphOutputSelector.value"
+                          }
+                        },
+                        "localizationKey": "MediaGraphOutputSelector"
+                      },
+                      "localizationKey": "MediaGraphNodeInput.outputSelectors"
+                    }
+                  },
+                  "localizationKey": "MediaGraphNodeInput"
+                },
+                "localizationKey": "MediaGraphProcessor.inputs"
+              }
+            },
+            "localizationKey": "MediaGraphProcessor"
+          }
+        },
+        "sinks": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphSink",
+            "type": "object",
+            "required": [
+              "@type",
+              "inputs",
+              "name"
+            ],
+            "discriminator": "@type",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "localizationKey": "MediaGraphSink.@type"
+              },
+              "name": {
+                "type": "string",
+                "localizationKey": "MediaGraphSink.name"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/MediaGraphNodeInput",
+                  "type": "object",
+                  "properties": {
+                    "nodeName": {
+                      "type": "string",
+                      "localizationKey": "MediaGraphNodeInput.nodeName"
+                    },
+                    "outputSelectors": {
+                      "type": "array",
+                      "items": {
+                        "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                        "properties": {
+                          "property": {
+                            "type": "string",
+                            "enum": [
+                              "mediaType"
+                            ],
+                            "x-ms-enum": {
+                              "name": "MediaGraphOutputSelectorProperty",
+                              "values": [
+                                {
+                                  "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                                }
+                              ],
+                              "modelAsString": false
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.property"
+                          },
+                          "operator": {
+                            "type": "string",
+                            "enum": [
+                              "is",
+                              "isNot"
+                            ],
+                            "x-ms-enum": {
+                              "name": "MediaGraphOutputSelectorOperator",
+                              "values": [
+                                {
+                                  "localizationKey": "MediaGraphOutputSelector.operator.is"
+                                },
+                                {
+                                  "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                                }
+                              ],
+                              "modelAsString": false
+                            },
+                            "localizationKey": "MediaGraphOutputSelector.operator"
+                          },
+                          "value": {
+                            "type": "string",
+                            "localizationKey": "MediaGraphOutputSelector.value"
+                          }
+                        },
+                        "localizationKey": "MediaGraphOutputSelector"
+                      },
+                      "localizationKey": "MediaGraphNodeInput.outputSelectors"
+                    }
+                  },
+                  "localizationKey": "MediaGraphNodeInput"
+                },
+                "localizationKey": "MediaGraphSink.inputs"
+              }
+            },
+            "localizationKey": "MediaGraphSink"
+          }
+        }
+      },
+      "localizationKey": "MediaGraphTopologyProperties"
+    },
+    {
+      "name": "MediaGraphSystemData",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "localizationKey": "MediaGraphSystemData.createdAt"
+        },
+        "lastModifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "localizationKey": "MediaGraphSystemData.lastModifiedAt"
+        }
+      },
+      "localizationKey": "MediaGraphSystemData"
+    },
+    {
+      "name": "MediaGraphParameterDeclaration",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "localizationKey": "MediaGraphParameterDeclaration.name"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "String",
+            "SecretString",
+            "Int",
+            "Double",
+            "Bool"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphParameterType",
+            "values": [
+              {
+                "localizationKey": "MediaGraphParameterDeclaration.type.String"
+              },
+              {
+                "localizationKey": "MediaGraphParameterDeclaration.type.SecretString"
+              },
+              {
+                "localizationKey": "MediaGraphParameterDeclaration.type.Int"
+              },
+              {
+                "localizationKey": "MediaGraphParameterDeclaration.type.Double"
+              },
+              {
+                "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
+              }
+            ],
+            "modelAsString": false
+          }
+        },
+        "description": {
+          "type": "string",
+          "localizationKey": "MediaGraphParameterDeclaration.description"
+        },
+        "default": {
+          "type": "string",
+          "localizationKey": "MediaGraphParameterDeclaration.default"
+        }
+      },
+      "localizationKey": "MediaGraphParameterDeclaration"
+    },
+    {
+      "name": "MediaGraphSource",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphSource.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "MediaGraphSource.name"
+        }
+      },
+      "localizationKey": "MediaGraphSource"
+    },
+    {
+      "name": "MediaGraphRtspSource",
+      "nodeType": "source",
+      "type": "object",
+      "required": [
+        "endpoint"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "transport": {
+          "type": "string",
+          "enum": [
+            "Http",
+            "Tcp"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphRtspTransport",
+            "values": [
+              {
+                "localizationKey": "MediaGraphRtspSource.transport.Http"
+              },
+              {
+                "localizationKey": "MediaGraphRtspSource.transport.Tcp"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "MediaGraphRtspSource.transport"
+        },
+        "endpoint": {
+          "parsedRef": "#/definitions/MediaGraphEndpoint",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "MediaGraphEndpoint.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/MediaGraphCredentials",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphCredentials.@type"
+                }
+              },
+              "localizationKey": "MediaGraphEndpoint.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "MediaGraphEndpoint.url"
+            }
+          },
+          "localizationKey": "MediaGraphRtspSource.endpoint"
+        }
+      },
+      "localizationKey": "MediaGraphRtspSource",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphRtspSource",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSource"
+      ]
+    },
+    {
+      "name": "MediaGraphIoTHubMessageSource",
+      "nodeType": "source",
+      "type": "object",
+      "required": [
+        "@type",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "hubInputName": {
+          "type": "string",
+          "localizationKey": "MediaGraphIoTHubMessageSource.hubInputName"
+        }
+      },
+      "localizationKey": "MediaGraphIoTHubMessageSource",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphIoTHubMessageSource",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSource"
+      ]
+    },
+    {
+      "name": "MediaGraphIoTHubMessageSink",
+      "nodeType": "sink",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "hubOutputName": {
+          "type": "string",
+          "localizationKey": "MediaGraphIoTHubMessageSink.hubOutputName"
+        }
+      },
+      "localizationKey": "MediaGraphIoTHubMessageSink",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphIoTHubMessageSink",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSink"
+      ]
+    },
+    {
+      "name": "MediaGraphEndpoint",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "url"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphEndpoint.@type"
+        },
+        "credentials": {
+          "parsedRef": "#/definitions/MediaGraphCredentials",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "MediaGraphCredentials.@type"
+            }
+          },
+          "localizationKey": "MediaGraphEndpoint.credentials"
+        },
+        "url": {
+          "type": "string",
+          "localizationKey": "MediaGraphEndpoint.url"
+        }
+      },
+      "localizationKey": "MediaGraphEndpoint"
+    },
+    {
+      "name": "MediaGraphCredentials",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphCredentials.@type"
+        }
+      },
+      "localizationKey": "MediaGraphCredentials"
+    },
+    {
+      "name": "MediaGraphUsernamePasswordCredentials",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "username"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "username": {
+          "type": "string",
+          "localizationKey": "MediaGraphUsernamePasswordCredentials.username"
+        },
+        "password": {
+          "type": "string",
+          "localizationKey": "MediaGraphUsernamePasswordCredentials.password"
+        }
+      },
+      "localizationKey": "MediaGraphUsernamePasswordCredentials",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphCredentials"
+      ]
+    },
+    {
+      "name": "MediaGraphHttpHeaderCredentials",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "headerName",
+        "headerValue"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "headerName": {
+          "type": "string",
+          "localizationKey": "MediaGraphHttpHeaderCredentials.headerName"
+        },
+        "headerValue": {
+          "type": "string",
+          "localizationKey": "MediaGraphHttpHeaderCredentials.headerValue"
+        }
+      },
+      "localizationKey": "MediaGraphHttpHeaderCredentials",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphHttpHeaderCredentials",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphCredentials"
+      ]
+    },
+    {
+      "name": "MediaGraphUnsecuredEndpoint",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "url"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphEndpoint.@type"
+        },
+        "credentials": {
+          "parsedRef": "#/definitions/MediaGraphCredentials",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "MediaGraphCredentials.@type"
+            }
+          },
+          "localizationKey": "MediaGraphEndpoint.credentials"
+        },
+        "url": {
+          "type": "string",
+          "localizationKey": "MediaGraphEndpoint.url"
+        }
+      },
+      "localizationKey": "MediaGraphUnsecuredEndpoint",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphUnsecuredEndpoint",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphEndpoint"
+      ]
+    },
+    {
+      "name": "MediaGraphTlsEndpoint",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "url"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "trustedCertificates": {
+          "parsedRef": "#/definitions/MediaGraphCertificateSource",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "MediaGraphCertificateSource.@type"
+            }
+          },
+          "localizationKey": "MediaGraphTlsEndpoint.trustedCertificates"
+        },
+        "validationOptions": {
+          "parsedRef": "#/definitions/MediaGraphTlsValidationOptions",
+          "type": "object",
+          "properties": {
+            "ignoreHostname": {
+              "type": "string",
+              "localizationKey": "MediaGraphTlsValidationOptions.ignoreHostname"
+            },
+            "ignoreSignature": {
+              "type": "string",
+              "localizationKey": "MediaGraphTlsValidationOptions.ignoreSignature"
+            }
+          },
+          "localizationKey": "MediaGraphTlsEndpoint.validationOptions"
+        }
+      },
+      "localizationKey": "MediaGraphTlsEndpoint",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphTlsEndpoint",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphEndpoint"
+      ]
+    },
+    {
+      "name": "MediaGraphCertificateSource",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphCertificateSource.@type"
+        }
+      },
+      "localizationKey": "MediaGraphCertificateSource"
+    },
+    {
+      "name": "MediaGraphTlsValidationOptions",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "ignoreHostname": {
+          "type": "string",
+          "localizationKey": "MediaGraphTlsValidationOptions.ignoreHostname"
+        },
+        "ignoreSignature": {
+          "type": "string",
+          "localizationKey": "MediaGraphTlsValidationOptions.ignoreSignature"
+        }
+      },
+      "localizationKey": "MediaGraphTlsValidationOptions"
+    },
+    {
+      "name": "MediaGraphPemCertificateList",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "certificates"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "certificates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "localizationKey": "MediaGraphPemCertificateList.certificates"
+        }
+      },
+      "localizationKey": "MediaGraphPemCertificateList",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphPemCertificateList",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphCertificateSource"
+      ]
+    },
+    {
+      "name": "MediaGraphSink",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphSink.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "MediaGraphSink.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphNodeInput",
+            "type": "object",
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "MediaGraphNodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "MediaGraphOutputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": false
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "MediaGraphOutputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "MediaGraphOutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": false
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "MediaGraphOutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "MediaGraphOutputSelector"
+                },
+                "localizationKey": "MediaGraphNodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "MediaGraphNodeInput"
+          },
+          "localizationKey": "MediaGraphSink.inputs"
+        }
+      },
+      "localizationKey": "MediaGraphSink"
+    },
+    {
+      "name": "MediaGraphNodeInput",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "nodeName": {
+          "type": "string",
+          "localizationKey": "MediaGraphNodeInput.nodeName"
+        },
+        "outputSelectors": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphOutputSelector",
+            "properties": {
+              "property": {
+                "type": "string",
+                "enum": [
+                  "mediaType"
+                ],
+                "x-ms-enum": {
+                  "name": "MediaGraphOutputSelectorProperty",
+                  "values": [
+                    {
+                      "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                    }
+                  ],
+                  "modelAsString": false
+                },
+                "localizationKey": "MediaGraphOutputSelector.property"
+              },
+              "operator": {
+                "type": "string",
+                "enum": [
+                  "is",
+                  "isNot"
+                ],
+                "x-ms-enum": {
+                  "name": "MediaGraphOutputSelectorOperator",
+                  "values": [
+                    {
+                      "localizationKey": "MediaGraphOutputSelector.operator.is"
+                    },
+                    {
+                      "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                    }
+                  ],
+                  "modelAsString": false
+                },
+                "localizationKey": "MediaGraphOutputSelector.operator"
+              },
+              "value": {
+                "type": "string",
+                "localizationKey": "MediaGraphOutputSelector.value"
+              }
+            },
+            "localizationKey": "MediaGraphOutputSelector"
+          },
+          "localizationKey": "MediaGraphNodeInput.outputSelectors"
+        }
+      },
+      "localizationKey": "MediaGraphNodeInput"
+    },
+    {
+      "name": "MediaGraphOutputSelector",
+      "nodeType": "other",
+      "properties": {
+        "property": {
+          "type": "string",
+          "enum": [
+            "mediaType"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphOutputSelectorProperty",
+            "values": [
+              {
+                "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+              }
+            ],
+            "modelAsString": false
+          },
+          "localizationKey": "MediaGraphOutputSelector.property"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "is",
+            "isNot"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphOutputSelectorOperator",
+            "values": [
+              {
+                "localizationKey": "MediaGraphOutputSelector.operator.is"
+              },
+              {
+                "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+              }
+            ],
+            "modelAsString": false
+          },
+          "localizationKey": "MediaGraphOutputSelector.operator"
+        },
+        "value": {
+          "type": "string",
+          "localizationKey": "MediaGraphOutputSelector.value"
+        }
+      },
+      "localizationKey": "MediaGraphOutputSelector"
+    },
+    {
+      "name": "MediaGraphFileSink",
+      "nodeType": "sink",
+      "type": "object",
+      "required": [
+        "fileNamePattern",
+        "baseDirectoryPath",
+        "maximumSizeMiB"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "baseDirectoryPath": {
+          "type": "string",
+          "localizationKey": "MediaGraphFileSink.baseDirectoryPath"
+        },
+        "fileNamePattern": {
+          "type": "string",
+          "localizationKey": "MediaGraphFileSink.fileNamePattern"
+        },
+        "maximumSizeMiB": {
+          "type": "string",
+          "localizationKey": "MediaGraphFileSink.maximumSizeMiB"
+        }
+      },
+      "localizationKey": "MediaGraphFileSink",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphFileSink",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSink"
+      ]
+    },
+    {
+      "name": "MediaGraphAssetSink",
+      "nodeType": "sink",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "assetNamePattern": {
+          "type": "string",
+          "localizationKey": "MediaGraphAssetSink.assetNamePattern"
+        },
+        "segmentLength": {
+          "type": "string",
+          "localizationKey": "MediaGraphAssetSink.segmentLength"
+        },
+        "localMediaCachePath": {
+          "type": "string",
+          "localizationKey": "MediaGraphAssetSink.localMediaCachePath"
+        },
+        "localMediaCacheMaximumSizeMiB": {
+          "type": "string",
+          "localizationKey": "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB"
+        }
+      },
+      "localizationKey": "MediaGraphAssetSink",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphAssetSink",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphSink"
+      ]
+    },
+    {
+      "name": "MediaGraphProcessor",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphProcessor.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "MediaGraphProcessor.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/MediaGraphNodeInput",
+            "type": "object",
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "MediaGraphNodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/MediaGraphOutputSelector",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "MediaGraphOutputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "MediaGraphOutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": false
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "MediaGraphOutputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "MediaGraphOutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "MediaGraphOutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": false
+                      },
+                      "localizationKey": "MediaGraphOutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "MediaGraphOutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "MediaGraphOutputSelector"
+                },
+                "localizationKey": "MediaGraphNodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "MediaGraphNodeInput"
+          },
+          "localizationKey": "MediaGraphProcessor.inputs"
+        }
+      },
+      "localizationKey": "MediaGraphProcessor"
+    },
+    {
+      "name": "MediaGraphMotionDetectionProcessor",
+      "nodeType": "processor",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "sensitivity": {
+          "type": "string",
+          "enum": [
+            "Low",
+            "Medium",
+            "High"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphMotionDetectionSensitivity",
+            "values": [
+              {
+                "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity.Low"
+              },
+              {
+                "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity.Medium"
+              },
+              {
+                "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity.High"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "MediaGraphMotionDetectionProcessor.sensitivity"
+        },
+        "outputMotionRegion": {
+          "type": "boolean",
+          "localizationKey": "MediaGraphMotionDetectionProcessor.outputMotionRegion"
+        },
+        "eventAggregationWindow": {
+          "type": "string",
+          "localizationKey": "MediaGraphMotionDetectionProcessor.eventAggregationWindow"
+        }
+      },
+      "localizationKey": "MediaGraphMotionDetectionProcessor",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphProcessor"
+      ]
+    },
+    {
+      "name": "MediaGraphExtensionProcessorBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "endpoint": {
+          "parsedRef": "#/definitions/MediaGraphEndpoint",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "MediaGraphEndpoint.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/MediaGraphCredentials",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphCredentials.@type"
+                }
+              },
+              "localizationKey": "MediaGraphEndpoint.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "MediaGraphEndpoint.url"
+            }
+          },
+          "localizationKey": "MediaGraphExtensionProcessorBase.endpoint"
+        },
+        "image": {
+          "parsedRef": "#/definitions/MediaGraphImage",
+          "type": "object",
+          "properties": {
+            "scale": {
+              "parsedRef": "#/definitions/MediaGraphImageScale",
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "PreserveAspectRatio",
+                    "Pad",
+                    "Stretch"
+                  ],
+                  "x-ms-enum": {
+                    "name": "MediaGraphImageScaleMode",
+                    "values": [
+                      {
+                        "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
+                      },
+                      {
+                        "localizationKey": "MediaGraphImageScale.mode.Pad"
+                      },
+                      {
+                        "localizationKey": "MediaGraphImageScale.mode.Stretch"
+                      }
+                    ],
+                    "modelAsString": true
+                  },
+                  "localizationKey": "MediaGraphImageScale.mode"
+                },
+                "width": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphImageScale.width"
+                },
+                "height": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphImageScale.height"
+                }
+              },
+              "localizationKey": "MediaGraphImageScale"
+            },
+            "format": {
+              "parsedRef": "#/definitions/MediaGraphImageFormat",
+              "required": [
+                "@type"
+              ],
+              "type": "object",
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphImageFormat.@type"
+                }
+              },
+              "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+              "localizationKey": "MediaGraphImageFormat"
+            }
+          },
+          "localizationKey": "MediaGraphExtensionProcessorBase.image"
+        },
+        "samplingOptions": {
+          "parsedRef": "#/definitions/MediaGraphSamplingOptions",
+          "type": "object",
+          "properties": {
+            "annotatedSamplesOnly": {
+              "type": "string",
+              "localizationKey": "MediaGraphSamplingOptions.annotatedSamplesOnly"
+            },
+            "maximumSamplesPerSecond": {
+              "type": "string",
+              "localizationKey": "MediaGraphSamplingOptions.maximumSamplesPerSecond"
+            }
+          },
+          "localizationKey": "MediaGraphExtensionProcessorBase.samplingOptions"
+        }
+      },
+      "localizationKey": "MediaGraphExtensionProcessorBase",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphExtensionProcessorBase",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphProcessor"
+      ]
+    },
+    {
+      "name": "MediaGraphCognitiveServicesVisionExtension",
+      "nodeType": "processor",
+      "properties": {},
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension",
+      "localizationKey": "MediaGraphCognitiveServicesVisionExtension",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphExtensionProcessorBase"
+      ]
+    },
+    {
+      "name": "MediaGraphGrpcExtension",
+      "nodeType": "processor",
+      "properties": {
+        "dataTransfer": {
+          "parsedRef": "#/definitions/MediaGraphGrpcExtensionDataTransfer",
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "sharedMemorySizeMiB": {
+              "type": "string",
+              "localizationKey": "MediaGraphGrpcExtensionDataTransfer.sharedMemorySizeMiB"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "Embedded",
+                "SharedMemory"
+              ],
+              "x-ms-enum": {
+                "name": "MediaGraphGrpcExtensionDataTransferMode",
+                "values": [
+                  {
+                    "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode.Embedded"
+                  },
+                  {
+                    "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode.SharedMemory"
+                  }
+                ],
+                "modelAsString": true
+              },
+              "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode"
+            }
+          },
+          "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtension",
+          "localizationKey": "MediaGraphGrpcExtension.dataTransfer"
+        },
+        "extensionConfiguration": {
+          "type": "string",
+          "localizationKey": "MediaGraphGrpcExtension.extensionConfiguration"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtension",
+      "localizationKey": "MediaGraphGrpcExtension",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphExtensionProcessorBase"
+      ],
+      "required": [
+        "dataTransfer"
+      ]
+    },
+    {
+      "name": "MediaGraphGrpcExtensionDataTransfer",
+      "nodeType": "processor",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "sharedMemorySizeMiB": {
+          "type": "string",
+          "localizationKey": "MediaGraphGrpcExtensionDataTransfer.sharedMemorySizeMiB"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "Embedded",
+            "SharedMemory"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphGrpcExtensionDataTransferMode",
+            "values": [
+              {
+                "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode.Embedded"
+              },
+              {
+                "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode.SharedMemory"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtension",
+      "localizationKey": "MediaGraphGrpcExtensionDataTransfer"
+    },
+    {
+      "name": "MediaGraphHttpExtension",
+      "nodeType": "processor",
+      "properties": {
+        "endpoint": {
+          "parsedRef": "#/definitions/MediaGraphEndpoint",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "MediaGraphEndpoint.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/MediaGraphCredentials",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphCredentials.@type"
+                }
+              },
+              "localizationKey": "MediaGraphEndpoint.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "MediaGraphEndpoint.url"
+            }
+          },
+          "localizationKey": "MediaGraphExtensionProcessorBase.endpoint"
+        },
+        "image": {
+          "parsedRef": "#/definitions/MediaGraphImage",
+          "type": "object",
+          "properties": {
+            "scale": {
+              "parsedRef": "#/definitions/MediaGraphImageScale",
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "PreserveAspectRatio",
+                    "Pad",
+                    "Stretch"
+                  ],
+                  "x-ms-enum": {
+                    "name": "MediaGraphImageScaleMode",
+                    "values": [
+                      {
+                        "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
+                      },
+                      {
+                        "localizationKey": "MediaGraphImageScale.mode.Pad"
+                      },
+                      {
+                        "localizationKey": "MediaGraphImageScale.mode.Stretch"
+                      }
+                    ],
+                    "modelAsString": true
+                  },
+                  "localizationKey": "MediaGraphImageScale.mode"
+                },
+                "width": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphImageScale.width"
+                },
+                "height": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphImageScale.height"
+                }
+              },
+              "localizationKey": "MediaGraphImageScale"
+            },
+            "format": {
+              "parsedRef": "#/definitions/MediaGraphImageFormat",
+              "required": [
+                "@type"
+              ],
+              "type": "object",
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "MediaGraphImageFormat.@type"
+                }
+              },
+              "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+              "localizationKey": "MediaGraphImageFormat"
+            }
+          },
+          "localizationKey": "MediaGraphExtensionProcessorBase.image"
+        },
+        "samplingOptions": {
+          "parsedRef": "#/definitions/MediaGraphSamplingOptions",
+          "type": "object",
+          "properties": {
+            "annotatedSamplesOnly": {
+              "type": "string",
+              "localizationKey": "MediaGraphSamplingOptions.annotatedSamplesOnly"
+            },
+            "maximumSamplesPerSecond": {
+              "type": "string",
+              "localizationKey": "MediaGraphSamplingOptions.maximumSamplesPerSecond"
+            }
+          },
+          "localizationKey": "MediaGraphExtensionProcessorBase.samplingOptions"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphHttpExtension",
+      "localizationKey": "MediaGraphHttpExtension",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphExtensionProcessorBase"
+      ]
+    },
+    {
+      "name": "MediaGraphImage",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "scale": {
+          "parsedRef": "#/definitions/MediaGraphImageScale",
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "PreserveAspectRatio",
+                "Pad",
+                "Stretch"
+              ],
+              "x-ms-enum": {
+                "name": "MediaGraphImageScaleMode",
+                "values": [
+                  {
+                    "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
+                  },
+                  {
+                    "localizationKey": "MediaGraphImageScale.mode.Pad"
+                  },
+                  {
+                    "localizationKey": "MediaGraphImageScale.mode.Stretch"
+                  }
+                ],
+                "modelAsString": true
+              },
+              "localizationKey": "MediaGraphImageScale.mode"
+            },
+            "width": {
+              "type": "string",
+              "localizationKey": "MediaGraphImageScale.width"
+            },
+            "height": {
+              "type": "string",
+              "localizationKey": "MediaGraphImageScale.height"
+            }
+          },
+          "localizationKey": "MediaGraphImageScale"
+        },
+        "format": {
+          "parsedRef": "#/definitions/MediaGraphImageFormat",
+          "required": [
+            "@type"
+          ],
+          "type": "object",
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "MediaGraphImageFormat.@type"
+            }
+          },
+          "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+          "localizationKey": "MediaGraphImageFormat"
+        }
+      },
+      "localizationKey": "MediaGraphImage"
+    },
+    {
+      "name": "MediaGraphSamplingOptions",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "annotatedSamplesOnly": {
+          "type": "string",
+          "localizationKey": "MediaGraphSamplingOptions.annotatedSamplesOnly"
+        },
+        "maximumSamplesPerSecond": {
+          "type": "string",
+          "localizationKey": "MediaGraphSamplingOptions.maximumSamplesPerSecond"
+        }
+      },
+      "localizationKey": "MediaGraphSamplingOptions"
+    },
+    {
+      "name": "MediaGraphImageScale",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "PreserveAspectRatio",
+            "Pad",
+            "Stretch"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphImageScaleMode",
+            "values": [
+              {
+                "localizationKey": "MediaGraphImageScale.mode.PreserveAspectRatio"
+              },
+              {
+                "localizationKey": "MediaGraphImageScale.mode.Pad"
+              },
+              {
+                "localizationKey": "MediaGraphImageScale.mode.Stretch"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "MediaGraphImageScale.mode"
+        },
+        "width": {
+          "type": "string",
+          "localizationKey": "MediaGraphImageScale.width"
+        },
+        "height": {
+          "type": "string",
+          "localizationKey": "MediaGraphImageScale.height"
+        }
+      },
+      "localizationKey": "MediaGraphImageScale"
+    },
+    {
+      "name": "MediaGraphImageFormat",
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
+      "type": "object",
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "MediaGraphImageFormat.@type"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormat",
+      "localizationKey": "MediaGraphImageFormat"
+    },
+    {
+      "name": "MediaGraphImageFormatRaw",
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
+      "type": "object",
+      "discriminator": "@type",
+      "properties": {
+        "pixelFormat": {
+          "type": "string",
+          "enum": [
+            "Yuv420p",
+            "Rgb565be",
+            "Rgb565le",
+            "Rgb555be",
+            "Rgb555le",
+            "Rgb24",
+            "Bgr24",
+            "Argb",
+            "Rgba",
+            "Abgr",
+            "Bgra"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphImageFormatRawPixelFormat",
+            "values": [
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Yuv420p"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb565be"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb565le"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb555be"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb555le"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgb24"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Bgr24"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Argb"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Rgba"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Abgr"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatRaw.pixelFormat.Bgra"
+              }
+            ],
+            "modelAsString": true
+          }
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatRaw",
+      "localizationKey": "MediaGraphImageFormatRaw",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphImageFormat"
+      ]
+    },
+    {
+      "name": "MediaGraphImageFormatEncoded",
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
+      "type": "object",
+      "discriminator": "@type",
+      "properties": {
+        "encoding": {
+          "type": "string",
+          "default": "Jpeg",
+          "enum": [
+            "Jpeg",
+            "Bmp",
+            "Png"
+          ],
+          "x-ms-enum": {
+            "name": "MediaGraphImageEncodingFormat",
+            "values": [
+              {
+                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Jpeg"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Bmp"
+              },
+              {
+                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Png"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "MediaGraphImageFormatEncoded.encoding"
+        },
+        "quality": {
+          "type": "string",
+          "localizationKey": "MediaGraphImageFormatEncoded.quality"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatEncoded",
+      "localizationKey": "MediaGraphImageFormatEncoded",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphImageFormat"
+      ]
+    },
+    {
+      "name": "MediaGraphSignalGateProcessor",
+      "nodeType": "processor",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "activationEvaluationWindow": {
+          "type": "string",
+          "localizationKey": "MediaGraphSignalGateProcessor.activationEvaluationWindow"
+        },
+        "activationSignalOffset": {
+          "type": "string",
+          "localizationKey": "MediaGraphSignalGateProcessor.activationSignalOffset"
+        },
+        "minimumActivationTime": {
+          "type": "string",
+          "localizationKey": "MediaGraphSignalGateProcessor.minimumActivationTime"
+        },
+        "maximumActivationTime": {
+          "type": "string",
+          "localizationKey": "MediaGraphSignalGateProcessor.maximumActivationTime"
+        }
+      },
+      "localizationKey": "MediaGraphSignalGateProcessor",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphSignalGateProcessor",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphProcessor"
+      ]
+    }
+  ],
+  "itemPanelNodes": [
+    {
+      "title": "sources",
+      "id": "sources",
+      "searchKeys": [
+        "sources"
+      ],
+      "children": [
+        {
+          "extra": {
+            "id": "547986e8-6554-491a-89ec-d9346b045efb",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "b92fe75d-d489-48a9-909d-368ac343edb8",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphRtspSource",
+                "name": "MediaGraphRtspSource"
+              },
+              "nodeType": "source"
+            }
+          },
+          "id": "ec8be491-e888-4613-82fd-46461acc20ad",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "c5ca509d-7991-4ecd-89f0-989b352a7b64",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "1f5e13a6-a26d-4fee-b4de-d3dd8f9dada3",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSource",
+                "name": "MediaGraphIoTHubMessageSource"
+              },
+              "nodeType": "source"
+            }
+          },
+          "id": "6ee08f15-f416-48e1-aa88-83264da66b41",
+          "children": []
+        }
+      ],
+      "expanded": true
+    },
+    {
+      "title": "processors",
+      "id": "processors",
+      "searchKeys": [
+        "processors"
+      ],
+      "children": [
+        {
+          "extra": {
+            "id": "b15606b7-b448-423a-ab62-8e332137761c",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "99d35994-b885-4ce0-9809-9e455e32202c",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "41252b9b-8d33-4219-aab0-7041bb5f40da",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor",
+                "name": "MediaGraphMotionDetectionProcessor"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "f6c239f6-0615-42a1-bee5-a20ddd3125c3",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "b7d3ab07-c622-4eaf-86da-067920c161b6",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "816d8de1-4c8f-437e-bde5-c14f70585a51",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "dd3c36eb-d8c5-4560-960d-466a2d36da08",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension",
+                "name": "MediaGraphCognitiveServicesVisionExtension"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "7593c041-5497-4e1f-93af-c6373baef87c",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "662b1bec-dfe5-40e9-a232-186d48fa30e7",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "cde76361-cd04-4fa5-89af-c49e80895156",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "e0c32bc1-5816-4820-897a-5fb2372aa40d",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphGrpcExtension",
+                "name": "MediaGraphGrpcExtension"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "6fd214dc-44d1-4f43-a567-151b3e449394",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "2d399e4a-b3f4-466f-bdd0-c0ee32bc8a91",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "c1c6f7c9-6c38-4012-a819-eb032c53db22",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "d8dc38f9-ea8b-4c57-841f-9bbaffddc705",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphGrpcExtension",
+                "name": "MediaGraphGrpcExtensionDataTransfer"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "662ff351-444c-4765-9d3f-7ca4d5032532",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "d5b62341-39a3-43cf-ad35-3896f28677b1",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "b568de94-d1ef-413e-8be3-3e08fa33bca0",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "19c110a6-8e3d-44fa-ac5e-5bd8f7ec1112",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphHttpExtension",
+                "name": "MediaGraphHttpExtension"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "a66605d4-b89e-4975-b416-6d59c0d80f54",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "573c76d6-0afa-4921-946f-2942af578302",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "9c401215-db25-4816-bb1f-e6b7c0c3d87e",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "af73dd12-4d18-47f5-8889-2ee76cdd1e68",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphSignalGateProcessor",
+                "name": "MediaGraphSignalGateProcessor"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "f2186f02-2bbf-49ae-974a-28d47ff92505",
+          "children": []
+        }
+      ],
+      "expanded": true
+    },
+    {
+      "title": "sinks",
+      "id": "sinks",
+      "searchKeys": [
+        "sinks"
+      ],
+      "children": [
+        {
+          "extra": {
+            "id": "82f4ed7a-59c4-4da8-9c4b-4583ba7cbca9",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "53c19959-3340-4719-ae29-56eeff010bf7",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink",
+                "name": "MediaGraphIoTHubMessageSink"
+              },
+              "nodeType": "sink"
+            }
+          },
+          "id": "3d2012bf-c3e5-4c63-8465-bf4130e9df42",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "c5441040-12af-48ce-911c-a3594d977f2a",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "aa5f0264-2dfa-4f88-bc56-a3be9eab626c",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphFileSink",
+                "name": "MediaGraphFileSink"
+              },
+              "nodeType": "sink"
+            }
+          },
+          "id": "5265c5cf-f03e-477e-92cb-17f298342855",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "c12ddb5a-3b30-4490-8638-b9089ec3bd49",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "c0d834d5-ad9f-4245-8f23-26fdccef8c04",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.Media.MediaGraphAssetSink",
+                "name": "MediaGraphAssetSink"
+              },
+              "nodeType": "sink"
+            }
+          },
+          "id": "0d55e3d5-5ab1-4668-a3bc-9ee612d4029b",
+          "children": []
+        }
+      ],
+      "expanded": true
+    }
+  ]
+}

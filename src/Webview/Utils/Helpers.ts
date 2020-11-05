@@ -1,3 +1,5 @@
+import { customWords } from "../../Tools/DefinitionGenerator/customWords";
+
 export default class Helpers {
     // checks if an object is {}
     static isEmptyObject(object: any) {
@@ -13,9 +15,16 @@ export default class Helpers {
         return name;
     }
 
-    static camelToSentenceCase(text: string): string {
-        text = text.replace("MediaGraph", "");
-        text = text.replace(/([A-Z])/g, " $1").trim();
-        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    static camelToSentenceCase(text: string, removeMediaGraph: boolean): string {
+        if (removeMediaGraph) {
+            text = text.replace("MediaGraph", "");
+        }
+        let sentenceCaseRegex = `(${customWords.join("|")}|[A-Z])`;
+        text = text.replace(new RegExp(sentenceCaseRegex, "g"), " $1").trim();
+        text = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+        customWords.forEach((word) => {
+            text = text.replace(new RegExp(word, "ig"), word);
+        });
+        return text;
     }
 }

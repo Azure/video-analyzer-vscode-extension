@@ -1,0 +1,690 @@
+{
+    "MediaGraphInstance": {
+        "title": "Instance",
+        "description": "Represents a Media Graph instance."
+    },
+    "MediaGraphInstanceProperties": {
+        "title": "Instance properties",
+        "description": "Properties of a Media Graph instance."
+    },
+    "MediaGraphInstanceProperties.description": {
+        "title": "Description",
+        "description": "An optional description for the instance.",
+        "placeholder": ""
+    },
+    "MediaGraphInstanceProperties.topologyName": {
+        "title": "Topology name",
+        "description": "The name of the graph topology that this instance will run. A topology with this name should already have been set in the Edge module.",
+        "placeholder": ""
+    },
+    "MediaGraphInstanceProperties.parameters": {
+        "title": "Parameters",
+        "description": "List of one or more graph instance parameters.",
+        "placeholder": ""
+    },
+    "MediaGraphInstanceProperties.state": {
+        "title": "State",
+        "description": "Allowed states for a graph Instance.",
+        "placeholder": ""
+    },
+    "MediaGraphInstanceProperties.state.Inactive": {
+        "title": "Inactive",
+        "description": "Inactive state."
+    },
+    "MediaGraphInstanceProperties.state.Activating": {
+        "title": "Activating",
+        "description": "Activating state."
+    },
+    "MediaGraphInstanceProperties.state.Active": {
+        "title": "Active",
+        "description": "Active state."
+    },
+    "MediaGraphInstanceProperties.state.Deactivating": {
+        "title": "Deactivating",
+        "description": "Deactivating state."
+    },
+    "MediaGraphParameterDefinition": {
+        "title": "Parameter definition",
+        "description": "A key, value pair. The graph topology can be authored with certain values with parameters. Then, during graph instance creation, the value for that parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters."
+    },
+    "MediaGraphParameterDefinition.name": {
+        "title": "Name",
+        "description": "Name of parameter as defined in the graph topology.",
+        "placeholder": ""
+    },
+    "MediaGraphParameterDefinition.value": {
+        "title": "Value",
+        "description": "Value of parameter.",
+        "placeholder": ""
+    },
+    "MediaGraphInstanceCollection": {
+        "title": "Instance collection",
+        "description": "Collection of graph instances."
+    },
+    "MediaGraphInstanceCollection.value": {
+        "title": "Value",
+        "description": "Collection of graph instances.",
+        "placeholder": ""
+    },
+    "MediaGraphInstanceCollection.@continuationToken": {
+        "title": "@continuation token",
+        "description": "Continuation token to use in subsequent calls to enumerate through the graph instance collection (when the collection contains too many results to return in one response).",
+        "placeholder": ""
+    },
+    "MediaGraphTopologyCollection": {
+        "title": "Topology collection",
+        "description": "Collection of graph topologies."
+    },
+    "MediaGraphTopologyCollection.value": {
+        "title": "Value",
+        "description": "Collection of graph topologies.",
+        "placeholder": ""
+    },
+    "MediaGraphTopologyCollection.@continuationToken": {
+        "title": "@continuation token",
+        "description": "Continuation token to use in subsequent calls to enumerate through the graph topologies collection (when the collection contains too many results to return in one response).",
+        "placeholder": ""
+    },
+    "MediaGraphTopology": {
+        "title": "Topology",
+        "description": "Describes a graph topology."
+    },
+    "MediaGraphTopologyProperties": {
+        "title": "Topology properties",
+        "description": "Describes the properties of a graph topology."
+    },
+    "MediaGraphSystemData": {
+        "title": "System data",
+        "description": "Graph system data."
+    },
+    "MediaGraphSystemData.createdAt": {
+        "title": "Created at",
+        "description": "The timestamp of resource creation (UTC).",
+        "placeholder": ""
+    },
+    "MediaGraphSystemData.lastModifiedAt": {
+        "title": "Last modified at",
+        "description": "The timestamp of resource last modification (UTC).",
+        "placeholder": ""
+    },
+    "MediaGraphParameterDeclaration": {
+        "title": "Parameter declaration",
+        "description": "The declaration of a parameter in the graph topology. A graph topology can be authored with parameters. Then, during graph instance creation, the value for those parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters."
+    },
+    "MediaGraphParameterDeclaration.name": {
+        "title": "Name",
+        "description": "The name of the parameter.",
+        "placeholder": ""
+    },
+    "MediaGraphParameterDeclaration.type.String": {
+        "title": "String",
+        "description": "A string parameter value."
+    },
+    "MediaGraphParameterDeclaration.type.SecretString": {
+        "title": "Secret string",
+        "description": "A string to hold sensitive information as parameter value."
+    },
+    "MediaGraphParameterDeclaration.type.Int": {
+        "title": "Int",
+        "description": "A 32-bit signed integer as parameter value."
+    },
+    "MediaGraphParameterDeclaration.type.Double": {
+        "title": "Double",
+        "description": "A 64-bit double-precision floating point type as parameter value."
+    },
+    "MediaGraphParameterDeclaration.type.Bool": {
+        "title": "Bool",
+        "description": "A boolean value that is either true or false."
+    },
+    "MediaGraphParameterDeclaration.description": {
+        "title": "Description",
+        "description": "Description of the parameter.",
+        "placeholder": ""
+    },
+    "MediaGraphParameterDeclaration.default": {
+        "title": "Default",
+        "description": "The default value for the parameter, to be used if the graph instance does not specify a value.",
+        "placeholder": ""
+    },
+    "MediaGraphSource": {
+        "title": "Source",
+        "description": "Media graph source."
+    },
+    "MediaGraphSource.@type": {
+        "title": "@type",
+        "description": "The type of the source node. The discriminator for derived types.",
+        "placeholder": ""
+    },
+    "MediaGraphSource.name": {
+        "title": "Name",
+        "description": "The name to be used for this source node.",
+        "placeholder": ""
+    },
+    "MediaGraphRtspSource": {
+        "title": "RTSP source",
+        "description": "Enables a graph to capture media from a RTSP server."
+    },
+    "MediaGraphRtspSource.transport": {
+        "title": "Transport",
+        "description": "Underlying RTSP transport. This is used to enable or disable HTTP tunneling.",
+        "placeholder": ""
+    },
+    "MediaGraphRtspSource.transport.Http": {
+        "title": "HTTP",
+        "description": "HTTP/HTTPS transport. This should be used when HTTP tunneling is desired."
+    },
+    "MediaGraphRtspSource.transport.Tcp": {
+        "title": "TCP",
+        "description": "TCP transport. This should be used when HTTP tunneling is NOT desired."
+    },
+    "MediaGraphRtspSource.endpoint": {
+        "title": "Endpoint",
+        "description": "RTSP endpoint of the stream that is being connected to.",
+        "placeholder": ""
+    },
+    "MediaGraphIoTHubMessageSource": {
+        "title": "IoT hub message source",
+        "description": "Enables a graph to receive messages via routes declared in the IoT Edge deployment manifest."
+    },
+    "MediaGraphIoTHubMessageSource.hubInputName": {
+        "title": "Hub input name",
+        "description": "Name of the input path where messages can be routed to (via routes declared in the IoT Edge deployment manifest).",
+        "placeholder": ""
+    },
+    "MediaGraphIoTHubMessageSink": {
+        "title": "IoT hub message sink",
+        "description": "Enables a graph to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest."
+    },
+    "MediaGraphIoTHubMessageSink.hubOutputName": {
+        "title": "Hub output name",
+        "description": "Name of the output path to which the graph will publish message. These messages can then be delivered to desired destinations by declaring routes referencing the output path in the IoT Edge deployment manifest.",
+        "placeholder": ""
+    },
+    "MediaGraphEndpoint": {
+        "title": "Endpoint",
+        "description": "Base class for endpoints."
+    },
+    "MediaGraphEndpoint.@type": {
+        "title": "@type",
+        "description": "The discriminator for derived types.",
+        "placeholder": ""
+    },
+    "MediaGraphEndpoint.credentials": {
+        "title": "Credentials",
+        "description": "Polymorphic credentials to be presented to the endpoint.",
+        "placeholder": ""
+    },
+    "MediaGraphEndpoint.url": {
+        "title": "URL",
+        "description": "Url for the endpoint.",
+        "placeholder": ""
+    },
+    "MediaGraphCredentials": {
+        "title": "Credentials",
+        "description": "Credentials to present during authentication."
+    },
+    "MediaGraphCredentials.@type": {
+        "title": "@type",
+        "description": "The discriminator for derived types.",
+        "placeholder": ""
+    },
+    "MediaGraphUsernamePasswordCredentials": {
+        "title": "Username password credentials",
+        "description": "Username/password credential pair."
+    },
+    "MediaGraphUsernamePasswordCredentials.username": {
+        "title": "Username",
+        "description": "Username for a username/password pair.",
+        "placeholder": ""
+    },
+    "MediaGraphUsernamePasswordCredentials.password": {
+        "title": "Password",
+        "description": "Password for a username/password pair. Please use a parameter so that the actual value is not returned on PUT or GET requests.",
+        "placeholder": ""
+    },
+    "MediaGraphHttpHeaderCredentials": {
+        "title": "HTTP header credentials",
+        "description": "Http header service credentials."
+    },
+    "MediaGraphHttpHeaderCredentials.headerName": {
+        "title": "Header name",
+        "description": "HTTP header name.",
+        "placeholder": ""
+    },
+    "MediaGraphHttpHeaderCredentials.headerValue": {
+        "title": "Header value",
+        "description": "HTTP header value. Please use a parameter so that the actual value is not returned on PUT or GET requests.",
+        "placeholder": ""
+    },
+    "MediaGraphUnsecuredEndpoint": {
+        "title": "Unsecured endpoint",
+        "description": "An endpoint that the media graph can connect to, with no encryption in transit."
+    },
+    "MediaGraphTlsEndpoint": {
+        "title": "Tls endpoint",
+        "description": "An endpoint that the graph can connect to, which must be connected over TLS/SSL."
+    },
+    "MediaGraphTlsEndpoint.trustedCertificates": {
+        "title": "Trusted certificates",
+        "description": "Trusted certificates when authenticating a TLS connection. Null designates that Azure Media Service's source of trust should be used.",
+        "placeholder": ""
+    },
+    "MediaGraphTlsEndpoint.validationOptions": {
+        "title": "Validation options",
+        "description": "Validation options to use when authenticating a TLS connection. By default, strict validation is used.",
+        "placeholder": ""
+    },
+    "MediaGraphCertificateSource": {
+        "title": "Certificate source",
+        "description": "Base class for certificate sources."
+    },
+    "MediaGraphCertificateSource.@type": {
+        "title": "@type",
+        "description": "The discriminator for derived types.",
+        "placeholder": ""
+    },
+    "MediaGraphTlsValidationOptions": {
+        "title": "Tls validation options",
+        "description": "Options for controlling the authentication of TLS endpoints."
+    },
+    "MediaGraphTlsValidationOptions.ignoreHostname": {
+        "title": "Ignore hostname",
+        "description": "Boolean value ignoring the host name (common name) during validation.",
+        "placeholder": ""
+    },
+    "MediaGraphTlsValidationOptions.ignoreSignature": {
+        "title": "Ignore signature",
+        "description": "Boolean value ignoring the integrity of the certificate chain at the current time.",
+        "placeholder": ""
+    },
+    "MediaGraphPemCertificateList": {
+        "title": "Pem certificate list",
+        "description": "A list of PEM formatted certificates."
+    },
+    "MediaGraphPemCertificateList.certificates": {
+        "title": "Certificates",
+        "description": "PEM formatted public certificates one per entry.",
+        "placeholder": ""
+    },
+    "MediaGraphSink": {
+        "title": "Sink",
+        "description": "Enables a media graph to write media data to a destination outside of the Live Video Analytics IoT Edge module."
+    },
+    "MediaGraphSink.@type": {
+        "title": "@type",
+        "description": "The discriminator for derived types.",
+        "placeholder": ""
+    },
+    "MediaGraphSink.name": {
+        "title": "Name",
+        "description": "Name to be used for the media graph sink.",
+        "placeholder": ""
+    },
+    "MediaGraphSink.inputs": {
+        "title": "Inputs",
+        "description": "An array of the names of the other nodes in the media graph, the outputs of which are used as input for this sink node.",
+        "placeholder": ""
+    },
+    "MediaGraphNodeInput": {
+        "title": "Node input",
+        "description": "Represents the input to any node in a media graph."
+    },
+    "MediaGraphNodeInput.nodeName": {
+        "title": "Node name",
+        "description": "The name of another node in the media graph, the output of which is used as input to this node.",
+        "placeholder": ""
+    },
+    "MediaGraphNodeInput.outputSelectors": {
+        "title": "Output selectors",
+        "description": "Allows for the selection of particular streams from another node.",
+        "placeholder": ""
+    },
+    "MediaGraphOutputSelector": {
+        "title": "Output selector",
+        "description": "Allows for the selection of particular streams from another node."
+    },
+    "MediaGraphOutputSelector.property": {
+        "title": "Property",
+        "description": "The stream property to compare with.",
+        "placeholder": ""
+    },
+    "MediaGraphOutputSelector.property.mediaType": {
+        "title": "Media type",
+        "description": "The stream's MIME type or subtype."
+    },
+    "MediaGraphOutputSelector.operator": {
+        "title": "Operator",
+        "description": "The operator to compare streams by.",
+        "placeholder": ""
+    },
+    "MediaGraphOutputSelector.operator.is": {
+        "title": "Is",
+        "description": "A media type is the same type or a subtype."
+    },
+    "MediaGraphOutputSelector.operator.isNot": {
+        "title": "Is not",
+        "description": "A media type is not the same type or a subtype."
+    },
+    "MediaGraphOutputSelector.value": {
+        "title": "Value",
+        "description": "Value to compare against.",
+        "placeholder": ""
+    },
+    "MediaGraphFileSink": {
+        "title": "File sink",
+        "description": "Enables a media graph to write/store media (video and audio) to a file on the Edge device."
+    },
+    "MediaGraphFileSink.baseDirectoryPath": {
+        "title": "Base directory path",
+        "description": "Absolute directory for all outputs to the Edge device from this sink.",
+        "placeholder": ""
+    },
+    "MediaGraphFileSink.fileNamePattern": {
+        "title": "File name pattern",
+        "description": "File name pattern for creating new files on the Edge device.",
+        "placeholder": ""
+    },
+    "MediaGraphFileSink.maximumSizeMiB": {
+        "title": "Maximum size mi b",
+        "description": "Maximum amount of disk space that can be used for storing files from this sink.",
+        "placeholder": ""
+    },
+    "MediaGraphAssetSink": {
+        "title": "Asset sink",
+        "description": "Enables a graph to record media to an Azure Media Services asset, for subsequent playback."
+    },
+    "MediaGraphAssetSink.assetNamePattern": {
+        "title": "Asset name pattern",
+        "description": "A name pattern when creating new assets.",
+        "placeholder": ""
+    },
+    "MediaGraphAssetSink.segmentLength": {
+        "title": "Segment length",
+        "description": "When writing media to an asset, wait until at least this duration of media has been accumulated on the Edge. Expressed in increments of 30 seconds, with a minimum of 30 seconds and a recommended maximum of 5 minutes.",
+        "placeholder": "PT30S"
+    },
+    "MediaGraphAssetSink.localMediaCachePath": {
+        "title": "Local media cache path",
+        "description": "Path to a local file system directory for temporary caching of media, before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure.",
+        "placeholder": ""
+    },
+    "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB": {
+        "title": "Local media cache maximum size mi b",
+        "description": "Maximum amount of disk space that can be used for temporary caching of media.",
+        "placeholder": ""
+    },
+    "MediaGraphProcessor": {
+        "title": "Processor",
+        "description": "A node that represents the desired processing of media in a graph. Takes media and/or events as inputs, and emits media and/or event as output."
+    },
+    "MediaGraphProcessor.@type": {
+        "title": "@type",
+        "description": "The discriminator for derived types.",
+        "placeholder": ""
+    },
+    "MediaGraphProcessor.name": {
+        "title": "Name",
+        "description": "The name for this processor node.",
+        "placeholder": ""
+    },
+    "MediaGraphProcessor.inputs": {
+        "title": "Inputs",
+        "description": "An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node.",
+        "placeholder": ""
+    },
+    "MediaGraphMotionDetectionProcessor": {
+        "title": "Motion detection processor",
+        "description": "A node that accepts raw video as input, and detects if there are moving objects present. If so, then it emits an event, and allows frames where motion was detected to pass through. Other frames are blocked/dropped."
+    },
+    "MediaGraphMotionDetectionProcessor.sensitivity": {
+        "title": "Sensitivity",
+        "description": "Enumeration that specifies the sensitivity of the motion detection processor.",
+        "placeholder": ""
+    },
+    "MediaGraphMotionDetectionProcessor.sensitivity.Low": {
+        "title": "Low",
+        "description": "Low Sensitivity."
+    },
+    "MediaGraphMotionDetectionProcessor.sensitivity.Medium": {
+        "title": "Medium",
+        "description": "Medium Sensitivity."
+    },
+    "MediaGraphMotionDetectionProcessor.sensitivity.High": {
+        "title": "High",
+        "description": "High Sensitivity."
+    },
+    "MediaGraphMotionDetectionProcessor.outputMotionRegion": {
+        "title": "Output motion region",
+        "description": "Indicates whether the processor should detect and output the regions, within the video frame, where motion was detected. Default is true.",
+        "placeholder": ""
+    },
+    "MediaGraphMotionDetectionProcessor.eventAggregationWindow": {
+        "title": "Event aggregation window",
+        "description": "Event aggregation window duration, or 0 for no aggregation.",
+        "placeholder": ""
+    },
+    "MediaGraphExtensionProcessorBase": {
+        "title": "Extension processor base",
+        "description": "Processor that allows for extensions, outside of the Live Video Analytics Edge module, to be integrated into the graph. It is the base class for various different kinds of extension processor types."
+    },
+    "MediaGraphExtensionProcessorBase.endpoint": {
+        "title": "Endpoint",
+        "description": "Endpoint to which this processor should connect.",
+        "placeholder": ""
+    },
+    "MediaGraphExtensionProcessorBase.image": {
+        "title": "Image",
+        "description": "Describes the parameters of the image that is sent as input to the endpoint.",
+        "placeholder": ""
+    },
+    "MediaGraphExtensionProcessorBase.samplingOptions": {
+        "title": "Sampling options",
+        "description": "Describes the sampling options to be applied when forwarding samples to the extension.",
+        "placeholder": ""
+    },
+    "MediaGraphCognitiveServicesVisionExtension": {
+        "title": "Cognitive services vision extension",
+        "description": "A processor that allows the media graph to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes."
+    },
+    "MediaGraphGrpcExtension": {
+        "title": "GRPC extension",
+        "description": "A processor that allows the media graph to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes."
+    },
+    "MediaGraphGrpcExtension.dataTransfer": {
+        "title": "Data transfer",
+        "description": "How media should be transferred to the inferencing engine.",
+        "placeholder": ""
+    },
+    "MediaGraphGrpcExtension.extensionConfiguration": {
+        "title": "Extension configuration",
+        "description": "Optional configuration to pass to the gRPC extension.",
+        "placeholder": ""
+    },
+    "MediaGraphGrpcExtensionDataTransfer": {
+        "title": "GRPC extension data transfer",
+        "description": "Describes how media should be transferred to the inferencing engine."
+    },
+    "MediaGraphGrpcExtensionDataTransfer.sharedMemorySizeMiB": {
+        "title": "Shared memory size mi b",
+        "description": "The size of the buffer for all in-flight frames in mebibytes if mode is SharedMemory. Should not be specificed otherwise.",
+        "placeholder": ""
+    },
+    "MediaGraphGrpcExtensionDataTransfer.mode": {
+        "title": "Mode",
+        "description": "How frame data should be transmitted to the inferencing engine.",
+        "placeholder": ""
+    },
+    "MediaGraphGrpcExtensionDataTransfer.mode.Embedded": {
+        "title": "Embedded",
+        "description": "Frames are transferred embedded into the gRPC messages."
+    },
+    "MediaGraphGrpcExtensionDataTransfer.mode.SharedMemory": {
+        "title": "Shared memory",
+        "description": "Frames are transferred through shared memory."
+    },
+    "MediaGraphHttpExtension": {
+        "title": "HTTP extension",
+        "description": "A processor that allows the media graph to send video frames (mostly at low frame rates e.g. <5 fps) to an external inference container over an HTTP-based RESTful API. Inference results are relayed to downstream nodes."
+    },
+    "MediaGraphImage": {
+        "title": "Image",
+        "description": "Describes the properties of an image frame."
+    },
+    "MediaGraphSamplingOptions": {
+        "title": "Sampling options",
+        "description": "Describes the properties of a sample."
+    },
+    "MediaGraphSamplingOptions.annotatedSamplesOnly": {
+        "title": "Annotated samples only",
+        "description": "If true, limits the samples submitted to the extension to only samples which have associated inference(s)",
+        "placeholder": ""
+    },
+    "MediaGraphSamplingOptions.maximumSamplesPerSecond": {
+        "title": "Maximum samples per second",
+        "description": "Maximum rate of samples submitted to the extension",
+        "placeholder": ""
+    },
+    "MediaGraphImageScale": {
+        "title": "Image scale",
+        "description": "The scaling mode for the image."
+    },
+    "MediaGraphImageScale.mode": {
+        "title": "Mode",
+        "description": "Describes the modes for scaling an input video frame into an image, before it is sent to an inference engine.",
+        "placeholder": ""
+    },
+    "MediaGraphImageScale.mode.PreserveAspectRatio": {
+        "title": "Preserve aspect ratio",
+        "description": "Use the same aspect ratio as the input frame."
+    },
+    "MediaGraphImageScale.mode.Pad": {
+        "title": "Pad",
+        "description": "Center pad the input frame to match the given dimensions."
+    },
+    "MediaGraphImageScale.mode.Stretch": {
+        "title": "Stretch",
+        "description": "Stretch input frame to match given dimensions."
+    },
+    "MediaGraphImageScale.width": {
+        "title": "Width",
+        "description": "The desired output width of the image.",
+        "placeholder": ""
+    },
+    "MediaGraphImageScale.height": {
+        "title": "Height",
+        "description": "The desired output height of the image.",
+        "placeholder": ""
+    },
+    "MediaGraphImageFormat": {
+        "title": "Image format",
+        "description": "Encoding settings for an image."
+    },
+    "MediaGraphImageFormat.@type": {
+        "title": "@type",
+        "description": "The discriminator for derived types.",
+        "placeholder": ""
+    },
+    "MediaGraphImageFormatRaw": {
+        "title": "Image format raw",
+        "description": "Encoding settings for raw images."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Yuv420p": {
+        "title": "Yuv420p",
+        "description": "Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples)."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Rgb565be": {
+        "title": "Rgb565be",
+        "description": "Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Rgb565le": {
+        "title": "Rgb565le",
+        "description": "Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Rgb555be": {
+        "title": "Rgb555be",
+        "description": "Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused/undefined."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Rgb555le": {
+        "title": "Rgb555le",
+        "description": "Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused/undefined."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Rgb24": {
+        "title": "Rgb24",
+        "description": "Packed RGB 8:8:8, 24bpp, RGBRGB."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Bgr24": {
+        "title": "Bgr24",
+        "description": "Packed RGB 8:8:8, 24bpp, BGRBGR."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Argb": {
+        "title": "Argb",
+        "description": "Packed ARGB 8:8:8:8, 32bpp, ARGBARGB."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Rgba": {
+        "title": "Rgba",
+        "description": "Packed RGBA 8:8:8:8, 32bpp, RGBARGBA."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Abgr": {
+        "title": "Abgr",
+        "description": "Packed ABGR 8:8:8:8, 32bpp, ABGRABGR."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat.Bgra": {
+        "title": "Bgra",
+        "description": "Packed BGRA 8:8:8:8, 32bpp, BGRABGRA."
+    },
+    "MediaGraphImageFormatEncoded": {
+        "title": "Image format encoded",
+        "description": "Allowed formats for the image."
+    },
+    "MediaGraphImageFormatEncoded.encoding": {
+        "title": "Encoding",
+        "description": "The different encoding formats that can be used for the image.",
+        "placeholder": ""
+    },
+    "MediaGraphImageFormatEncoded.encoding.Jpeg": {
+        "title": "Jpeg",
+        "description": "JPEG image format."
+    },
+    "MediaGraphImageFormatEncoded.encoding.Bmp": {
+        "title": "Bmp",
+        "description": "BMP image format."
+    },
+    "MediaGraphImageFormatEncoded.encoding.Png": {
+        "title": "Png",
+        "description": "PNG image format."
+    },
+    "MediaGraphImageFormatEncoded.quality": {
+        "title": "Quality",
+        "description": "The image quality (used for JPEG only). Value must be between 0 to 100 (best quality).",
+        "placeholder": ""
+    },
+    "MediaGraphSignalGateProcessor": {
+        "title": "Signal gate processor",
+        "description": "A signal gate determines when to block (gate) incoming media, and when to allow it through. It gathers input events over the activationEvaluationWindow, and determines whether to open or close the gate."
+    },
+    "MediaGraphSignalGateProcessor.activationEvaluationWindow": {
+        "title": "Activation evaluation window",
+        "description": "The period of time over which the gate gathers input events, before evaluating them.",
+        "placeholder": "PT1.0S"
+    },
+    "MediaGraphSignalGateProcessor.activationSignalOffset": {
+        "title": "Activation signal offset",
+        "description": "Signal offset once the gate is activated (can be negative). It is an offset between the time the event is received, and the timestamp of the first media sample (eg. video frame) that is allowed through by the gate.",
+        "placeholder": "-PT1.0S"
+    },
+    "MediaGraphSignalGateProcessor.minimumActivationTime": {
+        "title": "Minimum activation time",
+        "description": "The minimum period for which the gate remains open, in the absence of subsequent triggers (events).",
+        "placeholder": "PT1S"
+    },
+    "MediaGraphSignalGateProcessor.maximumActivationTime": {
+        "title": "Maximum activation time",
+        "description": "The maximum period for which the gate remains open, in the presence of subsequent events.",
+        "placeholder": "PT2S"
+    },
+    "MediaGraph.nodeName": {
+        "title": "Node name",
+        "description": "The name of the node",
+        "placeholder": ""
+    }
+}
