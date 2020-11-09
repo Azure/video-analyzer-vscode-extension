@@ -1,6 +1,6 @@
 import dagre from "dagre";
 import { v4 as uuid } from "uuid";
-import { ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
+import { GraphModel, ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
     MediaGraphParameterDeclaration,
@@ -11,13 +11,7 @@ import {
 } from "../../Common/Types/LVASDKTypes";
 import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
 import Localizer from "../Localization/Localizer";
-import {
-    CanvasNodeData,
-    CanvasNodeProperties,
-    GraphInfo,
-    MediaGraphNodeType,
-    ValidationError
-} from "../Types/GraphTypes";
+import { CanvasNodeData, CanvasNodeProperties, GraphInfo, MediaGraphNodeType, ValidationError } from "../Types/GraphTypes";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import GraphData from "./GraphEditorViewModel";
@@ -42,7 +36,7 @@ export default class Graph {
         this.graphStructureStore.edges = graphInfo.edges;
     }
 
-    public setGraphDataFromICanvasData(canvasData: ICanvasData) {
+    public setGraphDataFromICanvasData(canvasData: ICanvasData<any>) {
         this.graphStructureStore.nodes = [...canvasData.nodes];
         this.graphStructureStore.edges = [...canvasData.edges];
     }
@@ -66,7 +60,7 @@ export default class Graph {
                     return {
                         ...port,
                         name: LocalizerHelpers.getPortName(node, port),
-                        ariaLabel: LocalizerHelpers.getPortAriaLabel(this.getICanvasData(), node, port)
+                        ariaLabel: LocalizerHelpers.getPortAriaLabel(GraphModel.fromJSON(this.getICanvasData()), node, port)
                     };
                 });
                 const newNode = {
@@ -214,7 +208,7 @@ export default class Graph {
         return graphInfo;
     }
 
-    public validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any, any>>, errorsFromService?: ValidationError[]): ValidationError[] {
+    public validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>, errorsFromService?: ValidationError[]): ValidationError[] {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
 

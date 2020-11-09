@@ -1,8 +1,4 @@
-import {
-    ICanvasData,
-    ICanvasNode,
-    ICanvasPort
-} from "@vienna/react-dag-editor";
+import { ICanvasNode, ICanvasPort, GraphModel, NodeModel } from "@vienna/react-dag-editor";
 import Localizer from "../Localization/Localizer";
 
 export default class LocalizerHelpers {
@@ -12,7 +8,7 @@ export default class LocalizerHelpers {
         return `${Localizer.l(localizationKey).format(node.name)}`;
     }
 
-    static getPortAriaLabel(data: ICanvasData, node: ICanvasNode, port: ICanvasPort): string {
+    static getPortAriaLabel(data: GraphModel, node: NodeModel, port: ICanvasPort): string {
         const connectedNodeNames: string[] = [];
         const isOutputPort = port.isInputDisabled;
         if (isOutputPort) {
@@ -23,7 +19,7 @@ export default class LocalizerHelpers {
                 .map((edge) => data.nodes.filter((otherNode) => otherNode.id === edge.target))
                 .forEach((connectedNodes) => {
                     // we now have a list of nodes connected to this port, add their names
-                    connectedNodeNames.push(...connectedNodes.map((node) => node.name || ""));
+                    connectedNodeNames.push(...connectedNodes.map((node) => node.name || "").values());
                 });
         } else {
             // for input ports use the same approach, but vice versa
@@ -31,7 +27,7 @@ export default class LocalizerHelpers {
                 .filter((edge) => node.id === edge.target)
                 .map((edge) => data.nodes.filter((otherNode) => otherNode.id === edge.source))
                 .forEach((connectedNodes) => {
-                    connectedNodeNames.push(...connectedNodes.map((node) => node.name || ""));
+                    connectedNodeNames.push(...connectedNodes.map((node) => node.name || "").values());
                 });
         }
         if (connectedNodeNames.length > 0) {

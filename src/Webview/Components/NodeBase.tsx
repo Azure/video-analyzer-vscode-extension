@@ -1,14 +1,5 @@
 import * as React from "react";
-import {
-    getRectHeight,
-    getRectWidth,
-    GraphNodeState,
-    hasState,
-    ICanvasNode,
-    ICanvasPort,
-    IItemConfigArgs,
-    IRectConfig
-} from "@vienna/react-dag-editor";
+import { getRectHeight, getRectWidth, GraphNodeState, hasState, ICanvasNode, ICanvasPort, IItemConfigArgs, IRectConfig, NodeModel } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { NodeContainer } from "./NodeContainer";
@@ -51,7 +42,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
     }
 
     public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
-        const node = args.model;
+        const node = args.model as NodeModel<any>;
 
         const iconName = node.data!.iconName;
         const accentColor = node.data!.color;

@@ -1,12 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, ICanvasPort } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
-import {
-    CanvasNodeData,
-    CanvasNodeProperties,
-    MediaGraphNodeType,
-    NodeDefinition
-} from "../Types/GraphTypes";
+import { CanvasNodeData, CanvasNodeProperties, MediaGraphNodeType, NodeDefinition } from "../Types/GraphTypes";
 import Helpers from "./Helpers";
 
 export default class NodeHelpers {
@@ -105,7 +100,7 @@ export default class NodeHelpers {
     }
 
     // evaluates if a node can be connected to another node (has to be downstream)
-    static nodeCanConnectToNode(source: ICanvasNode, target: ICanvasNode) {
+    static nodeCanConnectToNode(source: ICanvasNode<any>, target: ICanvasNode<any>) {
         if (source.data && target.data) {
             const sourceNodeType = source.data.nodeType;
             const targetNodeType = target.data.nodeType;
@@ -161,7 +156,7 @@ export default class NodeHelpers {
     }
 
     // checks if an array contains a node with the given type
-    static nodeArrayContainsNodeOfType(nodes: ICanvasNode[], nodeType: string) {
+    static nodeArrayContainsNodeOfType(nodes: ICanvasNode<any>[], nodeType: string) {
         for (const node of nodes) {
             if (node.data && node.data.nodeProperties["@type"] === nodeType) {
                 return true;

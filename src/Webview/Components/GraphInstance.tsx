@@ -12,17 +12,10 @@ import {
     RegisterPort,
     withDefaultPortsPosition
 } from "@vienna/react-dag-editor";
-import {
-    MediaGraphInstance,
-    MediaGraphParameterDeclaration
-} from "../../Common/Types/LVASDKTypes";
+import { MediaGraphInstance, MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
-import {
-    GraphInstanceParameter,
-    ValidationError,
-    ValidationErrorType
-} from "../Types/GraphTypes";
+import { GraphInstanceParameter, ValidationError, ValidationErrorType } from "../Types/GraphTypes";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
@@ -297,11 +290,11 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                     )}
                     <Stack.Item grow>
                         <InnerGraph
-                            data={data}
-                            setData={setData}
-                            zoomPanSettings={zoomPanSettings}
-                            setZoomPanSettings={setZoomPanSettings}
+                            graph={graph}
+                            graphTopologyName={graph.getName()}
+                            graphDescription={instanceDescription}
                             canvasMouseMode={CanvasMouseMode.pan}
+                            vsCodeSetState={props.vsCodeSetState}
                             readOnly
                             propsApiRef={propsApiRef}
                             updateNodeName={() => {}}

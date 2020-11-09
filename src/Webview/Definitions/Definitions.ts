@@ -35,7 +35,7 @@ export default class Definitions {
         return itemPanelNodes.map((category) => ({
             ...category,
             children: category.children!.map((node: ITreeNode) => {
-                const initialNode = node.extra as ICanvasNode;
+                const initialNode = node.extra as ICanvasNode<any>;
                 const internalName = initialNode.data!.nodeProperties.name as string;
                 const localizedName = Localizer.getLocalizedStrings(internalName).title;
                 return {
