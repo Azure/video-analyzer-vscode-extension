@@ -1,9 +1,17 @@
 import {
+    Announced,
+    CheckboxVisibility,
     DefaultButton,
+    DetailsList,
+    DetailsListLayoutMode,
     Dropdown,
     getTheme,
+    IColumn,
     Link,
+    ScrollablePane,
     SearchBox,
+    Selection,
+    SelectionMode,
     Stack,
     TextField
 } from "office-ui-fabric-react";
@@ -20,32 +28,72 @@ import { ParameterEditorCreateForm } from "./ParameterEditorCreateForm";
 interface IParameterEditorParameterListProps {
     parameters: MediaGraphParameterDeclaration[];
     onAddNew?: (newValue: string) => void;
-    renderItemList: (items: MediaGraphParameterDeclaration[], entryContainerStyles: React.CSSProperties, entryDetailsStyles: React.CSSProperties) => JSX.Element; // TODO: fix
+    renderItemList?: (items: MediaGraphParameterDeclaration[], entryContainerStyles: React.CSSProperties, entryDetailsStyles: React.CSSProperties) => JSX.Element; // TODO: fix
+    setSelectedValue?: (newValue: string) => void;
 }
 
 export const ParameterEditorParameterList: React.FunctionComponent<IParameterEditorParameterListProps> = (props) => {
-    const { parameters, onAddNew, renderItemList } = props;
+    const { parameters, onAddNew, renderItemList, setSelectedValue } = props;
     const [shownFilteredItems, setShownFilteredItems] = React.useState<MediaGraphParameterDeclaration[]>([]);
     const [isCreateFormShown, { toggle: toggleCreateForm }] = useBoolean(false);
+    const [filterText, setFilterText] = React.useState<string>("");
     const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
 
     const items: MediaGraphParameterDeclaration[] = [
         ...parameters,
         {
             name: "System.DateTime",
-            type: "String" as MediaGraphParameterType
+            type: MediaGraphParameterType.String
         },
         {
             name: "System.GraphTopologyName",
-            type: "String" as MediaGraphParameterType
+            type: MediaGraphParameterType.String
         },
         {
             name: "System.GraphInstanceName",
-            type: "String" as MediaGraphParameterType
+            type: MediaGraphParameterType.String
         }
     ];
 
-    const onSearchChange = (event?: React.ChangeEvent, newValue?: string) => {
+    let renderItemsFunction = renderItemList;
+    if (!renderItemsFunction) {
+        const selection = new Selection({
+            onSelectionChanged: () => {
+                const selectedItems = selection.getSelection();
+                if (selectedItems?.length) {
+                    console.log(selectedItems);
+                    if (setSelectedValue) {
+                        setSelectedValue(`$\{${(selectedItems[0] as IColumn).name}}`);
+                    }
+                }
+            },
+            selectionMode: SelectionMode.single
+        });
+
+        renderItemsFunction = (items: MediaGraphParameterDeclaration[], entryContainerStyles: React.CSSProperties, entryDetailsStyles: React.CSSProperties) => {
+            return (
+                <div style={{ position: "relative", minHeight: 200 }}>
+                    <ScrollablePane>
+                        <DetailsList
+                            items={items}
+                            layoutMode={DetailsListLayoutMode.justified}
+                            checkboxVisibility={CheckboxVisibility.always}
+                            columns={[
+                                { key: "name", name: "name", fieldName: "name", minWidth: 10, isRowHeader: true },
+                                { key: "type", name: "type", fieldName: "type", minWidth: 80 },
+                                { key: "default", name: "default", fieldName: "default", minWidth: 80 }
+                            ]}
+                            selection={selection}
+                            compact={true}
+                        />
+                    </ScrollablePane>
+                </div>
+            );
+        };
+    }
+
+    const onSearchChange = (event?: React.FormEvent, newValue?: string) => {
+        setFilterText(newValue!);
         if (newValue) {
             const lowerCaseQuery = newValue.toLocaleLowerCase();
             setShownFilteredItems(items.filter((item) => item.name.toLocaleLowerCase().includes(lowerCaseQuery)));
@@ -82,14 +130,23 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
     return (
         <Stack tokens={{ childrenGap: "s1" }} style={parameterListItemContainerStyles}>
             <Stack horizontal tokens={{ childrenGap: "s1" }}>
-                <SearchBox placeholder={Localizer.l("parameterEditorParameterListSearchPlaceholder")} onChange={onSearchChange} styles={{ root: { flexGrow: 1 } }} />
+                <TextField
+                    label={Localizer.l("parameterEditorParameterListSearchLabel")}
+                    onChange={onSearchChange}
+                    styles={onAddNew ? { root: { flexGrow: 1 } } : { root: { maxWidth: 350 } }}
+                />
                 {onAddNew && !isCreateFormShown && (
-                    <DefaultButton text={Localizer.l("parameterEditorParameterListAddButtonLabel")} iconProps={{ iconName: "Add" }} onClick={toggleCreateForm} />
+                    <DefaultButton
+                        text={Localizer.l("parameterEditorParameterListAddButtonLabel")}
+                        iconProps={{ iconName: "Add" }}
+                        onClick={toggleCreateForm}
+                        style={{ alignSelf: "flex-end" }}
+                    />
                 )}
             </Stack>
             {isCreateFormShown && (
                 <Stack horizontal tokens={{ childrenGap: "s1" }} verticalAlign={"end"}>
-                    <ParameterEditorCreateForm setParameterCreationConfiguration={setParameterCreationConfiguration} horizontal={true} />
+                    <ParameterEditorCreateForm setParamCreateConfig={setParameterCreationConfiguration} horizontal={true} parameters={parameters} />
                     <DefaultButton
                         iconProps={{ iconName: "Add" }}
                         onClick={onCreateFormAddClick}
@@ -97,7 +154,8 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
                     />
                 </Stack>
             )}
-            {renderItemList(shownFilteredItems.length > 0 ? shownFilteredItems : items, parameterListEntryStyles, parameterListEntryDetailsStyles)}
+            <Announced message={Localizer.l("parameterEditorParameterListFilteredAnnounce").format(shownFilteredItems.length || items.length)} />
+            {renderItemsFunction(filterText ? shownFilteredItems : items, parameterListEntryStyles, parameterListEntryDetailsStyles)}
         </Stack>
     );
 };

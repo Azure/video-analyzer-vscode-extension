@@ -2,8 +2,10 @@ import {
     DefaultButton,
     IIconProps,
     Panel,
+    PanelType,
     PrimaryButton,
     SearchBox,
+    Separator,
     Stack,
     Text
 } from "office-ui-fabric-react";
@@ -25,9 +27,14 @@ import {
 import { ParameterEditorCreateForm } from "../ParameterEditor/ParameterEditorCreateForm";
 import { EditableParameter } from "./EditableParameter";
 
+export interface ParamCreateConfig extends MediaGraphParameterDeclaration {
+    nameError?: string;
+    defaultValueError?: string;
+}
+
 interface ParameterSelectorProps {
     isOpen: boolean;
-    parameters: any;
+    parameters: MediaGraphParameterDeclaration[];
     graph: any;
     propsApiRef: React.RefObject<IPropsAPI>;
     onClose: () => void;
@@ -43,10 +50,10 @@ const addIcon: IIconProps = { iconName: "Add" };
 
 export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> = (props) => {
     const { isOpen, onClose, parameters, graph, propsApiRef } = props;
-    const [addNewIsShown, { toggle: setAddNewIsShown }] = useBoolean(false);
+    const [addNewIsShown, { toggle: toggleAddNewIsShown }] = useBoolean(false);
     const [showDeleteDialog, { toggle: toggleShowDeleteDialog }] = useBoolean(false);
     const [searchParameter, setSearchParameters] = React.useState<string>("");
-    const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
+    const [paramCreateConfig, setParamCreateConfig] = React.useState<ParamCreateConfig | undefined>();
     const [editedParameter, setEditedParameter] = React.useState<number>(-1);
     const [focusedDeleteParameter, setFocusedDeleteParameter] = React.useState<number>(-1);
     const [paramsThatWillChange, setParamsThatWillChange] = React.useState<ParameterChangeValidation[]>([]);
@@ -69,22 +76,25 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     };
 
     const onCreateFormAddClick = () => {
-        if (parameterCreationConfiguration?.name && parameterCreationConfiguration?.type) {
-            createParameter(parameterCreationConfiguration, parameters); //TODO. check for duplicates
-            setAddNewIsShown();
+        if (paramCreateConfig?.name && paramCreateConfig?.type) {
+            createParameter(paramCreateConfig, parameters); //TODO. check for duplicates
+            toggleAddNewIsShown();
         }
     };
 
     const onEditParameterClick = (index: number) => {
+        if (index >= 0 && addNewIsShown) {
+            toggleAddNewIsShown();
+        }
         setEditedParameter(index);
     };
 
     const onEditSaveParameterClick = (index: number) => {
-        if (parameterCreationConfiguration?.name && parameterCreationConfiguration?.type) {
-            if (parameterCreationConfiguration.name != parameters[index].name) {
-                graph.editParamsFromGraph(parameters[index].name, parameterCreationConfiguration.name);
+        if (paramCreateConfig?.name && paramCreateConfig?.type) {
+            if (paramCreateConfig.name != parameters[index].name) {
+                graph.editParamsFromGraph(parameters[index].name, paramCreateConfig.name);
             }
-            editParameter(parameterCreationConfiguration, parameters, index);
+            editParameter(paramCreateConfig, parameters, index);
         }
         setEditedParameter(-1);
     };
@@ -125,7 +135,8 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                                 onDeleteParameterClick={onDeleteParameterClick}
                                 onEditParameterClick={onEditParameterClick}
                                 onEditSaveParameterClick={onEditSaveParameterClick}
-                                setParameterCreationConfiguration={setParameterCreationConfiguration}
+                                setParameterCreationConfiguration={setParamCreateConfig}
+                                parameters={parameters}
                             />
                         );
                     })}
@@ -169,47 +180,44 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                     <DefaultButton onClick={toggleShowDeleteDialog} text={Localizer.l("editParametersCancelButtonText")} />
                 </DialogFooter>
             </Dialog>
-            <Panel isOpen={isOpen} onDismiss={onClose} closeButtonAriaLabel="Close">
+            <Panel isOpen={isOpen} onDismiss={onClose} closeButtonAriaLabel="Close" type={PanelType.medium} isLightDismiss>
                 {addNewIsShown ? (
-                    <Stack style={{ paddingBottom: "20px" }}>
+                    <Stack style={{ marginRight: 64 }}>
                         <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                             <Text style={{ flex: 1 }} variant={"large"}>
                                 {Localizer.l("newParameter")}
                             </Text>
-                            <Text variant={"medium"} style={{ textDecoration: "underline", cursor: "pointer" }} onClick={setAddNewIsShown}>
+                            <Text variant={"medium"} style={{ textDecoration: "underline", cursor: "pointer" }} onClick={toggleAddNewIsShown}>
                                 {Localizer.l("hideForm")}
                             </Text>
                         </Stack>
                         <Stack>
-                            <ParameterEditorCreateForm setParameterCreationConfiguration={setParameterCreationConfiguration} />
-                            <Stack style={{ paddingTop: "15px" }}>
+                            <ParameterEditorCreateForm setParamCreateConfig={setParamCreateConfig} parameters={parameters} />
+                            <Stack style={{ paddingTop: "15px", paddingBottom: "10px", alignSelf: "flex-end" }}>
                                 <DefaultButton
                                     text="Add"
                                     onClick={onCreateFormAddClick}
-                                    disabled={
-                                        parameterCreationConfiguration == null ||
-                                        parameterCreationConfiguration.name == null ||
-                                        parameterCreationConfiguration.type == null
-                                    }
+                                    disabled={!!(!paramCreateConfig?.name || paramCreateConfig?.nameError || paramCreateConfig?.defaultValueError)}
                                 />
                             </Stack>
                         </Stack>
+                        <Separator />
                     </Stack>
                 ) : (
                     ""
                 )}
-                <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: "14px 0px 10px 0px" }}>
-                    <Text style={{ flex: 1 }} variant={"large"}>
-                        {Localizer.l("parameters")}
-                    </Text>
-                    {addNewIsShown ? (
-                        ""
-                    ) : (
-                        <DefaultButton text={Localizer.l("parameterEditorParameterListAddButtonLabel")} iconProps={addIcon} onClick={setAddNewIsShown} />
-                    )}
-                </Stack>
+                <Stack style={{ marginRight: 64 }}>
+                    <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: "14px 0px 10px 0px" }}>
+                        <Text style={{ flex: 1 }} variant={"large"}>
+                            {Localizer.l("parameters")}
+                        </Text>
+                        {addNewIsShown ? (
+                            ""
+                        ) : (
+                            <DefaultButton text={Localizer.l("parameterEditorParameterListAddButtonLabel")} iconProps={addIcon} onClick={toggleAddNewIsShown} />
+                        )}
+                    </Stack>
 
-                <Stack>
                     <SearchBox placeholder="Search" onSearch={searchFunction} />
                 </Stack>
                 {createParameterFields()}

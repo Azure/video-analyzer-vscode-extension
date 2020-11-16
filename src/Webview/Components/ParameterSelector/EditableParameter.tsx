@@ -8,6 +8,7 @@ interface EditableParameterProps {
     id?: number;
     data: any;
     showEdit: boolean;
+    parameters: MediaGraphParameterDeclaration[];
     onDeleteParameterClick: (index: number) => void;
     onEditParameterClick: (index: number) => void;
     onEditSaveParameterClick: (index: number) => void;
@@ -15,7 +16,7 @@ interface EditableParameterProps {
 }
 
 export const EditableParameter: React.FunctionComponent<EditableParameterProps> = (props) => {
-    const { id, data, showEdit, onDeleteParameterClick, onEditParameterClick, onEditSaveParameterClick, setParameterCreationConfiguration } = props;
+    const { id, data, showEdit, parameters, onDeleteParameterClick, onEditParameterClick, onEditSaveParameterClick, setParameterCreationConfiguration } = props;
     const editableParamContainer: React.CSSProperties = {
         display: "flex",
         flexDirection: "row",
@@ -74,10 +75,11 @@ export const EditableParameter: React.FunctionComponent<EditableParameterProps> 
                 <>
                     <Stack style={attributes}>
                         <ParameterEditorCreateForm
-                            setParameterCreationConfiguration={setParameterCreationConfiguration}
+                            setParamCreateConfig={setParameterCreationConfiguration}
                             name={data.name}
                             value={data.default}
                             type={data.type}
+                            parameters={parameters}
                         />
                     </Stack>
                     <Stack style={editIcons}>

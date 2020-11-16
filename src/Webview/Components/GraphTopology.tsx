@@ -150,7 +150,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
             if (!name) {
                 graphNameValidationError = { description: "sidebarGraphTopologyNameMissing", type: ValidationErrorType.MissingField };
                 setGraphNameError(Localizer.l(graphNameValidationError.description));
-                resolve();
+                resolve("");
                 return;
             }
             if (ExtensionInteraction.getVSCode()) {
@@ -173,7 +173,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
             } else {
                 graphNameValidationError = undefined;
                 setGraphNameError(undefined);
-                resolve();
+                resolve("");
             }
         });
     };

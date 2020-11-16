@@ -1,11 +1,12 @@
 import { ActionButton } from "office-ui-fabric-react/lib/Button";
 import React, { useState } from "react";
 import { IPropsAPI } from "@vienna/react-dag-editor";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParameterSelector } from "./ParameterSelector";
 
 interface IParameterSelectorTriggerProps {
-    parameters: any;
+    parameters: MediaGraphParameterDeclaration[];
     graph: any;
     propsApiRef: React.RefObject<IPropsAPI>;
 }

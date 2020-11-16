@@ -239,13 +239,13 @@ export default class Graph {
 
         for (let i = 0; i < propertyKeys.length; i++) {
             const propertyValue = nestedNode[propertyKeys[i]];
-            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
-                if (typeof propertyValue != "string") {
+            if (typeof propertyValue !== "number" && typeof propertyValue !== "boolean") {
+                if (typeof propertyValue !== "string") {
                     nodeDrillDown.push(propertyKeys[i]);
                     const newItem = this.recursiveCheckForParamsInGraphNode(propertyValue, nodeName, nodeId, parameterName, nodeDrillDown);
                     itemsThatWillChange = itemsThatWillChange.concat(newItem);
                 } else {
-                    if (propertyValue != null && propertyValue.indexOf(parameterName) != -1) {
+                    if (propertyValue != null && propertyValue.indexOf(parameterName) !== -1) {
                         nodeDrillDown.push(propertyKeys[i]);
                         const tempObj: ParameterChangeValidation = {
                             nodeId: nodeId,
@@ -277,7 +277,7 @@ export default class Graph {
                 if (typeof propertyValue != "string") {
                     this.recursiveDeleteParamsFromGraph(propertyValue, parameterName);
                 } else {
-                    if (propertyValue != null && propertyValue.indexOf(parameterName) != -1) {
+                    if (propertyValue != null && propertyValue.indexOf(parameterName) !== -1) {
                         nestedNode[propertyKeys[i]] = "";
                     }
                 }
@@ -303,7 +303,7 @@ export default class Graph {
                 if (typeof propertyValue != "string") {
                     this.recursiveEditParamsFromGraph(propertyValue, oldParameterName, newParameterName);
                 } else {
-                    if (propertyValue != null && propertyValue.indexOf(oldParameterName) != -1) {
+                    if (propertyValue != null && propertyValue.indexOf(oldParameterName) !== -1) {
                         nestedNode[propertyKeys[i]] = propertyValue.replace(oldParameterName, newParameterName);
                     }
                 }
