@@ -132,6 +132,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                 canvasMouseMode={props.canvasMouseMode}
                 getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
                 getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
+                styles={{ svg: { height: "100vh" } }}
                 //features={props.readOnly ? readOnlyFeatures : undefined}
             />
         </>
