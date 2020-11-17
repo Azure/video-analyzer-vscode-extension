@@ -1,6 +1,7 @@
 import {
     ChoiceGroup,
     Dropdown,
+    getFadedOverflowStyle,
     getTheme,
     IChoiceGroupOption,
     IDropdownOption,
@@ -9,6 +10,7 @@ import {
 } from "office-ui-fabric-react";
 import * as React from "react";
 import { useId } from "@uifabric/react-hooks";
+// import validationJson from "../../Definitions/v1.0/validation.json";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
 import Helpers from "../../Utils/Helpers";
@@ -25,15 +27,39 @@ interface IPropertyEditFieldProps {
     updateNodeName?: (oldName: string, newName: string) => void;
 }
 
+enum typesNeedingISOFormat {
+    MediaGraphSignalGateProcessor,
+    activationEvaluationWindow,
+    activationSignalOffset,
+    minimumActivationTime,
+    maximumActivationTime
+}
+
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
     const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(getInitialValue);
+    const [isIsoFormat] = React.useState<Boolean>(getIsIsoFormat);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
 
     const parameterized = !!(value && value.includes("${"));
 
+    function getIsIsoFormat() {
+        console.log("localizationKey", property.localizationKey);
+        const keys = property.localizationKey.split(".");
+        console.log("keys", keys);
+        if (keys[0] in typesNeedingISOFormat) {
+            if (keys[1] in typesNeedingISOFormat) {
+                console.log("true");
+                return true;
+            }
+        }
+        console.log("false");
+        return false;
+    }
+
     function getInitialValue() {
+        console.log("property", property);
         let initValue = nodeProperties[name];
         if (property.type !== "boolean" && property.type !== "string") {
             initValue = JSON.stringify(initValue);
@@ -56,6 +82,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function handleTextFieldChange(e: React.FormEvent, newValue?: string) {
+        //check the data type, if duration type, change number to ISO format
         if (newValue !== undefined) {
             setNewValue(newValue);
         }
