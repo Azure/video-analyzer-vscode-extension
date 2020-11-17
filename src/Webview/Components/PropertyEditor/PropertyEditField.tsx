@@ -1,6 +1,7 @@
 import {
     ChoiceGroup,
     Dropdown,
+    getFadedOverflowStyle,
     getTheme,
     IChoiceGroupOption,
     IDropdownOption,
@@ -9,6 +10,7 @@ import {
 } from "office-ui-fabric-react";
 import * as React from "react";
 import { useId } from "@uifabric/react-hooks";
+// import validationJson from "../../Definitions/v1.0/validation.json";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
 import { PropertyDescription } from "./PropertyDescription";
@@ -23,15 +25,39 @@ interface IPropertyEditFieldProps {
     updateNodeName?: (oldName: string, newName: string) => void;
 }
 
+enum typesNeedingISOFormat {
+    MediaGraphSignalGateProcessor,
+    activationEvaluationWindow,
+    activationSignalOffset,
+    minimumActivationTime,
+    maximumActivationTime
+}
+
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
     const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(getInitialValue);
+    const [isIsoFormat] = React.useState<Boolean>(getIsIsoFormat);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
 
     const parameterized = !!(value && value.includes("${"));
 
+    function getIsIsoFormat() {
+        console.log("localizationKey", property.localizationKey);
+        const keys = property.localizationKey.split(".");
+        console.log("keys", keys);
+        if (keys[0] in typesNeedingISOFormat) {
+            if (keys[1] in typesNeedingISOFormat) {
+                console.log("true");
+                return true;
+            }
+        }
+        console.log("false");
+        return false;
+    }
+
     function getInitialValue() {
+        console.log("property", property);
         let initValue = nodeProperties[name];
         if (property.type !== "boolean" && property.type !== "string") {
             initValue = JSON.stringify(initValue);
@@ -51,6 +77,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function handleTextFieldChange(e: React.FormEvent, newValue?: string) {
+        //check the data type, if duration type, change number to ISO format
         if (newValue !== undefined) {
             setNewValue(newValue);
         }
@@ -68,6 +95,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (updateNodeName) {
             updateNodeName(value, newValue);
         }
+
+        //check if isIsoValue
+        // true: change number value to isoValue
         setValue(newValue);
 
         switch (property.type) {
@@ -101,34 +131,162 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         }
     }
 
-    function validateInput(value: string) {
-        if (required) {
-            switch (property.type) {
-                case "boolean":
-                    if (value === "") {
-                        return Localizer.l("propertyEditorValidationUndefined");
+    function valueToIso(value: any) {}
+
+    function isoToValue(iso: string) {}
+
+    const testJson: any = {
+        "MediaGraphEndpoint.url": {
+            type: "regex",
+            value: '^(ftp|http|https)://[^ "]+$'
+            // "errorLocKey": "notValidUrl"
+        },
+        "MediaGraphFileSink.filePathPattern": {
+            type: "minMaxLength",
+            value: [1, 260]
+        },
+        "MediaGraphAssetSink.assetNamePattern": {
+            type: "regex",
+            value: '@"^[^<>%&:\\/?*+.\']{1,260}$"'
+        },
+        "MediaGraphAssetSink.segmentLength": {
+            type: "minMaxValue",
+            value: [30, 300, "seconds"]
+        },
+        "MediaGraphIoTHubMessageSink.hubOutputName": {
+            type: "maxLength",
+            value: 50
+        },
+        "MediaGraphSignalGateProcessor.activationEvaluationWindow": {
+            type: "minMaxValue",
+            value: [0, 10, "seconds"]
+        },
+        "MediaGraphSignalGateProcessor.activationSignalOffset": {
+            type: "minMaxValue",
+            value: [-60, 60, "seconds"]
+        },
+        "MediaGraphSignalGateProcessor.minimumActivationTime": {
+            type: "minMaxValue",
+            value: [1, 3600, "seconds"]
+        },
+        "MediaGraphSignalGateProcessor.maximumActivationTime": {
+            type: "minMaxValue",
+            value: [1, 3600, "seconds"]
+        },
+        "MediaGraphFrameRateFilterProcessor.maximumFps": {
+            type: "minValue",
+            value: 0.0001
+        },
+        "MediaGraphImageScale.width": {
+            type: "minMaxValue",
+            value: [-1, 1, ""]
+        },
+        "MediaGraphImageScale.height": {
+            type: "minMaxValue",
+            value: [-1, 1, ""]
+        }
+    };
+
+    const customDefinitons: any = {
+        "MediaGraphEndpoint.url": "urlFormat"
+    };
+
+    function validateRequiredProperty(value: string) {
+        switch (property.type) {
+            case "boolean":
+                if (value === "") {
+                    return Localizer.l("propertyEditorValidationUndefined");
+                }
+                break;
+            case "string":
+                if (!value) {
+                    return Localizer.l("propertyEditorValidationUndefinedOrEmpty");
+                }
+                break;
+            default:
+                if (value) {
+                    try {
+                        JSON.parse(value);
+                    } catch (e) {
+                        return Localizer.l("propertyEditorValidationInvalidJSON");
                     }
-                    break;
-                case "string":
-                    if (!value) {
-                        return Localizer.l("propertyEditorValidationUndefinedOrEmpty");
-                    }
-                    break;
-                default:
-                    if (value) {
-                        try {
-                            JSON.parse(value);
-                        } catch (e) {
-                            return Localizer.l("propertyEditorValidationInvalidJSON");
+                } else {
+                    return Localizer.l("propertyEditorValidationEmpty");
+                }
+                break;
+        }
+        return "";
+    }
+
+    function validateProperty(value: string) {
+        // console.log("validationJson", validationJson);
+        // if current definiton exists in the customDefinitons.json
+        // format comes from customDefinitons.json
+        const format = customDefinitons[property.localizationKey];
+        if (format === "urlFormat") {
+            //regex for url
+            const r = new RegExp('^(ftp|http|https)://[^ "]+$');
+            if (!r.test(value)) {
+                return Localizer.l("notValidUrl");
+            }
+        } else if (format === "number" || format === "isoDuration") {
+            // if(value is a number)
+            // else: error message valueMustBeNumbersError
+        }
+        if (testJson[property.localizationKey]) {
+            const validationType = testJson[property.localizationKey].type;
+            const propertyValue = testJson[property.localizationKey].value;
+            switch (validationType) {
+                case "regex": {
+                    const r = new RegExp(propertyValue);
+                    if (!r.test(value)) {
+                        switch (property.localizationKey) {
+                            case "MediaGraphAssetSink.assetNamePattern": {
+                                return Localizer.l("assetNamePatternError");
+                            }
                         }
-                    } else {
-                        return Localizer.l("propertyEditorValidationEmpty");
                     }
-                    break;
+                    return "";
+                }
+                case "maxLength": {
+                    if (value.length > propertyValue) {
+                        return Localizer.l("maxLengthError").format(propertyValue);
+                    }
+                }
+                case "minLength": {
+                }
+                case "minMaxLength": {
+                    if (value.length < propertyValue[0] || value.length > propertyValue[1]) {
+                        return Localizer.l("minMaxLengthError").format(propertyValue[0], propertyValue[1]);
+                    }
+                }
+                case "minValue": {
+                    if (value < propertyValue) {
+                        return Localizer.l("minValueError").format(propertyValue);
+                    }
+                }
+                case "minMaxValue": {
+                    if (value < propertyValue[0] || value > propertyValue[1]) {
+                        return Localizer.l("minMaxError").format(propertyValue[0], propertyValue[1], propertyValue[2]);
+                    }
+                }
             }
         }
 
         return "";
+    }
+
+    function validateInput(value: string) {
+        let errorMessage: string = "";
+        console.log("property", property);
+        if (required) {
+            errorMessage = validateRequiredProperty(value);
+        }
+        if (!errorMessage) {
+            errorMessage = validateProperty(value);
+        }
+
+        return errorMessage;
     }
 
     const labelId: string = useId("label");

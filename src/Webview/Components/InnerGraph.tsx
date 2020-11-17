@@ -121,6 +121,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                     getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
                     getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
                     features={props.readOnly ? readOnlyFeatures : undefined}
+                    styles={{ svg: { height: "100vh" } }}
                 />
             </GraphValueControlled>
         </>
