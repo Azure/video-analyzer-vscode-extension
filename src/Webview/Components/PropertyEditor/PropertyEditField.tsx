@@ -208,6 +208,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onRenderLabel={onRenderLabel}
                 aria-labelledby={labelId}
                 onGetErrorMessage={validateInput}
+                validateOnLoad={false}
             />
         );
     } else if (property.type === "boolean") {
@@ -270,6 +271,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onRenderLabel={onRenderLabel}
                 aria-labelledby={labelId}
                 onGetErrorMessage={validateInput}
+                validateOnLoad={false}
             />
         );
     }

@@ -1,4 +1,5 @@
 import {
+    CheckboxVisibility,
     DefaultButton,
     DetailsList,
     DetailsListLayoutMode,
@@ -56,6 +57,7 @@ export const ParameterEditorAdvanced: React.FunctionComponent<IParameterEditorAd
                                 key: "insertAction",
                                 name: "",
                                 minWidth: 0,
+                                maxWidth: 60,
                                 onRender: (item) => {
                                     return (
                                         <Link

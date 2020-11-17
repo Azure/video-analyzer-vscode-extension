@@ -1,3 +1,4 @@
+import some from "lodash/some";
 import {
     Dropdown,
     IDropdownOption,
@@ -10,17 +11,19 @@ import {
     MediaGraphParameterType
 } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
+import { ParamCreateConfig } from "../ParameterSelector/ParameterSelector";
 
 interface IParameterEditorCreateFormProps {
     horizontal?: boolean;
-    setParameterCreationConfiguration: (newParameter: MediaGraphParameterDeclaration) => void;
+    setParamCreateConfig: (newParameter: ParamCreateConfig) => void;
     name?: string;
     type?: string;
     value?: string;
+    parameters: MediaGraphParameterDeclaration[];
 }
 
 export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditorCreateFormProps> = (props) => {
-    const { setParameterCreationConfiguration, horizontal, name, type, value } = props;
+    const { parameters, setParamCreateConfig, horizontal, name, type, value } = props;
 
     const options = [
         { key: "String", text: "String" },
@@ -31,16 +34,33 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
     ];
 
     const [parameterName, setParameterName] = React.useState<string>(name ?? "");
+    const [parameterNameError, setParameterNameError] = React.useState<string>(name ?? "");
     const [parameterType, setParameterType] = React.useState<MediaGraphParameterType>((type ?? options[0].key) as MediaGraphParameterType);
     const [parameterDefaultValue, setParameterDefaultValue] = React.useState<string>(value ?? "");
 
     React.useEffect(() => {
-        setParameterCreationConfiguration({
+        setParamCreateConfig({
             name: parameterName,
             type: parameterType,
-            default: parameterDefaultValue
+            default: parameterDefaultValue,
+            nameError: parameterNameError
         });
-    }, [parameterName, parameterType, parameterDefaultValue]);
+    }, [parameterName, parameterNameError, parameterType, parameterDefaultValue]);
+
+    const parameterNameValidate = (newName: string) => {
+        let error = "";
+        if (!newName) {
+            error = Localizer.l("propertyEditorValidationUndefinedOrEmpty");
+        } else if (
+            some(parameters, (param) => {
+                return param.name !== name && param.name === newName;
+            })
+        ) {
+            error = Localizer.l("parameterAlreadyExists");
+        }
+        setParameterNameError(error);
+        return error;
+    };
 
     return (
         <Stack style={{ flexGrow: 1 }} horizontal={horizontal} tokens={horizontal ? { childrenGap: "s1" } : {}}>
@@ -49,6 +69,8 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
                 placeholder={Localizer.l("parameterEditorCreateFormNameFieldPlaceholder")}
                 required
                 value={parameterName}
+                validateOnLoad={false}
+                onGetErrorMessage={parameterNameValidate}
                 onChange={(event, newValue?) => {
                     setParameterName(newValue ?? "");
                 }}

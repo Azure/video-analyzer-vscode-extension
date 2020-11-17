@@ -15,11 +15,12 @@ import { useId } from "@uifabric/react-hooks";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueCallback } from "../../Types/GraphTypes";
+import { ParamCreateConfig } from "../ParameterSelector/ParameterSelector";
 import { AdjustedIconButton } from "../ThemeAdjustedComponents/AdjustedIconButton";
 import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
 import { createParameter } from "./createParameter";
 import { ParameterEditorAdvanced } from "./ParameterEditorAdvanced";
-import { ParameterEditorSimple } from "./ParameterEditorSimple";
+import { ParameterEditorChoice } from "./ParameterEditorChoice";
 
 interface IParameterEditorProps {
     onSelectValue: ParameterizeValueCallback;
@@ -33,7 +34,7 @@ interface IParameterEditorProps {
 const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) => {
     const { onSelectValue, parameters, isShown, hideModal, propertyName, prevValue = "" } = props;
     const [selectedValue, setSelectedValue] = React.useState<string>("");
-    const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
+    const [paramCreateConfig, setParamCreateConfig] = React.useState<ParamCreateConfig | undefined>();
 
     // use the advanced editor if there are more than two parameters
     const useAdvancedEditor = prevValue.split("${").length > 2;
@@ -58,9 +59,9 @@ const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) 
     const titleId = useId("title");
 
     const onClickUse = () => {
-        if (parameterCreationConfiguration) {
-            createParameter(parameterCreationConfiguration, parameters); // TODO. check for duplicates.
-            onSelectValue(`$\{${parameterCreationConfiguration.name}}`);
+        if (paramCreateConfig) {
+            createParameter(paramCreateConfig, parameters); // TODO. check for duplicates.
+            onSelectValue(`$\{${paramCreateConfig.name}}`);
         } else if (selectedValue) {
             onSelectValue(selectedValue);
         }
@@ -69,7 +70,11 @@ const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) 
 
     const resetSelectedValue = () => {
         setSelectedValue("");
-        setParameterCreationConfiguration(undefined);
+        setParamCreateConfig(undefined);
+    };
+
+    const setButtonDisabled = () => {
+        return (paramCreateConfig == null && selectedValue === "") || paramCreateConfig?.name == "" || !!paramCreateConfig?.nameError;
     };
 
     return (
@@ -78,41 +83,25 @@ const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) 
             onDismiss={hideModal}
             maxWidth={800}
             dialogContentProps={{
-                //className: contentStyles.container,
                 styles: { inner: { minWidth: 600 }, innerContent: { maxHeight: 800 } },
                 titleProps: { id: titleId },
-                type: DialogType.normal,
+                type: DialogType.close,
                 title: Localizer.l("parameterEditorTitle").format(propertyName),
                 subText: Localizer.l("parameterEditorText")
             }}
-            modalProps={{ isBlocking: true, titleAriaId: titleId, topOffsetFixed: true }}
+            modalProps={{ isBlocking: true, titleAriaId: titleId, topOffsetFixed: false }}
         >
             <div className={contentStyles.body}>
-                <Pivot
-                    aria-label={Localizer.l("parameterEditorPivotAriaLabel")}
-                    styles={{
-                        itemContainer: {
-                            paddingTop: 10
-                        }
-                    }}
-                    onLinkClick={resetSelectedValue}
-                    defaultSelectedIndex={useAdvancedEditor ? 1 : 0}
-                >
-                    <PivotItem headerText={Localizer.l("parameterEditorPivotBasicTabLabel")}>
-                        <ParameterEditorSimple
-                            parameters={parameters}
-                            setSelectedValue={setSelectedValue}
-                            setParameterCreationConfiguration={setParameterCreationConfiguration}
-                            resetSelectedValue={resetSelectedValue}
-                        />
-                    </PivotItem>
-                    <PivotItem headerText={Localizer.l("parameterEditorPivotAdvancedTabLabel")}>
-                        <ParameterEditorAdvanced parameters={parameters} setSelectedValue={setSelectedValue} prevValue={prevValue} />
-                    </PivotItem>
-                </Pivot>
+                <ParameterEditorChoice
+                    parameters={parameters}
+                    setSelectedValue={setSelectedValue}
+                    setParamCreateConfig={setParamCreateConfig}
+                    resetSelectedValue={resetSelectedValue}
+                    prevValue={prevValue}
+                />
             </div>
             <DialogFooter>
-                <AdjustedPrimaryButton text={Localizer.l("parameterEditorUseParameterInPropertyButtonText")} onClick={onClickUse} />
+                <AdjustedPrimaryButton text={Localizer.l("parameterEditorUseParameterInPropertyButtonText")} onClick={onClickUse} disabled={setButtonDisabled()} />
                 <DefaultButton text={Localizer.l("cancelButtonText")} onClick={hideModal} />
             </DialogFooter>
         </Dialog>
