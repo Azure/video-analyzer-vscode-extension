@@ -28,16 +28,18 @@ export class InstanceItem extends vscode.TreeItem {
         super(_graphInstance?.name ?? Localizer.localize("createGraphInstanceButton"), vscode.TreeItemCollapsibleState.None);
         this._logger = Logger.getOrCreateOutputChannel();
         if (_graphInstance) {
-            this.iconPath = TreeUtils.getIconPath(`instance`);
             switch (_graphInstance.properties?.state) {
                 case MediaGraphInstanceState.Active:
                     this.contextValue = "InstanceItemContextActive";
+                    this.iconPath = TreeUtils.getIconPath(`Graph-Instance-Active`);
                     break;
                 case MediaGraphInstanceState.Inactive:
                     this.contextValue = "InstanceItemContextInactive";
+                    this.iconPath = TreeUtils.getIconPath(`Graph-Instance-Inactive`);
                     break;
                 default:
                     this.contextValue = "InstanceItemContextProgress";
+                    this.iconPath = TreeUtils.getIconPath(`Graph-Instance-Inactive`);
             }
         } else {
             this.iconPath = new vscode.ThemeIcon("add");

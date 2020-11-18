@@ -99,6 +99,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
             propsApiRef.current.dismissSidePanel();
             propsApiRef.current.resetZoom();
         }
+        setValidationErrors([]);
     }
 
     function onChange(ev: IGraphDataChangeEvent) {

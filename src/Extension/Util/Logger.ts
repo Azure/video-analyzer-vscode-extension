@@ -53,19 +53,19 @@ export class Logger {
         );
     }
 
-    public logError(errorString: string, errors: ErrorOption[]) {
+    public logError(errorString: string, errors: ErrorOption[], showModal: boolean = true) {
         this.appendLog({ value: errorString, logLevel: LogLevel.error });
         if (errors?.length) {
             errors.forEach((error) => {
                 this.appendLog(error);
             });
             this.show();
-            this.showErrorNotification(errorString, errors.join(","));
+            this.showErrorNotification(errorString, errors.join(","), showModal);
         }
     }
 
-    public showErrorNotification(errorString: string, errorDetails: any) {
-        window.showErrorMessage(errorString, { modal: true });
+    public showErrorNotification(errorString: string, errorDetails: string, showModal: boolean) {
+        window.showErrorMessage(errorString, { modal: showModal });
     }
 
     public clear(): void {

@@ -46,7 +46,6 @@ export class GraphTopologyItem extends vscode.TreeItem {
     }
 
     public getChildren(): Promise<INode[]> | INode[] {
-        //return [new InstanceListItem(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology, this._graphInstances)];
         return this._instanceList;
     }
 

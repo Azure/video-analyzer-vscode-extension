@@ -30,14 +30,21 @@ export class GraphTopologyListItem extends vscode.TreeItem {
 
     public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
         return new Promise((resolve, reject) => {
-            GraphTopologyData.getGraphTopologies(this.iotHubData, this.deviceId, this.moduleId).then((graphTopologies) => {
-                this._graphTopologies = graphTopologies;
-                resolve(
-                    graphTopologies?.map((topology) => {
-                        return new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId, topology, graphInstances ?? []);
-                    })
-                );
-            });
+            GraphTopologyData.getGraphTopologies(this.iotHubData, this.deviceId, this.moduleId).then(
+                (graphTopologies) => {
+                    this._graphTopologies = graphTopologies;
+                    resolve(
+                        graphTopologies?.map((topology) => {
+                            return new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId, topology, graphInstances ?? []);
+                        })
+                    );
+                },
+                (error) => {
+                    const errorNode = new vscode.TreeItem("failed to get graph list", vscode.TreeItemCollapsibleState.None);
+                    this._logger.logError(`Failed to get the graphs `, [error.responseBody], false); // TODO. localize
+                    resolve([errorNode as INode]);
+                }
+            );
         });
     }
 

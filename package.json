@@ -76,12 +76,12 @@
                 {
                     "id": "moduleExplorer",
                     "title": "%lva-edge.views.moduleExplorer.name%",
-                    "icon": "Extension/resources/instance.svg"
+                    "icon": "Extension/resources/LVA-mono.svg"
                 }
             ]
         },
         "views": {
-            "explorer": [
+            "moduleExplorer": [
                 {
                     "id": "moduleExplorer",
                     "name": "%lva-edge.views.moduleExplorer.name%"

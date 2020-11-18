@@ -38,16 +38,24 @@ export class ExtensionUtils {
                     if (device) {
                         const module = await this.showModulesInListDialog(iotHubData, device.deviceId);
                         if (module) {
-                            resolve({
-                                iotHubData: iotHubData,
-                                lvaHubConfig: { connectionString, devices: [{ deviceId: device.deviceId, modules: [module.moduleId] }] }
-                            });
+                            const lvaVersion = await iotHubData.getVersion(device.deviceId, module.moduleId);
+                            if (lvaVersion) {
+                                resolve({
+                                    iotHubData: iotHubData,
+                                    lvaHubConfig: { connectionString, devices: [{ deviceId: device.deviceId, modules: [module.moduleId] }] }
+                                });
+                            } else {
+                                inputBox.validationMessage = Localizer.localize("iotHub.connectionString.moduleNotLVA");
+                                inputBox.show();
+                                reject();
+                            }
                         }
                     }
                 } else {
                     // TODO show readme how to get connection string from portal similar to what iot tools does.
                     inputBox.validationMessage =
                         Localizer.localize("iotHub.connectionString.validationMessageFormat") + Constants.ConnectionStringFormat[Constants.IotHubConnectionStringKey];
+                    reject();
                     // TODO ideally, we should use formatted strings like {0} in the loc strings to replace these.
                 }
             });

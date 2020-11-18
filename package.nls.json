@@ -7,6 +7,7 @@
     "deviceList.prompt": "Select a device",
     "moduleList.prompt": "Select the live video analytics module",
     "iotHub.connectionString.validationMessageFormat": "The format should be :",
+    "iotHub.connectionString.moduleNotLVA": "The selected module is not Live video analytics module. Please try a different module",
     "createGraphButton": "Create graph",
     "createGraphInstanceButton": "Create instance",
     "editGraphButton": "Edit graph topology",
