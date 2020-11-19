@@ -37,27 +37,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(getInitialValue);
-    const [isIsoFormat] = React.useState<Boolean>(getIsIsoFormat);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
 
     const parameterized = !!(value && value.includes("${"));
 
-    function getIsIsoFormat() {
-        console.log("localizationKey", property.localizationKey);
-        const keys = property.localizationKey.split(".");
-        console.log("keys", keys);
-        if (keys[0] in typesNeedingISOFormat) {
-            if (keys[1] in typesNeedingISOFormat) {
-                console.log("true");
-                return true;
-            }
-        }
-        console.log("false");
-        return false;
-    }
-
     function getInitialValue() {
-        console.log("property", property);
         let initValue = nodeProperties[name];
         if (property.type !== "boolean" && property.type !== "string") {
             initValue = JSON.stringify(initValue);
@@ -77,7 +61,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function handleTextFieldChange(e: React.FormEvent, newValue?: string) {
-        //check the data type, if duration type, change number to ISO format
         if (newValue !== undefined) {
             setNewValue(newValue);
         }
@@ -92,46 +75,62 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function setNewValue(newValue: string) {
+        console.log("setNewValue");
         if (updateNodeName) {
             updateNodeName(value, newValue);
         }
 
         //check if isIsoValue
         // true: change number value to isoValue
+        const format = customDefinitons[property.localizationKey] ?? null;
+        console.log("format", format);
+        // if (format === "isoDuration") {
+        //     console.log("updated isoDuration", value, newValue);
+        //     newValue = valueToIso(newValue);
+        // }
         setValue(newValue);
 
-        switch (property.type) {
-            case "boolean":
-                if (newValue === "true") {
-                    nodeProperties[name] = true;
-                } else if (newValue === "false") {
-                    nodeProperties[name] = false;
-                } else {
-                    delete nodeProperties[name];
-                }
-                break;
-            case "string":
-                if (newValue) {
-                    nodeProperties[name] = newValue;
-                } else {
-                    delete nodeProperties[name];
-                }
-                break;
-            default:
-                if (newValue) {
-                    try {
-                        nodeProperties[name] = JSON.parse(newValue);
-                    } catch (e) {
-                        // no change in value
+        //should only update this if there are no issues with the propertyEditField
+        if (format === "isoDuration") {
+            console.log("isoDuration found", newValue);
+            // nodeProperties[name] = valueToIso(newValue);
+        } else {
+            console.log("not an isoDuration");
+            switch (property.type) {
+                case "boolean":
+                    if (newValue === "true") {
+                        nodeProperties[name] = true;
+                    } else if (newValue === "false") {
+                        nodeProperties[name] = false;
+                    } else {
+                        delete nodeProperties[name];
                     }
-                } else {
-                    delete nodeProperties[name];
-                }
-                break;
+                    break;
+                case "string":
+                    if (newValue) {
+                        nodeProperties[name] = newValue;
+                    } else {
+                        delete nodeProperties[name];
+                    }
+                    break;
+                default:
+                    if (newValue) {
+                        try {
+                            nodeProperties[name] = JSON.parse(newValue);
+                        } catch (e) {
+                            // no change in value
+                        }
+                    } else {
+                        delete nodeProperties[name];
+                    }
+                    break;
+            }
         }
     }
 
-    function valueToIso(value: any) {}
+    function valueToIso(value: any) {
+        return value;
+    }
 
     function isoToValue(iso: string) {}
 
@@ -139,7 +138,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         "MediaGraphEndpoint.url": {
             type: "regex",
             value: '^(ftp|http|https)://[^ "]+$'
-            // "errorLocKey": "notValidUrl"
         },
         "MediaGraphFileSink.filePathPattern": {
             type: "minMaxLength",
@@ -188,7 +186,17 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     };
 
     const customDefinitons: any = {
-        "MediaGraphEndpoint.url": "urlFormat"
+        "MediaGraphEndpoint.url": "urlFormat",
+        "MediaGraphFileSink.filePathPattern": "number",
+        "MediaGraphAssetSink.segmentLength": "isoDuration",
+        "MediaGraphIoTHubMessageSink.hubOutputName": "isoDuration",
+        "MediaGraphSignalGateProcessor.activationEvaluationWindow": "isoDuration",
+        "MediaGraphSignalGateProcessor.activationSignalOffset": "isoDuration",
+        "MediaGraphSignalGateProcessor.minimumActivationTime": "isoDuration",
+        "MediaGraphSignalGateProcessor.maximumActivationTime": "isoDuration",
+        "MediaGraphFrameRateFilterProcessor.maximumFps": "number",
+        "MediaGraphImageScale.width": "number",
+        "MediaGraphImageScale.height": "number"
     };
 
     function validateRequiredProperty(value: string) {
@@ -219,19 +227,17 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function validateProperty(value: string) {
-        // console.log("validationJson", validationJson);
-        // if current definiton exists in the customDefinitons.json
-        // format comes from customDefinitons.json
-        const format = customDefinitons[property.localizationKey];
+        const format = customDefinitons[property.localizationKey] ?? null;
         if (format === "urlFormat") {
-            //regex for url
             const r = new RegExp('^(ftp|http|https)://[^ "]+$');
             if (!r.test(value)) {
                 return Localizer.l("notValidUrl");
             }
         } else if (format === "number" || format === "isoDuration") {
-            // if(value is a number)
-            // else: error message valueMustBeNumbersError
+            let isNum = /^\d+$/.test(value);
+            if (!isNum) {
+                return Localizer.l("valueMustBeNumbersError");
+            }
         }
         if (testJson[property.localizationKey]) {
             const validationType = testJson[property.localizationKey].type;
@@ -278,13 +284,14 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
     function validateInput(value: string) {
         let errorMessage: string = "";
-        console.log("property", property);
         if (required) {
             errorMessage = validateRequiredProperty(value);
         }
         if (!errorMessage) {
             errorMessage = validateProperty(value);
         }
+
+        errorMessage != "" ? setHasError(true) : setHasError(false);
 
         return errorMessage;
     }
