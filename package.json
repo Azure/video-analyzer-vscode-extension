@@ -74,17 +74,18 @@
         "viewsContainers": {
             "activitybar": [
                 {
-                    "id": "moduleExplorer",
+                    "id": "module-explorer",
                     "title": "%lva-edge.views.moduleExplorer.name%",
-                    "icon": "Extension/resources/LVA-mono.svg"
+                    "icon": "src/Extension/resources/LVA-mono.svg"
                 }
             ]
         },
         "views": {
-            "moduleExplorer": [
+            "module-explorer": [
                 {
                     "id": "moduleExplorer",
-                    "name": "%lva-edge.views.moduleExplorer.name%"
+                    "name": "%lva-edge.views.moduleExplorer.name%",
+                    "icon": "src/Extension/resources/LVA-mono.svg"
                 }
             ]
         },
