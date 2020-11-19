@@ -1,0 +1,13 @@
+{
+    "MediaGraphEndpoint.url": "urlFormat",
+    "MediaGraphFileSink.filePathPattern": "number",
+    "MediaGraphAssetSink.segmentLength": "isoDuration",
+    "MediaGraphIoTHubMessageSink.hubOutputName": "isoDuration",
+    "MediaGraphSignalGateProcessor.activationEvaluationWindow": "isoDuration",
+    "MediaGraphSignalGateProcessor.activationSignalOffset": "isoDuration",
+    "MediaGraphSignalGateProcessor.minimumActivationTime": "isoDuration",
+    "MediaGraphSignalGateProcessor.maximumActivationTime": "isoDuration",
+    "MediaGraphFrameRateFilterProcessor.maximumFps": "number",
+    "MediaGraphImageScale.width": "number",
+    "MediaGraphImageScale.height": "number"
+}
