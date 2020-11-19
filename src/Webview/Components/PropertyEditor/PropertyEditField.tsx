@@ -39,27 +39,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(getInitialValue);
-    const [isIsoFormat] = React.useState<Boolean>(getIsIsoFormat);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
 
     const parameterized = !!(value && value.includes("${"));
 
-    function getIsIsoFormat() {
-        console.log("localizationKey", property.localizationKey);
-        const keys = property.localizationKey.split(".");
-        console.log("keys", keys);
-        if (keys[0] in typesNeedingISOFormat) {
-            if (keys[1] in typesNeedingISOFormat) {
-                console.log("true");
-                return true;
-            }
-        }
-        console.log("false");
-        return false;
-    }
-
     function getInitialValue() {
-        console.log("property", property);
         let initValue = nodeProperties[name];
         if (property.type !== "boolean" && property.type !== "string") {
             initValue = JSON.stringify(initValue);
@@ -82,7 +66,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function handleTextFieldChange(e: React.FormEvent, newValue?: string) {
-        //check the data type, if duration type, change number to ISO format
         if (newValue !== undefined) {
             setNewValue(newValue);
         }
@@ -97,6 +80,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function setNewValue(newValue: string) {
+        console.log("setNewValue");
         if (updateNodeName) {
             updateNodeName(value, newValue);
         }
