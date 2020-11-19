@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
 import { IotHubData } from "../Data/IotHubData";
 import { LvaHubConfig } from "../Util/ExtensionUtils";
+import Localizer from "../Util/Localizer";
 import { TreeUtils } from "../Util/TreeUtils";
 import { GraphTopologyListItem } from "./GraphTopologyListItem";
 import { INode } from "./Node";
@@ -22,6 +23,17 @@ export class ModuleItem extends vscode.TreeItem {
     }
 
     public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
-        return [new GraphTopologyListItem(this.iotHubData, this.deviceId, this.moduleId, this._collapsibleState)];
+        return this.iotHubData.getVersion(this.deviceId, this.moduleId).then(
+            (version) => {
+                if (version) {
+                    return [new GraphTopologyListItem(this.iotHubData, this.deviceId, this.moduleId, this._collapsibleState)];
+                } else {
+                    return [new vscode.TreeItem(Localizer.localize("iotHub.connectionString.moduleNotLVA"), vscode.TreeItemCollapsibleState.None) as INode];
+                }
+            },
+            () => {
+                return [];
+            }
+        );
     }
 }

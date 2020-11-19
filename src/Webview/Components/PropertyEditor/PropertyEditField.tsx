@@ -171,10 +171,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
     if (property.type === "string" && property.enum) {
         const options: IDropdownOption[] = [
-            {
-                key: "",
-                text: Localizer.l("propertyEditorNoneValueLabel")
-            },
             ...property.enum.map((value: string) => {
                 const localizedEnumValueStrings = Localizer.getLocalizedStrings(`${property.localizationKey}.${value}`);
                 return {
@@ -188,12 +184,13 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             <Dropdown
                 placeholder={localizedPropertyStrings.placeholder}
                 options={options}
-                defaultSelectedKey={value ? value.toLowerCase() : ""}
+                defaultSelectedKey={value ? value.toLowerCase() : null}
                 onChange={handleDropdownChange}
                 required={required}
                 onRenderLabel={onRenderLabel}
                 aria-labelledby={labelId}
                 errorMessage={errorMessage}
+                onLoad={() => validateInput(value)}
             />
         );
     } else if (property.type === "string") {
@@ -208,15 +205,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onRenderLabel={onRenderLabel}
                 aria-labelledby={labelId}
                 onGetErrorMessage={validateInput}
-                validateOnLoad={false}
             />
         );
     } else if (property.type === "boolean") {
         const options: IChoiceGroupOption[] = [
-            {
-                key: "",
-                text: Localizer.l("propertyEditorNoneValueLabel")
-            },
             {
                 key: "true",
                 text: Localizer.l("propertyEditorBooleanTrueLabel")
@@ -230,13 +222,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             <>
                 {/* ChoiceGroup does not support onRenderLabel or errorMessage */}
                 {onRenderLabel()}
-                <ChoiceGroup
-                    defaultSelectedKey={value === undefined ? "" : value + ""}
-                    options={options}
-                    onChange={handleChoiceGroupChange}
-                    required={required}
-                    aria-labelledby={labelId}
-                />
+                <ChoiceGroup defaultSelectedKey={value} options={options} onChange={handleChoiceGroupChange} required={required} aria-labelledby={labelId} />
                 {errorMessage && (
                     <Text variant="small" style={{ color: getTheme().semanticColors.errorText }}>
                         {errorMessage}
@@ -271,7 +257,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onRenderLabel={onRenderLabel}
                 aria-labelledby={labelId}
                 onGetErrorMessage={validateInput}
-                validateOnLoad={false}
             />
         );
     }

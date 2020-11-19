@@ -23,6 +23,12 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
 
+    React.useEffect(() => {
+        if (type == null && required) {
+            setErrorMessage(Localizer.l("propertyEditorValidationUndefined"));
+        }
+    }, [type]);
+
     function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
         if (item) {
             const selectedType = item.key as string;
@@ -39,10 +45,6 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     }
 
     const options: IDropdownOption[] = [
-        {
-            key: "",
-            text: Localizer.l("propertyEditorNoneValueLabel")
-        },
         ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => {
             const localizedNodeStrings = Localizer.getLocalizedStrings(node.localizationKey);
             return {
@@ -59,7 +61,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
         return <PropertyDescription name={localizedPropertyStrings.title} required={required} property={property} labelId={labelId} />;
     }
 
-    const selectedType = type || "";
+    const selectedType = type;
 
     return (
         <>

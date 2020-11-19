@@ -31,7 +31,7 @@ export class IotHubData {
                 {
                     methodName,
                     payload: {
-                        "@apiVersion": Constants.ApiVersion.version1,
+                        "@apiVersion": Constants.ApiVersion.version2,
                         ...payload
                     },
                     responseTimeoutInSeconds: 10,
@@ -68,5 +68,17 @@ export class IotHubData {
     public async getModule(deviceId: string, moduleId: string) {
         const response = await this.registryClient?.getModule(deviceId, moduleId);
         return response?.responseBody;
+    }
+
+    public async getVersion(deviceId: string, moduleId: string) {
+        const twinResult = await this.registryClient?.getModuleTwin(deviceId, moduleId);
+        const productInfo = twinResult?.responseBody?.properties?.reported?.ProductInfo;
+        if (productInfo) {
+            const infoParts = productInfo.split(":");
+            if (infoParts.length === 2 && infoParts[0] == "live-video-analytics") {
+                return infoParts[1];
+            }
+        }
+        return null;
     }
 }

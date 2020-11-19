@@ -53,7 +53,7 @@
     "sampleSelectorDropdownEntryHttpExtensionTitle": "Analyzing live video using HTTP Extension to send images to an external inference engine",
     "sampleSelectorDropdownEntryMotionDetectionTitle": "Analyzing live video to detect motion and emit events",
     "sampleSelectorDropdownEntryMotionWithHttpExtensionTitle": "Event-based video recording to Assets based on motion events, and using HTTP Extension to send images to an external inference engine",
-    "sidebarTopologyComponentTitle": "Topology Components",
+    "sidebarTopologyComponentTitle": "Topology components",
     "sidebarTopologyComponentText": "Select a source, processor, and sink to build a topology.",
     "sidebarGraphTopologyNameLabel": "Topology name",
     "sidebarGraphInstanceNameLabel": "Instance name",
