@@ -31,7 +31,7 @@ export class IotHubData {
                 {
                     methodName,
                     payload: {
-                        "@apiVersion": Constants.ApiVersion.version1,
+                        "@apiVersion": Constants.ApiVersion.version2,
                         ...payload
                     },
                     responseTimeoutInSeconds: 10,

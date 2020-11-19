@@ -13,7 +13,7 @@ export class Constants {
     };
 
     public static ApiVersion = {
-        version1: "2.0"
+        version2: "2.0"
     };
 
     public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
