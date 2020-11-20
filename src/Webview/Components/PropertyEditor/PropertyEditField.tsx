@@ -1,7 +1,6 @@
 import {
     ChoiceGroup,
     Dropdown,
-    getFadedOverflowStyle,
     getTheme,
     IChoiceGroupOption,
     IDropdownOption,
@@ -10,7 +9,6 @@ import {
 } from "office-ui-fabric-react";
 import * as React from "react";
 import { useId } from "@uifabric/react-hooks";
-// import validationJson from "../../Definitions/v1.0/validation.json";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
 import Helpers from "../../Utils/Helpers";
@@ -25,14 +23,6 @@ interface IPropertyEditFieldProps {
     required: boolean;
     requestParameterization?: ParameterizeValueRequestFunction;
     updateNodeName?: (oldName: string, newName: string) => void;
-}
-
-enum typesNeedingISOFormat {
-    MediaGraphSignalGateProcessor,
-    activationEvaluationWindow,
-    activationSignalOffset,
-    minimumActivationTime,
-    maximumActivationTime
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
@@ -80,7 +70,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     function setNewValue(newValue: string) {
-        console.log("setNewValue");
         if (updateNodeName) {
             updateNodeName(value, newValue);
         }
