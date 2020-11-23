@@ -40,8 +40,8 @@ export class GraphTopologyListItem extends vscode.TreeItem {
                     );
                 },
                 (error) => {
-                    const errorNode = new vscode.TreeItem("failed to get graph list", vscode.TreeItemCollapsibleState.None);
-                    this._logger.logError(`Failed to get the graphs `, [error.responseBody], false); // TODO. localize
+                    const errorNode = new vscode.TreeItem(Localizer.localize("getAllGraphsFailedError"), vscode.TreeItemCollapsibleState.None);
+                    this._logger.logError(`${Localizer.localize("getAllGraphsFailedError")}`, [error.responseBody], false);
                     resolve([errorNode as INode]);
                 }
             );
@@ -49,42 +49,14 @@ export class GraphTopologyListItem extends vscode.TreeItem {
     }
 
     public createNewGraphCommand(context: vscode.ExtensionContext) {
-        const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("createNewGraphPageTile"));
-        if (createGraphPanel) {
-            createGraphPanel.waitForPostMessage({
-                name: Constants.PostMessageNames.closeWindow,
-                callback: () => {
-                    createGraphPanel.dispose();
-                }
-            });
-
-            createGraphPanel.setupInitialMessage({ pageType: Constants.PageTypes.graphPage });
-
-            createGraphPanel.setupNameCheckMessage((name) => {
-                return (
-                    this._graphTopologies.length === 0 ||
-                    this._graphTopologies.filter((graph) => {
-                        return graph.name === name;
-                    }).length === 0
-                );
-            });
-
-            createGraphPanel.waitForPostMessage({
-                name: Constants.PostMessageNames.saveGraph,
-                callback: async (topology: MediaGraphTopology) => {
-                    GraphTopologyData.putGraphTopology(this.iotHubData, this.deviceId, this.moduleId, topology).then(
-                        (response) => {
-                            TreeUtils.refresh();
-                            createGraphPanel.dispose();
-                        },
-                        (error) => {
-                            const errorList = createGraphPanel.parseDirectMethodError(error, topology);
-                            createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: errorList });
-                            this._logger.logError(`Failed to create the graph "${topology.name}"`, errorList); // TODO. localize
-                        }
-                    );
-                }
-            });
-        }
+        const graphItem = new GraphTopologyItem(this.iotHubData, this.deviceId, this.moduleId, undefined, undefined, (name) => {
+            return (
+                this._graphTopologies.length === 0 ||
+                this._graphTopologies.filter((graph) => {
+                    return graph.name === name;
+                }).length === 0
+            );
+        });
+        graphItem.setGraphCommand(context);
     }
 }

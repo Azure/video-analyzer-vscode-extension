@@ -38,7 +38,7 @@ interface IGraphPanelEditFieldProps {
 const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = (props) => {
     const { parameter, setParameter } = props;
     const { name, defaultValue, type, error } = parameter;
-    const [value, setValue] = React.useState<string>("");
+    const [value, setValue] = React.useState<string>(parameter.value);
 
     const onChange = (event: React.FormEvent, newValue?: string) => {
         if (newValue !== undefined) {

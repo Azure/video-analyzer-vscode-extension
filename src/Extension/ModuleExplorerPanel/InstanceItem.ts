@@ -7,7 +7,7 @@ import {
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
-import { LvaHubConfig } from "../Util/ExtensionUtils";
+import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
 import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";
@@ -51,9 +51,12 @@ export class InstanceItem extends vscode.TreeItem {
         return [];
     }
 
-    public editInstanceCommand(context: vscode.ExtensionContext) {
+    public setInstanceCommand(context: vscode.ExtensionContext) {
         const logger = Logger.getOrCreateOutputChannel();
-        const createGraphPanel = GraphEditorPanel.createOrShow(context.extensionPath, Localizer.localize("editInstancePageTile"));
+        const createGraphPanel = GraphEditorPanel.createOrShow(
+            context.extensionPath,
+            Localizer.localize(this._graphInstance ? "editInstancePageTile" : "createNewInstancePageTile")
+        );
         if (createGraphPanel) {
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
@@ -62,22 +65,27 @@ export class InstanceItem extends vscode.TreeItem {
                 }
             });
 
-            createGraphPanel.setupInitialMessage({ pageType: Constants.PageTypes.instancePage, graphData: this._graphTopology, graphInstance: this._graphInstance });
+            createGraphPanel.setupInitialMessage({
+                pageType: Constants.PageTypes.instancePage,
+                graphData: this._graphTopology,
+                graphInstanceData: this._graphInstance,
+                editMode: !!this._graphInstance
+            });
 
             createGraphPanel.setupNameCheckMessage((name) => {
                 return this._nameCheckCallback == null || this._nameCheckCallback(name);
             });
 
             createGraphPanel.waitForPostMessage({
-                name: Constants.PostMessageNames.saveGraph,
+                name: Constants.PostMessageNames.saveInstance,
                 callback: async (instance: any) => {
-                    this.saveGraph(createGraphPanel, instance);
+                    this.saveInstance(createGraphPanel, instance);
                 }
             });
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveAndActivate,
                 callback: async (instance: MediaGraphInstance) => {
-                    this.saveGraph(createGraphPanel, instance).then(() => {
+                    this.saveInstance(createGraphPanel, instance).then(() => {
                         return this.activateInstanceCommand(instance.name);
                     });
                 }
@@ -85,14 +93,15 @@ export class InstanceItem extends vscode.TreeItem {
         }
     }
 
-    public saveGraph(createGraphPanel: GraphEditorPanel, instance: MediaGraphInstance) {
+    public saveInstance(createGraphPanel: GraphEditorPanel, instance: MediaGraphInstance) {
         return GraphInstanceData.putGraphInstance(this.iotHubData, this.deviceId, this.moduleId, instance).then(
             (response) => {
                 TreeUtils.refresh();
                 createGraphPanel.dispose();
             },
             (error) => {
-                this._logger.logError(`Failed to save the instance "${this._graphInstance?.name}"`, error); // TODO. localize
+                const errorList = GraphEditorPanel.parseDirectMethodError(error);
+                this._logger.logError(`${Localizer.localize("saveInstanceFailedError")} "${this._graphInstance?.name}"`, errorList);
             }
         );
     }
@@ -105,7 +114,8 @@ export class InstanceItem extends vscode.TreeItem {
                     TreeUtils.refresh();
                 },
                 (error) => {
-                    this._logger.logError(`Failed to activate the instance "${instanceName}"`, error); // TODO. localize
+                    const errorList = GraphEditorPanel.parseDirectMethodError(error);
+                    this._logger.logError(`${Localizer.localize("activateInstanceFailedError")} "${instanceName}"`, errorList);
                 }
             );
         }
@@ -118,23 +128,27 @@ export class InstanceItem extends vscode.TreeItem {
                     TreeUtils.refresh();
                 },
                 (error) => {
-                    this._logger.logError(`Failed to deactivate the instance "${this._graphInstance?.name}"`, error); // TODO. localize
+                    const errorList = GraphEditorPanel.parseDirectMethodError(error);
+                    this._logger.logError(`${Localizer.localize("deactivateInstanceFailedError")} "${this._graphInstance?.name}"`, errorList);
                 }
             );
         }
     }
 
-    public deleteInstanceCommand() {
+    public async deleteInstanceCommand() {
         if (this._graphInstance) {
-            // TODO we might need a confirmation before delete
-            GraphInstanceData.deleteGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
-                (response) => {
-                    TreeUtils.refresh();
-                },
-                (error) => {
-                    this._logger.logError(`Failed to delete the instance "${this._graphInstance?.name}"`, error); // TODO. localize
-                }
-            );
+            const allowDelete = await ExtensionUtils.showConfirmation(Localizer.localize("deleteInstanceConfirmation"));
+            if (allowDelete) {
+                GraphInstanceData.deleteGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
+                    (response) => {
+                        TreeUtils.refresh();
+                    },
+                    (error) => {
+                        const errorList = GraphEditorPanel.parseDirectMethodError(error);
+                        this._logger.logError(`${Localizer.localize("deleteInstanceFailedError")} "${this._graphInstance?.name}"`, errorList);
+                    }
+                );
+            }
         }
     }
 }

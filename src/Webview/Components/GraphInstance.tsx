@@ -36,17 +36,18 @@ import { Toolbar } from "./Toolbar";
 
 interface IGraphInstanceProps {
     graph: Graph;
+    isEditMode: boolean;
     zoomPanSettings: IZoomPanSettings;
     instance: MediaGraphInstance;
     vsCodeSetState: VSCodeSetState;
 }
 
 const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
-    const { graph, instance } = props;
+    const { graph, instance, isEditMode } = props;
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
-    const [instanceName, setInstanceName] = React.useState<string>(instance.name);
-    const [instanceDescription, setInstanceDescription] = React.useState<string>((instance.properties && instance.properties.description) || "");
+    const [instanceName, setInstanceName] = React.useState<string>(instance?.name ?? "");
+    const [instanceDescription, setInstanceDescription] = React.useState<string>((instance?.properties && instance.properties.description) || "");
     const [instanceNameError, setInstanceNameError] = React.useState<string>();
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
 
@@ -55,23 +56,24 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     let initialParams: GraphInstanceParameter[] = [];
     if (graph.getTopology().properties && graph.getTopology().properties!.parameters) {
         initialParams = graph.getTopology().properties!.parameters!.map((param: MediaGraphParameterDeclaration) => {
-            let defaultValue = param.default || "";
-            if (instance.properties && instance.properties.parameters) {
+            let value = "";
+            if (instance?.properties && instance.properties.parameters) {
                 const matches = instance.properties.parameters.filter((parameter) => parameter.name === param.name);
                 if (matches?.length) {
-                    defaultValue = matches[0].value;
+                    value = matches[0].value;
                 }
             }
             return {
                 name: param.name,
-                defaultValue,
-                value: "",
+                defaultValue: param.default || "",
+                value: value,
                 type: param.type,
                 error: ""
             };
         });
     }
     const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
+    console.log("🚀 ~ file: GraphInstance.tsx ~ line 76 ~ parameters", parameters);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -83,6 +85,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
             graphData: { ...data, meta: graph.getTopology() },
             zoomPanSettings,
             instance: generateInstance(),
+            editMode: isEditMode,
             ...update // in case we want to force changes
         });
     };
@@ -125,6 +128,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
 
     const saveInstance = () => {
         canContinue().then((canSave: boolean) => {
+            console.log("🚀 ~ file: GraphInstance.tsx ~ line 130 ~ canContinue ~ canSave", canSave);
             if (canSave) {
                 if (ExtensionInteraction.getVSCode()) {
                     PostMessage.sendMessageToParent({
@@ -139,7 +143,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         });
     };
 
-    const saveAndStartAction = {
+    const saveAndActivateAction = {
         text: Localizer.l("saveAndActivateButtonText"),
         callback: () => {
             canContinue().then((canSave: boolean) => {
@@ -163,7 +167,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
             if (!name) {
                 instanceNameValidationError = { description: "sidebarGraphInstanceNameMissing", type: ValidationErrorType.MissingField };
                 setInstanceNameError(Localizer.l(instanceNameValidationError.description));
-                resolve();
+                resolve("");
                 return;
             }
             if (ExtensionInteraction.getVSCode()) {
@@ -188,7 +192,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
             } else {
                 instanceNameValidationError = undefined;
                 setInstanceNameError(undefined);
-                resolve();
+                resolve("");
             }
         });
     };
@@ -259,7 +263,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                 <Toolbar
                     name={instanceName}
                     primaryAction={saveInstance}
-                    secondaryAction={saveAndStartAction}
+                    secondaryAction={isEditMode ? undefined : saveAndActivateAction}
                     cancelAction={() => {
                         if (ExtensionInteraction.getVSCode()) {
                             PostMessage.sendMessageToParent({
@@ -278,6 +282,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                                     label={Localizer.l("sidebarGraphInstanceNameLabel")}
                                     required
                                     value={instanceName}
+                                    readOnly={isEditMode}
                                     placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
                                     errorMessage={instanceNameError}
                                     onChange={onNameChange}
@@ -304,6 +309,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                             canvasMouseMode={CanvasMouseMode.pan}
                             readOnly
                             propsApiRef={propsApiRef}
+                            // eslint-disable-next-line @typescript-eslint/no-empty-function
                             updateNodeName={() => {}}
                         />
                     </Stack.Item>

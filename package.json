@@ -2,6 +2,7 @@
     "name": "lva-edge-vscode-extension",
     "description": "LVA Edge VS Code Extension",
     "version": "0.0.1",
+    "publisher": "ms-azuretools",
     "engines": {
         "vscode": "^1.38.0"
     },
@@ -27,12 +28,13 @@
             },
             {
                 "command": "moduleExplorer.refresh",
-                "title": "Refresh",
+                "title": "%refresh%",
                 "icon": "$(refresh)"
             },
             {
                 "command": "moduleExplorer.resetConnection",
-                "title": "Reset connection"
+                "title": "%deleteConnectionToHub%",
+                "icon": "$(trashcan)"
             },
             {
                 "command": "moduleExplorer.createGraph",
@@ -53,10 +55,6 @@
                 "icon": "$(add)"
             },
             {
-                "command": "moduleExplorer.editInstance",
-                "title": "%editInstanceButton%"
-            },
-            {
                 "command": "moduleExplorer.activateInstance",
                 "title": "%activateInstanceButton%",
                 "enablement": "view == moduleExplorer && viewItem == InstanceItemContextInactive"
@@ -67,8 +65,13 @@
                 "enablement": "view == moduleExplorer && viewItem == InstanceItemContextActive"
             },
             {
+                "command": "moduleExplorer.editInstance",
+                "title": "%editInstanceButton%"
+            },
+            {
                 "command": "moduleExplorer.deleteInstance",
-                "title": "%deleteInstanceButton%"
+                "title": "%deleteInstanceButton%",
+                "enablement": "view == moduleExplorer && viewItem == InstanceItemContextInactive"
             }
         ],
         "viewsContainers": {
@@ -76,7 +79,7 @@
                 {
                     "id": "module-explorer",
                     "title": "%lva-edge.views.moduleExplorer.name%",
-                    "icon": "src/Extension/resources/LVA-mono.svg"
+                    "icon": "src/Extension/resources/images/LVA-mono.svg"
                 }
             ]
         },
@@ -85,7 +88,7 @@
                 {
                     "id": "moduleExplorer",
                     "name": "%lva-edge.views.moduleExplorer.name%",
-                    "icon": "src/Extension/resources/LVA-mono.svg"
+                    "icon": "src/Extension/resources/images/LVA-mono.svg"
                 }
             ]
         },
@@ -104,28 +107,44 @@
                     "group": "inline"
                 },
                 {
-                    "command": "moduleExplorer.deleteGraph",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext"
+                    "command": "moduleExplorer.createInstance",
+                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "group": "inline"
+                },
+                {
+                    "command": "moduleExplorer.createInstance",
+                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "group": "1_groupCommands@0"
                 },
                 {
                     "command": "moduleExplorer.editGraph",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext"
+                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "group": "2_groupCommands@0"
+                },
+                {
+                    "command": "moduleExplorer.deleteGraph",
+                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "group": "2_groupCommands@1"
                 },
                 {
                     "command": "moduleExplorer.activateInstance",
-                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/",
+                    "group": "1_instanceCommands@0"
                 },
                 {
                     "command": "moduleExplorer.deactivateInstance",
-                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
-                },
-                {
-                    "command": "moduleExplorer.deleteInstance",
-                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/",
+                    "group": "1_instanceCommands@1"
                 },
                 {
                     "command": "moduleExplorer.editInstance",
-                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/"
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/",
+                    "group": "2_instanceCommands@2"
+                },
+                {
+                    "command": "moduleExplorer.deleteInstance",
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/",
+                    "group": "2_instanceCommands@3"
                 },
                 {
                     "command": "moduleExplorer.createGraph",
@@ -135,15 +154,6 @@
                 {
                     "command": "moduleExplorer.createGraph",
                     "when": "view == moduleExplorer && viewItem == graphListContext"
-                },
-                {
-                    "command": "moduleExplorer.createInstance",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext",
-                    "group": "inline"
-                },
-                {
-                    "command": "moduleExplorer.createInstance",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext"
                 }
             ]
         },
@@ -179,21 +189,21 @@
         "react-accessible-accordion": "^3.3.3",
         "react-accessible-tree": "^1.0.3",
         "react-dom": "^16.13.1",
-        "react-scripts": "^3.4.3"
+        "react-scripts": "^3.4.3",
+        "typescript": "^3.9.4"
     },
     "devDependencies": {
-        "@types/dagre": "^0.7.44",
         "@types/lodash": "^4.14.155",
-        "@types/node": "^12.12.0",
         "@types/react": "^16.9.36",
         "@types/react-dom": "^16.9.8",
         "@types/uuid": "^8.0.0",
         "@types/vscode": "^1.38.0",
+        "@types/dagre": "^0.7.44",
+        "@types/node": "^12.12.0",
         "@typescript-eslint/eslint-plugin": "^3.0.2",
         "@typescript-eslint/parser": "^3.0.2",
         "eslint-plugin-react-hooks": "^4.1.0",
-        "prettier": "^2.0.5",
-        "typescript": "^3.9.4"
+        "prettier": "^2.0.5"
     },
     "browserslist": {
         "production": [

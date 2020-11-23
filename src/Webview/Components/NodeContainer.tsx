@@ -22,8 +22,6 @@ interface INodeContainerProps {
     background?: string;
     isDraggable: boolean;
     hideShadow?: boolean;
-    setNodeRef?: (nodeRef: React.RefObject<HTMLDivElement>) => void;
-    nodeRef?: React.RefObject<HTMLDivElement>;
     hasErrors?: boolean;
 }
 
@@ -40,22 +38,15 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
         hovered = false,
         isDraggable,
         hideShadow = false,
-        setNodeRef,
-        nodeRef,
         hasErrors
     } = props;
-    //let {nodeRef } = props;
     const propsAPI = usePropsAPI();
-    // const nodeRef = React.useRef<HTMLDivElement>(null);
-    // if (setNodeRef) {
-    //     setNodeRef(nodeRef);
-    // }
     const transformMatrix = propsAPI.getZoomPanSettings().transformMatrix;
     const transform = dragging ? `matrix(${transformMatrix.join(",")})` : "none";
 
     const background = props.background || "var(--vscode-editor-background)";
     const selectionOutline = selected ? `, 0 0 0 1px  ${accentColor}` : "";
-    const dropShadow = hovered || selected ? `0px 4px 12px rgba(var(--node-shadow-color), 0.25)` : `0px 4px 6px rgba(var(--node-shadow-color), 0.1)`;
+    const dropShadow = hovered || selected ? `0px 4px 12px rgba(var(--node-shadow-color), 0.1)` : `0px 4px 6px rgba(var(--node-shadow-color), 0.1)`;
 
     const styles = mergeStyleSets({
         card: {
@@ -107,7 +98,7 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
     });
 
     return (
-        <div ref={nodeRef}>
+        <div>
             <Stack horizontal className={styles.card}>
                 <Stack.Item className={styles.accentBar}>
                     <FontIcon iconName={iconName} className={styles.icon} />

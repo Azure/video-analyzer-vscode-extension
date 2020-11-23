@@ -78,7 +78,6 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
                     dragging={dragging}
                     hasErrors={hasErrors}
                     isDraggable={!this.readOnly}
-                    setNodeRef={this.setRef.bind(this)}
                 />
             </foreignObject>
         );

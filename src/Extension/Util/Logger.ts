@@ -53,7 +53,7 @@ export class Logger {
         );
     }
 
-    public logError(errorString: string, errors: ErrorOption[], showModal: boolean = true) {
+    public logError(errorString: string, errors: ErrorOption[], showModal = true) {
         this.appendLog({ value: errorString, logLevel: LogLevel.error });
         if (errors?.length) {
             errors.forEach((error) => {

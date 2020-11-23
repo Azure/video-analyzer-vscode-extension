@@ -19,7 +19,8 @@ interface PostMessage {
 interface PostMessageInitialData {
     pageType: string;
     graphData?: any;
-    graphInstance?: any;
+    editMode: boolean;
+    graphInstanceData?: any;
 }
 
 /**
@@ -133,13 +134,13 @@ export class GraphEditorPanel {
         this._panel.webview.postMessage(message);
     }
 
-    public parseDirectMethodError(errorResponse: DirectMethodError, data: any) {
+    public static parseDirectMethodError(errorResponse: DirectMethodError, data?: any) {
         const errors: ErrorOption[] = [];
         if (errorResponse) {
             errors.push({ value: errorResponse.message, logLevel: LogLevel.error });
             if (errorResponse.details?.length) {
                 errorResponse.details.forEach((errorDetail: DirectMethodErrorDetail) => {
-                    const split = (errorDetail as any).target.split(".");
+                    const split = (errorDetail as any)?.target?.split(".");
                     const propertyName = nth(split, 3) as string;
                     errors.push({
                         value: `${errorDetail.message}`,

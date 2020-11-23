@@ -120,7 +120,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                     canvasMouseMode={props.canvasMouseMode}
                     getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
                     getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
-                    features={props.readOnly ? readOnlyFeatures : undefined}
+                    //features={props.readOnly ? readOnlyFeatures : undefined}
                 />
             </GraphValueControlled>
         </>

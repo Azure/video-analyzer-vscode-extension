@@ -44,12 +44,14 @@ import { Toolbar } from "./Toolbar";
 
 interface IGraphTopologyProps {
     graph: Graph;
+    isEditMode: boolean;
     zoomPanSettings: IZoomPanSettings;
     vsCodeSetState: VSCodeSetState;
 }
 
 const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
-    const { graph, vsCodeSetState } = props;
+    const { graph, vsCodeSetState, isEditMode } = props;
+    console.log("🚀 ~ file: GraphTopology.tsx ~ line 54 ~ isEditMode", isEditMode);
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [dirty, setDirty] = React.useState<boolean>(false);
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
@@ -73,7 +75,8 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         vsCodeSetState({
             pageViewType: Constants.PageType.graphPage,
             graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
-            zoomPanSettings
+            zoomPanSettings,
+            editMode: isEditMode
         });
     }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
     React.useEffect(() => {
@@ -314,6 +317,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                                     label={Localizer.l("sidebarGraphTopologyNameLabel")}
                                     required
                                     value={graphTopologyName}
+                                    readOnly={isEditMode}
                                     placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
                                     errorMessage={graphNameError}
                                     onChange={onNameChange}

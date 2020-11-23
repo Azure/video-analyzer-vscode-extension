@@ -1,4 +1,5 @@
 import { Device, Module } from "azure-iothub";
+import * as path from "path";
 import * as vscode from "vscode";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "./Constants";
@@ -40,6 +41,7 @@ export class ExtensionUtils {
                         if (module) {
                             const lvaVersion = await iotHubData.getVersion(device.deviceId, module.moduleId);
                             if (lvaVersion) {
+                                inputBox.dispose();
                                 resolve({
                                     iotHubData: iotHubData,
                                     lvaHubConfig: { connectionString, devices: [{ deviceId: device.deviceId, modules: [module.moduleId] }] }
@@ -52,11 +54,12 @@ export class ExtensionUtils {
                         }
                     }
                 } else {
-                    // TODO show readme how to get connection string from portal similar to what iot tools does.
+                    vscode.commands.executeCommand(
+                        "markdown.showPreview",
+                        vscode.Uri.file(path.join(Constants.ResourcesFolderPath, "docs", "iot-hub-connection-string.md"))
+                    );
                     inputBox.validationMessage =
                         Localizer.localize("iotHub.connectionString.validationMessageFormat") + Constants.ConnectionStringFormat[Constants.IotHubConnectionStringKey];
-                    reject();
-                    // TODO ideally, we should use formatted strings like {0} in the loc strings to replace these.
                 }
             });
 
@@ -113,6 +116,13 @@ export class ExtensionUtils {
     public static getIoTHubName(iotHubConnectionString: string): string {
         const result = /^HostName=([^.]+)./.exec(iotHubConnectionString);
         return result ? result[1] : "";
+    }
+
+    public static async showConfirmation(placeHolder: string) {
+        const selection = await vscode.window.showQuickPick([{ label: Localizer.localize("yes") }, { label: Localizer.localize("no") }], {
+            placeHolder: placeHolder
+        });
+        return selection?.label === Localizer.localize("yes");
     }
 
     private static isValidConnectionString(id: string, value: string): boolean {
