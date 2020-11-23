@@ -51,7 +51,6 @@ interface IGraphTopologyProps {
 
 const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const { graph, vsCodeSetState, isEditMode } = props;
-    console.log("🚀 ~ file: GraphTopology.tsx ~ line 54 ~ isEditMode", isEditMode);
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [dirty, setDirty] = React.useState<boolean>(false);
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);

@@ -22,6 +22,8 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
         switch (error.type) {
             case ValidationErrorType.MissingField:
                 return (error.property && Localizer.l(error.description).format(error.nodeName, error.property.join(" - "))) || Localizer.l(error.description);
+            case ValidationErrorType.MissingParameterField:
+                return Localizer.l(error.description).format(error.nodeName);
             case ValidationErrorType.NodeCountLimit:
                 return Localizer.l(error.description).format(error.nodeType);
             case ValidationErrorType.RequiredDirectlyDownstream:

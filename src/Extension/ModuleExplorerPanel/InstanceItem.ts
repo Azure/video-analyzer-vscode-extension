@@ -98,10 +98,13 @@ export class InstanceItem extends vscode.TreeItem {
             (response) => {
                 TreeUtils.refresh();
                 createGraphPanel.dispose();
+                return Promise.resolve();
             },
             (error) => {
-                const errorList = GraphEditorPanel.parseDirectMethodError(error);
-                this._logger.logError(`${Localizer.localize("saveInstanceFailedError")} "${this._graphInstance?.name}"`, errorList);
+                const errorList = GraphEditorPanel.parseDirectMethodError(error, this._graphTopology);
+                createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: errorList });
+                this._logger.logError(`${Localizer.localize("saveInstanceFailedError")} "${instance?.name}"`, errorList);
+                return Promise.reject();
             }
         );
     }

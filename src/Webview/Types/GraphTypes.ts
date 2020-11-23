@@ -71,6 +71,7 @@ export enum ValidationErrorType {
     NameAlreadyInUse = "NameAlreadyInUse",
     RegexValidation = "RegexValidation",
     MissingField = "MissingField",
+    MissingParameterField = "MissingParameterField",
     NodeCountLimit = "NodeCountLimit",
     RequiredDirectlyDownstream = "RequiredDirectlyDownstream",
     ProhibitedDirectlyDownstream = "ProhibitedDirectlyDownstream",

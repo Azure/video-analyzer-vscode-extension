@@ -1,4 +1,9 @@
-import { ITextField, Stack, TextField } from "office-ui-fabric-react";
+import {
+    ActionButton,
+    ITextField,
+    Stack,
+    TextField
+} from "office-ui-fabric-react";
 import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import {
@@ -20,6 +25,7 @@ import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import {
     GraphInstanceParameter,
+    ServerError,
     ValidationError,
     ValidationErrorType
 } from "../Types/GraphTypes";
@@ -50,6 +56,10 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const [instanceDescription, setInstanceDescription] = React.useState<string>((instance?.properties && instance.properties.description) || "");
     const [instanceNameError, setInstanceNameError] = React.useState<string>();
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
+    const [serverErrors, setServerErrors] = React.useState<ValidationError[]>([]);
+    const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
+    const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
+    let errorsFromResponse: ValidationError[] = [];
 
     let instanceNameValidationError: ValidationError | undefined;
 
@@ -73,7 +83,6 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         });
     }
     const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
-    console.log("🚀 ~ file: GraphInstance.tsx ~ line 76 ~ parameters", parameters);
 
     const propsApiRef = React.useRef<IPropsAPI>(null);
     const nameTextFieldRef = React.useRef<ITextField>(null);
@@ -126,15 +135,32 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         };
     };
 
-    const saveInstance = () => {
-        canContinue().then((canSave: boolean) => {
-            console.log("🚀 ~ file: GraphInstance.tsx ~ line 130 ~ canContinue ~ canSave", canSave);
+    const saveInstance = (activate = false) => {
+        errorsFromResponse = [];
+        canContinue([]).then((canSave: boolean) => {
             if (canSave) {
                 if (ExtensionInteraction.getVSCode()) {
-                    PostMessage.sendMessageToParent({
-                        name: Constants.PostMessageNames.saveInstance,
-                        data: generateInstance()
-                    });
+                    PostMessage.sendMessageToParent(
+                        {
+                            name: activate ? Constants.PostMessageNames.saveAndActivate : Constants.PostMessageNames.saveInstance,
+                            data: generateInstance()
+                        },
+                        {
+                            name: Constants.PostMessageNames.failedOperationReason,
+                            onlyOnce: true,
+                            callback: (errors: ServerError[]) => {
+                                errorsFromResponse = errors.map((error) => {
+                                    return {
+                                        description: error.value,
+                                        type: ValidationErrorType.ServerError,
+                                        ...(error.nodeName && { nodeName: error.nodeName }),
+                                        ...(error.nodeProperty && { property: [error.nodeProperty] })
+                                    } as ValidationError;
+                                });
+                                canContinue(errorsFromResponse);
+                            }
+                        }
+                    );
                 } else {
                     // running in browser
                     console.log(generateInstance());
@@ -143,22 +169,14 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         });
     };
 
+    const saveInstanceAction = () => {
+        saveInstance(false);
+    };
+
     const saveAndActivateAction = {
         text: Localizer.l("saveAndActivateButtonText"),
         callback: () => {
-            canContinue().then((canSave: boolean) => {
-                if (canSave) {
-                    if (ExtensionInteraction.getVSCode()) {
-                        PostMessage.sendMessageToParent({
-                            name: Constants.PostMessageNames.saveAndActivate,
-                            data: generateInstance()
-                        });
-                    } else {
-                        // running in browser
-                        console.log(generateInstance());
-                    }
-                }
-            });
+            saveInstance(true);
         }
     };
 
@@ -209,24 +227,42 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         }
     };
 
-    const canContinue = () => {
-        //TODO. user validation panel for errors.
+    const canContinue = (errorsFromResponse?: ValidationError[]) => {
+        if (errorsFromResponse) {
+            // save errors in the state, to remember when canContinue is called by node triggerValidation
+            setServerErrors(errorsFromResponse ?? []);
+        }
         return new Promise<boolean>((resolve) => {
             validateName(instanceName).then(() => {
+                const validationErrors: ValidationError[] = [];
+                validationErrors.push(...(errorsFromResponse ?? serverErrors));
                 if (instanceNameValidationError) {
                     nameTextFieldRef.current!.focus();
+                    validationErrors.push({ type: ValidationErrorType.MissingField, description: "sidebarGraphInstanceNameMissing" });
                 }
                 let missingParameter = false;
                 parameters.forEach((parameter, index) => {
                     if (!parameter.defaultValue && !parameter.value) {
                         missingParameter = true;
                         parameter.error = Localizer.l("sidebarGraphInstanceParameterMissing");
+                        validationErrors.push({
+                            type: ValidationErrorType.MissingParameterField,
+                            description: "errorParameterPanelMissingText",
+                            nodeName: parameter.name
+                        });
                     }
+
+                    //TODO. Scott. do the validation from the property key where param is being used. and add the errors here.
                 });
+                setValidationErrors(validationErrors);
                 setParameters(parameters);
                 resolve(!instanceNameValidationError && !missingParameter);
             });
         });
+    };
+
+    const toggleValidationErrorPanel = () => {
+        setShowValidationErrors(!showValidationErrors);
     };
 
     const panelStyles = {
@@ -254,6 +290,13 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
             height: 0
         }
     };
+    const validationErrorStyles: React.CSSProperties = {
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "flex-end",
+        flex: 1,
+        paddingRight: "5%"
+    };
 
     return (
         <ReactDagEditor theme={Constants.graphTheme}>
@@ -262,7 +305,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
             <Stack styles={{ root: { height: "100vh" } }}>
                 <Toolbar
                     name={instanceName}
-                    primaryAction={saveInstance}
+                    primaryAction={saveInstanceAction}
                     secondaryAction={isEditMode ? undefined : saveAndActivateAction}
                     cancelAction={() => {
                         if (ExtensionInteraction.getVSCode()) {
@@ -273,7 +316,25 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                     }}
                     toggleSidebar={setSidebarIsShown}
                     isSidebarShown={sidebarIsShown}
-                />
+                >
+                    {validationErrors && validationErrors.length > 0 ? (
+                        <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
+                            <ActionButton
+                                iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
+                                onClick={toggleValidationErrorPanel}
+                            >
+                                <span style={{ color: "var(--vscode-errorForeground)" }}>
+                                    {validationErrors.length === 1
+                                        ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
+                                        : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
+                                    <u>{Localizer.l("ToolbarValidationErrors")}</u>
+                                </span>
+                            </ActionButton>
+                        </Stack>
+                    ) : (
+                        ""
+                    )}
+                </Toolbar>
                 <Stack grow horizontal styles={mainEditorStyles}>
                     {sidebarIsShown && (
                         <Stack.Item styles={panelStyles}>
@@ -309,6 +370,9 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                             canvasMouseMode={CanvasMouseMode.pan}
                             readOnly
                             propsApiRef={propsApiRef}
+                            validationErrors={validationErrors}
+                            showValidationErrors={showValidationErrors}
+                            toggleValidationErrorPanel={toggleValidationErrorPanel}
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
                             updateNodeName={() => {}}
                         />

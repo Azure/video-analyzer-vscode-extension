@@ -77,6 +77,7 @@
     "errorPanelHeading": "Errors",
     "errorPanelOnlyOneNodeOfTypeAllowedText": "Only one node of type {0} is allowed per graph.",
     "errorPanelMissingPropertyText": "Missing property [node: {0}] on [property : {1}].",
+    "errorParameterPanelMissingText": "Missing parameter value [parameter : {0}].",
     "errorPanelServerErrorText": "Server error",
     "errorPanelServerErrorNodeNameText": " [Node: {0}]",
     "errorPanelServerErrorPropertyText": " - [Property : {0}]",

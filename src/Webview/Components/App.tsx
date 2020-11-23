@@ -31,7 +31,6 @@ export const App: React.FunctionComponent<IProps> = (props) => {
         setTheme(ThemeHelpers.getAdaptedTheme());
     });
     const { pageViewType, graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, instance } = props.state;
-    console.log("🚀 ~ file: App.tsx ~ line 34 ~ pageViewType, graphData", pageViewType, graphData);
 
     const [isEditMode, { setTrue: setEditModeTrue }] = useBoolean(props.state.editMode);
 
@@ -59,13 +58,6 @@ export const App: React.FunctionComponent<IProps> = (props) => {
                 name: Constants.PostMessageNames.setInitialData,
                 callback: (initialData) => {
                     const { graphData, pageType, graphInstanceData, editMode } = initialData;
-                    console.log("Set initial data.");
-                    // props.vsCodeSetState({
-                    //     pageViewType: Constants.PageType.instancePage,
-                    //     graphData: graphData,
-                    //     instance: graphInstanceData,
-                    //     editMode: isEditMode
-                    // });
                     if (editMode) {
                         setEditModeTrue();
                     }
@@ -85,7 +77,6 @@ export const App: React.FunctionComponent<IProps> = (props) => {
             }
         );
     }
-    console.log("app.tx");
     return (
         <ThemeProvider theme={theme}>
             <React.Suspense fallback={<></>}>
