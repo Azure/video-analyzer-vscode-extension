@@ -15,7 +15,7 @@ import Helpers from "../../Utils/Helpers";
 import { PropertyDescription } from "./PropertyDescription";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
-const customDefinitions: any = require("../../Definitions/v2.0.0/customDefinitions.json");
+const customPropertyTypes: any = require("../../Definitions/v2.0.0/customPropertyTypes.json");
 interface IPropertyEditFieldProps {
     name: string;
     property: any;
@@ -39,8 +39,8 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             initValue = JSON.stringify(initValue);
         }
         if (property.type === "string" && initValue && typeof initValue === "number") {
-            if (customDefinitions[property.localizationKey] === "isoDuration") {
-                initValue = Helpers.isoToValue(initValue);
+            if (customPropertyTypes[property.localizationKey] === "isoDuration") {
+                initValue = Helpers.isoToSeconds(initValue);
             }
             initValue = initValue + "";
         }
@@ -76,9 +76,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
         setValue(newValue);
 
-        const format = customDefinitions[property.localizationKey] ?? null;
+        const format = customPropertyTypes[property.localizationKey] ?? null;
         if (format === "isoDuration") {
-            nodeProperties[name] = Helpers.valueToIso(newValue);
+            nodeProperties[name] = Helpers.secondsToIso(newValue);
         } else {
             switch (property.type) {
                 case "boolean":

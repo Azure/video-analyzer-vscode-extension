@@ -137,7 +137,7 @@
     "deleteParameterDialogText": "Removing the parameter sets linked properties to empty and may cause graph errors. Please confirm removal of parameter.",
     "deleteParameterDialogLinkedProperties": "Linked properties",
     "minMaxLengthError": "Property must have a length between {0} - {1}",
-    "assetNamePatternError": "Value must follow regex '{0}'",
+    "regexPatternError": "Value must follow regex '{0}'",
     "minMaxError": "The property value must be between {0} - {1} {2}",
     "maxLengthError": "Property must have a length less than {0}",
     "minValueError": "Value must be greater than {0}",

@@ -1,7 +1,7 @@
 import { customWords } from "../../Tools/DefinitionGenerator/customWords";
 import Localizer from "../Localization/Localizer";
 
-const customDefinitions: any = require("../Definitions/v2.0.0/customDefinitions.json");
+const customDefinitions: any = require("../Definitions/v2.0.0/customPropertyTypes.json");
 const validationJson: any = require("../Definitions/v2.0.0/validation.json");
 interface Duration {
     years: number;
@@ -40,11 +40,11 @@ export default class Helpers {
         return text;
     }
 
-    static valueToIso = (value: any) => {
+    static secondsToIso = (value: any) => {
         return "PT0H0M{0}S".format(value);
     };
 
-    static isoToValue(isoString: any) {
+    static isoToSeconds(isoString: any) {
         const duration = Helpers.parseXmlDuration(isoString);
         return duration.days * 24 * 60 * 60 + duration.hours * 60 * 60 + duration.minutes * 60 + duration.seconds;
     }
@@ -110,7 +110,7 @@ export default class Helpers {
                 case "regex": {
                     const r = new RegExp(propertyValue);
                     if (!r.test(value)) {
-                        return Localizer.l("assetNamePatternError").format(propertyValue);
+                        return Localizer.l("regexPatternError").format(propertyValue);
                     }
                     return "";
                 }
