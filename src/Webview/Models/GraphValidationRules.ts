@@ -8,6 +8,8 @@ export default class GraphValidationRules {
     ];
 
     static mustBeImmediatelyDownstreamOf = [
+        // Motion detection processor: Must be immediately downstream from RTSP source.
+        ["#Microsoft.Media.MediaGraphMotionDetectionProcessor", ["#Microsoft.Media.MediaGraphRtspSource"]],
         // Signal gate processor: Must be immediately downstream from RTSP source.
         ["#Microsoft.Media.MediaGraphSignalGateProcessor", ["#Microsoft.Media.MediaGraphRtspSource"]],
         // Asset sink: Must be immediately downstream from RTSP source or signal gate processor.
