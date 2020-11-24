@@ -8,14 +8,15 @@ import * as React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import {
     CanvasMouseMode,
+    GraphModel,
+    GraphStateStore,
     ICanvasData,
     IPropsAPI,
     isSupported,
     IZoomPanSettings,
     ReactDagEditor,
     RegisterNode,
-    RegisterPort,
-    withDefaultPortsPosition
+    RegisterPort
 } from "@vienna/react-dag-editor";
 import {
     MediaGraphInstance,
@@ -50,6 +51,7 @@ interface IGraphInstanceProps {
 
 const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const { graph, instance, isEditMode } = props;
+    const initData = graph.getICanvasData();
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
     const [instanceName, setInstanceName] = React.useState<string>(instance?.name ?? "");
@@ -61,6 +63,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
     let errorsFromResponse: ValidationError[] = [];
 
+    console.log("instance", instance);
     let instanceNameValidationError: ValidationError | undefined;
 
     let initialParams: GraphInstanceParameter[] = [];
@@ -90,12 +93,10 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     // save state in VS Code when data, zoomPanSettings, or parameters change
     const saveState = (update?: any) => {
         props.vsCodeSetState({
+            ...update,
             pageViewType: Constants.PageType.instancePage,
-            graphData: { ...data, meta: graph.getTopology() },
-            zoomPanSettings,
             instance: generateInstance(),
-            editMode: isEditMode,
-            ...update // in case we want to force changes
+            editMode: isEditMode
         });
     };
     const setParameters = (parameters: GraphInstanceParameter[]) => {
@@ -105,9 +106,9 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
             instance: generateInstance()
         });
     };
-    React.useEffect(() => {
-        saveState();
-    }, [data, zoomPanSettings, instanceName, instanceDescription]);
+    // React.useEffect(() => {
+    //     saveState();
+    // }, [data, zoomPanSettings, instanceName, instanceDescription]);
     React.useEffect(() => {
         // on mount
         if (nameTextFieldRef) {
@@ -300,86 +301,88 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
 
     return (
         <ReactDagEditor theme={Constants.graphTheme}>
-            <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase(/* readOnly */ true))} />
-            <RegisterPort name="modulePort" config={modulePort} />
-            <Stack styles={{ root: { height: "100vh" } }}>
-                <Toolbar
-                    name={instanceName}
-                    primaryAction={saveInstanceAction}
-                    secondaryAction={isEditMode ? undefined : saveAndActivateAction}
-                    cancelAction={() => {
-                        if (ExtensionInteraction.getVSCode()) {
-                            PostMessage.sendMessageToParent({
-                                name: Constants.PostMessageNames.closeWindow
-                            });
-                        }
-                    }}
-                    toggleSidebar={setSidebarIsShown}
-                    isSidebarShown={sidebarIsShown}
-                >
-                    {validationErrors && validationErrors.length > 0 ? (
-                        <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
-                            <ActionButton
-                                iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
-                                onClick={toggleValidationErrorPanel}
-                            >
-                                <span style={{ color: "var(--vscode-errorForeground)" }}>
-                                    {validationErrors.length === 1
-                                        ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
-                                        : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
-                                    <u>{Localizer.l("ToolbarValidationErrors")}</u>
-                                </span>
-                            </ActionButton>
-                        </Stack>
-                    ) : (
-                        ""
-                    )}
-                </Toolbar>
-                <Stack grow horizontal styles={mainEditorStyles}>
-                    {sidebarIsShown && (
-                        <Stack.Item styles={panelStyles}>
-                            <div style={topSidebarStyles}>
-                                <TextField
-                                    label={Localizer.l("sidebarGraphInstanceNameLabel")}
-                                    required
-                                    value={instanceName}
-                                    readOnly={isEditMode}
-                                    placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
-                                    errorMessage={instanceNameError}
-                                    onChange={onNameChange}
-                                    componentRef={nameTextFieldRef}
-                                />
-                                <TextField
-                                    label={Localizer.l("sidebarGraphDescriptionLabel")}
-                                    value={instanceDescription}
-                                    placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-                                    onChange={onDescriptionChange}
-                                />
-                            </div>
-                            <div style={panelItemStyles}>
-                                <ParameterPanel parameters={parameters} setParameters={setParameters} />
-                            </div>
+            <GraphStateStore data={GraphModel.fromJSON(initData)}>
+                <RegisterNode name="module" config={new NodeBase(/* readOnly */ true)} />
+                <RegisterPort name="modulePort" config={modulePort} />
+                <Stack styles={{ root: { height: "100vh" } }}>
+                    <Toolbar
+                        name={instanceName}
+                        primaryAction={saveInstanceAction}
+                        secondaryAction={isEditMode ? undefined : saveAndActivateAction}
+                        cancelAction={() => {
+                            if (ExtensionInteraction.getVSCode()) {
+                                PostMessage.sendMessageToParent({
+                                    name: Constants.PostMessageNames.closeWindow
+                                });
+                            }
+                        }}
+                        toggleSidebar={setSidebarIsShown}
+                        isSidebarShown={sidebarIsShown}
+                    >
+                        {validationErrors && validationErrors.length > 0 ? (
+                            <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
+                                <ActionButton
+                                    iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
+                                    onClick={toggleValidationErrorPanel}
+                                >
+                                    <span style={{ color: "var(--vscode-errorForeground)" }}>
+                                        {validationErrors.length === 1
+                                            ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
+                                            : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
+                                        <u>{Localizer.l("ToolbarValidationErrors")}</u>
+                                    </span>
+                                </ActionButton>
+                            </Stack>
+                        ) : (
+                            ""
+                        )}
+                    </Toolbar>
+                    <Stack grow horizontal styles={mainEditorStyles}>
+                        {sidebarIsShown && (
+                            <Stack.Item styles={panelStyles}>
+                                <div style={topSidebarStyles}>
+                                    <TextField
+                                        label={Localizer.l("sidebarGraphInstanceNameLabel")}
+                                        required
+                                        value={instanceName}
+                                        readOnly={isEditMode}
+                                        placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+                                        errorMessage={instanceNameError}
+                                        onChange={onNameChange}
+                                        componentRef={nameTextFieldRef}
+                                    />
+                                    <TextField
+                                        label={Localizer.l("sidebarGraphDescriptionLabel")}
+                                        value={instanceDescription}
+                                        placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+                                        onChange={onDescriptionChange}
+                                    />
+                                </div>
+                                <div style={panelItemStyles}>
+                                    <ParameterPanel parameters={parameters} setParameters={setParameters} />
+                                </div>
+                            </Stack.Item>
+                        )}
+                        <Stack.Item grow>
+                            <InnerGraph
+                                graph={graph}
+                                graphTopologyName={graph.getName()}
+                                graphDescription={instanceDescription}
+                                canvasMouseMode={CanvasMouseMode.pan}
+                                vsCodeSetState={saveState}
+                                readOnly
+                                propsApiRef={propsApiRef}
+                                validationErrors={validationErrors}
+                                showValidationErrors={showValidationErrors}
+                                toggleValidationErrorPanel={toggleValidationErrorPanel}
+                                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                                updateNodeName={() => {}}
+                            />
                         </Stack.Item>
-                    )}
-                    <Stack.Item grow>
-                        <InnerGraph
-                            data={data}
-                            setData={setData}
-                            zoomPanSettings={zoomPanSettings}
-                            setZoomPanSettings={setZoomPanSettings}
-                            canvasMouseMode={CanvasMouseMode.pan}
-                            readOnly
-                            propsApiRef={propsApiRef}
-                            validationErrors={validationErrors}
-                            showValidationErrors={showValidationErrors}
-                            toggleValidationErrorPanel={toggleValidationErrorPanel}
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            updateNodeName={() => {}}
-                        />
-                    </Stack.Item>
+                    </Stack>
                 </Stack>
-            </Stack>
-            <ContextMenu />
+                <ContextMenu />
+            </GraphStateStore>
         </ReactDagEditor>
     );
 };

@@ -1,13 +1,7 @@
 import "./ItemPanel.css";
 import { Text } from "office-ui-fabric-react";
 import * as React from "react";
-import {
-    Accordion,
-    AccordionItem,
-    AccordionItemButton,
-    AccordionItemHeading,
-    AccordionItemPanel
-} from "react-accessible-accordion";
+import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from "react-accessible-accordion";
 import { v4 as uuid } from "uuid";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
@@ -21,7 +15,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
 
     const hasNodeWithName = (name: string) => {
         const nodes = propsAPI.getData().nodes;
-        for (const node of nodes) {
+        for (const [, node] of nodes) {
             if (node.name === name) {
                 return true;
             }
@@ -29,7 +23,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
         return false;
     };
 
-    const nodeWillAdd = (node: ICanvasNode): ICanvasNode => {
+    const nodeWillAdd = (node: ICanvasNode<any>): ICanvasNode => {
         // make sure this name hasn't already been used, append number if it has
         let nodeName = node.name || "";
         let duplicateCounter = 1;
@@ -48,7 +42,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
         };
     };
 
-    const dragWillStart = (node: ICanvasNode) => {
+    const dragWillStart = (node: ICanvasNode<any>) => {
         if (node.data) {
             node.data.nodeProperties.dragging = true;
         }
@@ -75,7 +69,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
             <Accordion allowZeroExpanded preExpanded={[Definitions.getItemPanelNodes()[0].id]}>
                 {Definitions.getItemPanelNodes().map((category, index) => {
                     const children = category.children.map((node) => {
-                        const initialNode = node.extra as ICanvasNode;
+                        const initialNode = node.extra as ICanvasNode<any>;
                         const description = Localizer.getLocalizedStrings(initialNode.data!.nodeProperties.name).description;
                         const styles = NodeHelpers.getNodeAppearance({
                             nodeProperties: initialNode.data!.nodeProperties,

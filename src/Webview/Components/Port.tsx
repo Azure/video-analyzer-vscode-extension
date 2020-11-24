@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-    GraphPortState,
-    hasState,
-    ICanvasData,
-    ICanvasNode,
-    ICanvasPort,
-    IPortConfig
-} from "@vienna/react-dag-editor";
+import { GraphPortState, hasState, ICanvasData, ICanvasNode, ICanvasPort, IGetConnectableParams, IPortConfig } from "@vienna/react-dag-editor";
 import NodeHelpers from "../Utils/NodeHelpers";
 import { PortInner } from "./PortInner";
 
@@ -15,24 +8,8 @@ export interface ICanvasPortCustomized extends ICanvasPort {
 }
 
 export const modulePort: IPortConfig = {
-    getStyle(portOriginal, parentNode, data): Partial<React.CSSProperties> {
-        const port: ICanvasPortCustomized = portOriginal as ICanvasPortCustomized;
-
-        const strokeWidth = 1;
-        const stroke = "var(--vscode-editorWidget-border)";
-        let fill = "var(--vscode-editorWidget-background)";
-
-        if (hasState(GraphPortState.activated | GraphPortState.selected | GraphPortState.connecting)(port.state)) {
-            fill = "var(--vscode-editor-selectionBackground)";
-        }
-
-        return {
-            stroke,
-            strokeWidth,
-            fill
-        };
-    },
-    getIsConnectable(port: ICanvasPortCustomized, parentNode: ICanvasNode, data: ICanvasData): boolean | undefined {
+    getIsConnectable(args: IGetConnectableParams): boolean | undefined {
+        const { data, model: port, parentNode } = args;
         const { nodes = [] } = data;
 
         // edge cannot be made from input port (violates edge direction)
@@ -42,7 +19,7 @@ export const modulePort: IPortConfig = {
 
         // has to connect input <-> output
         let isOutputPort;
-        nodes.forEach((node) => {
+        data.mapNodes((node) => {
             if (node.ports) {
                 node.ports.forEach((p) => {
                     // find the port being connected
@@ -65,6 +42,8 @@ export const modulePort: IPortConfig = {
                     }
                 });
             }
+
+            return node;
         });
 
         if (isOutputPort === undefined) {
