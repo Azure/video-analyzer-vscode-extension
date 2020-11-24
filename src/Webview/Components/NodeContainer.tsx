@@ -23,6 +23,7 @@ interface INodeContainerProps {
     isDraggable: boolean;
     hideShadow?: boolean;
     hasErrors?: boolean;
+    nodeRef?: any;
 }
 
 export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (props) => {
@@ -38,7 +39,8 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
         hovered = false,
         isDraggable,
         hideShadow = false,
-        hasErrors
+        hasErrors,
+        nodeRef
     } = props;
     const propsAPI = usePropsAPI();
     const transformMatrix = propsAPI.getZoomPanSettings().transformMatrix;
@@ -98,7 +100,7 @@ export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (prop
     });
 
     return (
-        <div>
+        <div ref={nodeRef}>
             <Stack horizontal className={styles.card}>
                 <Stack.Item className={styles.accentBar}>
                     <FontIcon iconName={iconName} className={styles.icon} />
