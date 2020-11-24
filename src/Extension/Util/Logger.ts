@@ -53,7 +53,7 @@ export class Logger {
         );
     }
 
-    public logError(errorString: string, errors: ErrorOption[], showModal = true) {
+    public logError(errorString: string, errors: ErrorOption[], showModal = false) {
         this.appendLog({ value: errorString, logLevel: LogLevel.error });
         if (errors?.length) {
             errors.forEach((error) => {
@@ -66,6 +66,10 @@ export class Logger {
 
     public showErrorNotification(errorString: string, errorDetails: string, showModal: boolean) {
         window.showErrorMessage(errorString, { modal: showModal });
+    }
+
+    public showInformationMessage(infoString: string, showModal: boolean = false) {
+        window.showInformationMessage(infoString, { modal: showModal });
     }
 
     public clear(): void {

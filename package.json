@@ -47,7 +47,8 @@
             },
             {
                 "command": "moduleExplorer.deleteGraph",
-                "title": "%deleteGraphButton%"
+                "title": "%deleteGraphButton%",
+                "enablement": "view == moduleExplorer && viewItem == graphItemContext"
             },
             {
                 "command": "moduleExplorer.createInstance",
@@ -66,7 +67,8 @@
             },
             {
                 "command": "moduleExplorer.editInstance",
-                "title": "%editInstanceButton%"
+                "title": "%editInstanceButton%",
+                "enablement": "view == moduleExplorer && viewItem == InstanceItemContextInactive"
             },
             {
                 "command": "moduleExplorer.deleteInstance",
@@ -108,22 +110,22 @@
                 },
                 {
                     "command": "moduleExplorer.createInstance",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "when": "view == moduleExplorer && viewItem =~ /^graphItemContext.*$/",
                     "group": "inline"
                 },
                 {
                     "command": "moduleExplorer.createInstance",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "when": "view == moduleExplorer && viewItem =~ /^graphItemContext.*$/",
                     "group": "1_groupCommands@0"
                 },
                 {
                     "command": "moduleExplorer.editGraph",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "when": "view == moduleExplorer && viewItem =~ /^graphItemContext.*$/",
                     "group": "2_groupCommands@0"
                 },
                 {
                     "command": "moduleExplorer.deleteGraph",
-                    "when": "view == moduleExplorer && viewItem == graphItemContext",
+                    "when": "view == moduleExplorer && viewItem =~ /^graphItemContext.*$/",
                     "group": "2_groupCommands@1"
                 },
                 {

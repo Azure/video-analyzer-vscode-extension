@@ -27,7 +27,6 @@ export class GraphTopologyItem extends vscode.TreeItem {
     ) {
         super(_graphTopology?.name ?? "", vscode.TreeItemCollapsibleState.Expanded);
         this.iconPath = TreeUtils.getIconPath(`graph`);
-        this.contextValue = "graphItemContext";
         this._logger = Logger.getOrCreateOutputChannel();
 
         if (this._graphTopology && this._graphInstances) {
@@ -44,6 +43,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
             }
             this._instanceList.push(...instanceItems);
         }
+        this.contextValue = this._instanceList?.length ? "graphItemContextInUse" : "graphItemContext";
     }
 
     public getChildren(): Promise<INode[]> | INode[] {
@@ -76,6 +76,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
                         (response) => {
                             TreeUtils.refresh();
                             createGraphPanel.dispose();
+                            this._logger.showInformationMessage(`${Localizer.localize("saveGraphSuccessMessage")} "${topology.name}"`);
                         },
                         (error) => {
                             const errorList = GraphEditorPanel.parseDirectMethodError(error, topology);
@@ -95,6 +96,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
                 GraphTopologyData.deleteGraphTopology(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology.name).then(
                     (response) => {
                         TreeUtils.refresh();
+                        this._logger.showInformationMessage(`${Localizer.localize("deleteGraphSuccessMessage")} "${this._graphTopology!.name}"`);
                     },
                     (error) => {
                         const errorList = GraphEditorPanel.parseDirectMethodError(error);
