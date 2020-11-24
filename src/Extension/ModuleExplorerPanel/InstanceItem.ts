@@ -98,6 +98,7 @@ export class InstanceItem extends vscode.TreeItem {
             (response) => {
                 TreeUtils.refresh();
                 createGraphPanel.dispose();
+                this._logger.showInformationMessage(`${Localizer.localize("saveInstanceSuccessMessage")} "${instance?.name}"`);
                 return Promise.resolve();
             },
             (error) => {
@@ -115,6 +116,7 @@ export class InstanceItem extends vscode.TreeItem {
             GraphInstanceData.activateGraphInstance(this.iotHubData, this.deviceId, this.moduleId, instanceName).then(
                 (response) => {
                     TreeUtils.refresh();
+                    this._logger.showInformationMessage(`${Localizer.localize("activateInstanceSuccessMessage")} "${instanceName}"`);
                 },
                 (error) => {
                     const errorList = GraphEditorPanel.parseDirectMethodError(error);
@@ -129,6 +131,7 @@ export class InstanceItem extends vscode.TreeItem {
             GraphInstanceData.deactivateGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
                 (response) => {
                     TreeUtils.refresh();
+                    this._logger.showInformationMessage(`${Localizer.localize("deactivateInstanceSuccessMessage")} "${this._graphInstance?.name}"`);
                 },
                 (error) => {
                     const errorList = GraphEditorPanel.parseDirectMethodError(error);
@@ -145,6 +148,7 @@ export class InstanceItem extends vscode.TreeItem {
                 GraphInstanceData.deleteGraphInstance(this.iotHubData, this.deviceId, this.moduleId, this._graphInstance.name).then(
                     (response) => {
                         TreeUtils.refresh();
+                        this._logger.showInformationMessage(`${Localizer.localize("deleteInstanceSuccessMessage")} "${this._graphInstance?.name}"`);
                     },
                     (error) => {
                         const errorList = GraphEditorPanel.parseDirectMethodError(error);
