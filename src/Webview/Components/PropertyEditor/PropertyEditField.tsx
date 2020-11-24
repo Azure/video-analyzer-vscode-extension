@@ -38,7 +38,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (property.type !== "boolean" && property.type !== "string") {
             initValue = JSON.stringify(initValue);
         }
-        if (property.type === "string" && initValue && typeof initValue === "number") {
+        if (property.type === "string" && initValue) {
             if (customPropertyTypes[property.localizationKey] === "isoDuration") {
                 initValue = Helpers.isoToSeconds(initValue);
             }
@@ -76,38 +76,42 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
         setValue(newValue);
 
-        const format = customPropertyTypes[property.localizationKey] ?? null;
-        if (format === "isoDuration") {
-            nodeProperties[name] = Helpers.secondsToIso(newValue);
+        if (newValue === "" || newValue == undefined) {
+            nodeProperties[name] = newValue;
         } else {
-            switch (property.type) {
-                case "boolean":
-                    if (newValue === "true") {
-                        nodeProperties[name] = true;
-                    } else if (newValue === "false") {
-                        nodeProperties[name] = false;
-                    } else {
-                        delete nodeProperties[name];
-                    }
-                    break;
-                case "string":
-                    if (newValue) {
-                        nodeProperties[name] = newValue;
-                    } else {
-                        delete nodeProperties[name];
-                    }
-                    break;
-                default:
-                    if (newValue) {
-                        try {
-                            nodeProperties[name] = JSON.parse(newValue);
-                        } catch (e) {
-                            // no change in value
+            const format = customPropertyTypes[property.localizationKey] ?? null;
+            if (format === "isoDuration") {
+                nodeProperties[name] = Helpers.secondsToIso(newValue);
+            } else {
+                switch (property.type) {
+                    case "boolean":
+                        if (newValue === "true") {
+                            nodeProperties[name] = true;
+                        } else if (newValue === "false") {
+                            nodeProperties[name] = false;
+                        } else {
+                            delete nodeProperties[name];
                         }
-                    } else {
-                        delete nodeProperties[name];
-                    }
-                    break;
+                        break;
+                    case "string":
+                        if (newValue) {
+                            nodeProperties[name] = newValue;
+                        } else {
+                            delete nodeProperties[name];
+                        }
+                        break;
+                    default:
+                        if (newValue) {
+                            try {
+                                nodeProperties[name] = JSON.parse(newValue);
+                            } catch (e) {
+                                // no change in value
+                            }
+                        } else {
+                            delete nodeProperties[name];
+                        }
+                        break;
+                }
             }
         }
     }

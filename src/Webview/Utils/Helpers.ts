@@ -91,6 +91,9 @@ export default class Helpers {
     }
 
     static validateProperty(value: string, key: any) {
+        if (value === "" || value == undefined) {
+            return "";
+        }
         const format = customDefinitions[key];
         if (format === "urlFormat") {
             const r = new RegExp('^(ftp|http|https)://[^ "]+$');

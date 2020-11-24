@@ -72,7 +72,8 @@ export enum ValidationErrorType {
     RequiredDirectlyDownstream = "RequiredDirectlyDownstream",
     ProhibitedDirectlyDownstream = "ProhibitedDirectlyDownstream",
     ProhibitedAnyDownstream = "ProhibitedAnyDownstream",
-    ServerError = "ServerError"
+    ServerError = "ServerError",
+    CustomError = "CustomError"
 }
 
 export interface ServerError {
