@@ -11,6 +11,7 @@ export interface VSCodeDelegate {
 
 export interface VSCodeState {
     pageViewType: PageType;
+    editMode: boolean;
     graphData?: GraphInfo;
     zoomPanSettings?: IZoomPanSettings;
     instance?: MediaGraphInstance;

@@ -7,13 +7,13 @@ import { Constants } from "./Constants";
 
 export class TreeUtils {
     public static getIconPath(iconName: string): string {
-        return path.join(Constants.ResourcesFolderPath, `${iconName}.svg`);
+        return path.join(Constants.ResourcesFolderPath, "images", `${iconName}.svg`);
     }
 
     public static getThemedIconPath(iconName: string) {
         return {
-            light: path.join(Constants.ResourcesFolderPath, "light", `${iconName}.svg`),
-            dark: path.join(Constants.ResourcesFolderPath, "dark", `${iconName}.svg`)
+            light: path.join(Constants.ResourcesFolderPath, "images", "light", `${iconName}.svg`),
+            dark: path.join(Constants.ResourcesFolderPath, "images", "dark", `${iconName}.svg`)
         };
     }
 

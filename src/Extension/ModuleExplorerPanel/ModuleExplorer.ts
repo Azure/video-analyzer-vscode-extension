@@ -3,6 +3,7 @@ import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
 import { CredentialStore } from "../Util/CredentialStore";
 import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
+import Localizer from "../Util/Localizer";
 import { DeviceListItem } from "./DeviceListItem";
 import { GraphTopologyListItem } from "./GraphTopologyListItem";
 import { IoTHubLabelNode } from "./IoTHubLabelNode";
@@ -37,10 +38,13 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
     }
 
     public async resetConnectionString() {
-        this._connectionConfig = (null as unknown) as LvaHubConfig;
-        this._iotHubData = (null as unknown) as IotHubData;
-        await CredentialStore.resetConnectionInfo(this.context);
-        this.refresh();
+        const allowDelete = await ExtensionUtils.showConfirmation(Localizer.localize("deleteConnectionToHubConfirmation"));
+        if (allowDelete) {
+            this._connectionConfig = (null as unknown) as LvaHubConfig;
+            this._iotHubData = (null as unknown) as IotHubData;
+            await CredentialStore.resetConnectionInfo(this.context);
+            this.refresh();
+        }
     }
 
     public refresh(): void {

@@ -1,11 +1,6 @@
-import { ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
+import { GraphModel, ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
-import {
-    CanvasNodeProperties,
-    ServerError,
-    ValidationError,
-    ValidationErrorType
-} from "../Types/GraphTypes";
+import { CanvasNodeProperties, ServerError, ValidationError, ValidationErrorType } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import GraphData from "./GraphEditorViewModel";
@@ -14,11 +9,7 @@ import GraphValidationRules from "./GraphValidationRules";
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
 
 export default class GraphValidator {
-    public static validate(
-        graphPropsApi: React.RefObject<IPropsAPI<any, any, any, any>>,
-        nodesAndEdges: GraphData,
-        errorsFromService?: ValidationError[]
-    ): ValidationError[] {
+    public static validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>, nodesAndEdges: GraphData, errorsFromService?: ValidationError[]): ValidationError[] {
         const errors: ValidationError[] = [...(errorsFromService ?? [])];
 
         if (!nodesAndEdges.isGraphConnected()) {
@@ -47,22 +38,16 @@ export default class GraphValidator {
                 const serverErrorsFound = errorsFromService?.some((error) => {
                     return error.nodeName === nodeData.nodeProperties.name;
                 });
-                graphPropsApi.current?.updateData((prevData: ICanvasData) => {
-                    return {
-                        ...prevData,
-                        nodes: prevData.nodes.map((currNode) => {
-                            if (currNode.id === node.id) {
-                                return {
-                                    ...currNode,
-                                    data: {
-                                        ...(currNode.data as ICanvasData),
-                                        hasErrors: missingPropErrors?.length > 0 || serverErrorsFound
-                                    }
-                                };
+                graphPropsApi.current?.updateData((prev: GraphModel) => {
+                    return prev.updateNode(node.id, (currNode) => {
+                        return {
+                            ...currNode,
+                            data: {
+                                ...(currNode.data as ICanvasData),
+                                hasErrors: missingPropErrors?.length > 0 || serverErrorsFound
                             }
-                            return currNode;
-                        })
-                    };
+                        };
+                    });
                 });
 
                 // count the number of nodes of each type

@@ -2,6 +2,8 @@ import "./App.css";
 import { ITheme, Spinner, SpinnerSize } from "office-ui-fabric-react";
 import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import React, { useEffect } from "react";
+import { useBoolean } from "@uifabric/react-hooks";
+import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
 import Graph from "../Models/GraphData";
 import { VSCodeState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
@@ -24,11 +26,13 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     const [pageType, setPageType] = React.useState<Constants.PageType>(Constants.PageType.spinner);
 
     const [graph, setGraph] = React.useState<Graph>(new Graph());
+    const [graphInstance] = React.useState<any>({ instance: null });
     const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
         setTheme(ThemeHelpers.getAdaptedTheme());
     });
+    const { pageViewType, graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, instance } = props.state;
 
-    const { pageViewType, graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, instance = { name: "" } } = props.state;
+    const [isEditMode, { setTrue: setEditModeTrue }] = useBoolean(props.state.editMode);
 
     // when unmounting, disconnect the observer to prevent leaked references
     useEffect(() => {
@@ -43,6 +47,9 @@ export const App: React.FunctionComponent<IProps> = (props) => {
         }
         if (graphData) {
             graph.setGraphData(graphData);
+            if (instance) {
+                graphInstance.instance = instance;
+            }
         }
     } else {
         PostMessage.sendMessageToParent(
@@ -50,10 +57,16 @@ export const App: React.FunctionComponent<IProps> = (props) => {
             {
                 name: Constants.PostMessageNames.setInitialData,
                 callback: (initialData) => {
-                    console.log(initialData);
-                    const { graphData, pageType } = initialData;
+                    const { graphData, pageType, graphInstanceData, editMode } = initialData;
+                    if (editMode) {
+                        setEditModeTrue();
+                    }
                     if (graphData) {
                         graph.setTopology(graphData);
+                    }
+
+                    if (graphInstanceData) {
+                        graphInstance.instance = graphInstanceData;
                     }
 
                     if (pageType) {
@@ -64,21 +77,23 @@ export const App: React.FunctionComponent<IProps> = (props) => {
             }
         );
     }
-
-    const getPageType = (currentPageType: Constants.PageType) => {
-        switch (currentPageType) {
-            case Constants.PageType.graphPage:
-                return <GraphTopology graph={graph} zoomPanSettings={zoomPanSettings} vsCodeSetState={props.vsCodeSetState} />;
-            case Constants.PageType.instancePage:
-                return <GraphInstance graph={graph} zoomPanSettings={zoomPanSettings} instance={instance} vsCodeSetState={props.vsCodeSetState} />;
-            default:
-                return <Spinner size={SpinnerSize.xSmall} />;
-        }
-    };
-
     return (
         <ThemeProvider theme={theme}>
-            <React.Suspense fallback={<></>}>{getPageType(pageType)}</React.Suspense>
+            <React.Suspense fallback={<></>}>
+                {pageType === Constants.PageType.graphPage && (
+                    <GraphTopology graph={graph} zoomPanSettings={zoomPanSettings} vsCodeSetState={props.vsCodeSetState} isEditMode={isEditMode} />
+                )}
+                {pageType === Constants.PageType.instancePage && (
+                    <GraphInstance
+                        graph={graph}
+                        zoomPanSettings={zoomPanSettings}
+                        instance={graphInstance.instance}
+                        vsCodeSetState={props.vsCodeSetState}
+                        isEditMode={isEditMode}
+                    />
+                )}
+                {pageType === Constants.PageType.spinner && <Spinner size={SpinnerSize.xSmall} />}
+            </React.Suspense>
         </ThemeProvider>
     );
 };

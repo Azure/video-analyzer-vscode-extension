@@ -38,13 +38,13 @@ export async function activate(context: vscode.ExtensionContext) {
             moduleExplorer.resetConnectionString();
         }),
         vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: GraphTopologyItem) => {
-            graphNode.editGraphCommand(context);
+            graphNode.setGraphCommand(context);
         }),
         vscode.commands.registerCommand("moduleExplorer.deleteGraph", (graphNode: GraphTopologyItem) => {
             graphNode.deleteGraphCommand();
         }),
         vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: InstanceItem) => {
-            instanceNode.editInstanceCommand(context);
+            instanceNode.setInstanceCommand(context);
         }),
         vscode.commands.registerCommand("moduleExplorer.activateInstance", (instanceNode: InstanceItem) => {
             instanceNode.activateInstanceCommand();

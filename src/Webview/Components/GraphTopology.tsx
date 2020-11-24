@@ -9,16 +9,14 @@ import React from "react";
 import { useBoolean } from "@uifabric/react-hooks";
 import {
     CanvasMouseMode,
-    GraphDataChangeType,
-    ICanvasData,
-    IGraphDataChangeEvent,
+    GraphModel,
+    GraphStateStore,
     IPropsAPI,
     isSupported,
     IZoomPanSettings,
     ReactDagEditor,
     RegisterNode,
-    RegisterPort,
-    withDefaultPortsPosition
+    RegisterPort
 } from "@vienna/react-dag-editor";
 import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
@@ -44,13 +42,15 @@ import { Toolbar } from "./Toolbar";
 
 interface IGraphTopologyProps {
     graph: Graph;
+    isEditMode: boolean;
     zoomPanSettings: IZoomPanSettings;
     vsCodeSetState: VSCodeSetState;
 }
 
 const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
-    const { graph, vsCodeSetState } = props;
-    const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
+    const { graph, vsCodeSetState, isEditMode } = props;
+    const initData = graph.getICanvasData();
+
     const [dirty, setDirty] = React.useState<boolean>(false);
     const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
     const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
@@ -66,16 +66,13 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const nameTextFieldRef = React.useRef<ITextField>(null);
     let graphNameValidationError: ValidationError | undefined;
 
-    // save state in VS Code when data or zoomPanSettings change
-    React.useEffect(() => {
-        graph.setName(graphTopologyName);
-        graph.setDescription(graphDescription);
-        vsCodeSetState({
+    const saveState = (update?: any) => {
+        props.vsCodeSetState({
+            ...update,
             pageViewType: Constants.PageType.graphPage,
-            graphData: { ...data, meta: graph.getTopology() } as GraphInfo,
-            zoomPanSettings
+            editMode: isEditMode
         });
-    }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
+    };
     React.useEffect(() => {
         // on mount
         if (nameTextFieldRef) {
@@ -93,31 +90,24 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         if (topology.properties && topology.properties.description) {
             setGraphDescription(topology.properties.description);
         }
-        setData(graph.getICanvasData());
         setDirty(false);
         if (propsApiRef.current) {
+            propsApiRef.current.setData(GraphModel.fromJSON(graph.getICanvasData()));
             propsApiRef.current.dismissSidePanel();
             propsApiRef.current.resetZoom();
         }
         setValidationErrors([]);
     }
 
-    function onChange(ev: IGraphDataChangeEvent) {
-        if (ev.type !== GraphDataChangeType.init) {
-            /* TODO: this event fires on many events including node selection
-               We should listen for a subset of those events, one of which has to be property changes.
-               Because these are not done through the propsAPI, we can't do this right now. */
-            setDirty(true);
-        }
-    }
-
     const saveTopology = () => {
         errorsFromResponse = [];
         canContinue([]).then((canSave: boolean) => {
-            if (canSave) {
+            const data = propsApiRef.current?.getData();
+
+            if (canSave && data) {
                 graph.setName(graphTopologyName);
                 graph.setDescription(graphDescription);
-                graph.setGraphDataFromICanvasData(data);
+                graph.setGraphDataFromICanvasData(data.toJSON());
                 const topology = graph.getTopology();
                 if (ExtensionInteraction.getVSCode()) {
                     PostMessage.sendMessageToParent(
@@ -208,7 +198,13 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     nameTextFieldRef.current!.focus();
                     validationErrors.push(graphNameValidationError);
                 }
-                graph.setGraphDataFromICanvasData(data);
+
+                const data = propsApiRef.current?.getData();
+
+                if (data) {
+                    graph.setGraphDataFromICanvasData(data.toJSON());
+                }
+
                 validationErrors.push(...graph.validate(propsApiRef, errorsFromResponse ?? serverErrors));
                 setValidationErrors(validationErrors);
                 resolve(!validationErrors.length);
@@ -217,19 +213,13 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     };
 
     const updateNodeName = (oldName: string, newName: string) => {
-        propsApiRef.current?.updateData((prevData: ICanvasData) => {
-            return {
-                ...prevData,
-                nodes: prevData.nodes.map((currNode) => {
-                    if (currNode.name === oldName) {
-                        return {
-                            ...currNode,
-                            name: newName
-                        };
-                    }
-                    return currNode;
-                })
-            };
+        propsApiRef.current?.updateData((prev: GraphModel) => {
+            return prev.mapNodes((currNode) => {
+                if (currNode.name === oldName) {
+                    return currNode.update((n) => ({ ...n, name: newName }));
+                }
+                return currNode;
+            });
         });
     };
 
@@ -269,88 +259,90 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
 
     return (
         <ReactDagEditor theme={Constants.graphTheme}>
-            <RegisterNode name="module" config={withDefaultPortsPosition(new NodeBase(/* readOnly */ false))} />
-            <RegisterPort name="modulePort" config={modulePort} />
-            <Stack styles={{ root: { height: "100vh" } }}>
-                <Toolbar
-                    name={graphTopologyName}
-                    primaryAction={saveTopology}
-                    cancelAction={() => {
-                        if (ExtensionInteraction.getVSCode()) {
-                            PostMessage.sendMessageToParent({
-                                name: Constants.PostMessageNames.closeWindow
-                            });
-                        }
-                    }}
-                    toggleSidebar={setSidebarIsShown}
-                    isSidebarShown={sidebarIsShown}
-                >
-                    <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
-                    <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
-                    <ParameterSelectorTrigger parameters={parameters} graph={graph} propsApiRef={propsApiRef} />
-                    {validationErrors && validationErrors.length > 0 ? (
-                        <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
-                            <ActionButton
-                                iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
-                                onClick={toggleValidationErrorPanel}
-                            >
-                                <span style={{ color: "var(--vscode-errorForeground)" }}>
-                                    {validationErrors.length === 1
-                                        ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
-                                        : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
-                                    <u>{Localizer.l("ToolbarValidationErrors")}</u>
-                                </span>
-                            </ActionButton>
-                        </Stack>
-                    ) : (
-                        ""
-                    )}
-                </Toolbar>
-                <Stack grow horizontal styles={mainEditorStyles}>
-                    {sidebarIsShown && (
-                        <Stack.Item styles={panelStyles}>
-                            <div style={topSidebarStyles}>
-                                <TextField
-                                    label={Localizer.l("sidebarGraphTopologyNameLabel")}
-                                    required
-                                    value={graphTopologyName}
-                                    placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
-                                    errorMessage={graphNameError}
-                                    onChange={onNameChange}
-                                    componentRef={nameTextFieldRef}
-                                />
-                                <TextField
-                                    label={Localizer.l("sidebarGraphDescriptionLabel")}
-                                    value={graphDescription}
-                                    placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
-                                    onChange={onDescriptionChange}
-                                />
-                            </div>
-                            <div style={panelItemStyles}>
-                                <ItemPanel />
-                            </div>
+            <GraphStateStore data={GraphModel.fromJSON(initData)}>
+                <RegisterNode name="module" config={new NodeBase(/* readOnly */ false)} />
+                <RegisterPort name="modulePort" config={modulePort} />
+                <Stack styles={{ root: { height: "100vh" } }}>
+                    <Toolbar
+                        name={graphTopologyName}
+                        primaryAction={saveTopology}
+                        cancelAction={() => {
+                            if (ExtensionInteraction.getVSCode()) {
+                                PostMessage.sendMessageToParent({
+                                    name: Constants.PostMessageNames.closeWindow
+                                });
+                            }
+                        }}
+                        toggleSidebar={setSidebarIsShown}
+                        isSidebarShown={sidebarIsShown}
+                    >
+                        <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
+                        <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
+                        <ParameterSelectorTrigger parameters={parameters} graph={graph} propsApiRef={propsApiRef} />
+                        {validationErrors && validationErrors.length > 0 ? (
+                            <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
+                                <ActionButton
+                                    iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
+                                    onClick={toggleValidationErrorPanel}
+                                >
+                                    <span style={{ color: "var(--vscode-errorForeground)" }}>
+                                        {validationErrors.length === 1
+                                            ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
+                                            : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
+                                        <u>{Localizer.l("ToolbarValidationErrors")}</u>
+                                    </span>
+                                </ActionButton>
+                            </Stack>
+                        ) : (
+                            ""
+                        )}
+                    </Toolbar>
+                    <Stack grow horizontal styles={mainEditorStyles}>
+                        {sidebarIsShown && (
+                            <Stack.Item styles={panelStyles}>
+                                <div style={topSidebarStyles}>
+                                    <TextField
+                                        label={Localizer.l("sidebarGraphTopologyNameLabel")}
+                                        required
+                                        value={graphTopologyName}
+                                        readOnly={isEditMode}
+                                        placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
+                                        errorMessage={graphNameError}
+                                        onChange={onNameChange}
+                                        componentRef={nameTextFieldRef}
+                                    />
+                                    <TextField
+                                        label={Localizer.l("sidebarGraphDescriptionLabel")}
+                                        value={graphDescription}
+                                        placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
+                                        onChange={onDescriptionChange}
+                                    />
+                                </div>
+                                <div style={panelItemStyles}>
+                                    <ItemPanel />
+                                </div>
+                            </Stack.Item>
+                        )}
+                        <Stack.Item grow>
+                            <InnerGraph
+                                graph={graph}
+                                graphDescription={graphDescription}
+                                graphTopologyName={graphTopologyName}
+                                vsCodeSetState={vsCodeSetState}
+                                canvasMouseMode={CanvasMouseMode.pan}
+                                triggerValidation={canContinue}
+                                parameters={parameters}
+                                propsApiRef={propsApiRef}
+                                validationErrors={validationErrors}
+                                showValidationErrors={showValidationErrors}
+                                toggleValidationErrorPanel={toggleValidationErrorPanel}
+                                updateNodeName={updateNodeName}
+                            />
                         </Stack.Item>
-                    )}
-                    <Stack.Item grow>
-                        <InnerGraph
-                            data={data}
-                            setData={setData}
-                            zoomPanSettings={zoomPanSettings}
-                            setZoomPanSettings={setZoomPanSettings}
-                            canvasMouseMode={CanvasMouseMode.pan}
-                            onChange={onChange}
-                            triggerValidation={canContinue}
-                            parameters={parameters}
-                            propsApiRef={propsApiRef}
-                            validationErrors={validationErrors}
-                            showValidationErrors={showValidationErrors}
-                            toggleValidationErrorPanel={toggleValidationErrorPanel}
-                            updateNodeName={updateNodeName}
-                        />
-                    </Stack.Item>
+                    </Stack>
                 </Stack>
-            </Stack>
-            <ContextMenu />
+                <ContextMenu />
+            </GraphStateStore>
         </ReactDagEditor>
     );
 };

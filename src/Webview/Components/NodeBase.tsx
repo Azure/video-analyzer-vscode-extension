@@ -7,7 +7,8 @@ import {
     ICanvasNode,
     ICanvasPort,
     IItemConfigArgs,
-    IRectConfig
+    IRectConfig,
+    NodeModel
 } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
@@ -15,16 +16,17 @@ import { NodeContainer } from "./NodeContainer";
 
 export class NodeBase implements IRectConfig<ICanvasNode> {
     private readonly readOnly: boolean;
-    private ref?: React.RefObject<HTMLDivElement>;
+    private nodeRef?: React.RefObject<HTMLDivElement>;
     private height = 52;
 
     constructor(readOnly: boolean) {
         this.readOnly = readOnly;
+        this.nodeRef = React.createRef();
     }
 
     public getMinHeight = (curNode: ICanvasNode): number => {
-        if (this.ref?.current?.clientHeight) {
-            this.height = this.ref?.current?.clientHeight;
+        if (this.nodeRef?.current?.clientHeight) {
+            this.height = this.nodeRef?.current?.clientHeight;
         }
         return this.height;
     };
@@ -46,12 +48,8 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         );
     };
 
-    private setRef(ref: React.RefObject<HTMLDivElement>) {
-        this.ref = ref;
-    }
-
     public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
-        const node = args.model;
+        const node = args.model as NodeModel<any>;
 
         const iconName = node.data!.iconName;
         const accentColor = node.data!.color;
@@ -66,7 +64,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         const rectWidth = getRectWidth<ICanvasNode>(this, node);
 
         return (
-            <foreignObject transform={`translate(${node.x}, ${node.y})`} height={rectHeight} width={rectWidth} overflow="visible">
+            <foreignObject transform={`translate(${node.x}, ${node.y})`} width={rectWidth} overflow="visible">
                 <NodeContainer
                     nodeName={node.name as string}
                     nodeType={nodeNameType as string}
@@ -78,7 +76,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
                     dragging={dragging}
                     hasErrors={hasErrors}
                     isDraggable={!this.readOnly}
-                    setNodeRef={this.setRef.bind(this)}
+                    nodeRef={this.nodeRef}
                 />
             </foreignObject>
         );
