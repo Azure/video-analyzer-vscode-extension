@@ -25,6 +25,14 @@ interface IPropertyEditFieldProps {
     updateNodeName?: (oldName: string, newName: string) => void;
 }
 
+enum PropertyFormatType {
+    number = "number",
+    string = "string",
+    isoDuration = "isoDuration",
+    boolean = 'boolean',
+    object = "object"
+}
+
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
     const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
@@ -35,11 +43,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
     function getInitialValue() {
         let initValue = nodeProperties[name];
-        if (property.type !== "boolean" && property.type !== "string") {
+        if (property.type !== PropertyFormatType.boolean && property.type !== PropertyFormatType.string) {
             initValue = JSON.stringify(initValue);
         }
-        if (property.type === "string" && initValue) {
-            if (customPropertyTypes[property.localizationKey] === "isoDuration") {
+        if (property.type === PropertyFormatType.string && initValue) {
+            if (customPropertyTypes[property.localizationKey] === PropertyFormatType.isoDuration) {
                 initValue = Helpers.isoToSeconds(initValue);
             }
             initValue = initValue + "";
@@ -80,11 +88,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             nodeProperties[name] = newValue;
         } else {
             const format = customPropertyTypes[property.localizationKey] ?? null;
-            if (format === "isoDuration") {
+            if (format === PropertyFormatType.isoDuration) {
                 nodeProperties[name] = Helpers.secondsToIso(newValue);
             } else {
                 switch (property.type) {
-                    case "boolean":
+                    case PropertyFormatType.boolean:
                         if (newValue === "true") {
                             nodeProperties[name] = true;
                         } else if (newValue === "false") {
@@ -93,7 +101,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                             delete nodeProperties[name];
                         }
                         break;
-                    case "string":
+                    case PropertyFormatType.string:
                         if (newValue) {
                             nodeProperties[name] = newValue;
                         } else {
@@ -148,7 +156,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         );
     }
 
-    if (property.type !== "object" && parameterized) {
+    if (property.type !== PropertyFormatType.object && parameterized) {
         return (
             <TextField
                 label={name}
@@ -166,7 +174,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         );
     }
 
-    if (property.type === "string" && property.enum) {
+    if (property.type === PropertyFormatType.string && property.enum) {
         const options: IDropdownOption[] = [
             ...property.enum.map((value: string) => {
                 const localizedEnumValueStrings = Localizer.getLocalizedStrings(`${property.localizationKey}.${value}`);
@@ -190,7 +198,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onLoad={() => validateInput(value)}
             />
         );
-    } else if (property.type === "string") {
+    } else if (property.type === PropertyFormatType.string) {
         return (
             <TextField
                 placeholder={localizedPropertyStrings.placeholder}
@@ -204,7 +212,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onGetErrorMessage={validateInput}
             />
         );
-    } else if (property.type === "boolean") {
+    } else if (property.type === PropertyFormatType.boolean) {
         const options: IChoiceGroupOption[] = [
             {
                 key: "true",
@@ -227,7 +235,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 )}
             </>
         );
-    } else if (property.type === "object") {
+    } else if (property.type === PropertyFormatType.object) {
         const isPropertyValueSet = name in nodeProperties;
         if (!isPropertyValueSet) {
             nodeProperties[name] = {};
