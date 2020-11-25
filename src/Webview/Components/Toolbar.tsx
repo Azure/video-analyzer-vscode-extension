@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
     ActionButton,
     DefaultButton,
@@ -5,8 +6,7 @@ import {
     mergeStyles,
     Stack,
     Text
-} from "office-ui-fabric-react";
-import * as React from "react";
+} from "@fluentui/react";
 import Localizer from "../Localization/Localizer";
 import { AdjustedPrimaryButton } from "./ThemeAdjustedComponents/AdjustedPrimaryButton";
 

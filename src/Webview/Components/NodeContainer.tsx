@@ -1,11 +1,11 @@
+import * as React from "react";
 import {
     FontIcon,
     FontWeights,
     mergeStyleSets,
     Stack,
     Text
-} from "office-ui-fabric-react";
-import * as React from "react";
+} from "@fluentui/react";
 import { usePropsAPI } from "@vienna/react-dag-editor";
 import { StatusIcon } from "./StatusIcon";
 

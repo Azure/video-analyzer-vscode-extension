@@ -1,5 +1,5 @@
-import { mergeStyleSets, Text, TextField } from "office-ui-fabric-react";
 import * as React from "react";
+import { getTheme, mergeStyleSets, Text, TextField } from "@fluentui/react";
 import Localizer from "../Localization/Localizer";
 import { GraphInstanceParameter } from "../Types/GraphTypes";
 

@@ -1,5 +1,5 @@
-import { Icon, mergeStyles } from "office-ui-fabric-react";
 import * as React from "react";
+import { Icon, mergeStyles } from "@fluentui/react";
 import { ICanvasNode } from "@vienna/react-dag-editor";
 import { CanvasNodeData } from "../Types/GraphTypes";
 

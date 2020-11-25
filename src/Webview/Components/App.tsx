@@ -1,7 +1,7 @@
 import "./App.css";
-import { ITheme, Spinner, SpinnerSize } from "office-ui-fabric-react";
-import { ThemeProvider } from "office-ui-fabric-react/lib/Foundation";
 import React, { useEffect } from "react";
+import { ITheme, Spinner, SpinnerSize } from "@fluentui/react";
+import { ThemeProvider } from "@fluentui/react/lib/Foundation";
 import { useBoolean } from "@uifabric/react-hooks";
 import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
 import Graph from "../Models/GraphData";

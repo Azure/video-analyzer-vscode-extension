@@ -1,5 +1,5 @@
-import { ActionButton } from "office-ui-fabric-react/lib/Button";
 import * as React from "react";
+import { ActionButton } from "@fluentui/react";
 import { MediaGraphTopology } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { SampleSelector } from "./SampleSelector";

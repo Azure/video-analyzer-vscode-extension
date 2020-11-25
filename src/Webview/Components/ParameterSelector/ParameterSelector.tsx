@@ -1,3 +1,4 @@
+import React from "react";
 import {
     DefaultButton,
     IIconProps,
@@ -8,13 +9,8 @@ import {
     Separator,
     Stack,
     Text
-} from "office-ui-fabric-react";
-import {
-    Dialog,
-    DialogFooter,
-    DialogType
-} from "office-ui-fabric-react/lib/Dialog";
-import React from "react";
+} from "@fluentui/react";
+import { Dialog, DialogFooter, DialogType } from "@fluentui/react/lib/Dialog";
 import { useBoolean } from "@uifabric/react-hooks";
 import { IPropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";

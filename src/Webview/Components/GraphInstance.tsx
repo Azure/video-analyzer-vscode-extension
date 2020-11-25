@@ -1,10 +1,5 @@
-import {
-    ActionButton,
-    ITextField,
-    Stack,
-    TextField
-} from "office-ui-fabric-react";
 import * as React from "react";
+import { ActionButton, ITextField, Stack, TextField } from "@fluentui/react";
 import { useBoolean } from "@uifabric/react-hooks";
 import {
     CanvasMouseMode,

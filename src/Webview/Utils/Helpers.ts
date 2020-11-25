@@ -19,7 +19,7 @@ export default class Helpers {
         if (removeMediaGraph) {
             text = text.replace("MediaGraph", "");
         }
-        let sentenceCaseRegex = `(${customWords.join("|")}|[A-Z])`;
+        const sentenceCaseRegex = `(${customWords.join("|")}|[A-Z])`;
         text = text.replace(new RegExp(sentenceCaseRegex, "g"), " $1").trim();
         text = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
         customWords.forEach((word) => {
