@@ -1,3 +1,5 @@
+import { relative } from "path";
+import * as React from "react";
 import {
     CheckboxVisibility,
     DefaultButton,
@@ -11,9 +13,7 @@ import {
     Stack,
     Text,
     TextField
-} from "office-ui-fabric-react";
-import { relative } from "path";
-import * as React from "react";
+} from "@fluentui/react";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParameterEditorParameterList } from "./ParameterEditorParameterList";

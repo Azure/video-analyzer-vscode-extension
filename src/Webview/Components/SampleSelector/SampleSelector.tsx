@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
     DefaultButton,
     Dialog,
@@ -7,8 +8,7 @@ import {
     IDropdownOption,
     Spinner,
     SpinnerSize
-} from "office-ui-fabric-react";
-import * as React from "react";
+} from "@fluentui/react";
 import { MediaGraphTopology } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";

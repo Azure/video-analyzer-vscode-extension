@@ -1,5 +1,5 @@
-import { IButtonProps, IconButton, mergeStyles } from "office-ui-fabric-react";
 import * as React from "react";
+import { IButtonProps, IconButton, mergeStyles } from "@fluentui/react";
 
 export const AdjustedIconButton: React.FunctionComponent<IButtonProps> = (props) => {
     const styles = {

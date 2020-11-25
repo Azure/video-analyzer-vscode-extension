@@ -1,11 +1,6 @@
 import some from "lodash/some";
-import {
-    Dropdown,
-    IDropdownOption,
-    Stack,
-    TextField
-} from "office-ui-fabric-react";
 import * as React from "react";
+import { Dropdown, IDropdownOption, Stack, TextField } from "@fluentui/react";
 import {
     MediaGraphParameterDeclaration,
     MediaGraphParameterType

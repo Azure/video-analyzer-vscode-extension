@@ -1,5 +1,5 @@
-import { Stack, TextField } from "office-ui-fabric-react";
 import * as React from "react";
+import { Stack, TextField } from "@fluentui/react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { IPanelConfig, usePropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";

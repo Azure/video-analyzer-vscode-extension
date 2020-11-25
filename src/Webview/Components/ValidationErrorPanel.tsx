@@ -1,10 +1,5 @@
-import {
-    Link,
-    MessageBar,
-    MessageBarType,
-    Stack
-} from "office-ui-fabric-react";
 import * as React from "react";
+import { Link, MessageBar, MessageBarType, Stack } from "@fluentui/react";
 import Localizer from "../Localization/Localizer";
 import { ValidationError, ValidationErrorType } from "../Types/GraphTypes";
 import { Badge } from "./Badge";

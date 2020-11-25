@@ -1,10 +1,10 @@
+import * as React from "react";
 import {
     getTheme,
     IButtonProps,
     mergeStyles,
     PrimaryButton
-} from "office-ui-fabric-react";
-import * as React from "react";
+} from "@fluentui/react";
 
 export const AdjustedPrimaryButton: React.FunctionComponent<IButtonProps> = (props) => {
     const theme = getTheme();

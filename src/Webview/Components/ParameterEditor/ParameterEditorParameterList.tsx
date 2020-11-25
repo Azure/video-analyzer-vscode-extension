@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
     Announced,
     CheckboxVisibility,
@@ -14,8 +15,7 @@ import {
     SelectionMode,
     Stack,
     TextField
-} from "office-ui-fabric-react";
-import * as React from "react";
+} from "@fluentui/react";
 import { useBoolean } from "@uifabric/react-hooks";
 import {
     MediaGraphParameterDeclaration,

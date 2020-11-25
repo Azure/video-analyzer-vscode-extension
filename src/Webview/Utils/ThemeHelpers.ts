@@ -8,7 +8,7 @@ import {
     IThemeSlotRule,
     ThemeGenerator,
     themeRulesStandardCreator
-} from "office-ui-fabric-react";
+} from "@fluentui/react";
 
 export default class ThemeHelpers {
     static getAdaptedTheme(): ITheme {

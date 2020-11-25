@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
     ChoiceGroup,
     Dropdown,
@@ -6,8 +7,7 @@ import {
     IDropdownOption,
     Text,
     TextField
-} from "office-ui-fabric-react";
-import * as React from "react";
+} from "@fluentui/react";
 import { useId } from "@uifabric/react-hooks";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";

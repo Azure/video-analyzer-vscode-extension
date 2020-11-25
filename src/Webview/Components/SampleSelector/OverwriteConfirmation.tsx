@@ -1,10 +1,10 @@
+import * as React from "react";
 import {
     DefaultButton,
     Dialog,
     DialogFooter,
     DialogType
-} from "office-ui-fabric-react";
-import * as React from "react";
+} from "@fluentui/react";
 import Localizer from "../../Localization/Localizer";
 import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
 

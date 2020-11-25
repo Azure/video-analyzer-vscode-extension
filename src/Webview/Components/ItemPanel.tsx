@@ -1,8 +1,14 @@
 import "./ItemPanel.css";
-import { Text } from "office-ui-fabric-react";
 import * as React from "react";
-import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from "react-accessible-accordion";
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemButton,
+    AccordionItemHeading,
+    AccordionItemPanel
+} from "react-accessible-accordion";
 import { v4 as uuid } from "uuid";
+import { Text } from "@fluentui/react";
 import { ICanvasNode, Item, usePropsAPI } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";

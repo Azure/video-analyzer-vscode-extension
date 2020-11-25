@@ -1,5 +1,5 @@
-import { registerIcons } from "office-ui-fabric-react";
 import React from "react";
+import { registerIcons } from "@fluentui/react";
 import { initializeIcons } from "@uifabric/icons";
 
 export default class IconSetupHelpers {

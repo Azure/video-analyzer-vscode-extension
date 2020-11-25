@@ -1,5 +1,5 @@
-import { Dropdown, IDropdownOption } from "office-ui-fabric-react";
 import * as React from "react";
+import { Dropdown, IDropdownOption } from "@fluentui/react";
 import { useId } from "@uifabric/react-hooks";
 import Definitions from "../../Definitions/Definitions";
 import Localizer from "../../Localization/Localizer";
