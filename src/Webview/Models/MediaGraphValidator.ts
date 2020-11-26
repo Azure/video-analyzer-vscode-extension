@@ -1,10 +1,22 @@
-import { GraphModel, ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
+import {
+    GraphModel,
+    ICanvasData,
+    ICanvasNode,
+    IPropsAPI
+} from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
-import { CanvasNodeProperties, ServerError, ValidationError, ValidationErrorType } from "../Types/GraphTypes";
+import {
+    CanvasNodeProperties,
+    ServerError,
+    ValidationError,
+    ValidationErrorType
+} from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import GraphData from "./GraphEditorViewModel";
 import GraphValidationRules from "./GraphValidationRules";
+
+const customPropertyTypes: any = require("../Definitions/v2.0.0/customPropertyTypes.json");
 
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
 
@@ -24,11 +36,10 @@ export default class GraphValidator {
 
         for (const node of nodesAndEdges.nodes) {
             const nodeData = node.data;
-
             if (nodeData) {
                 // check for required properties
                 const properties = NodeHelpers.getTrimmedNodeProperties(nodeData.nodeProperties as CanvasNodeProperties);
-                const missingPropErrors = this.getMissingProperties(properties);
+                const missingPropErrors = this.getValidationErrors(properties);
                 errors.push(
                     ...missingPropErrors.map((error) => ({
                         nodeName: node.name,
@@ -161,8 +172,8 @@ export default class GraphValidator {
     }
 
     // helper function to get an array of validation errors
-    private static getMissingProperties(properties: any) {
-        return this.recursiveCheckForMissingProperties(
+    private static getValidationErrors(properties: any) {
+        return this.recursiveGetValidationErrors(
             properties,
             [] /* path to the property, this is root, so empty array */,
             [] /* this array will recursively fill with errors */
@@ -170,7 +181,7 @@ export default class GraphValidator {
     }
 
     // recursively checks for missing properties and returns a list of errors
-    private static recursiveCheckForMissingProperties(nodeProperties: any, path: string[], errors: ValidationError[]): ValidationError[] {
+    private static recursiveGetValidationErrors(nodeProperties: any, path: string[], errors: ValidationError[]): ValidationError[] {
         const definition = Definitions.getNodeDefinition(nodeProperties);
 
         if (!definition) {
@@ -192,8 +203,23 @@ export default class GraphValidator {
                     type: ValidationErrorType.MissingField,
                     property: thisPropertyPath
                 });
+            } else if (property?.type === "string" && nestedProperties != undefined && nestedProperties !== "") {
+                const key = `${definition.localizationKey}.${name}`;
+                const format = customPropertyTypes[key] ?? null;
+                let value = nestedProperties;
+                if (format === "isoDuration") {
+                    value = Helpers.isoToSeconds(nestedProperties);
+                }
+                const validationError = Helpers.validateProperty(value, key);
+                if (validationError !== "") {
+                    errors.push({
+                        description: validationError,
+                        type: ValidationErrorType.PropertyValueValidationError,
+                        property: thisPropertyPath
+                    });
+                }
             } else if (property!.type === "object" && !Helpers.isEmptyObject(nestedProperties)) {
-                this.recursiveCheckForMissingProperties(nestedProperties, thisPropertyPath, errors);
+                this.recursiveGetValidationErrors(nestedProperties, thisPropertyPath, errors);
             }
         }
 

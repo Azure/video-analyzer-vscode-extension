@@ -11,9 +11,11 @@ import {
 import { useId } from "@uifabric/react-hooks";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
+import Helpers from "../../Utils/Helpers";
 import { PropertyDescription } from "./PropertyDescription";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
+const customPropertyTypes: any = require("../../Definitions/v2.0.0/customPropertyTypes.json");
 interface IPropertyEditFieldProps {
     name: string;
     property: any;
@@ -21,6 +23,14 @@ interface IPropertyEditFieldProps {
     required: boolean;
     requestParameterization?: ParameterizeValueRequestFunction;
     updateNodeName?: (oldName: string, newName: string) => void;
+}
+
+enum PropertyFormatType {
+    number = "number",
+    string = "string",
+    isoDuration = "isoDuration",
+    boolean = 'boolean',
+    object = "object"
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
@@ -33,10 +43,13 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
     function getInitialValue() {
         let initValue = nodeProperties[name];
-        if (property.type !== "boolean" && property.type !== "string") {
+        if (property.type !== PropertyFormatType.boolean && property.type !== PropertyFormatType.string) {
             initValue = JSON.stringify(initValue);
         }
-        if (property.type === "string" && initValue && typeof initValue === "number") {
+        if (property.type === PropertyFormatType.string && initValue) {
+            if (customPropertyTypes[property.localizationKey] === PropertyFormatType.isoDuration) {
+                initValue = Helpers.isoToSeconds(initValue);
+            }
             initValue = initValue + "";
         }
         return initValue;
@@ -68,68 +81,60 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (updateNodeName) {
             updateNodeName(value, newValue);
         }
+
         setValue(newValue);
 
-        switch (property.type) {
-            case "boolean":
-                if (newValue === "true") {
-                    nodeProperties[name] = true;
-                } else if (newValue === "false") {
-                    nodeProperties[name] = false;
-                } else {
-                    delete nodeProperties[name];
-                }
-                break;
-            case "string":
-                if (newValue) {
-                    nodeProperties[name] = newValue;
-                } else {
-                    delete nodeProperties[name];
-                }
-                break;
-            default:
-                if (newValue) {
-                    try {
-                        nodeProperties[name] = JSON.parse(newValue);
-                    } catch (e) {
-                        // no change in value
-                    }
-                } else {
-                    delete nodeProperties[name];
-                }
-                break;
-        }
-    }
-
-    function validateInput(value: string) {
-        if (required) {
-            switch (property.type) {
-                case "boolean":
-                    if (value === "") {
-                        return Localizer.l("propertyEditorValidationUndefined");
-                    }
-                    break;
-                case "string":
-                    if (!value) {
-                        return Localizer.l("propertyEditorValidationUndefinedOrEmpty");
-                    }
-                    break;
-                default:
-                    if (value) {
-                        try {
-                            JSON.parse(value);
-                        } catch (e) {
-                            return Localizer.l("propertyEditorValidationInvalidJSON");
+        if (newValue === "" || newValue == undefined) {
+            nodeProperties[name] = newValue;
+        } else {
+            const format = customPropertyTypes[property.localizationKey] ?? null;
+            if (format === PropertyFormatType.isoDuration) {
+                nodeProperties[name] = Helpers.secondsToIso(newValue);
+            } else {
+                switch (property.type) {
+                    case PropertyFormatType.boolean:
+                        if (newValue === "true") {
+                            nodeProperties[name] = true;
+                        } else if (newValue === "false") {
+                            nodeProperties[name] = false;
+                        } else {
+                            delete nodeProperties[name];
                         }
-                    } else {
-                        return Localizer.l("propertyEditorValidationEmpty");
-                    }
-                    break;
+                        break;
+                    case PropertyFormatType.string:
+                        if (newValue) {
+                            nodeProperties[name] = newValue;
+                        } else {
+                            delete nodeProperties[name];
+                        }
+                        break;
+                    default:
+                        if (newValue) {
+                            try {
+                                nodeProperties[name] = JSON.parse(newValue);
+                            } catch (e) {
+                                // no change in value
+                            }
+                        } else {
+                            delete nodeProperties[name];
+                        }
+                        break;
+                }
             }
         }
-
-        return "";
     }
+
+    const validateInput = (value: string) => {
+        let errorMessage: string = "";
+        if (required) {
+            errorMessage = Helpers.validateRequiredProperty(value, property.type);
+        }
+        if (!errorMessage) {
+            errorMessage = Helpers.validateProperty(value, property.localizationKey);
+        }
+
+        return errorMessage;
+    };
 
     const labelId: string = useId("label");
 
@@ -151,7 +156,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         );
     }
 
-    if (property.type !== "object" && parameterized) {
+    if (property.type !== PropertyFormatType.object && parameterized) {
         return (
             <TextField
                 label={name}
@@ -169,7 +174,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         );
     }
 
-    if (property.type === "string" && property.enum) {
+    if (property.type === PropertyFormatType.string && property.enum) {
         const options: IDropdownOption[] = [
             ...property.enum.map((value: string) => {
                 const localizedEnumValueStrings = Localizer.getLocalizedStrings(`${property.localizationKey}.${value}`);
@@ -193,7 +198,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onLoad={() => validateInput(value)}
             />
         );
-    } else if (property.type === "string") {
+    } else if (property.type === PropertyFormatType.string) {
         return (
             <TextField
                 placeholder={localizedPropertyStrings.placeholder}
@@ -207,7 +212,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 onGetErrorMessage={validateInput}
             />
         );
-    } else if (property.type === "boolean") {
+    } else if (property.type === PropertyFormatType.boolean) {
         const options: IChoiceGroupOption[] = [
             {
                 key: "true",
@@ -230,7 +235,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 )}
             </>
         );
-    } else if (property.type === "object") {
+    } else if (property.type === PropertyFormatType.object) {
         const isPropertyValueSet = name in nodeProperties;
         if (!isPropertyValueSet) {
             nodeProperties[name] = {};

@@ -90,6 +90,7 @@
     "propertyEditorBooleanTrueLabel": "True",
     "propertyEditorBooleanFalseLabel": "False",
     "newParameter": "New parameter",
+    "notValidUrl": "The value must be a valid URL",
     "parameters": "Parameters",
     "parameterEditorTitle": "Define value for {0}",
     "parameterEditorCloseButtonAriaLabel": "Close parameter editor",
@@ -135,5 +136,11 @@
     "editParametersSaveButtonText": "Save",
     "deleteParamaterDialogTitle": "Remove parameter",
     "deleteParameterDialogText": "Removing the parameter sets linked properties to empty and may cause graph errors. Please confirm removal of parameter.",
-    "deleteParameterDialogLinkedProperties": "Linked properties"
+    "deleteParameterDialogLinkedProperties": "Linked properties",
+    "minMaxLengthError": "Property must have a length between {0} - {1}",
+    "regexPatternError": "Value must follow regex '{0}'",
+    "minMaxError": "The property value must be between {0} - {1} {2}",
+    "maxLengthError": "Property must have a length less than {0}",
+    "minValueError": "Value must be greater than {0}",
+    "valueMustBeNumbersError": "Value must be a valid number"
 }
