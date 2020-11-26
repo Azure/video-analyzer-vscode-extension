@@ -34,7 +34,7 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
                 return `${Localizer.l("errorPanelServerErrorText")} ${error.nodeName ? Localizer.l("errorPanelServerErrorNodeNameText").format(error.nodeName) : ""}${
                     error.property ? Localizer.l("errorPanelServerErrorPropertyText").format(error.property) : ""
                 } ${error.description}`;
-            case ValidationErrorType.CustomError:
+            case ValidationErrorType.PropertyValueValidationError:
                 return `${error.description} [node: ${error.nodeName}] on [property: ${error.property?.join(" - ")}]`;
             default:
                 return Localizer.l(error.description);

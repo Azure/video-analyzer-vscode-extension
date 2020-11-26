@@ -1,5 +1,9 @@
 import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
-import { MediaGraphNodeInput, MediaGraphParameterType, MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
+import {
+    MediaGraphNodeInput,
+    MediaGraphParameterType,
+    MediaGraphTopology
+} from "../../Common/Types/LVASDKTypes";
 
 export enum MediaGraphNodeType {
     Source = "source",
@@ -73,7 +77,7 @@ export enum ValidationErrorType {
     ProhibitedDirectlyDownstream = "ProhibitedDirectlyDownstream",
     ProhibitedAnyDownstream = "ProhibitedAnyDownstream",
     ServerError = "ServerError",
-    CustomError = "CustomError"
+    PropertyValueValidationError = "CustomError"
 }
 
 export interface ServerError {

@@ -1,6 +1,16 @@
-import { GraphModel, ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
+import {
+    GraphModel,
+    ICanvasData,
+    ICanvasNode,
+    IPropsAPI
+} from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
-import { CanvasNodeProperties, ServerError, ValidationError, ValidationErrorType } from "../Types/GraphTypes";
+import {
+    CanvasNodeProperties,
+    ServerError,
+    ValidationError,
+    ValidationErrorType
+} from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import GraphData from "./GraphEditorViewModel";
@@ -204,7 +214,7 @@ export default class GraphValidator {
                 if (validationError !== "") {
                     errors.push({
                         description: validationError,
-                        type: ValidationErrorType.CustomError,
+                        type: ValidationErrorType.PropertyValueValidationError,
                         property: thisPropertyPath
                     });
                 }
