@@ -44,7 +44,8 @@ export const ItemPanel: React.FunctionComponent = (props) => {
         return {
             ...node,
             id: uuid(),
-            name: nodeName
+            name: nodeName,
+            ...(node.data && { ports: NodeHelpers.getPorts(node.data as any) })
         };
     };
 

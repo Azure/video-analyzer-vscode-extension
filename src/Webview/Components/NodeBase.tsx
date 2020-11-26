@@ -35,19 +35,6 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         return 280;
     };
 
-    public getPorts = (args: { model: ICanvasNode }): ICanvasPort[] => {
-        const ports = args.model.ports;
-
-        return (
-            ports?.map((port) => {
-                return {
-                    ...port,
-                    position: [0.5, 0]
-                };
-            }) ?? []
-        );
-    };
-
     public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
         const node = args.model as NodeModel<any>;
 

@@ -55,7 +55,7 @@ export const ValidationErrorPanel: React.FunctionComponent<IGraphPanelProps> = (
                 {validationErrors.map((error) => {
                     const text = createErrorText(error);
                     return (
-                        <MessageBar messageBarType={MessageBarType.error} isMultiline={true} dismissButtonAriaLabel="Close" key={text}>
+                        <MessageBar messageBarType={MessageBarType.error} isMultiline={true} dismissButtonAriaLabel="Close">
                             {text}
                             {error.helpLink && (
                                 <Link href={error.helpLink} target="_blank">
