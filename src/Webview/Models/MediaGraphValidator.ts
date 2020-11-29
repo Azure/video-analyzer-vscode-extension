@@ -5,6 +5,7 @@ import {
     IPropsAPI
 } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
+import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
 import {
     CanvasNodeProperties,
     ServerError,
@@ -15,8 +16,6 @@ import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import GraphData from "./GraphEditorViewModel";
 import GraphValidationRules from "./GraphValidationRules";
-
-const customPropertyTypes: any = require("../Definitions/v2.0.0/customPropertyTypes.json");
 
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
 
@@ -203,9 +202,9 @@ export default class GraphValidator {
                     type: ValidationErrorType.MissingField,
                     property: thisPropertyPath
                 });
-            } else if (property?.type === "string" && nestedProperties != undefined && nestedProperties !== "") {
+            } else if (property?.type === "string" && nestedProperties != null && nestedProperties !== "") {
                 const key = `${definition.localizationKey}.${name}`;
-                const format = customPropertyTypes[key] ?? null;
+                const format = (customPropertyTypes as any)[key] ?? null;
                 let value = nestedProperties;
                 if (format === "isoDuration") {
                     value = Helpers.isoToSeconds(nestedProperties);

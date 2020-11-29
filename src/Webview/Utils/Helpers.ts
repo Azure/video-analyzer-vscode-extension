@@ -1,8 +1,8 @@
 import { customWords } from "../../Tools/DefinitionGenerator/customWords";
+import customDefinitions from "../Definitions/v2.0.0/customPropertyTypes.json";
+import validationJson from "../Definitions/v2.0.0/validation.json";
 import Localizer from "../Localization/Localizer";
 
-const customDefinitions: any = require("../Definitions/v2.0.0/customPropertyTypes.json");
-const validationJson: any = require("../Definitions/v2.0.0/validation.json");
 interface Duration {
     years: number;
     months: number;
@@ -50,8 +50,8 @@ export default class Helpers {
     }
 
     static parseXmlDuration(duration: any): Duration {
-        var regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
-        var matches: any[] = duration.match(regex);
+        const regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
+        const matches: any[] = duration.match(regex);
         return {
             years: matches[3] ? parseFloat(matches[3]) : 0,
             months: matches[5] ? parseFloat(matches[5]) : 0,
@@ -94,21 +94,22 @@ export default class Helpers {
         if (value === "" || value == undefined) {
             return "";
         }
-        const format = customDefinitions[key];
+        const format = (customDefinitions as any)[key];
         if (format === "urlFormat") {
             const r = new RegExp('^(ftp|http|https)://[^ "]+$');
             if (!r.test(value)) {
                 return Localizer.l("notValidUrl");
             }
         } else if (format === "number" || format === "isoDuration") {
-            let isNum = /^\d+$/.test(value);
+            const isNum = /^-?\d+$/.test(value);
             if (!isNum) {
                 return Localizer.l("valueMustBeNumbersError");
             }
         }
-        if (validationJson[key]) {
-            const validationType = validationJson[key].type;
-            const propertyValue = validationJson[key].value;
+        const validationValue = (validationJson as any)[key];
+        if (validationValue) {
+            const validationType = validationValue.type;
+            const propertyValue = validationValue.value;
             switch (validationType) {
                 case "regex": {
                     const r = new RegExp(propertyValue);
@@ -121,23 +122,28 @@ export default class Helpers {
                     if (value.length > propertyValue) {
                         return Localizer.l("maxLengthError").format(propertyValue);
                     }
+                    return "";
                 }
                 case "minLength": {
+                    return "";
                 }
                 case "minMaxLength": {
                     if (value.length < propertyValue[0] || value.length > propertyValue[1]) {
                         return Localizer.l("minMaxLengthError").format(propertyValue[0], propertyValue[1]);
                     }
+                    return "";
                 }
                 case "minValue": {
                     if (value < propertyValue) {
                         return Localizer.l("minValueError").format(propertyValue);
                     }
+                    return "";
                 }
                 case "minMaxValue": {
                     if (value < propertyValue[0] || value > propertyValue[1]) {
                         return Localizer.l("minMaxError").format(propertyValue[0], propertyValue[1], propertyValue[2]);
                     }
+                    return "";
                 }
             }
         }
