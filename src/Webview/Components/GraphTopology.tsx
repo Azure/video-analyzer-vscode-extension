@@ -328,7 +328,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                                 graph={graph}
                                 graphDescription={graphDescription}
                                 graphTopologyName={graphTopologyName}
-                                vsCodeSetState={vsCodeSetState}
+                                vsCodeSetState={saveState}
                                 canvasMouseMode={CanvasMouseMode.pan}
                                 triggerValidation={canContinue}
                                 parameters={parameters}

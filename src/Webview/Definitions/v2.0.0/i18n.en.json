@@ -385,7 +385,7 @@
         "placeholder": ""
     },
     "MediaGraphFileSink.maximumSizeMiB": {
-        "title": "Maximum size mi b",
+        "title": "Maximum size MiB",
         "description": "Maximum amount of disk space that can be used for storing files from this sink.",
         "placeholder": ""
     },
@@ -409,7 +409,7 @@
         "placeholder": ""
     },
     "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB": {
-        "title": "Local media cache maximum size mi b",
+        "title": "Local media cache maximum size MiB",
         "description": "Maximum amount of disk space that can be used for temporary caching of media.",
         "placeholder": ""
     },
@@ -505,8 +505,8 @@
         "description": "Describes how media should be transferred to the inferencing engine."
     },
     "MediaGraphGrpcExtensionDataTransfer.sharedMemorySizeMiB": {
-        "title": "Shared memory size mi b",
-        "description": "The size of the buffer for all in-flight frames in mebibytes if mode is SharedMemory. Should not be specificed otherwise.",
+        "title": "Shared memory size MiB",
+        "description": "The size of the buffer for all in-flight frames in mebibytes if mode is SharedMemory. Should not be specified otherwise.",
         "placeholder": ""
     },
     "MediaGraphGrpcExtensionDataTransfer.mode": {
@@ -534,8 +534,8 @@
         "title": "Sampling options",
         "description": "Describes the properties of a sample."
     },
-    "MediaGraphSamplingOptions.annotatedSamplesOnly": {
-        "title": "Annotated samples only",
+    "MediaGraphSamplingOptions.skipSamplesWithoutAnnotation": {
+        "title": "Skip samples without annotation",
         "description": "If true, limits the samples submitted to the extension to only samples which have associated inference(s)",
         "placeholder": ""
     },
@@ -632,31 +632,22 @@
         "title": "Bgra",
         "description": "Packed BGRA 8:8:8:8, 32bpp, BGRABGRA."
     },
-    "MediaGraphImageFormatEncoded": {
-        "title": "Image format encoded",
-        "description": "Allowed formats for the image."
+    "MediaGraphImageFormatJpeg": {
+        "title": "Image format jpeg",
+        "description": "Encoding settings for Jpeg images."
     },
-    "MediaGraphImageFormatEncoded.encoding": {
-        "title": "Encoding",
-        "description": "The different encoding formats that can be used for the image.",
-        "placeholder": ""
-    },
-    "MediaGraphImageFormatEncoded.encoding.Jpeg": {
-        "title": "Jpeg",
-        "description": "JPEG image format."
-    },
-    "MediaGraphImageFormatEncoded.encoding.Bmp": {
-        "title": "Bmp",
-        "description": "BMP image format."
-    },
-    "MediaGraphImageFormatEncoded.encoding.Png": {
-        "title": "Png",
-        "description": "PNG image format."
-    },
-    "MediaGraphImageFormatEncoded.quality": {
+    "MediaGraphImageFormatJpeg.quality": {
         "title": "Quality",
-        "description": "The image quality (used for JPEG only). Value must be between 0 to 100 (best quality).",
+        "description": "The image quality. Value must be between 0 to 100 (best quality).",
         "placeholder": ""
+    },
+    "MediaGraphImageFormatBmp": {
+        "title": "Image format bmp",
+        "description": "Encoding settings for Bmp images."
+    },
+    "MediaGraphImageFormatPng": {
+        "title": "Image format png",
+        "description": "Encoding settings for Png images."
     },
     "MediaGraphSignalGateProcessor": {
         "title": "Signal gate processor",

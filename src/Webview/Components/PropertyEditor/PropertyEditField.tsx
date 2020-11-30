@@ -11,6 +11,7 @@ import {
 import { useId } from "@uifabric/react-hooks";
 import customPropertyTypes from "../../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../../Localization/Localizer";
+import GraphValidator from "../../Models/MediaGraphValidator";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
 import Helpers from "../../Utils/Helpers";
 import { PropertyDescription } from "./PropertyDescription";
@@ -127,10 +128,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const validateInput = (value: string) => {
         let errorMessage = "";
         if (required) {
-            errorMessage = Helpers.validateRequiredProperty(value, property.type);
+            errorMessage = GraphValidator.validateRequiredProperty(value, property.type);
         }
         if (!errorMessage) {
-            errorMessage = Helpers.validateProperty(value, property.localizationKey);
+            errorMessage = GraphValidator.validateProperty(value, property.localizationKey);
         }
 
         return errorMessage;

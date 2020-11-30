@@ -8,7 +8,7 @@ import {
     NodeDefinition
 } from "../../Webview/Types/GraphTypes";
 import Helpers from "../../Webview/Utils/Helpers";
-import NodeHelpers from "../../Webview/Utils/NodeHelpers";
+import SharedNodeHelpers from "../../Webview/Utils/SharedNodeHelpers";
 
 export default class DefinitionGenerator {
     private apiDefinition: any;
@@ -109,9 +109,9 @@ export default class DefinitionGenerator {
     private generateItemPanelNodeList() {
         // generate nodes shown in the drag-and-droppable item panel on the left
         this.itemPanelNodes = DefinitionGenerator.nodeTypeList.map((nodeType) => ({
-            title: NodeHelpers.getNodeTypeKey(nodeType),
-            id: NodeHelpers.getNodeTypeKey(nodeType),
-            searchKeys: [NodeHelpers.getNodeTypeKey(nodeType)],
+            title: SharedNodeHelpers.getNodeTypeKey(nodeType),
+            id: SharedNodeHelpers.getNodeTypeKey(nodeType),
+            searchKeys: [SharedNodeHelpers.getNodeTypeKey(nodeType)],
             children: this.availableNodes
                 .filter((node) => node.nodeType === nodeType)
                 .map((node) => {
@@ -125,7 +125,7 @@ export default class DefinitionGenerator {
                     return {
                         id: uuid(),
                         shape: "module",
-                        ports: NodeHelpers.getPorts(node),
+                        ports: SharedNodeHelpers.getPortsWithOutLayout(node),
                         data: newNode
                     };
                 })
@@ -187,7 +187,7 @@ export default class DefinitionGenerator {
 
         if (discriminatorValue) {
             for (const type of DefinitionGenerator.nodeTypeList) {
-                const key = NodeHelpers.getNodeTypeKey(type);
+                const key = SharedNodeHelpers.getNodeTypeKey(type);
                 if (this.usableNodes[key].includes(discriminatorValue)) {
                     return type;
                 }

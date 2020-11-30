@@ -12,22 +12,9 @@ import {
     NodeDefinition
 } from "../Types/GraphTypes";
 import Helpers from "./Helpers";
+import SharedNodeHelpers from "./SharedNodeHelpers";
 
 export default class NodeHelpers {
-    // maps a MediaGraphNodeType to a string to index into the topology JSON
-    static getNodeTypeKey(type: MediaGraphNodeType): string {
-        switch (type) {
-            case MediaGraphNodeType.Source:
-                return "sources";
-            case MediaGraphNodeType.Processor:
-                return "processors";
-            case MediaGraphNodeType.Sink:
-                return "sinks";
-            default:
-                return "";
-        }
-    }
-
     // maps a string representation of a node's type to a MediaGraphNodeType
     static getNodeTypeFromString(type: string): MediaGraphNodeType {
         switch (type) {
@@ -68,7 +55,7 @@ export default class NodeHelpers {
             });
         }
 
-        return applyDefaultPortsPosition(ports);
+        return applyDefaultPortsPosition(SharedNodeHelpers.getPortsWithOutLayout(node, type));
     }
 
     // determines appearance properties for a node

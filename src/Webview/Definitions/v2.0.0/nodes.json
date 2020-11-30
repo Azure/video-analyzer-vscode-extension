@@ -2152,9 +2152,9 @@
           "parsedRef": "#/definitions/MediaGraphSamplingOptions",
           "type": "object",
           "properties": {
-            "annotatedSamplesOnly": {
+            "skipSamplesWithoutAnnotation": {
               "type": "string",
-              "localizationKey": "MediaGraphSamplingOptions.annotatedSamplesOnly"
+              "localizationKey": "MediaGraphSamplingOptions.skipSamplesWithoutAnnotation"
             },
             "maximumSamplesPerSecond": {
               "type": "string",
@@ -2215,7 +2215,7 @@
               "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode"
             }
           },
-          "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtension",
+          "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtensionDataTransfer",
           "localizationKey": "MediaGraphGrpcExtension.dataTransfer"
         },
         "extensionConfiguration": {
@@ -2234,7 +2234,7 @@
     },
     {
       "name": "MediaGraphGrpcExtensionDataTransfer",
-      "nodeType": "processor",
+      "nodeType": "other",
       "required": [
         "mode"
       ],
@@ -2264,7 +2264,7 @@
           "localizationKey": "MediaGraphGrpcExtensionDataTransfer.mode"
         }
       },
-      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtension",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtensionDataTransfer",
       "localizationKey": "MediaGraphGrpcExtensionDataTransfer"
     },
     {
@@ -2372,9 +2372,9 @@
           "parsedRef": "#/definitions/MediaGraphSamplingOptions",
           "type": "object",
           "properties": {
-            "annotatedSamplesOnly": {
+            "skipSamplesWithoutAnnotation": {
               "type": "string",
-              "localizationKey": "MediaGraphSamplingOptions.annotatedSamplesOnly"
+              "localizationKey": "MediaGraphSamplingOptions.skipSamplesWithoutAnnotation"
             },
             "maximumSamplesPerSecond": {
               "type": "string",
@@ -2458,9 +2458,9 @@
       "nodeType": "other",
       "type": "object",
       "properties": {
-        "annotatedSamplesOnly": {
+        "skipSamplesWithoutAnnotation": {
           "type": "string",
-          "localizationKey": "MediaGraphSamplingOptions.annotatedSamplesOnly"
+          "localizationKey": "MediaGraphSamplingOptions.skipSamplesWithoutAnnotation"
         },
         "maximumSamplesPerSecond": {
           "type": "string",
@@ -2598,7 +2598,7 @@
       ]
     },
     {
-      "name": "MediaGraphImageFormatEncoded",
+      "name": "MediaGraphImageFormatJpeg",
       "nodeType": "other",
       "required": [
         "@type"
@@ -2606,38 +2606,43 @@
       "type": "object",
       "discriminator": "@type",
       "properties": {
-        "encoding": {
-          "type": "string",
-          "default": "Jpeg",
-          "enum": [
-            "Jpeg",
-            "Bmp",
-            "Png"
-          ],
-          "x-ms-enum": {
-            "name": "MediaGraphImageEncodingFormat",
-            "values": [
-              {
-                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Jpeg"
-              },
-              {
-                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Bmp"
-              },
-              {
-                "localizationKey": "MediaGraphImageFormatEncoded.encoding.Png"
-              }
-            ],
-            "modelAsString": true
-          },
-          "localizationKey": "MediaGraphImageFormatEncoded.encoding"
-        },
         "quality": {
           "type": "string",
-          "localizationKey": "MediaGraphImageFormatEncoded.quality"
+          "localizationKey": "MediaGraphImageFormatJpeg.quality"
         }
       },
-      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatEncoded",
-      "localizationKey": "MediaGraphImageFormatEncoded",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatJpeg",
+      "localizationKey": "MediaGraphImageFormatJpeg",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphImageFormat"
+      ]
+    },
+    {
+      "name": "MediaGraphImageFormatBmp",
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
+      "type": "object",
+      "discriminator": "@type",
+      "properties": {},
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatBmp",
+      "localizationKey": "MediaGraphImageFormatBmp",
+      "parsedAllOf": [
+        "#/definitions/MediaGraphImageFormat"
+      ]
+    },
+    {
+      "name": "MediaGraphImageFormatPng",
+      "nodeType": "other",
+      "required": [
+        "@type"
+      ],
+      "type": "object",
+      "discriminator": "@type",
+      "properties": {},
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatPng",
+      "localizationKey": "MediaGraphImageFormatPng",
       "parsedAllOf": [
         "#/definitions/MediaGraphImageFormat"
       ]
@@ -2687,11 +2692,11 @@
       "children": [
         {
           "extra": {
-            "id": "547986e8-6554-491a-89ec-d9346b045efb",
+            "id": "a1d94652-fbad-40f9-8d9f-ca0058d26e54",
             "shape": "module",
             "ports": [
               {
-                "id": "b92fe75d-d489-48a9-909d-368ac343edb8",
+                "id": "27316055-d9e5-494b-a101-e3743e09f2ec",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2706,16 +2711,16 @@
               "nodeType": "source"
             }
           },
-          "id": "ec8be491-e888-4613-82fd-46461acc20ad",
+          "id": "644d2c2e-8b61-404d-93c1-2838dc24a2f9",
           "children": []
         },
         {
           "extra": {
-            "id": "c5ca509d-7991-4ecd-89f0-989b352a7b64",
+            "id": "ec1706b8-4501-4180-833b-e844ad313937",
             "shape": "module",
             "ports": [
               {
-                "id": "1f5e13a6-a26d-4fee-b4de-d3dd8f9dada3",
+                "id": "2175639a-dd18-412e-8ef9-63b8c5b32f79",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -2730,7 +2735,7 @@
               "nodeType": "source"
             }
           },
-          "id": "6ee08f15-f416-48e1-aa88-83264da66b41",
+          "id": "70d3f720-fb9b-4d9d-a5e1-9057ee6bbf84",
           "children": []
         }
       ],
@@ -2745,18 +2750,18 @@
       "children": [
         {
           "extra": {
-            "id": "b15606b7-b448-423a-ab62-8e332137761c",
+            "id": "e6a57348-e33f-42dd-b249-c7a1bceff659",
             "shape": "module",
             "ports": [
               {
-                "id": "99d35994-b885-4ce0-9809-9e455e32202c",
+                "id": "be4dcbc2-f7b7-4628-ad9f-47eecf4f5651",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "41252b9b-8d33-4219-aab0-7041bb5f40da",
+                "id": "5d36cde7-075e-417b-a2c8-cbc39c16105a",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2771,23 +2776,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "f6c239f6-0615-42a1-bee5-a20ddd3125c3",
+          "id": "c08755ac-509a-438a-a48d-657abb5284ea",
           "children": []
         },
         {
           "extra": {
-            "id": "b7d3ab07-c622-4eaf-86da-067920c161b6",
+            "id": "828435ab-8977-4924-aa8f-05c006ab94b8",
             "shape": "module",
             "ports": [
               {
-                "id": "816d8de1-4c8f-437e-bde5-c14f70585a51",
+                "id": "bbf4a8be-57ed-4903-b0f5-d5087a7d6be2",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "dd3c36eb-d8c5-4560-960d-466a2d36da08",
+                "id": "d639c8ec-e186-4a02-b8a6-2d09598b9880",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2802,23 +2807,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "7593c041-5497-4e1f-93af-c6373baef87c",
+          "id": "46ac3ba9-94eb-4c9f-a31d-878f5956a54c",
           "children": []
         },
         {
           "extra": {
-            "id": "662b1bec-dfe5-40e9-a232-186d48fa30e7",
+            "id": "75aae4c8-4459-42f1-9db5-aac3fd9a9809",
             "shape": "module",
             "ports": [
               {
-                "id": "cde76361-cd04-4fa5-89af-c49e80895156",
+                "id": "ae03dd9e-0d5f-4ed2-8ec3-9c3e831ec9e4",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "e0c32bc1-5816-4820-897a-5fb2372aa40d",
+                "id": "a3ede385-8265-4805-bc6b-5c527f351a39",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2833,54 +2838,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "6fd214dc-44d1-4f43-a567-151b3e449394",
+          "id": "3c51c747-bd59-4b3f-8843-1fbd9bc984b4",
           "children": []
         },
         {
           "extra": {
-            "id": "2d399e4a-b3f4-466f-bdd0-c0ee32bc8a91",
+            "id": "b3bc9bca-4b84-488b-8a5f-8dc73d658101",
             "shape": "module",
             "ports": [
               {
-                "id": "c1c6f7c9-6c38-4012-a819-eb032c53db22",
+                "id": "95426b49-43d4-442b-aed6-27a5caa65bd1",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "d8dc38f9-ea8b-4c57-841f-9bbaffddc705",
-                "shape": "modulePort",
-                "isInputDisabled": false,
-                "isOutputDisabled": true,
-                "name": ""
-              }
-            ],
-            "data": {
-              "nodeProperties": {
-                "@type": "#Microsoft.Media.MediaGraphGrpcExtension",
-                "name": "MediaGraphGrpcExtensionDataTransfer"
-              },
-              "nodeType": "processor"
-            }
-          },
-          "id": "662ff351-444c-4765-9d3f-7ca4d5032532",
-          "children": []
-        },
-        {
-          "extra": {
-            "id": "d5b62341-39a3-43cf-ad35-3896f28677b1",
-            "shape": "module",
-            "ports": [
-              {
-                "id": "b568de94-d1ef-413e-8be3-3e08fa33bca0",
-                "shape": "modulePort",
-                "isInputDisabled": true,
-                "isOutputDisabled": false,
-                "name": ""
-              },
-              {
-                "id": "19c110a6-8e3d-44fa-ac5e-5bd8f7ec1112",
+                "id": "74a51eae-ef4b-45ea-ad77-57c25c13b829",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2895,23 +2869,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "a66605d4-b89e-4975-b416-6d59c0d80f54",
+          "id": "fcb4adef-0761-4661-b54a-681708f0e3c4",
           "children": []
         },
         {
           "extra": {
-            "id": "573c76d6-0afa-4921-946f-2942af578302",
+            "id": "520647bc-bdcb-45f6-90be-24cb5b106e6c",
             "shape": "module",
             "ports": [
               {
-                "id": "9c401215-db25-4816-bb1f-e6b7c0c3d87e",
+                "id": "d1ab4fdd-22bf-44e4-9bb3-8885640d4971",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "af73dd12-4d18-47f5-8889-2ee76cdd1e68",
+                "id": "9c6276c9-6d81-41e1-98fb-4216d290b8a3",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2926,7 +2900,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "f2186f02-2bbf-49ae-974a-28d47ff92505",
+          "id": "97aef472-b21f-4d28-853e-01047dc315ea",
           "children": []
         }
       ],
@@ -2941,11 +2915,11 @@
       "children": [
         {
           "extra": {
-            "id": "82f4ed7a-59c4-4da8-9c4b-4583ba7cbca9",
+            "id": "0e346a09-907c-4853-8c1a-769259be5830",
             "shape": "module",
             "ports": [
               {
-                "id": "53c19959-3340-4719-ae29-56eeff010bf7",
+                "id": "56a7321a-baad-43a0-8402-b28988e2b7fe",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2960,16 +2934,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "3d2012bf-c3e5-4c63-8465-bf4130e9df42",
+          "id": "b57d6dbf-3f5d-4054-9113-7beb9db7f699",
           "children": []
         },
         {
           "extra": {
-            "id": "c5441040-12af-48ce-911c-a3594d977f2a",
+            "id": "4d16c0b3-558f-4738-ac20-0472eba5124b",
             "shape": "module",
             "ports": [
               {
-                "id": "aa5f0264-2dfa-4f88-bc56-a3be9eab626c",
+                "id": "1a4babfd-1eca-4d85-9366-2affd3176773",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -2984,16 +2958,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "5265c5cf-f03e-477e-92cb-17f298342855",
+          "id": "511fd325-4a00-43c9-a7c3-d3399996ced1",
           "children": []
         },
         {
           "extra": {
-            "id": "c12ddb5a-3b30-4490-8638-b9089ec3bd49",
+            "id": "725bf9f7-a50e-4ab1-a051-79e62d90e105",
             "shape": "module",
             "ports": [
               {
-                "id": "c0d834d5-ad9f-4245-8f23-26fdccef8c04",
+                "id": "d37d834e-cac1-4259-9e27-56ad89f24127",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3008,7 +2982,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "0d55e3d5-5ab1-4668-a3bc-9ee612d4029b",
+          "id": "084203e5-66f1-4b59-9068-83e09637cca1",
           "children": []
         }
       ],

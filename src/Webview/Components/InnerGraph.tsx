@@ -6,8 +6,10 @@ import {
     GraphFeatures,
     GraphNodeEvent,
     GraphNodeState,
+    GraphScrollBarEvent,
     ICanvasNode,
     IEvent,
+    IPoint,
     IPropsAPI,
     RegisterEdge,
     RegisterPanel,
@@ -64,6 +66,28 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             inspectNode(node);
         }
     });
+    const clamp = (min: number, max: number, value: number): number => {
+        if (min > value) {
+            return min;
+        }
+        if (max < value) {
+            return max;
+        }
+        return value;
+    };
+    const getPositionFromEvent = (e: MouseEvent): IPoint => {
+        const rect = propsApiRef.current?.getContainerRectRef().current;
+        if (!rect) {
+            return {
+                x: e.clientX,
+                y: e.clientY
+            };
+        }
+        return {
+            x: clamp(rect.left + 100, rect.right - 100, e.clientX),
+            y: clamp(rect.top + 30, rect.bottom - 30, e.clientY)
+        };
+    };
     const onNodeClick = (node: ICanvasNode) => {
         if (propsApiRef?.current?.getVisiblePanelName()) {
             if (triggerValidation) {
@@ -98,6 +122,9 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
     const itemStyles: React.CSSProperties = {
         maxHeight: "200px"
     };
+    const graphStyles = {
+        svg: { height: "100vh !important" }
+    };
 
     const readOnlyFeatures = new Set(["a11yFeatures", "canvasScrollable", "panCanvas", "clickNodeToSelect", "sidePanel", "editNode"]) as Set<GraphFeatures>;
 
@@ -130,10 +157,11 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                 defaultPortShape="modulePort"
                 defaultEdgeShape="customEdge"
                 canvasMouseMode={props.canvasMouseMode}
+                getPositionFromEvent={getPositionFromEvent}
                 getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
                 getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
-                styles={{ svg: { height: "100vh" } }}
-                //features={props.readOnly ? readOnlyFeatures : undefined}
+                styles={graphStyles}
+                canvasBoundaryPadding={200}
             />
         </>
     );
