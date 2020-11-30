@@ -81,7 +81,7 @@
                 {
                     "id": "module-explorer",
                     "title": "%lva-edge.views.moduleExplorer.name%",
-                    "icon": "src/Extension/resources/images/LVA-mono.svg"
+                    "icon": "resources/images/LVA-mono.svg"
                 }
             ]
         },
@@ -90,7 +90,7 @@
                 {
                     "id": "moduleExplorer",
                     "name": "%lva-edge.views.moduleExplorer.name%",
-                    "icon": "src/Extension/resources/images/LVA-mono.svg"
+                    "icon": "resources/images/LVA-mono.svg"
                 }
             ]
         },
