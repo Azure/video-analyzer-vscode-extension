@@ -9,13 +9,14 @@ import {
     TextField
 } from "@fluentui/react";
 import { useId } from "@uifabric/react-hooks";
+import customPropertyTypes from "../../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../../Localization/Localizer";
+import GraphValidator from "../../Models/MediaGraphValidator";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
 import Helpers from "../../Utils/Helpers";
 import { PropertyDescription } from "./PropertyDescription";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
-const customPropertyTypes: any = require("../../Definitions/v2.0.0/customPropertyTypes.json");
 interface IPropertyEditFieldProps {
     name: string;
     property: any;
@@ -29,7 +30,7 @@ enum PropertyFormatType {
     number = "number",
     string = "string",
     isoDuration = "isoDuration",
-    boolean = 'boolean',
+    boolean = "boolean",
     object = "object"
 }
 
@@ -47,7 +48,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             initValue = JSON.stringify(initValue);
         }
         if (property.type === PropertyFormatType.string && initValue) {
-            if (customPropertyTypes[property.localizationKey] === PropertyFormatType.isoDuration) {
+            if ((customPropertyTypes as any)[property.localizationKey] === PropertyFormatType.isoDuration) {
                 initValue = Helpers.isoToSeconds(initValue);
             }
             initValue = initValue + "";
@@ -84,10 +85,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
 
         setValue(newValue);
 
-        if (newValue === "" || newValue == undefined) {
+        if (newValue === "" || newValue == null) {
             nodeProperties[name] = newValue;
         } else {
-            const format = customPropertyTypes[property.localizationKey] ?? null;
+            const format = (customPropertyTypes as any)[property.localizationKey] ?? null;
             if (format === PropertyFormatType.isoDuration) {
                 nodeProperties[name] = Helpers.secondsToIso(newValue);
             } else {
@@ -125,12 +126,12 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }
 
     const validateInput = (value: string) => {
-        let errorMessage: string = "";
+        let errorMessage = "";
         if (required) {
-            errorMessage = Helpers.validateRequiredProperty(value, property.type);
+            errorMessage = GraphValidator.validateRequiredProperty(value, property.type);
         }
         if (!errorMessage) {
-            errorMessage = Helpers.validateProperty(value, property.localizationKey);
+            errorMessage = GraphValidator.validateProperty(value, property.localizationKey);
         }
 
         return errorMessage;

@@ -5,6 +5,9 @@ import {
     IPropsAPI
 } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
+import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
+import validationJson from "../Definitions/v2.0.0/validation.json";
+import Localizer from "../Localization/Localizer";
 import {
     CanvasNodeProperties,
     ServerError,
@@ -15,8 +18,6 @@ import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import GraphData from "./GraphEditorViewModel";
 import GraphValidationRules from "./GraphValidationRules";
-
-const customPropertyTypes: any = require("../Definitions/v2.0.0/customPropertyTypes.json");
 
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
 
@@ -203,14 +204,14 @@ export default class GraphValidator {
                     type: ValidationErrorType.MissingField,
                     property: thisPropertyPath
                 });
-            } else if (property?.type === "string" && nestedProperties != undefined && nestedProperties !== "") {
+            } else if (property?.type === "string" && nestedProperties != null && nestedProperties !== "") {
                 const key = `${definition.localizationKey}.${name}`;
-                const format = customPropertyTypes[key] ?? null;
+                const format = (customPropertyTypes as any)[key] ?? null;
                 let value = nestedProperties;
                 if (format === "isoDuration") {
                     value = Helpers.isoToSeconds(nestedProperties);
                 }
-                const validationError = Helpers.validateProperty(value, key);
+                const validationError = GraphValidator.validateProperty(value, key);
                 if (validationError !== "") {
                     errors.push({
                         description: validationError,
@@ -224,5 +225,93 @@ export default class GraphValidator {
         }
 
         return errors;
+    }
+
+    static validateRequiredProperty(value: string, propertyType: string) {
+        switch (propertyType) {
+            case "boolean":
+                if (value === "") {
+                    return Localizer.l("propertyEditorValidationUndefined");
+                }
+                break;
+            case "string":
+                if (!value) {
+                    return Localizer.l("propertyEditorValidationUndefinedOrEmpty");
+                }
+                break;
+            default:
+                if (value) {
+                    try {
+                        JSON.parse(value);
+                    } catch (e) {
+                        return Localizer.l("propertyEditorValidationInvalidJSON");
+                    }
+                } else {
+                    return Localizer.l("propertyEditorValidationEmpty");
+                }
+                break;
+        }
+        return "";
+    }
+
+    static validateProperty(value: string, key: any) {
+        if (value === "" || value == undefined) {
+            return "";
+        }
+        const format = (customPropertyTypes as any)[key];
+        if (format === "urlFormat") {
+            const r = new RegExp('^(ftp|http|https)://[^ "]+$');
+            if (!r.test(value)) {
+                return Localizer.l("notValidUrl");
+            }
+        } else if (format === "number" || format === "isoDuration") {
+            const isNum = /^-?\d+$/.test(value);
+            if (!isNum) {
+                return Localizer.l("valueMustBeNumbersError");
+            }
+        }
+        const validationValue = (validationJson as any)[key];
+        if (validationValue) {
+            const validationType = validationValue.type;
+            const propertyValue = validationValue.value;
+            switch (validationType) {
+                case "regex": {
+                    const r = new RegExp(propertyValue);
+                    if (!r.test(value)) {
+                        return Localizer.l("regexPatternError").format(propertyValue);
+                    }
+                    return "";
+                }
+                case "maxLength": {
+                    if (value.length > propertyValue) {
+                        return Localizer.l("maxLengthError").format(propertyValue);
+                    }
+                    return "";
+                }
+                case "minLength": {
+                    return "";
+                }
+                case "minMaxLength": {
+                    if (value.length < propertyValue[0] || value.length > propertyValue[1]) {
+                        return Localizer.l("minMaxLengthError").format(propertyValue[0], propertyValue[1]);
+                    }
+                    return "";
+                }
+                case "minValue": {
+                    if (value < propertyValue) {
+                        return Localizer.l("minValueError").format(propertyValue);
+                    }
+                    return "";
+                }
+                case "minMaxValue": {
+                    if (value < propertyValue[0] || value > propertyValue[1]) {
+                        return Localizer.l("minMaxError").format(propertyValue[0], propertyValue[1], propertyValue[2]);
+                    }
+                    return "";
+                }
+            }
+        }
+
+        return "";
     }
 }

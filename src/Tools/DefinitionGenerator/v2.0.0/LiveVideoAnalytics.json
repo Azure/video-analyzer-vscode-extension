@@ -1122,7 +1122,7 @@
       "properties": {
         "sharedMemorySizeMiB": {
           "type": "string",
-          "description": "The size of the buffer for all in-flight frames in mebibytes if mode is SharedMemory. Should not be specificed otherwise."
+          "description": "The size of the buffer for all in-flight frames in mebibytes if mode is SharedMemory. Should not be specified otherwise."
         },
         "mode": {
           "type": "string",
@@ -1148,7 +1148,7 @@
         }
       },
       "description": "Describes how media should be transferred to the inferencing engine.",
-      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtension"
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtensionDataTransfer"
     },
     "MediaGraphHttpExtension": {
       "allOf": [
@@ -1175,7 +1175,7 @@
     "MediaGraphSamplingOptions": {
       "type": "object",
       "properties": {
-        "annotatedSamplesOnly": {
+        "skipSamplesWithoutAnnotation": {
           "type": "string",
           "description": "If true, limits the samples submitted to the extension to only samples which have associated inference(s)"
         },
@@ -1320,39 +1320,11 @@
       "description": "Encoding settings for raw images.",
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatRaw"
     },
-    "MediaGraphImageFormatEncoded": {
+    "MediaGraphImageFormatJpeg": {
       "properties": {
-        "encoding": {
-          "type": "string",
-          "description": "The different encoding formats that can be used for the image.",
-          "default": "Jpeg",
-          "enum": [
-            "Jpeg",
-            "Bmp",
-            "Png"
-          ],
-          "x-ms-enum": {
-            "name": "MediaGraphImageEncodingFormat",
-            "values": [
-              {
-                "value": "Jpeg",
-                "description": "JPEG image format."
-              },
-              {
-                "value": "Bmp",
-                "description": "BMP image format."
-              },
-              {
-                "value": "Png",
-                "description": "PNG image format."
-              }
-            ],
-            "modelAsString": true
-          }
-        },
         "quality": {
           "type": "string",
-          "description": "The image quality (used for JPEG only). Value must be between 0 to 100 (best quality)."
+          "description": "The image quality. Value must be between 0 to 100 (best quality)."
         }
       },
       "allOf": [
@@ -1361,8 +1333,32 @@
         },
         {}
       ],
-      "description": "Allowed formats for the image.",
-      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatEncoded"
+      "description": "Encoding settings for Jpeg images.",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatJpeg"
+    },
+    "MediaGraphImageFormatBmp": {
+      "properties": {
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MediaGraphImageFormat"
+        },
+        {}
+      ],
+      "description": "Encoding settings for Bmp images.",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatBmp"
+    },
+    "MediaGraphImageFormatPng": {
+      "properties": {
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MediaGraphImageFormat"
+        },
+        {}
+      ],
+      "description": "Encoding settings for Png images.",
+      "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatPng"
     },
     "MediaGraphSignalGateProcessor": {
       "properties": {

@@ -1,6 +1,11 @@
 import dagre from "dagre";
 import { v4 as uuid } from "uuid";
-import { GraphModel, ICanvasData, ICanvasNode, IPropsAPI } from "@vienna/react-dag-editor";
+import {
+    GraphModel,
+    ICanvasData,
+    ICanvasNode,
+    IPropsAPI
+} from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
     MediaGraphParameterDeclaration,
@@ -11,9 +16,16 @@ import {
 } from "../../Common/Types/LVASDKTypes";
 import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
 import Localizer from "../Localization/Localizer";
-import { CanvasNodeData, CanvasNodeProperties, GraphInfo, MediaGraphNodeType, ValidationError } from "../Types/GraphTypes";
+import {
+    CanvasNodeData,
+    CanvasNodeProperties,
+    GraphInfo,
+    MediaGraphNodeType,
+    ValidationError
+} from "../Types/GraphTypes";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
 import NodeHelpers from "../Utils/NodeHelpers";
+import SharedNodeHelpers from "../Utils/SharedNodeHelpers";
 import GraphData from "./GraphEditorViewModel";
 import GraphValidator from "./MediaGraphValidator";
 
@@ -49,7 +61,7 @@ export default class Graph {
 
         // go through all the sources, processors, and sinks we are given and flatten them into nodes
         for (const nodeType of Graph.nodeTypeList) {
-            const nodesForType = topology.properties[NodeHelpers.getNodeTypeKey(nodeType)];
+            const nodesForType = topology.properties[SharedNodeHelpers.getNodeTypeKey(nodeType)];
             if (!nodesForType) {
                 // no nodes for this type
                 continue;
@@ -343,7 +355,7 @@ export default class Graph {
     private forEachNodeInput(callback: (node: CanvasNodeProperties, input: MediaGraphNodeInput) => void) {
         if (this.graphInformation && this.graphInformation.properties) {
             for (const nodeType of Graph.nodeTypeList) {
-                const nodesForType = (this.graphInformation.properties as Record<string, CanvasNodeProperties[]>)[NodeHelpers.getNodeTypeKey(nodeType)];
+                const nodesForType = (this.graphInformation.properties as Record<string, CanvasNodeProperties[]>)[SharedNodeHelpers.getNodeTypeKey(nodeType)];
                 if (!nodesForType) {
                     // no nodes for this type
                     continue;

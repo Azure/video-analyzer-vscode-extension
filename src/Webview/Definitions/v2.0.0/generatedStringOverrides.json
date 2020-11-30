@@ -1,5 +1,20 @@
 {
     "MediaGraphAssetSink.segmentLength": {
-        "placeholder": "Enter segment length in seconds"
+        "placeholder": "Enter value in seconds"
+    },
+    "MediaGraphIoTHubMessageSink.hubOutputName": {
+        "placeholder": "Enter value in seconds"
+    },
+    "MediaGraphSignalGateProcessor.activationEvaluationWindow": {
+        "placeholder": "Enter value in seconds"
+    },
+    "MediaGraphSignalGateProcessor.activationSignalOffset": {
+        "placeholder": "Enter value in seconds"
+    },
+    "MediaGraphSignalGateProcessor.minimumActivationTime": {
+        "placeholder": "Enter value in seconds"
+    },
+    "MediaGraphSignalGateProcessor.maximumActivationTime": {
+        "placeholder": "Enter value in seconds"
     }
 }

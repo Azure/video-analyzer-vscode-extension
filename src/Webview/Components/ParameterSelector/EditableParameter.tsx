@@ -48,13 +48,13 @@ export const EditableParameter: React.FunctionComponent<EditableParameterProps> 
     };
 
     const onEditClick = () => {
-        if (id != undefined && id > -1) {
+        if (id != null && id > -1) {
             onEditParameterClick(id);
         }
     };
 
     const onEditSaveClick = () => {
-        if (id != undefined && id > -1) {
+        if (id != null && id > -1) {
             onEditSaveParameterClick(id);
         }
     };
@@ -64,7 +64,7 @@ export const EditableParameter: React.FunctionComponent<EditableParameterProps> 
     };
 
     const onDeleteClick = () => {
-        if (id != undefined && id > -1) {
+        if (id != null && id > -1) {
             onDeleteParameterClick(id);
         }
     };

@@ -1,1 +1,1 @@
-export const customWords = ["RTSP", "IoT", "TCP", "GRPC", "HTTP", "URL", "URI"];
+export const customWords = ["RTSP", "IoT", "TCP", "GRPC", "HTTP", "URL", "URI", "MiB"];
