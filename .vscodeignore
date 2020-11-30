@@ -1,3 +1,8 @@
-**/*.ts
-src/**
-public/**
+.vscode
+node_modules
+out/
+src/
+tsconfig.json
+webpack.config.js
+DefinitionGenerator/
+public/

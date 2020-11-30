@@ -174,11 +174,8 @@ export class GraphEditorPanel {
 
     private _getResourceInjection(nonce: string, ending: string, template: (uri: vscode.Uri) => string) {
         const webview = this._panel.webview;
-        // from the VS Code example, seems to have to be this way instead import
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const manifest = require(path.join(this._extensionPath, "build", "asset-manifest.json"));
-        const fileNames = manifest.entrypoints.filter((fileName: string) => fileName.endsWith("." + ending));
 
+        const fileNames = ["static/js/main.js", "static/css/main.css"];
         return fileNames
             .map((fileName: string) => {
                 // Local path to main script run in the webview

@@ -10,8 +10,8 @@ import { IoTHubLabelNode } from "./IoTHubLabelNode";
 import { INode } from "./Node";
 
 export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
-    private _onDidChangeTreeData: vscode.EventEmitter<INode | undefined | void> = new vscode.EventEmitter<INode | undefined | void>();
-    readonly onDidChangeTreeData: vscode.Event<INode | undefined | void> = this._onDidChangeTreeData.event;
+    private _onDidChangeTreeData: vscode.EventEmitter<INode | undefined> = new vscode.EventEmitter<INode | undefined>();
+    readonly onDidChangeTreeData: vscode.Event<INode | undefined> = this._onDidChangeTreeData.event;
 
     private _connectionConfig?: LvaHubConfig;
     private _iotHubData?: IotHubData;

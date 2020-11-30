@@ -1,23 +1,33 @@
 {
-    "compilerOptions": {
-        "module": "esnext",
-        "target": "es2019",
-        "lib": ["ES2019", "DOM"],
-        "outDir": "out",
-        "sourceMap": true,
-        "strict": true,
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "jsx": "react",
-        "noEmit": true,
-        "noFallthroughCasesInSwitch": true
-    },
-    "include": ["src/Webview"],
-    "exclude": ["Common/Tools", "Extension"]
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es6",
+    "outDir": "out",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "sourceMap": true,
+    "rootDir": ".",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "include": [
+    "src/Webview"
+  ],
+  "exclude": [
+    "node_modules",
+    "Common/Tools",
+    "Extension"
+  ]
 }
