@@ -56,7 +56,7 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
 
     const dialogContentProps = {
         type: DialogType.normal,
-        title: Localizer.l("deleteParamaterDialogTitle"),
+        title: Localizer.l("deleteParameterDialogTitle"),
         closeButtonAriaLabel: "Close",
         subText: Localizer.l("deleteParameterDialogText")
     };

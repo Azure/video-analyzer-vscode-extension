@@ -22,6 +22,7 @@ import {
     MediaGraphParameterType
 } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
+import { ParamCreateConfig } from "../ParameterSelector/ParameterSelector";
 import { createParameter } from "./createParameter";
 import { ParameterEditorCreateForm } from "./ParameterEditorCreateForm";
 
@@ -37,7 +38,7 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
     const [shownFilteredItems, setShownFilteredItems] = React.useState<MediaGraphParameterDeclaration[]>([]);
     const [isCreateFormShown, { toggle: toggleCreateForm }] = useBoolean(false);
     const [filterText, setFilterText] = React.useState<string>("");
-    const [parameterCreationConfiguration, setParameterCreationConfiguration] = React.useState<MediaGraphParameterDeclaration | undefined>();
+    const [paramCreateConfig, setParamCreateConfig] = React.useState<ParamCreateConfig | undefined>();
 
     const items: MediaGraphParameterDeclaration[] = [
         ...parameters,
@@ -103,9 +104,10 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
     };
 
     const onCreateFormAddClick = () => {
-        if (parameterCreationConfiguration?.name && parameterCreationConfiguration?.type && onAddNew) {
-            createParameter(parameterCreationConfiguration, parameters); //TODO. check for duplicates
-            onAddNew(`$\{${parameterCreationConfiguration.name}}`);
+        if (paramCreateConfig?.name && paramCreateConfig?.type && onAddNew) {
+            createParameter(paramCreateConfig, parameters); //TODO. check for duplicates
+            onAddNew(`$\{${paramCreateConfig.name}}`);
+            toggleCreateForm();
         }
     };
 
@@ -135,8 +137,9 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
                     onChange={onSearchChange}
                     styles={onAddNew ? { root: { flexGrow: 1 } } : { root: { maxWidth: 350 } }}
                 />
-                {onAddNew && !isCreateFormShown && (
+                {onAddNew && (
                     <DefaultButton
+                        disabled={isCreateFormShown}
                         text={Localizer.l("parameterEditorParameterListAddButtonLabel")}
                         iconProps={{ iconName: "Add" }}
                         onClick={toggleCreateForm}
@@ -146,11 +149,11 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
             </Stack>
             {isCreateFormShown && (
                 <Stack horizontal tokens={{ childrenGap: "s1" }} verticalAlign={"end"}>
-                    <ParameterEditorCreateForm setParamCreateConfig={setParameterCreationConfiguration} horizontal={true} parameters={parameters} />
+                    <ParameterEditorCreateForm setParamCreateConfig={setParamCreateConfig} horizontal={true} parameters={parameters} />
                     <DefaultButton
                         iconProps={{ iconName: "Add" }}
                         onClick={onCreateFormAddClick}
-                        disabled={parameterCreationConfiguration == null || parameterCreationConfiguration.name == null || parameterCreationConfiguration.type == null}
+                        disabled={paramCreateConfig == null || paramCreateConfig.name == null || paramCreateConfig.type == null || !!paramCreateConfig.nameError}
                     />
                 </Stack>
             )}
