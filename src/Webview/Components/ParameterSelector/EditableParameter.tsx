@@ -26,7 +26,7 @@ export const EditableParameter: React.FunctionComponent<EditableParameterProps> 
 
     const attributes: React.CSSProperties = {
         flex: 1,
-        border: "var(--vscode-parameters-border)",
+        border: "1px solid",
         borderRadius: "5px",
         flexDirection: "row",
         padding: "8px"

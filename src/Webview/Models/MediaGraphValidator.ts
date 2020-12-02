@@ -204,7 +204,7 @@ export default class GraphValidator {
                     type: ValidationErrorType.MissingField,
                     property: thisPropertyPath
                 });
-            } else if (property?.type === "string" && nestedProperties != null && nestedProperties !== "") {
+            } else if (property?.type === "string" && nestedProperties != null && nestedProperties !== "" && !nestedProperties.includes("${")) {
                 const key = `${definition.localizationKey}.${name}`;
                 const format = (customPropertyTypes as any)[key] ?? null;
                 let value = nestedProperties;

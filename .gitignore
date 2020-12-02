@@ -1,5 +1,6 @@
 # Production-ready extension
 /out/
+/dist/
 
 # React application
 /build/

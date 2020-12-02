@@ -1,9 +1,5 @@
 import * as vscode from "vscode";
-import {
-    MediaGraphInstance,
-    MediaGraphInstanceState,
-    MediaGraphTopology
-} from "../../Common/Types/LVASDKTypes";
+import { MediaGraphInstance, MediaGraphInstanceState, MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
@@ -41,9 +37,6 @@ export class InstanceItem extends vscode.TreeItem {
                     this.contextValue = "InstanceItemContextProgress";
                     this.iconPath = TreeUtils.getIconPath(`Graph-Instance-Inactive`);
             }
-        } else {
-            this.iconPath = new vscode.ThemeIcon("add");
-            this.command = { title: Localizer.localize("createGraphInstanceButton"), command: "moduleExplorer.createInstance", arguments: [this] };
         }
     }
 

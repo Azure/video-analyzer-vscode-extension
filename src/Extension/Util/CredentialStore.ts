@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 "use strict";
-import * as keytar from "keytar";
+import * as keytarType from "keytar";
 import { v4 as uuid } from "uuid";
 import * as vscode from "vscode";
 import { Constants } from "./Constants";
@@ -14,6 +14,8 @@ interface CredentialLvaHubConfig {
 }
 
 export class CredentialStore {
+    private static keytar: typeof keytarType = CredentialStore.getCoreNodeModule("keytar");
+
     public static async getConnectionInfo(context: vscode.ExtensionContext): Promise<LvaHubConfig> {
         const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.LvaGlobalStateKey);
         if (!connectionInfo) {
@@ -21,7 +23,7 @@ export class CredentialStore {
         }
         let connectionString: string | undefined | null = "";
         try {
-            connectionString = await keytar.getPassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
+            connectionString = await this.keytar.getPassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
         } catch (error) {
             connectionString = context.globalState.get(connectionInfo.connectionStringKey);
         }
@@ -41,7 +43,7 @@ export class CredentialStore {
         });
 
         try {
-            await keytar.setPassword(Constants.ExtensionId, connectionKey, connectionInfo.connectionString);
+            await this.keytar.setPassword(Constants.ExtensionId, connectionKey, connectionInfo.connectionString);
         } catch (error) {
             context.globalState.update(connectionKey, connectionInfo.connectionString);
         }
@@ -51,8 +53,23 @@ export class CredentialStore {
         const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.LvaGlobalStateKey);
         context.globalState.update(Constants.LvaGlobalStateKey, null);
         if (connectionInfo) {
-            await keytar.deletePassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
+            await this.keytar.deletePassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
             context.globalState.update(connectionInfo.connectionStringKey, null);
         }
+    }
+
+    /**
+     * Helper function that returns a node module installed with VSCode, or null if it fails.
+     */
+    private static getCoreNodeModule(moduleName: string) {
+        try {
+            return require(`${vscode.env.appRoot}/node_modules.asar/${moduleName}`);
+        } catch (err) {}
+
+        try {
+            return require(`${vscode.env.appRoot}/node_modules/${moduleName}`);
+        } catch (err) {}
+
+        return null;
     }
 }

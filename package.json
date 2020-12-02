@@ -18,7 +18,7 @@
         "type": "git",
         "url": "https://github.com/Azure/lva-edge-vscode-extension"
     },
-    "main": "./out/Extension/extension.js",
+    "main": "./dist/extension",
     "contributes": {
         "commands": [
             {
@@ -167,12 +167,13 @@
         ]
     },
     "scripts": {
-        "vscode:prepublish": "npm run compile",
+        "vscode:prepublish": "react-app-rewired build && webpack --mode production --config src/Extension/webpack.config.js",
+        "webpack-dev": "rimraf dist && webpack --mode development --watch --config src/Extension/webpack.config.js",
         "compile": "npm run compile-react && npm run compile-ext",
-        "compile-react": "react-scripts build",
-        "eject-react": "react-scripts eject",
-        "compile-ext": "tsc -p src/Extension/tsconfig.json",
-        "dev": "set PORT=3008 && react-scripts start",
+        "compile-react": "react-app-rewired build",
+        "eject-react": "react-app-rewired eject",
+        "compile-ext": "rimraf dist && webpack --mode development --config src/Extension/webpack.config.js",
+        "dev": "set PORT=3008 && react-app-rewired start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
         "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
@@ -185,29 +186,35 @@
         "@vienna/react-dag-editor": "2.0.0-rc.38",
         "azure-iothub": "1.12.4",
         "dagre": "^0.8.5",
-        "keytar": "^6.0.1",
         "lodash": "^4.17.20",
         "react": "^16.13.1",
         "react-accessible-accordion": "^3.3.3",
         "react-accessible-tree": "^1.0.3",
         "react-dom": "^16.13.1",
-        "typescript": "^3.9.4"
+        "uuid": "^8.3.0"
     },
     "devDependencies": {
-        "@types/keytar": "^4.4.2",
-        "@typescript-eslint/eslint-plugin": "4.0.0",
-        "@typescript-eslint/parser": "^3.0.0",
-        "react-scripts": "^4.0.0",
         "@types/dagre": "^0.7.44",
+        "@types/keytar": "^4.4.2",
         "@types/lodash": "^4.14.155",
         "@types/node": "^12.12.0",
         "@types/react": "^16.9.36",
         "@types/react-dom": "^16.9.8",
         "@types/uuid": "^8.0.0",
         "@types/vscode": "^1.38.0",
+        "@typescript-eslint/eslint-plugin": "4.0.0",
+        "@typescript-eslint/parser": "^3.0.0",
+        "customize-cra": "^1.0.0",
         "eslint": "^7.11.0",
         "eslint-plugin-react-hooks": "^4.0.8",
-        "prettier": "^2.0.5"
+        "prettier": "^2.0.5",
+        "react-app-rewired": "^2.1.6",
+        "react-scripts": "^4.0.0",
+        "ts-loader": "^8.0.11",
+        "typescript": "^3.9.4",
+        "vscode": "^1.1.37",
+        "webpack": "4.44.2",
+        "webpack-cli": "^3.3.12"
     },
     "browserslist": {
         "production": [
