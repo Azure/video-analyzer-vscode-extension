@@ -22,11 +22,6 @@
     "contributes": {
         "commands": [
             {
-                "command": "lvaTopologyEditor.createGraph",
-                "title": "%lva-edge.command.openSampleGraph.title%",
-                "category": "%lva-edge.command.category%"
-            },
-            {
                 "command": "moduleExplorer.refresh",
                 "title": "%refresh%",
                 "icon": "$(refresh)"

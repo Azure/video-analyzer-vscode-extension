@@ -25,7 +25,7 @@ export const ParameterSelectorTrigger: React.FunctionComponent<IParameterSelecto
     return (
         <>
             <ActionButton iconProps={{ iconName: "VariableGroup" }} onClick={toggleParameterSelector}>
-                {Localizer.l("manageParamatersButtonText")}
+                {Localizer.l("manageParametersButtonText")}
             </ActionButton>
             <ParameterSelector isOpen={isOpen} parameters={parameters} graph={graph} onClose={() => toggleSelector(!isOpen)} propsApiRef={propsApiRef} />
         </>
