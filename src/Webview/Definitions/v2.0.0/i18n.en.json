@@ -1,11 +1,11 @@
 {
     "MediaGraphInstance": {
         "title": "Instance",
-        "description": "Represents a Media Graph instance."
+        "description": "Represents an instance of a media graph."
     },
     "MediaGraphInstanceProperties": {
         "title": "Instance properties",
-        "description": "Properties of a Media Graph instance."
+        "description": "Properties of a media graph instance."
     },
     "MediaGraphInstanceProperties.description": {
         "title": "Description",
@@ -14,7 +14,7 @@
     },
     "MediaGraphInstanceProperties.topologyName": {
         "title": "Topology name",
-        "description": "The name of the graph topology that this instance will run. A topology with this name should already have been set in the Edge module.",
+        "description": "The name of the media graph topology that this instance will run. A topology with this name should already have been set in the Edge module.",
         "placeholder": ""
     },
     "MediaGraphInstanceProperties.parameters": {
@@ -24,32 +24,32 @@
     },
     "MediaGraphInstanceProperties.state": {
         "title": "State",
-        "description": "Allowed states for a graph Instance.",
+        "description": "Allowed states for a graph instance.",
         "placeholder": ""
     },
     "MediaGraphInstanceProperties.state.Inactive": {
         "title": "Inactive",
-        "description": "Inactive state."
+        "description": "The media graph instance is idle and not processing media."
     },
     "MediaGraphInstanceProperties.state.Activating": {
         "title": "Activating",
-        "description": "Activating state."
+        "description": "The media graph instance is transitioning into the active state."
     },
     "MediaGraphInstanceProperties.state.Active": {
         "title": "Active",
-        "description": "Active state."
+        "description": "The media graph instance is active and processing media."
     },
     "MediaGraphInstanceProperties.state.Deactivating": {
         "title": "Deactivating",
-        "description": "Deactivating state."
+        "description": "The media graph instance is transitioning into the inactive state."
     },
     "MediaGraphParameterDefinition": {
         "title": "Parameter definition",
-        "description": "A key, value pair. The graph topology can be authored with certain values with parameters. Then, during graph instance creation, the value for that parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters."
+        "description": "A key-value pair. A media graph topology allows certain values to be parameterized. When an instance is created, the parameters are supplied with arguments specific to that instance. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters."
     },
     "MediaGraphParameterDefinition.name": {
         "title": "Name",
-        "description": "Name of parameter as defined in the graph topology.",
+        "description": "Name of parameter as defined in the media graph topology.",
         "placeholder": ""
     },
     "MediaGraphParameterDefinition.value": {
@@ -59,43 +59,43 @@
     },
     "MediaGraphInstanceCollection": {
         "title": "Instance collection",
-        "description": "Collection of graph instances."
+        "description": "A collection of media graph instances."
     },
     "MediaGraphInstanceCollection.value": {
         "title": "Value",
-        "description": "Collection of graph instances.",
+        "description": "A collection of media graph instances.",
         "placeholder": ""
     },
     "MediaGraphInstanceCollection.@continuationToken": {
         "title": "@continuation token",
-        "description": "Continuation token to use in subsequent calls to enumerate through the graph instance collection (when the collection contains too many results to return in one response).",
+        "description": "A continuation token to use in subsequent calls to enumerate through the graph instance collection. This is used when the collection contains too many results to return in one response.",
         "placeholder": ""
     },
     "MediaGraphTopologyCollection": {
         "title": "Topology collection",
-        "description": "Collection of graph topologies."
+        "description": "A collection of media graph topologies."
     },
     "MediaGraphTopologyCollection.value": {
         "title": "Value",
-        "description": "Collection of graph topologies.",
+        "description": "A collection of media graph topologies.",
         "placeholder": ""
     },
     "MediaGraphTopologyCollection.@continuationToken": {
         "title": "@continuation token",
-        "description": "Continuation token to use in subsequent calls to enumerate through the graph topologies collection (when the collection contains too many results to return in one response).",
+        "description": "A continuation token to use in subsequent calls to enumerate through the graph topologies collection. This is used when the collection contains too many results to return in one response.",
         "placeholder": ""
     },
     "MediaGraphTopology": {
         "title": "Topology",
-        "description": "Describes a graph topology."
+        "description": "A description of a media graph topology."
     },
     "MediaGraphTopologyProperties": {
         "title": "Topology properties",
-        "description": "Describes the properties of a graph topology."
+        "description": "A description of the properties of a media graph topology."
     },
     "MediaGraphSystemData": {
         "title": "System data",
-        "description": "Graph system data."
+        "description": "The system data for a resource. This is used by both topologies and instances."
     },
     "MediaGraphSystemData.createdAt": {
         "title": "Created at",
@@ -109,7 +109,7 @@
     },
     "MediaGraphParameterDeclaration": {
         "title": "Parameter declaration",
-        "description": "The declaration of a parameter in the graph topology. A graph topology can be authored with parameters. Then, during graph instance creation, the value for those parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters."
+        "description": "The declaration of a parameter in the media graph topology. A media graph topology can be authored with parameters. Then, during graph instance creation, the value for those parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters."
     },
     "MediaGraphParameterDeclaration.name": {
         "title": "Name",
@@ -143,12 +143,12 @@
     },
     "MediaGraphParameterDeclaration.default": {
         "title": "Default",
-        "description": "The default value for the parameter, to be used if the graph instance does not specify a value.",
+        "description": "The default value for the parameter to be used if the media graph instance does not specify a value.",
         "placeholder": ""
     },
     "MediaGraphSource": {
         "title": "Source",
-        "description": "Media graph source."
+        "description": "A source node in a media graph."
     },
     "MediaGraphSource.@type": {
         "title": "@type",
@@ -162,7 +162,7 @@
     },
     "MediaGraphRtspSource": {
         "title": "RTSP source",
-        "description": "Enables a graph to capture media from a RTSP server."
+        "description": "Enables a media graph to capture media from a RTSP server."
     },
     "MediaGraphRtspSource.transport": {
         "title": "Transport",
@@ -184,7 +184,7 @@
     },
     "MediaGraphIoTHubMessageSource": {
         "title": "IoT hub message source",
-        "description": "Enables a graph to receive messages via routes declared in the IoT Edge deployment manifest."
+        "description": "Enables a media graph to receive messages via routes declared in the IoT Edge deployment manifest."
     },
     "MediaGraphIoTHubMessageSource.hubInputName": {
         "title": "Hub input name",
@@ -193,11 +193,11 @@
     },
     "MediaGraphIoTHubMessageSink": {
         "title": "IoT hub message sink",
-        "description": "Enables a graph to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest."
+        "description": "Enables a media graph to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest."
     },
     "MediaGraphIoTHubMessageSink.hubOutputName": {
         "title": "Hub output name",
-        "description": "Name of the output path to which the graph will publish message. These messages can then be delivered to desired destinations by declaring routes referencing the output path in the IoT Edge deployment manifest.",
+        "description": "Name of the output path to which the media graph will publish message. These messages can then be delivered to desired destinations by declaring routes referencing the output path in the IoT Edge deployment manifest.",
         "placeholder": ""
     },
     "MediaGraphEndpoint": {
@@ -262,7 +262,7 @@
     },
     "MediaGraphTlsEndpoint": {
         "title": "Tls endpoint",
-        "description": "An endpoint that the graph can connect to, which must be connected over TLS/SSL."
+        "description": "A TLS endpoint for media graph external connections."
     },
     "MediaGraphTlsEndpoint.trustedCertificates": {
         "title": "Trusted certificates",
@@ -391,7 +391,7 @@
     },
     "MediaGraphAssetSink": {
         "title": "Asset sink",
-        "description": "Enables a graph to record media to an Azure Media Services asset, for subsequent playback."
+        "description": "Enables a media graph to record media to an Azure Media Services asset for subsequent playback."
     },
     "MediaGraphAssetSink.assetNamePattern": {
         "title": "Asset name pattern",
@@ -405,7 +405,7 @@
     },
     "MediaGraphAssetSink.localMediaCachePath": {
         "title": "Local media cache path",
-        "description": "Path to a local file system directory for temporary caching of media, before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure.",
+        "description": "Path to a local file system directory for temporary caching of media before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure.",
         "placeholder": ""
     },
     "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB": {
@@ -465,7 +465,7 @@
     },
     "MediaGraphExtensionProcessorBase": {
         "title": "Extension processor base",
-        "description": "Processor that allows for extensions, outside of the Live Video Analytics Edge module, to be integrated into the graph. It is the base class for various different kinds of extension processor types."
+        "description": "Processor that allows for extensions outside of the Live Video Analytics Edge module to be integrated into the graph. It is the base class for various different kinds of extension processor types."
     },
     "MediaGraphExtensionProcessorBase.endpoint": {
         "title": "Endpoint",
@@ -487,7 +487,7 @@
         "description": "A processor that allows the media graph to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes."
     },
     "MediaGraphGrpcExtension": {
-        "title": "GRPC extension",
+        "title": "gRPC extension",
         "description": "A processor that allows the media graph to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes."
     },
     "MediaGraphGrpcExtension.dataTransfer": {
@@ -501,7 +501,7 @@
         "placeholder": ""
     },
     "MediaGraphGrpcExtensionDataTransfer": {
-        "title": "GRPC extension data transfer",
+        "title": "gRPC extension data transfer",
         "description": "Describes how media should be transferred to the inferencing engine."
     },
     "MediaGraphGrpcExtensionDataTransfer.sharedMemorySizeMiB": {
@@ -655,7 +655,7 @@
     },
     "MediaGraphSignalGateProcessor.activationEvaluationWindow": {
         "title": "Activation evaluation window",
-        "description": "The period of time over which the gate gathers input events, before evaluating them.",
+        "description": "The period of time over which the gate gathers input events before evaluating them.",
         "placeholder": "PT1.0S"
     },
     "MediaGraphSignalGateProcessor.activationSignalOffset": {
@@ -665,17 +665,12 @@
     },
     "MediaGraphSignalGateProcessor.minimumActivationTime": {
         "title": "Minimum activation time",
-        "description": "The minimum period for which the gate remains open, in the absence of subsequent triggers (events).",
+        "description": "The minimum period for which the gate remains open in the absence of subsequent triggers (events).",
         "placeholder": "PT1S"
     },
     "MediaGraphSignalGateProcessor.maximumActivationTime": {
         "title": "Maximum activation time",
-        "description": "The maximum period for which the gate remains open, in the presence of subsequent events.",
+        "description": "The maximum period for which the gate remains open in the presence of subsequent events.",
         "placeholder": "PT2S"
-    },
-    "MediaGraph.nodeName": {
-        "title": "Node name",
-        "description": "The name of the node",
-        "placeholder": ""
     }
 }

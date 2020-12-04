@@ -3,6 +3,7 @@
     "description": "LVA Edge VS Code Extension",
     "version": "0.0.1",
     "publisher": "ms-azuretools",
+    "icon": "lva-icon.png",
     "engines": {
         "vscode": "^1.38.0"
     },
@@ -172,6 +173,7 @@
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
         "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
+        "create-definitions-debug": "node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
         "refreshVSToken": "vsts-npm-auth -config .npmrc"
     },
     "dependencies": {

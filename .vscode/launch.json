@@ -13,6 +13,14 @@
             "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
             "outFiles": ["${workspaceFolder}/dist/**/*.js"],
             "preLaunchTask": "npm: compile"
+        },
+        {
+            "name": "Launch via NPM",
+            "request": "launch",
+            "runtimeArgs": ["run-script", "create-definitions-debug"],
+            "runtimeExecutable": "npm",
+            "skipFiles": ["<node_internals>/**"],
+            "type": "pwa-node"
         }
     ]
 }

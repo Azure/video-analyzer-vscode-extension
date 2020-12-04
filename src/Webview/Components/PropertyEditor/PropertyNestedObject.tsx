@@ -13,11 +13,12 @@ interface IPropertyNestedObjectProps {
     nodeProperties: any;
     required: boolean;
     readOnly?: boolean;
+    hideDropDown?: boolean;
     requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
-    const { property, nodeProperties, required, readOnly = false, requestParameterization } = props;
+    const { property, nodeProperties, required, readOnly = false, requestParameterization, hideDropDown } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
     const [type, setType] = React.useState<string>(initType);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
@@ -31,15 +32,15 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
 
     function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
         if (item) {
-            const selectedType = item.key as string;
-            if (selectedType) {
-                nodeProperties["@type"] = `#Microsoft.Media.${selectedType}`;
+            const itemType = item.key as string;
+            if (itemType) {
+                nodeProperties["@type"] = `#Microsoft.Media.${itemType}`;
             } else {
                 nodeProperties["@type"] = "";
             }
-            setType(selectedType);
+            setType(itemType);
             if (required) {
-                setErrorMessage(selectedType === "" ? Localizer.l("propertyEditorValidationUndefined") : "");
+                setErrorMessage(itemType === "" ? Localizer.l("propertyEditorValidationUndefined") : "");
             }
         }
     }
@@ -62,27 +63,31 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
     }
 
     const selectedType = type;
+    if (!selectedType && options.length == 1) {
+        handleTypeChange(undefined as any, options[0]);
+    }
 
     return (
         <>
-            {readOnly ? (
-                <>
-                    {onRenderLabel()}
-                    <div aria-labelledby={labelId}>
-                        {selectedType ? options.filter((item) => item.key === selectedType)[0].text : <i>{Localizer.l("propertyEditorNoneValueLabel")}</i>}
-                    </div>
-                </>
-            ) : (
-                <Dropdown
-                    options={options}
-                    defaultSelectedKey={selectedType}
-                    onChange={handleTypeChange}
-                    required={required}
-                    onRenderLabel={onRenderLabel}
-                    aria-labelledby={labelId}
-                    errorMessage={errorMessage}
-                />
-            )}
+            {!hideDropDown &&
+                (readOnly ? (
+                    <>
+                        {onRenderLabel()}
+                        <div aria-labelledby={labelId}>
+                            {selectedType ? options.filter((item) => item.key === selectedType)[0].text : <i>{Localizer.l("propertyEditorNoneValueLabel")}</i>}
+                        </div>
+                    </>
+                ) : (
+                    <Dropdown
+                        options={options}
+                        defaultSelectedKey={selectedType}
+                        onChange={handleTypeChange}
+                        required={required}
+                        onRenderLabel={onRenderLabel}
+                        aria-labelledby={labelId}
+                        errorMessage={errorMessage}
+                    />
+                ))}
             {type && (
                 <div
                     style={{
@@ -90,7 +95,14 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                         paddingLeft: 10
                     }}
                 >
-                    {nodeProperties && <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} />}
+                    {nodeProperties && (
+                        <PropertyEditor
+                            nodeProperties={nodeProperties}
+                            readOnly={readOnly}
+                            requestParameterization={requestParameterization}
+                            updateNodeName={undefined}
+                        />
+                    )}
                 </div>
             )}
         </>

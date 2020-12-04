@@ -1,3 +1,4 @@
+import { property } from "lodash";
 import * as React from "react";
 import {
     ChoiceGroup,
@@ -14,6 +15,7 @@ import Localizer from "../../Localization/Localizer";
 import GraphValidator from "../../Models/MediaGraphValidator";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
 import Helpers from "../../Utils/Helpers";
+import { PropertyArrayObject } from "./PropertyArrayObject";
 import { PropertyDescription } from "./PropertyDescription";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
@@ -31,7 +33,8 @@ enum PropertyFormatType {
     string = "string",
     isoDuration = "isoDuration",
     boolean = "boolean",
-    object = "object"
+    object = "object",
+    array = "array"
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
@@ -40,6 +43,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const [value, setValue] = React.useState<string>(getInitialValue);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
 
+    const initValue = getInitialValue();
+    if (value !== initValue) {
+        setValue(initValue);
+    }
     const parameterized = !!(value && value.includes("${"));
 
     function getInitialValue() {
@@ -53,6 +60,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             }
             initValue = initValue + "";
         }
+        console.log("value ", nodeProperties[name], initValue);
         return initValue;
     }
 
@@ -186,6 +194,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 };
             })
         ];
+        if (value == null && options.length === 1) {
+            handleDropdownChange(undefined as any, options[0]);
+        }
         return (
             <Dropdown
                 placeholder={localizedPropertyStrings.placeholder}
@@ -249,6 +260,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 required={required}
                 requestParameterization={requestParameterization}
             />
+        );
+    } else if (property.type === PropertyFormatType.array) {
+        return (
+            <PropertyArrayObject name={name} property={property} nodeProperties={nodeProperties} required={required} requestParameterization={requestParameterization} />
         );
     } else {
         return (

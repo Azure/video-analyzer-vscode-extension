@@ -82,29 +82,7 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
                 />
             </Stack>
             {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
-            {readOnly ? (
-                <PropertyReadOnlyEditField name={definition.name} property={definition.name} nodeProperties={nodeProperties} />
-            ) : (
-                <PropertyEditField
-                    name={"name"}
-                    property={{ localizationKey: "MediaGraph.nodeName", type: "string" }}
-                    nodeProperties={nodeProperties}
-                    required={true}
-                    requestParameterization={requestParameterization}
-                    updateNodeName={updateNodeName}
-                />
-            )}
-            <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} />
-            <React.Suspense fallback={<></>}>
-                <ParameterEditor
-                    onSelectValue={setNewParameterizedValue}
-                    parameters={parameters}
-                    isShown={isParameterModalOpen}
-                    hideModal={hideModal}
-                    propertyName={parameterizationConfiguration?.name || ""}
-                    prevValue={parameterizationConfiguration?.prevValue || ""}
-                />
-            </React.Suspense>
+            <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} updateNodeName={updateNodeName} />
         </div>
     );
 };
