@@ -262,9 +262,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             />
         );
     } else if (property.type === PropertyFormatType.array) {
-        return (
-            <PropertyArrayObject name={name} property={property} nodeProperties={nodeProperties} required={required} requestParameterization={requestParameterization} />
-        );
+        return <PropertyArrayObject name={name} property={property} nodeProperties={nodeProperties} required={required} />;
     } else {
         return (
             <TextField

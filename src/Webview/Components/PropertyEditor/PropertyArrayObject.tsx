@@ -1,12 +1,5 @@
 import * as React from "react";
 import { Label, Stack, Text } from "@fluentui/react";
-import { useId } from "@uifabric/react-hooks";
-import { MediaGraphNodeInput } from "../../../Common/Types/LVASDKTypes";
-import Definitions from "../../Definitions/Definitions";
-import Localizer from "../../Localization/Localizer";
-import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
-import { PropertyDescription } from "./PropertyDescription";
-import { PropertyEditor } from "./PropertyEditor";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
 interface IPropertyArrayObjectProps {
@@ -15,11 +8,10 @@ interface IPropertyArrayObjectProps {
     nodeProperties: any;
     required: boolean;
     readOnly?: boolean;
-    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectProps> = (props) => {
-    const { name, property, nodeProperties, required, readOnly = false, requestParameterization } = props;
+    const { name, property, nodeProperties, required, readOnly = false } = props;
     const [arrayItems, setArrayItems] = React.useState([] as any[]);
 
     const properties = nodeProperties[name];

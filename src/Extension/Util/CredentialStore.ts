@@ -23,6 +23,9 @@ export class CredentialStore {
         }
         let connectionString: string | undefined | null = "";
         try {
+            if (this.keytar == null) {
+                this.keytar = CredentialStore.getCoreNodeModule("keytar");
+            }
             connectionString = await this.keytar.getPassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
         } catch (error) {
             connectionString = context.globalState.get(connectionInfo.connectionStringKey);
@@ -43,6 +46,9 @@ export class CredentialStore {
         });
 
         try {
+            if (this.keytar == null) {
+                this.keytar = CredentialStore.getCoreNodeModule("keytar");
+            }
             await this.keytar.setPassword(Constants.ExtensionId, connectionKey, connectionInfo.connectionString);
         } catch (error) {
             context.globalState.update(connectionKey, connectionInfo.connectionString);
@@ -53,8 +59,14 @@ export class CredentialStore {
         const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.LvaGlobalStateKey);
         context.globalState.update(Constants.LvaGlobalStateKey, null);
         if (connectionInfo) {
-            await this.keytar.deletePassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
-            context.globalState.update(connectionInfo.connectionStringKey, null);
+            try {
+                if (this.keytar == null) {
+                    this.keytar = CredentialStore.getCoreNodeModule("keytar");
+                }
+                await this.keytar.deletePassword(Constants.ExtensionId, connectionInfo.connectionStringKey);
+            } catch (error) {
+                context.globalState.update(connectionInfo.connectionStringKey, null);
+            }
         }
     }
 
