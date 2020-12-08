@@ -3,6 +3,11 @@
         "title": "Instance",
         "description": "Represents an instance of a media graph."
     },
+    "MediaGraphInstance.name": {
+        "title": "Name",
+        "description": "The identifier for the media graph instance.",
+        "placeholder": ""
+    },
     "MediaGraphInstanceProperties": {
         "title": "Instance properties",
         "description": "Properties of a media graph instance."
@@ -49,12 +54,12 @@
     },
     "MediaGraphParameterDefinition.name": {
         "title": "Name",
-        "description": "Name of parameter as defined in the media graph topology.",
+        "description": "The name of the parameter defined in the media graph topology.",
         "placeholder": ""
     },
     "MediaGraphParameterDefinition.value": {
         "title": "Value",
-        "description": "Value of parameter.",
+        "description": "The value to supply for the named parameter defined in the media graph topology.",
         "placeholder": ""
     },
     "MediaGraphInstanceCollection": {
@@ -87,11 +92,41 @@
     },
     "MediaGraphTopology": {
         "title": "Topology",
-        "description": "A description of a media graph topology."
+        "description": "The definition of a media graph topology."
+    },
+    "MediaGraphTopology.name": {
+        "title": "Name",
+        "description": "The identifier for the media graph topology.",
+        "placeholder": ""
     },
     "MediaGraphTopologyProperties": {
         "title": "Topology properties",
         "description": "A description of the properties of a media graph topology."
+    },
+    "MediaGraphTopologyProperties.description": {
+        "title": "Description",
+        "description": "A description of a media graph topology. It is recommended to use this to describe the expected use of the topology.",
+        "placeholder": ""
+    },
+    "MediaGraphTopologyProperties.parameters": {
+        "title": "Parameters",
+        "description": "The list of parameters defined in the topology. The value for these parameters are supplied by instances of this topology.",
+        "placeholder": ""
+    },
+    "MediaGraphTopologyProperties.sources": {
+        "title": "Sources",
+        "description": "The list of source nodes in this topology.",
+        "placeholder": ""
+    },
+    "MediaGraphTopologyProperties.processors": {
+        "title": "Processors",
+        "description": "The list of processor nodes in this topology.",
+        "placeholder": ""
+    },
+    "MediaGraphTopologyProperties.sinks": {
+        "title": "Sinks",
+        "description": "The list of sink nodes in this topology.",
+        "placeholder": ""
     },
     "MediaGraphSystemData": {
         "title": "System data",
@@ -114,6 +149,11 @@
     "MediaGraphParameterDeclaration.name": {
         "title": "Name",
         "description": "The name of the parameter.",
+        "placeholder": ""
+    },
+    "MediaGraphParameterDeclaration.type": {
+        "title": "Type",
+        "description": "The type of the parameter.",
         "placeholder": ""
     },
     "MediaGraphParameterDeclaration.type.String": {
@@ -317,7 +357,7 @@
     },
     "MediaGraphSink.name": {
         "title": "Name",
-        "description": "Name to be used for the media graph sink.",
+        "description": "The name to be used for the media graph sink.",
         "placeholder": ""
     },
     "MediaGraphSink.inputs": {
@@ -377,12 +417,12 @@
     "MediaGraphFileSink.baseDirectoryPath": {
         "title": "Base directory path",
         "description": "Absolute directory for all outputs to the Edge device from this sink.",
-        "placeholder": ""
+        "placeholder": "/var/media/output/"
     },
     "MediaGraphFileSink.fileNamePattern": {
         "title": "File name pattern",
-        "description": "File name pattern for creating new files on the Edge device.",
-        "placeholder": ""
+        "description": "File name pattern for creating new files on the Edge device. The pattern must include at least one system variable. See the documentation for available variables and additional examples.",
+        "placeholder": "mySampleFile-${System.GraphTopologyName}-${System.GraphInstanceName}-${System.DateTime}"
     },
     "MediaGraphFileSink.maximumSizeMiB": {
         "title": "Maximum size MiB",
@@ -395,8 +435,8 @@
     },
     "MediaGraphAssetSink.assetNamePattern": {
         "title": "Asset name pattern",
-        "description": "A name pattern when creating new assets.",
-        "placeholder": ""
+        "description": "A name pattern when creating new assets. The pattern must include at least one system variable. See the documentation for available variables and additional examples.",
+        "placeholder": "MySampleAsset-${System.GraphTopologyName}-${System.GraphInstanceName}-${System.DateTime}"
     },
     "MediaGraphAssetSink.segmentLength": {
         "title": "Segment length",
@@ -406,7 +446,7 @@
     "MediaGraphAssetSink.localMediaCachePath": {
         "title": "Local media cache path",
         "description": "Path to a local file system directory for temporary caching of media before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure.",
-        "placeholder": ""
+        "placeholder": "/var/lib/lva/tmp/"
     },
     "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB": {
         "title": "Local media cache maximum size MiB",
@@ -492,7 +532,7 @@
     },
     "MediaGraphGrpcExtension.dataTransfer": {
         "title": "Data transfer",
-        "description": "How media should be transferred to the inferencing engine.",
+        "description": "How media should be transferred to the inference engine.",
         "placeholder": ""
     },
     "MediaGraphGrpcExtension.extensionConfiguration": {
@@ -502,7 +542,7 @@
     },
     "MediaGraphGrpcExtensionDataTransfer": {
         "title": "gRPC extension data transfer",
-        "description": "Describes how media should be transferred to the inferencing engine."
+        "description": "Describes how media should be transferred to the inference engine."
     },
     "MediaGraphGrpcExtensionDataTransfer.sharedMemorySizeMiB": {
         "title": "Shared memory size MiB",
@@ -511,7 +551,7 @@
     },
     "MediaGraphGrpcExtensionDataTransfer.mode": {
         "title": "Mode",
-        "description": "How frame data should be transmitted to the inferencing engine.",
+        "description": "How frame data should be transmitted to the inference engine.",
         "placeholder": ""
     },
     "MediaGraphGrpcExtensionDataTransfer.mode.Embedded": {
@@ -587,6 +627,11 @@
     "MediaGraphImageFormatRaw": {
         "title": "Image format raw",
         "description": "Encoding settings for raw images."
+    },
+    "MediaGraphImageFormatRaw.pixelFormat": {
+        "title": "Pixel format",
+        "description": "The pixel format that will be used to encode images.",
+        "placeholder": ""
     },
     "MediaGraphImageFormatRaw.pixelFormat.Yuv420p": {
         "title": "Yuv420p",

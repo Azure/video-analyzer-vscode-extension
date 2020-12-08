@@ -23,6 +23,7 @@ export interface NodeDefinitionProperty {
     parsedRef?: string;
     format?: string;
     properties?: Record<string, NodeDefinitionProperty | undefined>;
+    discriminator?: string;
     description?: string;
     required?: string[];
     enum?: string[];

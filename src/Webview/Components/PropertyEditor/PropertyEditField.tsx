@@ -9,7 +9,7 @@ import {
     Text,
     TextField
 } from "@fluentui/react";
-import { useId } from "@uifabric/react-hooks";
+import { useBoolean, useId } from "@uifabric/react-hooks";
 import customPropertyTypes from "../../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../../Localization/Localizer";
 import GraphValidator from "../../Models/MediaGraphValidator";
@@ -42,12 +42,12 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(getInitialValue);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
+    const [isParameterized, { setFalse: setParameterizeFalse }] = useBoolean(!!(value && typeof value === "string" && value.includes("${")));
 
     const initValue = getInitialValue();
     if (value !== initValue) {
         setValue(initValue);
     }
-    const parameterized = !!(value && value.includes("${"));
 
     function getInitialValue() {
         let initValue = nodeProperties[name];
@@ -60,7 +60,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             }
             initValue = initValue + "";
         }
-        console.log("value ", nodeProperties[name], initValue);
         return initValue;
     }
 
@@ -159,13 +158,18 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 property={property}
                 labelId={labelId}
                 useParameter={requestParameterization && requestAndInsertParameter}
-                isParameterized={parameterized}
-                setNewValue={setNewValue}
+                isParameterized={isParameterized}
+                setNewValue={(newValue) => {
+                    if (!newValue) {
+                        setParameterizeFalse();
+                    }
+                    setNewValue(newValue);
+                }}
             />
         );
     }
 
-    if (property.type !== PropertyFormatType.object && parameterized) {
+    if (property.type !== PropertyFormatType.object && isParameterized) {
         return (
             <TextField
                 label={name}

@@ -62,7 +62,6 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
             onSelectionChanged: () => {
                 const selectedItems = selection.getSelection();
                 if (selectedItems?.length) {
-                    console.log(selectedItems);
                     if (setSelectedValue) {
                         setSelectedValue(`$\{${(selectedItems[0] as IColumn).name}}`);
                     }

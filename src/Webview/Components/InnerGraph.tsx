@@ -97,20 +97,13 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
         inspectNode(node);
     };
 
-    const dismissSidePanel = () => {
-        if (propsApiRef.current) {
-            propsApiRef.current.dismissSidePanel();
-        }
-        if (triggerValidation) {
-            triggerValidation();
-        }
-    };
-
     const handleEvent = (event: IEvent) => {
         switch (event.type) {
             case GraphCanvasEvent.Click:
                 // This event will be triggered when clicking empty space on canvas
-                dismissSidePanel();
+                if (triggerValidation) {
+                    triggerValidation();
+                }
                 break;
             case GraphNodeEvent.Click:
                 onNodeClick(event.node);

@@ -9,10 +9,8 @@
       ],
       "properties": {
         "name": {
-          "type": "string"
-        },
-        "@apiVersion": {
-          "type": "string"
+          "type": "string",
+          "localizationKey": "MediaGraphInstance.name"
         },
         "systemData": {
           "parsedRef": "#/definitions/MediaGraphSystemData",
@@ -190,6 +188,7 @@
     {
       "name": "MediaGraphInstanceCollection",
       "nodeType": "other",
+      "type": "object",
       "properties": {
         "value": {
           "type": "array",
@@ -201,10 +200,8 @@
             ],
             "properties": {
               "name": {
-                "type": "string"
-              },
-              "@apiVersion": {
-                "type": "string"
+                "type": "string",
+                "localizationKey": "MediaGraphInstance.name"
               },
               "systemData": {
                 "parsedRef": "#/definitions/MediaGraphSystemData",
@@ -304,6 +301,7 @@
     {
       "name": "MediaGraphTopologyCollection",
       "nodeType": "other",
+      "type": "object",
       "properties": {
         "value": {
           "type": "array",
@@ -315,10 +313,8 @@
             ],
             "properties": {
               "name": {
-                "type": "string"
-              },
-              "@apiVersion": {
-                "type": "string"
+                "type": "string",
+                "localizationKey": "MediaGraphTopology.name"
               },
               "systemData": {
                 "parsedRef": "#/definitions/MediaGraphSystemData",
@@ -342,7 +338,8 @@
                 "type": "object",
                 "properties": {
                   "description": {
-                    "type": "string"
+                    "type": "string",
+                    "localizationKey": "MediaGraphTopologyProperties.description"
                   },
                   "parameters": {
                     "type": "array",
@@ -388,7 +385,8 @@
                               }
                             ],
                             "modelAsString": false
-                          }
+                          },
+                          "localizationKey": "MediaGraphParameterDeclaration.type"
                         },
                         "description": {
                           "type": "string",
@@ -400,7 +398,8 @@
                         }
                       },
                       "localizationKey": "MediaGraphParameterDeclaration"
-                    }
+                    },
+                    "localizationKey": "MediaGraphTopologyProperties.parameters"
                   },
                   "sources": {
                     "type": "array",
@@ -423,7 +422,8 @@
                         }
                       },
                       "localizationKey": "MediaGraphSource"
-                    }
+                    },
+                    "localizationKey": "MediaGraphTopologyProperties.sources"
                   },
                   "processors": {
                     "type": "array",
@@ -513,7 +513,8 @@
                         }
                       },
                       "localizationKey": "MediaGraphProcessor"
-                    }
+                    },
+                    "localizationKey": "MediaGraphTopologyProperties.processors"
                   },
                   "sinks": {
                     "type": "array",
@@ -603,7 +604,8 @@
                         }
                       },
                       "localizationKey": "MediaGraphSink"
-                    }
+                    },
+                    "localizationKey": "MediaGraphTopologyProperties.sinks"
                   }
                 },
                 "localizationKey": "MediaGraphTopologyProperties"
@@ -629,10 +631,8 @@
       ],
       "properties": {
         "name": {
-          "type": "string"
-        },
-        "@apiVersion": {
-          "type": "string"
+          "type": "string",
+          "localizationKey": "MediaGraphTopology.name"
         },
         "systemData": {
           "parsedRef": "#/definitions/MediaGraphSystemData",
@@ -656,7 +656,8 @@
           "type": "object",
           "properties": {
             "description": {
-              "type": "string"
+              "type": "string",
+              "localizationKey": "MediaGraphTopologyProperties.description"
             },
             "parameters": {
               "type": "array",
@@ -702,7 +703,8 @@
                         }
                       ],
                       "modelAsString": false
-                    }
+                    },
+                    "localizationKey": "MediaGraphParameterDeclaration.type"
                   },
                   "description": {
                     "type": "string",
@@ -714,7 +716,8 @@
                   }
                 },
                 "localizationKey": "MediaGraphParameterDeclaration"
-              }
+              },
+              "localizationKey": "MediaGraphTopologyProperties.parameters"
             },
             "sources": {
               "type": "array",
@@ -737,7 +740,8 @@
                   }
                 },
                 "localizationKey": "MediaGraphSource"
-              }
+              },
+              "localizationKey": "MediaGraphTopologyProperties.sources"
             },
             "processors": {
               "type": "array",
@@ -827,7 +831,8 @@
                   }
                 },
                 "localizationKey": "MediaGraphProcessor"
-              }
+              },
+              "localizationKey": "MediaGraphTopologyProperties.processors"
             },
             "sinks": {
               "type": "array",
@@ -917,7 +922,8 @@
                   }
                 },
                 "localizationKey": "MediaGraphSink"
-              }
+              },
+              "localizationKey": "MediaGraphTopologyProperties.sinks"
             }
           },
           "localizationKey": "MediaGraphTopologyProperties"
@@ -931,7 +937,8 @@
       "type": "object",
       "properties": {
         "description": {
-          "type": "string"
+          "type": "string",
+          "localizationKey": "MediaGraphTopologyProperties.description"
         },
         "parameters": {
           "type": "array",
@@ -977,7 +984,8 @@
                     }
                   ],
                   "modelAsString": false
-                }
+                },
+                "localizationKey": "MediaGraphParameterDeclaration.type"
               },
               "description": {
                 "type": "string",
@@ -989,7 +997,8 @@
               }
             },
             "localizationKey": "MediaGraphParameterDeclaration"
-          }
+          },
+          "localizationKey": "MediaGraphTopologyProperties.parameters"
         },
         "sources": {
           "type": "array",
@@ -1012,7 +1021,8 @@
               }
             },
             "localizationKey": "MediaGraphSource"
-          }
+          },
+          "localizationKey": "MediaGraphTopologyProperties.sources"
         },
         "processors": {
           "type": "array",
@@ -1102,7 +1112,8 @@
               }
             },
             "localizationKey": "MediaGraphProcessor"
-          }
+          },
+          "localizationKey": "MediaGraphTopologyProperties.processors"
         },
         "sinks": {
           "type": "array",
@@ -1192,7 +1203,8 @@
               }
             },
             "localizationKey": "MediaGraphSink"
-          }
+          },
+          "localizationKey": "MediaGraphTopologyProperties.sinks"
         }
       },
       "localizationKey": "MediaGraphTopologyProperties"
@@ -1258,7 +1270,8 @@
               }
             ],
             "modelAsString": false
-          }
+          },
+          "localizationKey": "MediaGraphParameterDeclaration.type"
         },
         "description": {
           "type": "string",
@@ -1375,6 +1388,7 @@
     {
       "name": "MediaGraphIoTHubMessageSource",
       "nodeType": "source",
+      "type": "object",
       "properties": {
         "@type": {
           "type": "string",
@@ -3521,7 +3535,8 @@
               }
             ],
             "modelAsString": true
-          }
+          },
+          "localizationKey": "MediaGraphImageFormatRaw.pixelFormat"
         }
       },
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatRaw",
@@ -3715,11 +3730,11 @@
       "children": [
         {
           "extra": {
-            "id": "98d95961-19c7-411c-b523-9995195b44b8",
+            "id": "e945c2c2-dfdd-422b-a246-74db3fbbc7a5",
             "shape": "module",
             "ports": [
               {
-                "id": "2abe7b31-e31d-4025-a69f-8665488e3c1d",
+                "id": "3bfd1939-cb4b-49f0-8877-c8d0986347d2",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -3734,16 +3749,16 @@
               "nodeType": "source"
             }
           },
-          "id": "65352094-8b9b-4851-8e84-ea9834ab65f7",
+          "id": "ce876f15-4758-42cf-8953-b581b1d7e453",
           "children": []
         },
         {
           "extra": {
-            "id": "67b87c44-8a37-4e03-ba3e-f9862a3e367e",
+            "id": "0c3498db-f72f-44e6-918b-1359dd219e90",
             "shape": "module",
             "ports": [
               {
-                "id": "e19046c2-9521-44f6-89a0-2e1d2dbb0096",
+                "id": "a2fc563b-7c12-4c73-be45-9a76e0ed483d",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -3758,7 +3773,7 @@
               "nodeType": "source"
             }
           },
-          "id": "6579f1c5-eede-463f-8a44-fceaf1441b1f",
+          "id": "794bd34f-1df1-414a-94be-79325414b604",
           "children": []
         }
       ],
@@ -3773,18 +3788,18 @@
       "children": [
         {
           "extra": {
-            "id": "c03d5602-0a60-435e-ac3f-bc797521fd7c",
+            "id": "c354878d-cac8-4d82-ae63-82bd747481ea",
             "shape": "module",
             "ports": [
               {
-                "id": "b2fbd23c-f114-4f47-8c47-8d0125666246",
+                "id": "848bf886-854f-4ed7-9a0a-b8b217551ec5",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "b8b45dea-00ed-4e41-aa4a-73449dfe1a11",
+                "id": "d9d7e253-cfdc-4cd4-9396-ea937efa6632",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3799,23 +3814,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "86fe04c2-040c-451e-933e-e2117c2f095c",
+          "id": "32323910-f149-4a0b-aae0-88ca385b547f",
           "children": []
         },
         {
           "extra": {
-            "id": "5b4c0fdf-6886-4646-90d2-116fad8bae01",
+            "id": "5b4e8fb8-41cc-4110-9e92-a3c9bda9db81",
             "shape": "module",
             "ports": [
               {
-                "id": "9d098f89-c0fd-4d2f-9272-205424f3679b",
+                "id": "f234be00-17fc-42c5-83b5-fe607c0a3a75",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "bb4786b8-13c0-4770-bb9c-5bb1c6cedac8",
+                "id": "4c7909ab-1064-488a-930a-291372160383",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3830,23 +3845,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "2b46612b-abd7-486e-a0b0-c80bb419f623",
+          "id": "d695534f-14f7-4968-9053-72009c78c7aa",
           "children": []
         },
         {
           "extra": {
-            "id": "7cd51258-6558-4bbf-ad55-a0c5f8a7719d",
+            "id": "8f502b0c-3b60-43ae-846f-36802461ac96",
             "shape": "module",
             "ports": [
               {
-                "id": "8ed97e2a-8265-445c-8666-0d95ecb446b7",
+                "id": "77e79d34-9641-4398-9d80-12b51ed1b9af",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "830a3001-bdde-4a2a-9733-522e6f6ec60f",
+                "id": "cff3c22d-50c2-42b5-9dc3-170e72db4a9b",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3861,23 +3876,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "ea2b7914-c077-4ffe-8e70-714dd24ded0a",
+          "id": "8c10c694-8b2e-4a6b-92bf-532fd1074cfe",
           "children": []
         },
         {
           "extra": {
-            "id": "131b4ab9-2534-4bf1-9f5c-e47c53720f04",
+            "id": "e743b8d3-bad8-4919-8613-cae4cdcdfd34",
             "shape": "module",
             "ports": [
               {
-                "id": "13cfbaef-e4cf-4697-b75b-17f63d534011",
+                "id": "486fbee7-d66b-4530-bab4-e4b0c62d1f99",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "652b78d9-b539-4a13-97f2-62b205cb2643",
+                "id": "c3a3977b-39a7-4304-b151-95923a3bc6ae",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3892,23 +3907,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "866de078-480f-410f-aaf3-e63a6fb926d1",
+          "id": "bd0a8b42-aae7-4be5-a08b-90de00e8c368",
           "children": []
         },
         {
           "extra": {
-            "id": "53e30fdf-9d43-498e-8c6c-0d1cf82f14c8",
+            "id": "8da6ba89-ae35-413b-8e12-e27d0162199a",
             "shape": "module",
             "ports": [
               {
-                "id": "36e63b21-b70c-4ad8-8915-eeeba1677e27",
+                "id": "b10c4583-d07b-4db5-af6f-7658f34236c5",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "f2fdd768-d07c-4211-97d9-f19337c3e7c7",
+                "id": "8bee662b-29ab-4f82-b445-e215133bba62",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3923,7 +3938,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "175b5ded-766c-4e78-8817-bc994df8e8f7",
+          "id": "bba48ffd-618f-40e6-8790-8501189fe626",
           "children": []
         }
       ],
@@ -3938,11 +3953,11 @@
       "children": [
         {
           "extra": {
-            "id": "56e715a7-12ff-4597-a21d-a2d77f323b17",
+            "id": "d074896d-8227-4eab-8348-8a194b53d8ff",
             "shape": "module",
             "ports": [
               {
-                "id": "da76599c-5982-4569-837c-9dfa732047a6",
+                "id": "0b11909a-4ccf-4e34-8074-6e0f9d891f40",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3957,16 +3972,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "6201c57e-a395-4c9e-bda6-d6a2d61df587",
+          "id": "af673bba-959b-45f8-a78f-dc647960323e",
           "children": []
         },
         {
           "extra": {
-            "id": "89b62a84-c9a6-47a0-9b53-7d36a591473f",
+            "id": "1790c325-3a53-45c2-92ed-ccec84106045",
             "shape": "module",
             "ports": [
               {
-                "id": "5ea9f407-904c-4c33-ada4-34954609a41b",
+                "id": "137a1313-57e6-4b33-8bdb-c9303b9edf87",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3981,16 +3996,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "53883e17-5fc6-40d0-bedb-831758c60583",
+          "id": "e000e274-df5c-4612-8db5-ab8cf12e2bda",
           "children": []
         },
         {
           "extra": {
-            "id": "6bd29e12-f7b9-4e6e-a0df-61644edc7f3c",
+            "id": "f52dc90f-f63e-438e-9e1f-d2a97e873b37",
             "shape": "module",
             "ports": [
               {
-                "id": "a458aecf-51c6-4a63-9adf-59ad7abab643",
+                "id": "2d649b7c-6fb6-4b19-925f-e13b5b1c5db6",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -4005,7 +4020,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "ef63b452-e097-4707-b0b8-96393d80b65f",
+          "id": "c700a7dd-ce63-4ad1-8461-29fe19c1a1fd",
           "children": []
         }
       ],

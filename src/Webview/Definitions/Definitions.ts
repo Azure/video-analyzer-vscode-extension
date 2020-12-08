@@ -19,7 +19,7 @@ export default class Definitions {
 
         for (const candidateNode of availableNodes) {
             const nodeInheritsFrom = candidateNode.parsedAllOf && candidateNode.parsedAllOf.includes(fullParentTypeRef);
-            if (nodeInheritsFrom || candidateNode.name === parentType) {
+            if (nodeInheritsFrom || (!nodeInheritsFrom && candidateNode.name === parentType && candidateNode.discriminator == null)) {
                 compatibleNodes.push(candidateNode);
             }
         }

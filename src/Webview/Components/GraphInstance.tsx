@@ -58,7 +58,6 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
     let errorsFromResponse: ValidationError[] = [];
 
-    console.log("instance", instance);
     let instanceNameValidationError: ValidationError | undefined;
 
     let initialParams: GraphInstanceParameter[] = [];

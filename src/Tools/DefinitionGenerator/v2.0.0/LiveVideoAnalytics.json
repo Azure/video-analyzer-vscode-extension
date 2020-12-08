@@ -13,295 +13,7 @@
             "sharedAccessSignature": []
         }
     ],
-    "paths": {
-        "/api/GraphTopology": {
-            "get": {
-                "summary": "Retrieves a list of graph topologies.",
-                "description": "Retrieves a list of graph topologies that have been added to the Live Video Analytics IoT Edge module.",
-                "operationId": "GraphTopologyList",
-                "produces": ["application/json"],
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "Graph Topologies were successfully retrieved from the Live Video Analytics IoT Edge module.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphTopologyCollection"
-                        }
-                    }
-                },
-                "x-ms-examples": {
-                    "List all Graph Topologies": {
-                        "$ref": "examples/GraphTopologyList.json"
-                    }
-                }
-            },
-            "put": {
-                "summary": "Creates or updates a graph topology.",
-                "description": "Creates a new topology or updates an existing one, with the given name. A topology is a blueprint defining what nodes are in a graph, and how they are interconnected.",
-                "operationId": "GraphTopologySet",
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "topology",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphTopology"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Existing graph topology updated.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphTopology"
-                        }
-                    },
-                    "201": {
-                        "description": "New graph topology created.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphTopology"
-                        }
-                    }
-                },
-                "x-ms-examples": {
-                    "Create or Update a Graph Topology": {
-                        "$ref": "examples/GraphTopologySet.json"
-                    }
-                }
-            }
-        },
-        "/api/GraphTopology/{name}": {
-            "get": {
-                "summary": "Gets a graph topology by name.",
-                "description": "Retrieves a graph topology by name. If a topology with that name has been previously set, then the call will return the JSON representation of that topology.",
-                "operationId": "GraphTopologyGet",
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "description": "Name of the graph topology to be retrieved.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Graph topology retrieved successfully.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphTopology"
-                        }
-                    },
-                    "404": {
-                        "description": "Graph topology was not found."
-                    }
-                },
-                "x-ms-examples": {
-                    "Get a Graph Topology": {
-                        "$ref": "examples/GraphTopologyGet.json"
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Deletes a graph topology.",
-                "description": "Deletes a graph topology with the given name. This method should be called after all instances of the topology have been stopped and deleted.",
-                "operationId": "GraphTopologyDelete",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "description": "Name of the graph topology to be deleted.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Graph topology deleted successfully."
-                    },
-                    "204": {
-                        "description": "Graph topology not found."
-                    }
-                },
-                "x-ms-examples": {
-                    "Delete a Graph Topology": {
-                        "$ref": "examples/GraphTopologyDelete.json"
-                    }
-                }
-            }
-        },
-        "/api/GraphInstance": {
-            "get": {
-                "summary": "Retrieves a list of graph instances.",
-                "description": "Retrieves a list of graph instances, if any, that have been created in the Live Video Analytics IoT Edge module.",
-                "operationId": "GraphInstanceList",
-                "produces": ["application/json"],
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "List of graph instances that were successfully retrieved.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphInstanceCollection"
-                        }
-                    }
-                },
-                "x-ms-examples": {
-                    "List all Graph Instances": {
-                        "$ref": "examples/GraphInstanceList.json"
-                    }
-                }
-            },
-            "put": {
-                "summary": "Creates or updates a graph instance.",
-                "description": "Creates or updates a graph instance.",
-                "operationId": "GraphInstanceSet",
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "instance",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphInstance"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Graph instance updated.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphInstance"
-                        }
-                    },
-                    "201": {
-                        "description": "New graph instance created.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphInstance"
-                        }
-                    }
-                },
-                "x-ms-examples": {
-                    "Create or Update a Graph Instance": {
-                        "$ref": "examples/GraphInstanceSet.json"
-                    }
-                }
-            }
-        },
-        "/api/GraphInstance/{name}": {
-            "get": {
-                "summary": "Gets a graph instance by name.",
-                "description": "Retrieves a  graph instance by name. If a graph instance with that name has been previously created, then the direct method call will return the JSON representation of that instance.",
-                "operationId": "GraphInstanceGet",
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "description": "Name of the graph instance to be retrieved.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Graph instance retrieved successfully.",
-                        "schema": {
-                            "$ref": "#/definitions/MediaGraphInstance"
-                        }
-                    },
-                    "404": {
-                        "description": "Graph instance not found."
-                    }
-                },
-                "x-ms-examples": {
-                    "Get a Graph Instance": {
-                        "$ref": "examples/GraphInstanceGet.json"
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Deletes a graph instance.",
-                "description": "Deletes a graph instance.",
-                "operationId": "GraphInstanceDelete",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "description": "Name of the graph instance to be deleted.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Graph instance deleted successfully."
-                    },
-                    "204": {
-                        "description": "Graph instance not found."
-                    }
-                },
-                "x-ms-examples": {
-                    "Delete a Graph Instance": {
-                        "$ref": "examples/GraphInstanceDelete.json"
-                    }
-                }
-            }
-        },
-        "/api/GraphInstance/{name}/activate": {
-            "post": {
-                "summary": "Activate a given graph instance.",
-                "description": "Activates a graph instance with the name provided, if it exists.",
-                "operationId": "GraphInstanceActivate",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "description": "Name of the graph instance to be activated.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Graph instance activated successfully."
-                    }
-                },
-                "x-ms-examples": {
-                    "Activate a Graph Instance": {
-                        "$ref": "examples/GraphInstanceStateChange.json"
-                    }
-                }
-            }
-        },
-        "/api/GraphInstance/{name}/deactivate": {
-            "post": {
-                "summary": "Deactivate a graph instance.",
-                "description": "Deactivates a graph instance with the name provided, if it is active.",
-                "operationId": "GraphInstanceDeactivate",
-                "produces": ["application/json"],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "description": "Name of the graph instance to be deactivated.",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Graph instance deactivated successfully."
-                    }
-                },
-                "x-ms-examples": {
-                    "Deactivate a Graph Instance": {
-                        "$ref": "examples/GraphInstanceStateChange.json"
-                    }
-                }
-            }
-        }
-    },
+    "paths": {},
     "securityDefinitions": {
         "sharedAccessSignature": {
             "type": "apiKey",
@@ -315,10 +27,8 @@
             "required": ["name"],
             "properties": {
                 "name": {
-                    "type": "string"
-                },
-                "@apiVersion": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The identifier for the media graph instance."
                 },
                 "systemData": {
                     "$ref": "#/definitions/MediaGraphSystemData"
@@ -383,16 +93,17 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Name of parameter as defined in the media graph topology."
+                    "description": "The name of the parameter defined in the media graph topology."
                 },
                 "value": {
                     "type": "string",
-                    "description": "Value of parameter."
+                    "description": "The value to supply for the named parameter defined in the media graph topology."
                 }
             },
             "description": "A key-value pair. A media graph topology allows certain values to be parameterized. When an instance is created, the parameters are supplied with arguments specific to that instance. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters."
         },
         "MediaGraphInstanceCollection": {
+            "type": "object",
             "properties": {
                 "value": {
                     "type": "array",
@@ -409,6 +120,7 @@
             "description": "A collection of media graph instances."
         },
         "MediaGraphTopologyCollection": {
+            "type": "object",
             "properties": {
                 "value": {
                     "type": "array",
@@ -429,10 +141,8 @@
             "required": ["name"],
             "properties": {
                 "name": {
-                    "type": "string"
-                },
-                "@apiVersion": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The identifier for the media graph topology."
                 },
                 "systemData": {
                     "$ref": "#/definitions/MediaGraphSystemData"
@@ -441,37 +151,42 @@
                     "$ref": "#/definitions/MediaGraphTopologyProperties"
                 }
             },
-            "description": "A description of a media graph topology."
+            "description": "The definition of a media graph topology."
         },
         "MediaGraphTopologyProperties": {
             "type": "object",
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "A description of a media graph topology. It is recommended to use this to describe the expected use of the topology."
                 },
                 "parameters": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MediaGraphParameterDeclaration"
-                    }
+                    },
+                    "description": "The list of parameters defined in the topology. The value for these parameters are supplied by instances of this topology."
                 },
                 "sources": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MediaGraphSource"
-                    }
+                    },
+                    "description": "The list of source nodes in this topology."
                 },
                 "processors": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MediaGraphProcessor"
-                    }
+                    },
+                    "description": "The list of processor nodes in this topology."
                 },
                 "sinks": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MediaGraphSink"
-                    }
+                    },
+                    "description": "The list of sink nodes in this topology."
                 }
             },
             "description": "A description of the properties of a media graph topology."
@@ -503,6 +218,7 @@
                 },
                 "type": {
                     "type": "string",
+                    "description": "The type of the parameter.",
                     "enum": ["String", "SecretString", "Int", "Double", "Bool"],
                     "x-ms-enum": {
                         "name": "MediaGraphParameterType",
@@ -595,6 +311,7 @@
             "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphRtspSource"
         },
         "MediaGraphIoTHubMessageSource": {
+            "type": "object",
             "properties": {
                 "hubInputName": {
                     "type": "string",
@@ -787,7 +504,7 @@
                 },
                 "name": {
                     "type": "string",
-                    "description": "Name to be used for the media graph sink."
+                    "description": "The name to be used for the media graph sink."
                 },
                 "inputs": {
                     "type": "array",
@@ -865,11 +582,13 @@
             "properties": {
                 "baseDirectoryPath": {
                     "type": "string",
-                    "description": "Absolute directory for all outputs to the Edge device from this sink."
+                    "description": "Absolute directory for all outputs to the Edge device from this sink.",
+                    "example": "/var/media/output/"
                 },
                 "fileNamePattern": {
                     "type": "string",
-                    "description": "File name pattern for creating new files on the Edge device."
+                    "description": "File name pattern for creating new files on the Edge device. The pattern must include at least one system variable. See the documentation for available variables and additional examples.",
+                    "example": "mySampleFile-${System.GraphTopologyName}-${System.GraphInstanceName}-${System.DateTime}"
                 },
                 "maximumSizeMiB": {
                     "type": "string",
@@ -890,7 +609,8 @@
             "properties": {
                 "assetNamePattern": {
                     "type": "string",
-                    "description": "A name pattern when creating new assets."
+                    "description": "A name pattern when creating new assets. The pattern must include at least one system variable. See the documentation for available variables and additional examples.",
+                    "example": "MySampleAsset-${System.GraphTopologyName}-${System.GraphInstanceName}-${System.DateTime}"
                 },
                 "segmentLength": {
                     "type": "string",
@@ -899,7 +619,8 @@
                 },
                 "localMediaCachePath": {
                     "type": "string",
-                    "description": "Path to a local file system directory for temporary caching of media before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure."
+                    "description": "Path to a local file system directory for temporary caching of media before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure.",
+                    "example": "/var/lib/lva/tmp/"
                 },
                 "localMediaCacheMaximumSizeMiB": {
                     "type": "string",
@@ -1022,7 +743,7 @@
             "required": ["dataTransfer"],
             "properties": {
                 "dataTransfer": {
-                    "description": "How media should be transferred to the inferencing engine.",
+                    "description": "How media should be transferred to the inference engine.",
                     "$ref": "#/definitions/MediaGraphGrpcExtensionDataTransfer"
                 },
                 "extensionConfiguration": {
@@ -1048,7 +769,7 @@
                 },
                 "mode": {
                     "type": "string",
-                    "description": "How frame data should be transmitted to the inferencing engine.",
+                    "description": "How frame data should be transmitted to the inference engine.",
                     "enum": ["Embedded", "SharedMemory"],
                     "x-ms-enum": {
                         "name": "MediaGraphGrpcExtensionDataTransferMode",
@@ -1066,7 +787,7 @@
                     }
                 }
             },
-            "description": "Describes how media should be transferred to the inferencing engine.",
+            "description": "Describes how media should be transferred to the inference engine.",
             "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphGrpcExtensionDataTransfer"
         },
         "MediaGraphHttpExtension": {
@@ -1162,6 +883,7 @@
             "properties": {
                 "pixelFormat": {
                     "type": "string",
+                    "description": "The pixel format that will be used to encode images.",
                     "enum": ["Yuv420p", "Rgb565be", "Rgb565le", "Rgb555be", "Rgb555le", "Rgb24", "Bgr24", "Argb", "Rgba", "Abgr", "Bgra"],
                     "x-ms-enum": {
                         "name": "MediaGraphImageFormatRawPixelFormat",
@@ -1218,8 +940,7 @@
             "allOf": [
                 {
                     "$ref": "#/definitions/MediaGraphImageFormat"
-                },
-                {}
+                }
             ],
             "description": "Encoding settings for raw images.",
             "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphImageFormatRaw"

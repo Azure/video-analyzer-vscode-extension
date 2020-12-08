@@ -83,6 +83,16 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
             </Stack>
             {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
             <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} updateNodeName={updateNodeName} />
+            <React.Suspense fallback={<></>}>
+                <ParameterEditor
+                    onSelectValue={setNewParameterizedValue}
+                    parameters={parameters}
+                    isShown={isParameterModalOpen}
+                    hideModal={hideModal}
+                    propertyName={parameterizationConfiguration?.name || ""}
+                    prevValue={parameterizationConfiguration?.prevValue || ""}
+                />
+            </React.Suspense>
         </div>
     );
 };

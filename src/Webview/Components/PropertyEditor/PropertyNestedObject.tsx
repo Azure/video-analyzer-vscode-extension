@@ -20,9 +20,13 @@ interface IPropertyNestedObjectProps {
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
     const { property, nodeProperties, required, readOnly = false, requestParameterization, hideDropDown } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
-    const [type, setType] = React.useState<string>(initType);
+    const [type, setType] = React.useState<string>();
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
+
+    if (type !== initType) {
+        setType(initType);
+    }
 
     React.useEffect(() => {
         if (type == null && required) {
@@ -45,16 +49,18 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
         }
     }
 
-    const options: IDropdownOption[] = [
-        ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => {
-            const localizedNodeStrings = Localizer.getLocalizedStrings(node.localizationKey);
-            return {
-                key: node.name,
-                text: localizedNodeStrings.title,
-                title: localizedNodeStrings.description
-            };
-        })
-    ];
+    const options: IDropdownOption[] = hideDropDown
+        ? []
+        : [
+              ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => {
+                  const localizedNodeStrings = Localizer.getLocalizedStrings(node.localizationKey);
+                  return {
+                      key: node.name,
+                      text: localizedNodeStrings.title,
+                      title: localizedNodeStrings.description
+                  };
+              })
+          ];
 
     const labelId: string = useId("label");
 
@@ -64,7 +70,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
 
     const selectedType = type;
     if (!selectedType && options.length == 1) {
-        handleTypeChange(undefined as any, options[0]);
+        handleTypeChange(null as any, options[0]);
     }
 
     return (
@@ -80,7 +86,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                 ) : (
                     <Dropdown
                         options={options}
-                        defaultSelectedKey={selectedType}
+                        defaultSelectedKey={selectedType ?? null}
                         onChange={handleTypeChange}
                         required={required}
                         onRenderLabel={onRenderLabel}
