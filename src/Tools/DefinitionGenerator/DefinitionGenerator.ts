@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { concat, merge } from "lodash";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
 import {
@@ -206,23 +207,26 @@ export default class DefinitionGenerator {
                     object.parsedAllOf = [];
                     for (const reference of object["allOf"]) {
                         if (reference["$ref"]) {
+                            const refObj = this.resolvePathReference(reference["$ref"]);
                             object = {
-                                ...this.resolvePathReference(reference["$ref"]),
-                                ...object
+                                ...object,
+                                properties: merge({ ...refObj.properties }, object.properties),
+                                required: concat(refObj.required, object.required)
                             };
                             object.parsedAllOf.push(reference["$ref"]);
                         }
                     }
                 }
                 // add all referenced attributes to current node
-                if (key === "$ref") {
+                else if (key === "$ref") {
                     object = {
                         parsedRef: object["$ref"],
                         ...this.resolvePathReference(object["$ref"]),
                         ...object
                     };
+                } else {
+                    object[key] = this.expand(object[key]);
                 }
-                object[key] = this.expand(object[key]);
             }
             delete object["$ref"];
             delete object.allOf;

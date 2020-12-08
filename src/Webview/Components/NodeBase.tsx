@@ -17,7 +17,7 @@ import { NodeContainer } from "./NodeContainer";
 export class NodeBase implements IRectConfig<ICanvasNode> {
     private readonly readOnly: boolean;
     private nodeRef?: React.RefObject<HTMLDivElement>;
-    private height = 52;
+    private height = 56;
 
     constructor(readOnly: boolean) {
         this.readOnly = readOnly;

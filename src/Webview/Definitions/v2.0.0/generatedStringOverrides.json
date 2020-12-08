@@ -16,5 +16,10 @@
     },
     "MediaGraphSignalGateProcessor.maximumActivationTime": {
         "placeholder": "Enter value in seconds"
+    },
+    "MediaGraph.nodeName": {
+        "title": "Node name",
+        "description": "The name of the node",
+        "placeholder": ""
     }
 }

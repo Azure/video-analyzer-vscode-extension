@@ -7,11 +7,12 @@ import { PropertyReadOnlyEditField } from "./PropertyReadonlyEditField";
 interface IPropertyEditorProps {
     nodeProperties: any;
     readOnly: boolean;
+    updateNodeName?: (oldName: string, newName: string) => void;
     requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (props) => {
-    const { nodeProperties, readOnly = false, requestParameterization } = props;
+    const { nodeProperties, readOnly = false, requestParameterization, updateNodeName } = props;
 
     const definition = Definitions.getNodeDefinition(nodeProperties);
 
@@ -48,6 +49,7 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (pr
                         nodeProperties={nodeProperties}
                         required={required}
                         requestParameterization={requestParameterization}
+                        updateNodeName={name === "name" ? updateNodeName : undefined}
                     />
                 )}
             </div>

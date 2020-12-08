@@ -1,3 +1,4 @@
+import { property } from "lodash";
 import * as React from "react";
 import {
     ChoiceGroup,
@@ -8,12 +9,13 @@ import {
     Text,
     TextField
 } from "@fluentui/react";
-import { useId } from "@uifabric/react-hooks";
+import { useBoolean, useId } from "@uifabric/react-hooks";
 import customPropertyTypes from "../../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../../Localization/Localizer";
 import GraphValidator from "../../Models/MediaGraphValidator";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
 import Helpers from "../../Utils/Helpers";
+import { PropertyArrayObject } from "./PropertyArrayObject";
 import { PropertyDescription } from "./PropertyDescription";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
@@ -31,7 +33,8 @@ enum PropertyFormatType {
     string = "string",
     isoDuration = "isoDuration",
     boolean = "boolean",
-    object = "object"
+    object = "object",
+    array = "array"
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
@@ -39,8 +42,12 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>(getInitialValue);
     const [errorMessage, setErrorMessage] = React.useState<string>("");
+    const [isParameterized, { setFalse: setParameterizeFalse }] = useBoolean(!!(value && typeof value === "string" && value.includes("${")));
 
-    const parameterized = !!(value && value.includes("${"));
+    const initValue = getInitialValue();
+    if (value !== initValue) {
+        setValue(initValue);
+    }
 
     function getInitialValue() {
         let initValue = nodeProperties[name];
@@ -151,13 +158,18 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 property={property}
                 labelId={labelId}
                 useParameter={requestParameterization && requestAndInsertParameter}
-                isParameterized={parameterized}
-                setNewValue={setNewValue}
+                isParameterized={isParameterized}
+                setNewValue={(newValue) => {
+                    if (!newValue) {
+                        setParameterizeFalse();
+                    }
+                    setNewValue(newValue);
+                }}
             />
         );
     }
 
-    if (property.type !== PropertyFormatType.object && parameterized) {
+    if (property.type !== PropertyFormatType.object && isParameterized) {
         return (
             <TextField
                 label={name}
@@ -186,6 +198,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 };
             })
         ];
+        if (value == null && options.length === 1) {
+            handleDropdownChange(undefined as any, options[0]);
+        }
         return (
             <Dropdown
                 placeholder={localizedPropertyStrings.placeholder}
@@ -250,6 +265,8 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 requestParameterization={requestParameterization}
             />
         );
+    } else if (property.type === PropertyFormatType.array) {
+        return <PropertyArrayObject name={name} property={property} nodeProperties={nodeProperties} required={required} />;
     } else {
         return (
             <TextField

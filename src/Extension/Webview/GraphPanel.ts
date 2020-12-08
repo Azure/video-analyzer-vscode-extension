@@ -41,7 +41,7 @@ export class GraphEditorPanel {
 
     public static createOrShow(extensionPath: string, pageTitle: string) {
         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
-
+        const logger = Logger.getOrCreateOutputChannel();
         // If we already have a panel, show it.
         if (GraphEditorPanel.currentPanel) {
             GraphEditorPanel.currentPanel._panel.reveal(column);
