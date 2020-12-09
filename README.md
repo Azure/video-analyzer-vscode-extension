@@ -56,7 +56,7 @@ You will need to use the IoT Hub connection string to connect this extension to 
 1. You should then see the topology name in the left pane
 
 ### Activate Graph Instances
-1. Once a graph topology is created, you will then create an instance of the topology
+1. Once a graph topology is created, you need to create an instance of the topology
     1. Here you will provide the values to the graph instance parameters
 1. Once all the required parameters are filled in, you can "**Save**" the instance and activate it later or "**Save and activate**" the graph instance
 1. Once the graph is activated, you will see a green icon next to the graph instance name
