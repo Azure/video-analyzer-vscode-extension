@@ -1,4 +1,4 @@
-import { get, nth } from "lodash";
+import { get, nth, remove } from "lodash";
 import * as path from "path";
 import * as vscode from "vscode";
 import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
@@ -21,6 +21,7 @@ interface PostMessageInitialData {
     graphData?: any;
     editMode: boolean;
     graphInstanceData?: any;
+    isHorizontal: boolean;
 }
 
 /**
@@ -39,7 +40,7 @@ export class GraphEditorPanel {
     private _disposables: vscode.Disposable[] = [];
     private _registeredMessages: RegisteredMessage[] = [];
 
-    public static createOrShow(extensionPath: string, pageTitle: string) {
+    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string) {
         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
         const logger = Logger.getOrCreateOutputChannel();
         // If we already have a panel, show it.
@@ -55,10 +56,11 @@ export class GraphEditorPanel {
             enableScripts: true,
 
             // And restrict the webview to only loading content from our extension's `build` directory.
-            localResourceRoots: [vscode.Uri.file(path.join(extensionPath, "build"))]
+            localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, "build"))]
         });
 
-        GraphEditorPanel.currentPanel = new GraphEditorPanel(panel, extensionPath);
+        GraphEditorPanel.currentPanel = new GraphEditorPanel(panel, context.extensionPath);
+        GraphEditorPanel.currentPanel.setupGraphAlignmentMessage(context);
         return GraphEditorPanel.currentPanel;
     }
 
@@ -103,6 +105,10 @@ export class GraphEditorPanel {
     }
 
     public waitForPostMessage(message: RegisteredMessage) {
+        remove(this._registeredMessages, (event) => {
+            return event.name === message.name;
+        });
+
         this._registeredMessages.push(message);
     }
 
@@ -113,6 +119,22 @@ export class GraphEditorPanel {
                 this.postMessage({
                     name: Constants.PostMessageNames.setInitialData,
                     data: data
+                });
+            }
+        });
+    }
+
+    public isGraphAlignedToHorizontal(context: vscode.ExtensionContext) {
+        const graphAlignmentInfo: any = context.globalState.get(Constants.LvaGlobalStateGraphAlignKey);
+        return graphAlignmentInfo?.isHorizontal ?? true;
+    }
+
+    public setupGraphAlignmentMessage(context: vscode.ExtensionContext) {
+        this.waitForPostMessage({
+            name: Constants.PostMessageNames.setGraphAlignment,
+            callback: (isHorizontal: boolean) => {
+                context.globalState.update(Constants.LvaGlobalStateGraphAlignKey, {
+                    horizontal: isHorizontal
                 });
             }
         });
@@ -226,6 +248,19 @@ export class GraphEditorPanel {
                     window.language = "${language}";
                     </script>
                     ${scriptInjection}
+                    <script type="text/javascript">
+                    (function() {
+                        console.log("script running");
+                        var _Worker = window.Worker;
+                        window.Worker = function (url, opts) {
+                            console.log(url);
+                        var blob = new Blob(["importScripts(" + JSON.stringify(url) + ")"], {
+                            type: "text/javascript"
+                        });
+                        return new _Worker(URL.createObjectURL(blob), opts);
+                        }
+                    })();
+                    </script>
                 </body>
                 </html>`;
     }

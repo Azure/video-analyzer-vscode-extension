@@ -14,9 +14,11 @@ import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { CanvasNodeData } from "../Types/GraphTypes";
 import NodeHelpers from "../Utils/NodeHelpers";
+import AppContext from "./AppContext";
 import { NodeContainer } from "./NodeContainer";
 
 export const ItemPanel: React.FunctionComponent = (props) => {
+    const appContext = React.useContext(AppContext);
     const propsAPI = usePropsAPI();
 
     const hasNodeWithName = (name: string) => {
@@ -45,7 +47,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
             ...node,
             id: uuid(),
             name: nodeName,
-            ...(node.data && { ports: NodeHelpers.getPorts(node.data as any) })
+            ...(node.data && { ports: NodeHelpers.getPorts(node.data as any, appContext.isHorizontal) })
         };
     };
 

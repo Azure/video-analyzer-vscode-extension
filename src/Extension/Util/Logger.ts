@@ -1,6 +1,7 @@
 import { get, nth } from "lodash";
 import { OutputChannel, ViewColumn, window } from "vscode";
 import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
+import { Constants } from "./Constants";
 
 export const enum LogLevel {
     error = "error",
@@ -25,7 +26,7 @@ export class Logger {
 
     public static getOrCreateOutputChannel() {
         if (!this._outputChanelObj) {
-            this._outputChanelObj = new Logger("Live Video Analytics", "lva-edge-vscode-extension");
+            this._outputChanelObj = new Logger("Live Video Analytics", Constants.ExtensionId);
         }
         return this._outputChanelObj;
     }
@@ -68,7 +69,7 @@ export class Logger {
         window.showErrorMessage(errorString, { modal: showModal });
     }
 
-    public showInformationMessage(infoString: string, showModal: boolean = false) {
+    public showInformationMessage(infoString: string, showModal = false) {
         window.showInformationMessage(infoString, { modal: showModal });
     }
 

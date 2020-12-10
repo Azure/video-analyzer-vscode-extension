@@ -41,3 +41,9 @@ export const graphTheme = {
     inputFocusBorderAlt: "var(--vscode-foreground)",
     buttonBorder: "var(--vscode-input-border)"
 };
+
+export const horizontalLayoutOptions = {
+    globalLayoutOption: {
+        "elk.direction": "RIGHT"
+    }
+};

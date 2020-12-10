@@ -51,10 +51,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
     }
 
     public setGraphCommand(context: vscode.ExtensionContext) {
-        const createGraphPanel = GraphEditorPanel.createOrShow(
-            context.extensionPath,
-            Localizer.localize(this._graphTopology ? "editGraphPageTile" : "createNewGraphPageTile")
-        );
+        const createGraphPanel = GraphEditorPanel.createOrShow(context, Localizer.localize(this._graphTopology ? "editGraphPageTile" : "createNewGraphPageTile"));
         if (createGraphPanel) {
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
@@ -63,7 +60,12 @@ export class GraphTopologyItem extends vscode.TreeItem {
                 }
             });
 
-            createGraphPanel.setupInitialMessage({ pageType: Constants.PageTypes.graphPage, graphData: this._graphTopology, editMode: !!this._graphTopology });
+            createGraphPanel.setupInitialMessage({
+                pageType: Constants.PageTypes.graphPage,
+                isHorizontal: createGraphPanel.isGraphAlignedToHorizontal(context),
+                graphData: this._graphTopology,
+                editMode: !!this._graphTopology
+            });
 
             createGraphPanel.setupNameCheckMessage((name) => {
                 return this._nameCheckCallback == null || this._nameCheckCallback(name);

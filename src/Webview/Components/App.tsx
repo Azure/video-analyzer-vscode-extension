@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { ITheme, Spinner, SpinnerSize } from "@fluentui/react";
 import { ThemeProvider } from "@fluentui/react/lib/Foundation";
 import { useBoolean } from "@uifabric/react-hooks";
-import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
 import Graph from "../Models/GraphData";
 import { VSCodeState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
@@ -33,6 +32,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     const { pageViewType, graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, instance } = props.state;
 
     const [isEditMode, { setTrue: setEditModeTrue }] = useBoolean(props.state.editMode);
+    const [isGraphHorizontal, { toggle: toggleIsHorizontal }] = useBoolean(props.state.isHorizontal ?? true);
 
     // when unmounting, disconnect the observer to prevent leaked references
     useEffect(() => {
@@ -57,12 +57,16 @@ export const App: React.FunctionComponent<IProps> = (props) => {
             {
                 name: Constants.PostMessageNames.setInitialData,
                 callback: (initialData) => {
-                    const { graphData, pageType, graphInstanceData, editMode } = initialData;
+                    const { graphData, pageType, graphInstanceData, editMode, isHorizontal } = initialData;
                     if (editMode) {
                         setEditModeTrue();
                     }
+                    if (isHorizontal !== isGraphHorizontal) {
+                        toggleIsHorizontal();
+                        console.log("toggling horizontal to " + isHorizontal, isGraphHorizontal);
+                    }
                     if (graphData) {
-                        graph.setTopology(graphData);
+                        graph.setTopology(graphData, isHorizontal);
                     }
 
                     if (graphInstanceData) {
@@ -81,12 +85,19 @@ export const App: React.FunctionComponent<IProps> = (props) => {
         <ThemeProvider theme={theme}>
             <React.Suspense fallback={<></>}>
                 {pageType === Constants.PageType.graphPage && (
-                    <GraphTopology graph={graph} zoomPanSettings={zoomPanSettings} vsCodeSetState={props.vsCodeSetState} isEditMode={isEditMode} />
+                    <GraphTopology
+                        graph={graph}
+                        zoomPanSettings={zoomPanSettings}
+                        isHorizontal={isGraphHorizontal}
+                        vsCodeSetState={props.vsCodeSetState}
+                        isEditMode={isEditMode}
+                    />
                 )}
                 {pageType === Constants.PageType.instancePage && (
                     <GraphInstance
                         graph={graph}
                         zoomPanSettings={zoomPanSettings}
+                        isHorizontal={isGraphHorizontal}
                         instance={graphInstance.instance}
                         vsCodeSetState={props.vsCodeSetState}
                         isEditMode={isEditMode}

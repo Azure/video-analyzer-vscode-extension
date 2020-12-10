@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ActionButton } from "@fluentui/react";
+import { ActionButton, CommandBarButton } from "@fluentui/react";
 import { MediaGraphTopology } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { SampleSelector } from "./SampleSelector";
@@ -24,9 +24,9 @@ export const SampleSelectorTrigger: React.FunctionComponent<ISampleSelectorTrigg
 
     return (
         <>
-            <ActionButton iconProps={{ iconName: "Flow" }} onClick={openSelector}>
+            <CommandBarButton iconProps={{ iconName: "Flow" }} onClick={openSelector}>
                 {Localizer.l("sampleSelectorButtonText")}
-            </ActionButton>
+            </CommandBarButton>
             <SampleSelector status={status} setStatus={setStatus} loadTopology={loadTopology} />
         </>
     );

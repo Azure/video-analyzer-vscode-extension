@@ -1,5 +1,5 @@
 {
-    "name": "lva-edge-vscode-extension",
+    "name": "azure-lva-edge-tools",
     "description": "LVA Edge VS Code Extension",
     "version": "0.0.1",
     "publisher": "ms-azuretools",
@@ -160,7 +160,18 @@
                 "view": "moduleExplorer",
                 "contents": "No Azure IoT Hub connection string has been provided.\n[Enter Connection String](command:moduleExplorer.setConnectionString)"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "%extensionConfigurationTitle%",
+            "properties": {
+                "azure-lva-edge-tools.treeViewAutoRefreshIntervalInSeconds": {
+                    "type": "number",
+                    "default": 60,
+                    "description": "%treeViewAutoRefreshIntervalInSecondsDescription%"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "react-app-rewired build && webpack --mode production --config src/Extension/webpack.config.js",
@@ -169,6 +180,7 @@
         "compile-react": "react-app-rewired build",
         "eject-react": "react-app-rewired eject",
         "compile-ext": "rimraf dist && webpack --mode development --config src/Extension/webpack.config.js",
+        "dev-ext": "tsc -p src/Extension/tsconfig.json",
         "dev": "set PORT=3008 && react-app-rewired start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
@@ -180,7 +192,7 @@
         "@fluentui/react": "^7.153.0",
         "@uifabric/icons": "^7.5.17",
         "@uifabric/react-hooks": "^7.13.9",
-        "@vienna/react-dag-editor": "2.0.0-rc.38",
+        "@vienna/react-dag-editor": "2.0.0-rc.41",
         "azure-iothub": "1.12.4",
         "dagre": "^0.8.5",
         "lodash": "^4.17.20",

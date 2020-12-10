@@ -24,6 +24,15 @@ interface ModuleQuickPickItem extends vscode.QuickPickItem {
 }
 
 export class ExtensionUtils {
+    public static getConfig<T>(id: string): T | undefined {
+        const config = ExtensionUtils.getConfiguration();
+        return config.get<T>(id);
+    }
+
+    public static getConfiguration(): vscode.WorkspaceConfiguration {
+        return vscode.workspace.getConfiguration(Constants.ExtensionId);
+    }
+
     public static async setConnectionString() {
         return new Promise<{ iotHubData: IotHubData; lvaHubConfig: LvaHubConfig }>((resolve, reject) => {
             const inputBox = vscode.window.createInputBox();

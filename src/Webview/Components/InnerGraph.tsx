@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
     CanvasMouseMode,
+    defaultFeatures,
     Graph,
     GraphCanvasEvent,
     GraphFeatures,
@@ -32,7 +33,6 @@ export interface IInnerGraphProps {
     graphTopologyName: string;
     graphDescription: string;
     canvasMouseMode: CanvasMouseMode;
-    isHorizontal?: boolean;
     triggerValidation?: () => void;
     readOnly?: boolean;
     parameters?: MediaGraphParameterDeclaration[];
@@ -121,6 +121,9 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
 
     const readOnlyFeatures = new Set(["a11yFeatures", "canvasScrollable", "panCanvas", "clickNodeToSelect", "sidePanel", "editNode"]) as Set<GraphFeatures>;
 
+    const features = defaultFeatures;
+    features.delete(GraphFeatures.nodeResizable);
+
     // save state in VS Code when data or zoomPanSettings change
     React.useEffect(() => {
         graph.setName(graphTopologyName);
@@ -155,6 +158,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                 getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
                 styles={graphStyles}
                 canvasBoundaryPadding={200}
+                features={features}
             />
         </>
     );

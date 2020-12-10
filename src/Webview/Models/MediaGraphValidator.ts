@@ -51,6 +51,7 @@ export default class GraphValidator {
                     return error.nodeName === nodeData.nodeProperties.name;
                 });
                 graphPropsApi.current?.updateData((prev: GraphModel) => {
+                    prev.updateNodesPositionAndSize;
                     return prev.updateNode(node.id, (currNode) => {
                         return {
                             ...currNode,

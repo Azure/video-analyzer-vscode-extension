@@ -31,7 +31,7 @@ export class ExtensionInteraction {
             } else {
                 // We won't save/restore state in browser, use noop function
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
-                resolve({ state: { pageViewType: PageType.graphPage, editMode: false }, vsCodeSetState: () => {} });
+                resolve({ state: { pageViewType: PageType.graphPage, editMode: false, isHorizontal: true }, vsCodeSetState: () => {} });
             }
         });
     }

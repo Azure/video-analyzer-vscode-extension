@@ -4,7 +4,8 @@ import {
     GraphModel,
     ICanvasData,
     ICanvasNode,
-    IPropsAPI
+    IPropsAPI,
+    isWithinThreshold
 } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
@@ -54,7 +55,7 @@ export default class Graph {
     }
 
     // converts internal representation to topology that can be sent using a direct method call
-    public setTopology(topology: any) {
+    public setTopology(topology: any, isHorizontal: boolean) {
         this.graphInformation = topology;
         this.graphStructureStore.nodes = [];
         this.graphStructureStore.edges = [];
@@ -68,7 +69,7 @@ export default class Graph {
             }
 
             for (const node of nodesForType) {
-                const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
+                const ports = NodeHelpers.getPorts(node, isHorizontal, nodeType).map((port) => {
                     return {
                         ...port,
                         name: LocalizerHelpers.getPortName(node, port),
@@ -109,7 +110,7 @@ export default class Graph {
             }
         });
 
-        this.layoutGraph();
+        this.setGraphDataFromICanvasData(NodeHelpers.autoLayout(this.getICanvasData(), isHorizontal));
     }
 
     public getTopology() {
@@ -315,40 +316,6 @@ export default class Graph {
                 }
             }
         }
-    }
-
-    // Internal functions
-
-    private layoutGraph() {
-        const g = new dagre.graphlib.Graph();
-        g.setGraph({
-            marginx: 30,
-            marginy: 30
-        });
-        g.setDefaultEdgeLabel(function () {
-            return {};
-        });
-
-        const width = 350;
-        const height = 70;
-
-        for (const node of this.graphStructureStore.nodes) {
-            g.setNode(node.id, {
-                width: width,
-                height: height
-            });
-        }
-        for (const edge of this.graphStructureStore.edges) {
-            g.setEdge((edge.source as unknown) as dagre.Edge, edge.target);
-        }
-
-        dagre.layout(g);
-
-        this.graphStructureStore.nodes = this.graphStructureStore.nodes.map((node) => ({
-            ...node,
-            x: g.node(node.id).x - width / 2,
-            y: g.node(node.id).y - height / 2
-        }));
     }
 
     // helper to loop through all inputs for all nodes
