@@ -105,6 +105,7 @@ export default class Graph {
                     target: targetNode.id,
                     sourcePortId: sourcePort.id,
                     targetPortId: targetPort.id,
+                    data: input.outputSelectors,
                     id: uuid()
                 });
             }

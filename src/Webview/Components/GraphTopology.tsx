@@ -62,7 +62,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const [serverErrors, setServerErrors] = React.useState<ValidationError[]>([]);
     const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
     const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
-    const [initialData, setInitialData] = React.useState<GraphModel>();
     const [isGraphHorizontal, { toggle: toggleIsHorizontal }] = useBoolean(props.isHorizontal);
     let errorsFromResponse: ValidationError[] = [];
 

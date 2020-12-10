@@ -4,6 +4,7 @@ import {
     defaultFeatures,
     Graph,
     GraphCanvasEvent,
+    GraphEdgeEvent,
     GraphFeatures,
     GraphNodeEvent,
     GraphNodeState,
@@ -23,8 +24,10 @@ import GraphClass from "../Models/GraphData";
 import { GraphInfo, ValidationError } from "../Types/GraphTypes";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
+import { useTraceUpdate } from "../Utils/Helpers";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
+import { EdgePropertiesPanel } from "./EdgePropertiesPanel";
 import { NodePropertiesPanel } from "./NodePropertiesPanel";
 import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
@@ -45,6 +48,7 @@ export interface IInnerGraphProps {
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
+    useTraceUpdate(props);
     const { readOnly = false, parameters = [], propsApiRef, triggerValidation, updateNodeName, graph, graphTopologyName, graphDescription, vsCodeSetState } = props;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
@@ -108,6 +112,11 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             case GraphNodeEvent.Click:
                 onNodeClick(event.node);
                 break;
+            // case GraphEdgeEvent.Click:
+            //     propsApiRef.current?.openSidePanel("edgePanel", {
+            //         edge: event.edge
+            //     });
+            //     break;
             default:
         }
     };
@@ -143,6 +152,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             ) : (
                 ""
             )}
+            {/* <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(readOnly)} /> */}
             <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters, updateNodeName)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <Graph

@@ -28,7 +28,7 @@ export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (pr
         if (!property) continue;
 
         // skip the type field (already shown as dropdown by PropertyNestedObject)
-        if (name === "@type") continue;
+        if (name === "@type" || name == "inputs") continue;
 
         const key = "property-" + name;
         const required = (definition.required && definition.required.includes(name)) as boolean;

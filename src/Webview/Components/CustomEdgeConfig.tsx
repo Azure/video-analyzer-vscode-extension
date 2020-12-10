@@ -77,12 +77,21 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
 
     const verticalFixedY2 = y2 - 12;
     const verticalTriangleHeadPoints = `${x2 - 3} ${verticalFixedY2}, ${x2 + 3} ${verticalFixedY2}, ${x2} ${verticalFixedY2 + 6}`;
+    const horizontalPathD = getCurvePathDHorizontal(x1, x2, y1, y2);
+    const verticalPathD = getCurvePathD(x2, x1, verticalFixedY2, y1);
+    const transparentPathStyle: React.CSSProperties = {
+        stroke: "#fff",
+        fill: "none",
+        cursor: "pointer",
+        strokeWidth: "20",
+        visibility: "hidden"
+    };
 
-    console.log([x1, y1, x2, y2].join(","), appContext.isHorizontal);
     return appContext.isHorizontal ? (
         //return (
         <>
-            <path key={edge.id} d={getCurvePathDHorizontal(x1, x2, y1, y2)} fill="none" style={style} id={`edge${edge.id}`} />
+            <path key={`${edge.id}-hidden`} d={horizontalPathD} pointerEvents="stroke" style={transparentPathStyle} />
+            <path key={edge.id} d={horizontalPathD} fill="none" style={style} id={`edge${edge.id}`} />
             <polygon
                 points={`${x2 - 16} ${y2 - 3}, ${x2 - 16} ${y2 + 3}, ${x2 - 6} ${y2}`}
                 style={{
@@ -95,7 +104,8 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
     ) : (
         //);
         <>
-            <path key={edge.id} d={getCurvePathD(x2, x1, verticalFixedY2, y1)} fill="none" style={style} id={`edge${edge.id}`} />
+            <path key={`${edge.id}-hidden`} d={verticalPathD} pointerEvents="stroke" style={transparentPathStyle} />
+            <path key={edge.id} d={verticalPathD} fill="none" style={style} id={`edge${edge.id}`} />
             <polygon
                 points={verticalTriangleHeadPoints}
                 style={{
