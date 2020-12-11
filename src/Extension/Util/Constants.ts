@@ -17,7 +17,10 @@ export class Constants {
     };
 
     public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
-    public static ExtensionId = "lva-edge-vscode-extension";
+    public static LvaGlobalStateGraphAlignKey = "lvaGlobalStateGraphAlignKey";
+    public static ExtensionId = "azure-lva-edge-tools";
+
+    public static TreeViewAutoRefreshIntervalInSecondsKey = "treeViewAutoRefreshIntervalInSeconds";
 
     // have a copy of this in react code.
     public static PostMessageNames = {
@@ -28,7 +31,8 @@ export class Constants {
         getInitialData: "getInitialData",
         setInitialData: "setInitialData",
         nameAvailableCheck: "nameAvailableCheck",
-        failedOperationReason: "failedOperationReason"
+        failedOperationReason: "failedOperationReason",
+        setGraphAlignment: "setGraphAlignment"
     };
 
     public static PageTypes = {

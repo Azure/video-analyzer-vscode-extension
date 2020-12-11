@@ -17,6 +17,9 @@
     "closeButtonText": "Close",
     "toolbarHideLeftSidebar": "Hide panel",
     "toolbarShowLeftSidebar": "Show panel",
+    "toolbarAutoLayout": "Auto layout",
+    "toolbarToHorizontal": "Change orientation to horizontal",
+    "toolbarToVertical": "Change orientation to vertical",
     "ToolbarValidationErrors": "View errors",
     "toolbarValidationTextSingular": "There is {0} error to resolve. ",
     "toolbarValidationTextPlural": "There are {0} errors to resolve. ",
@@ -139,5 +142,11 @@
     "minMaxError": "The property value must be between {0} - {1} {2}.",
     "maxLengthError": "Property must have a length less than {0}.",
     "minValueError": "Value must be greater than {0}.",
-    "valueMustBeNumbersError": "Value must be a valid number."
+    "valueMustBeNumbersError": "Value must be a valid number.",
+    "EdgePropertyPanelTitle": "Connection settings",
+    "EdgePropertyPanelFromLabel": "From",
+    "EdgePropertyPanelToLabel": "To",
+    "EdgePropertyPanelTypeDropdownLabel": "Output type",
+    "OutputSelectorsAllSelected": "All",
+    "OutputSelectorsNoneSelectedMessage": "Selecting none of the output types will be treated as selecting all."
 }

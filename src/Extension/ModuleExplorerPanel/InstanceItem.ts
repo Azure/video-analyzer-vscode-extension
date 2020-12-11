@@ -1,5 +1,9 @@
 import * as vscode from "vscode";
-import { MediaGraphInstance, MediaGraphInstanceState, MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
+import {
+    MediaGraphInstance,
+    MediaGraphInstanceState,
+    MediaGraphTopology
+} from "../../Common/Types/LVASDKTypes";
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
@@ -46,10 +50,7 @@ export class InstanceItem extends vscode.TreeItem {
 
     public setInstanceCommand(context: vscode.ExtensionContext) {
         const logger = Logger.getOrCreateOutputChannel();
-        const createGraphPanel = GraphEditorPanel.createOrShow(
-            context.extensionPath,
-            Localizer.localize(this._graphInstance ? "editInstancePageTile" : "createNewInstancePageTile")
-        );
+        const createGraphPanel = GraphEditorPanel.createOrShow(context, Localizer.localize(this._graphInstance ? "editInstancePageTile" : "createNewInstancePageTile"));
         if (createGraphPanel) {
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
@@ -61,6 +62,7 @@ export class InstanceItem extends vscode.TreeItem {
             createGraphPanel.setupInitialMessage({
                 pageType: Constants.PageTypes.instancePage,
                 graphData: this._graphTopology,
+                isHorizontal: createGraphPanel.isGraphAlignedToHorizontal(context),
                 graphInstanceData: this._graphInstance,
                 editMode: !!this._graphInstance
             });

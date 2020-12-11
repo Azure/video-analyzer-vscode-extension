@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ActionButton } from "@fluentui/react";
+import { ActionButton, CommandBarButton } from "@fluentui/react";
 import { IPropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
@@ -24,9 +24,9 @@ export const ParameterSelectorTrigger: React.FunctionComponent<IParameterSelecto
 
     return (
         <>
-            <ActionButton iconProps={{ iconName: "VariableGroup" }} onClick={toggleParameterSelector}>
+            <CommandBarButton iconProps={{ iconName: "VariableGroup" }} onClick={toggleParameterSelector}>
                 {Localizer.l("manageParametersButtonText")}
-            </ActionButton>
+            </CommandBarButton>
             <ParameterSelector isOpen={isOpen} parameters={parameters} graph={graph} onClose={() => toggleSelector(!isOpen)} propsApiRef={propsApiRef} />
         </>
     );

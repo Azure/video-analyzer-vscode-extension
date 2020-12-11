@@ -51,6 +51,7 @@ export default class GraphValidator {
                     return error.nodeName === nodeData.nodeProperties.name;
                 });
                 graphPropsApi.current?.updateData((prev: GraphModel) => {
+                    prev.updateNodesPositionAndSize;
                     return prev.updateNode(node.id, (currNode) => {
                         return {
                             ...currNode,
@@ -197,6 +198,9 @@ export default class GraphValidator {
             const propertyIsMissing = !nestedProperties || Helpers.isEmptyObject(nestedProperties);
             const thisPropertyPath = [...path, name];
 
+            if (name === "inputs") {
+                return [];
+            }
             if (isRequiredProperty && propertyIsMissing) {
                 errors.push({
                     // localized later

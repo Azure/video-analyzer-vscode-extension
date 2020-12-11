@@ -1,3 +1,4 @@
+import React from "react";
 import { customWords } from "../../Tools/DefinitionGenerator/customWords";
 
 interface Duration {

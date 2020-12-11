@@ -1,6 +1,8 @@
-import { v4 as uuid } from "uuid";
+import dagre from "dagre";
 import {
     applyDefaultPortsPosition,
+    applyHorizontalGraphPortsPosition,
+    ICanvasData,
     ICanvasNode,
     ICanvasPort
 } from "@vienna/react-dag-editor";
@@ -30,33 +32,52 @@ export default class NodeHelpers {
     }
 
     // returns the appropriate ports for a node (proper input and input according to type)
-    static getPorts(node: NodeDefinition, type?: MediaGraphNodeType): ICanvasPort[] {
-        const ports = [];
-        // type might be a value of MediaGraphNodeType that maps to 0, which is falsy
-        const nodeType = typeof type === "undefined" ? node.nodeType : type;
-
-        if (nodeType === MediaGraphNodeType.Source || nodeType === MediaGraphNodeType.Processor) {
-            ports.push({
-                id: uuid(),
-                shape: "modulePort",
-                isInputDisabled: true,
-                isOutputDisabled: false,
-                name: "" // will be localized later
-            });
-        }
-
-        if (nodeType === MediaGraphNodeType.Sink || nodeType === MediaGraphNodeType.Processor) {
-            ports.push({
-                id: uuid(),
-                shape: "modulePort",
-                isInputDisabled: false,
-                isOutputDisabled: true,
-                name: "" // will be localized later
-            });
-        }
-
-        return applyDefaultPortsPosition(SharedNodeHelpers.getPortsWithOutLayout(node, type));
+    static getPorts(node: NodeDefinition, isHorizontal: boolean, type?: MediaGraphNodeType): ICanvasPort[] {
+        return isHorizontal
+            ? applyHorizontalGraphPortsPosition(SharedNodeHelpers.getPortsWithOutLayout(node, type))
+            : applyDefaultPortsPosition(SharedNodeHelpers.getPortsWithOutLayout(node, type));
     }
+
+    public static autoLayout = (data: ICanvasData<any, unknown, any>, isHorizontal: boolean): ICanvasData<any, unknown, any> => {
+        // tslint:disable-next-line: no-inferred-empty-object-type
+        const graph = new dagre.graphlib.Graph()
+            .setGraph({
+                marginx: 30,
+                marginy: 30
+            })
+            .setDefaultEdgeLabel(() => {
+                return {};
+            });
+
+        if (!data.nodes || !data.edges) {
+            return data;
+        }
+
+        const width = 350;
+        const height = 70;
+
+        data.nodes.forEach((node) => {
+            graph.setNode(node.id, {
+                width: node.width || width,
+                height: node.height || height
+            });
+        });
+
+        data.edges.forEach((edge) => {
+            graph.setEdge(edge.source.toString(), edge.target.toString());
+        });
+
+        graph.graph().rankdir = isHorizontal ? "LR" : "TB";
+
+        dagre.layout(graph);
+
+        const nextNodes = data.nodes.map((node) => {
+            const graphNode = graph.node(node.id);
+            return { ...node, x: graphNode.x - (node.width || width) / 2, y: graphNode.y + -(node.height || height) / 2 };
+        });
+
+        return { nodes: nextNodes, edges: data.edges };
+    };
 
     // determines appearance properties for a node
     static getNodeAppearance(node: CanvasNodeData) {
@@ -69,7 +90,9 @@ export default class NodeHelpers {
             "#Microsoft.Media.MediaGraphSignalGateProcessor": "Ringer",
             "#Microsoft.Media.MediaGraphAssetSink": "FabricAssetLibrary",
             "#Microsoft.Media.MediaGraphFileSink": "PageData",
-            "#Microsoft.Media.MediaGraphIoTHubMessageSink": "IOT"
+            "#Microsoft.Media.MediaGraphIoTHubMessageSink": "IOT",
+            "#Microsoft.Media.MediaGraphGrpcExtension": "Switch",
+            "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension": "CognitiveServices"
         } as Record<string, string>;
 
         const icon = icons[node.nodeProperties["@type"]];

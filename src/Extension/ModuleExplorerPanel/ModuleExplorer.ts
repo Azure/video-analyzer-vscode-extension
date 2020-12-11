@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
+import { Constants } from "../Util/Constants";
 import { CredentialStore } from "../Util/CredentialStore";
 import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
@@ -85,8 +86,9 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
     }
 
     private generateAutoRefreshInterval(): NodeJS.Timer {
+        const treeViewAutoRefreshIntervalInSeconds = ExtensionUtils.getConfig<number>(Constants.TreeViewAutoRefreshIntervalInSecondsKey);
         return setInterval(() => {
             this._onDidChangeTreeData.fire();
-        }, 60 * 1000);
+        }, treeViewAutoRefreshIntervalInSeconds! * 1000);
     }
 }

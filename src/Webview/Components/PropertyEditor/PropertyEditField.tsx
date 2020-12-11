@@ -40,13 +40,19 @@ enum PropertyFormatType {
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
     const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
-    const [value, setValue] = React.useState<string>(getInitialValue);
+    const [value, setValue] = React.useState<string>("");
     const [errorMessage, setErrorMessage] = React.useState<string>("");
-    const [isParameterized, { setFalse: setParameterizeFalse }] = useBoolean(!!(value && typeof value === "string" && value.includes("${")));
+    const [isParameterized, { setFalse: setParameterizeFalse, setTrue: setParameterizeTrue }] = useBoolean(false);
 
+    const isValueParameterized = (valueString: string) => {
+        return !!(valueString && typeof valueString === "string" && valueString.includes("${"));
+    };
     const initValue = getInitialValue();
     if (value !== initValue) {
         setValue(initValue);
+        if (isValueParameterized(initValue)) {
+            setParameterizeTrue();
+        } else setParameterizeFalse();
     }
 
     function getInitialValue() {
@@ -136,6 +142,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         let errorMessage = "";
         if (required) {
             errorMessage = GraphValidator.validateRequiredProperty(value, property.type);
+        }
+        if (isValueParameterized(value)) {
+            return "";
         }
         if (!errorMessage) {
             errorMessage = GraphValidator.validateProperty(value, property.localizationKey);

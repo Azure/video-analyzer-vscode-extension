@@ -1,13 +1,16 @@
 import dagre from "dagre";
+import { remove } from "lodash";
 import { v4 as uuid } from "uuid";
 import {
     GraphModel,
     ICanvasData,
     ICanvasNode,
-    IPropsAPI
+    IPropsAPI,
+    isWithinThreshold
 } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
+    MediaGraphOutputSelectorOperator,
     MediaGraphParameterDeclaration,
     MediaGraphProcessorUnion,
     MediaGraphSinkUnion,
@@ -21,6 +24,7 @@ import {
     CanvasNodeProperties,
     GraphInfo,
     MediaGraphNodeType,
+    OutputSelectorValueType,
     ValidationError
 } from "../Types/GraphTypes";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
@@ -54,7 +58,7 @@ export default class Graph {
     }
 
     // converts internal representation to topology that can be sent using a direct method call
-    public setTopology(topology: any) {
+    public setTopology(topology: any, isHorizontal: boolean) {
         this.graphInformation = topology;
         this.graphStructureStore.nodes = [];
         this.graphStructureStore.edges = [];
@@ -68,7 +72,7 @@ export default class Graph {
             }
 
             for (const node of nodesForType) {
-                const ports = NodeHelpers.getPorts(node, nodeType).map((port) => {
+                const ports = NodeHelpers.getPorts(node, isHorizontal, nodeType).map((port) => {
                     return {
                         ...port,
                         name: LocalizerHelpers.getPortName(node, port),
@@ -97,19 +101,38 @@ export default class Graph {
             const targetNode = this.graphStructureStore.getNode(node.name);
             const targetPort = this.graphStructureStore.getPort(node.name, true);
 
-            // since we know all of the inputs for node, we can form edges (input, node)
+            const outputTypes: string[] = [];
+            if (input.outputSelectors) {
+                const isNotItems = input.outputSelectors.filter((selector) => selector.operator?.toLowerCase() === MediaGraphOutputSelectorOperator.IsNot.toLowerCase());
+                if (isNotItems.length) {
+                    outputTypes.push(...Object.values(OutputSelectorValueType));
+                    isNotItems.forEach((selector) => {
+                        remove(outputTypes, (item) => item === selector.value);
+                    });
+                }
+                const isItems = input.outputSelectors.filter((selector) => selector.operator?.toLowerCase() === MediaGraphOutputSelectorOperator.Is.toLowerCase());
+                if (isItems.length) {
+                    isItems.forEach((selector) => {
+                        if (selector.value) {
+                            outputTypes.push(selector.value);
+                        }
+                    });
+                }
+            }
+
             if (sourceNode && sourcePort && targetNode && targetPort) {
                 this.graphStructureStore.edges.push({
                     source: sourceNode.id,
                     target: targetNode.id,
                     sourcePortId: sourcePort.id,
                     targetPortId: targetPort.id,
+                    data: { source: sourceNode.name, target: targetNode.name, types: outputTypes },
                     id: uuid()
                 });
             }
         });
 
-        this.layoutGraph();
+        this.setGraphDataFromICanvasData(NodeHelpers.autoLayout(this.getICanvasData(), isHorizontal));
     }
 
     public getTopology() {
@@ -315,40 +338,6 @@ export default class Graph {
                 }
             }
         }
-    }
-
-    // Internal functions
-
-    private layoutGraph() {
-        const g = new dagre.graphlib.Graph();
-        g.setGraph({
-            marginx: 30,
-            marginy: 30
-        });
-        g.setDefaultEdgeLabel(function () {
-            return {};
-        });
-
-        const width = 350;
-        const height = 70;
-
-        for (const node of this.graphStructureStore.nodes) {
-            g.setNode(node.id, {
-                width: width,
-                height: height
-            });
-        }
-        for (const edge of this.graphStructureStore.edges) {
-            g.setEdge((edge.source as unknown) as dagre.Edge, edge.target);
-        }
-
-        dagre.layout(g);
-
-        this.graphStructureStore.nodes = this.graphStructureStore.nodes.map((node) => ({
-            ...node,
-            x: g.node(node.id).x - width / 2,
-            y: g.node(node.id).y - height / 2
-        }));
     }
 
     // helper to loop through all inputs for all nodes

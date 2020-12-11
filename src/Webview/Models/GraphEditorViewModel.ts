@@ -1,6 +1,12 @@
 import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
-import { MediaGraphNodeInput } from "../../Common/Types/LVASDKTypes";
-import { CanvasNodeData } from "../Types/GraphTypes";
+import {
+    MediaGraphNodeInput,
+    MediaGraphOutputSelector,
+    MediaGraphOutputSelectorOperator,
+    MediaGraphOutputSelectorProperty
+} from "../../Common/Types/LVASDKTypes";
+import { IEdgeData } from "../Components/CustomEdgeConfig";
+import { CanvasNodeData, OutputSelectorValueType } from "../Types/GraphTypes";
 import NodeHelpers from "../Utils/NodeHelpers";
 
 export default class GraphData {
@@ -44,12 +50,23 @@ export default class GraphData {
     // converts from edges (u, v) to an array of nodes [u] pointing to v
     public getNodeInputs(nodeId: string) {
         const inboundEdges = this.edges.filter((edge) => edge.target === nodeId);
-        return inboundEdges.map(
-            (edge) =>
-                ({
-                    nodeName: this.getNodeName(edge.source)
-                } as MediaGraphNodeInput)
-        );
+        return inboundEdges.map((edge) => {
+            const types = (edge.data as any)?.types;
+            return {
+                nodeName: this.getNodeName(edge.source),
+                ...(types &&
+                    types.length !== 0 &&
+                    types.length !== Object.keys(OutputSelectorValueType).length && {
+                        outputSelectors: (edge.data as any).types.map((type: string) => {
+                            return {
+                                property: MediaGraphOutputSelectorProperty.MediaType,
+                                operator: MediaGraphOutputSelectorOperator.Is,
+                                value: type
+                            } as MediaGraphOutputSelector;
+                        })
+                    })
+            } as MediaGraphNodeInput;
+        });
     }
 
     // checks if a graph is connected (no orphaned nodes)
