@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Label, Stack, Text } from "@fluentui/react";
+import { Label, Stack, Text, TextField } from "@fluentui/react";
+import Definitions from "../../Definitions/Definitions";
+import { PropertyEditField } from "./PropertyEditField";
 import { PropertyNestedObject } from "./PropertyNestedObject";
 
 interface IPropertyArrayObjectProps {
@@ -13,6 +15,10 @@ interface IPropertyArrayObjectProps {
 export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectProps> = (props) => {
     const { name, property, nodeProperties, required, readOnly = false } = props;
     const [arrayItems, setArrayItems] = React.useState([] as any[]);
+    const [value, setValue] = React.useState<string>();
+
+    console.log(nodeProperties);
+    const definition = Definitions.getNodeDefinition(nodeProperties);
 
     const properties = nodeProperties[name];
     if (properties && arrayItems !== properties) {
@@ -29,14 +35,25 @@ export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectPr
     });
 
     return (
-        <>
-            <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-                <Label style={{ flex: 1 }}>{name}</Label>
-                <Text style={{ textDecoration: "underline", cursor: "pointer" }} onClick={onAddInputClick}>
-                    Add
-                </Text>
-            </Stack>
-            {propertyFields.length ? propertyFields : <Text>Empty</Text>}
-        </>
+        <TextField
+            placeholder={"Enter comma separated strings"}
+            type="text"
+            id={name}
+            value={value}
+            //onChange={handleTextFieldChange}
+            required={required}
+            //onRenderLabel={onRenderLabel}
+            //aria-labelledby={labelId}
+            //onGetErrorMessage={validateInput}
+        />
+        // <>
+        //     <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+        //         <Label style={{ flex: 1 }}>{name}</Label>
+        //         <Text style={{ textDecoration: "underline", cursor: "pointer" }} onClick={onAddInputClick}>
+        //             Add
+        //         </Text>
+        //     </Stack>
+        //     {propertyFields.length ? propertyFields : <Text>Empty</Text>}
+        // </>
     );
 };
