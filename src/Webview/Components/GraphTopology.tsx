@@ -11,6 +11,8 @@ import {
     CanvasMouseMode,
     GraphModel,
     GraphStateStore,
+    ICanvasEdge,
+    IEdgeConfig,
     IPropsAPI,
     isSupported,
     IZoomPanSettings,
@@ -231,6 +233,23 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         });
     };
 
+    const updateEdgeData = (edgeId: string, newTypes: string[]) => {
+        let newEdge: ICanvasEdge<any>;
+        propsApiRef.current?.updateData((prev: GraphModel) => {
+            return prev.updateEdge(edgeId, (edge) => {
+                newEdge = {
+                    ...edge,
+                    data: {
+                        ...edge.data,
+                        types: newTypes
+                    }
+                };
+                propsApiRef.current?.openSidePanel("edgePanel", newEdge); // BUG. found issue in the dag-editor library, this is a work around. once the bug is fixed, this line should be removed.
+                return newEdge;
+            });
+        });
+    };
+
     const panelStyles = {
         root: {
             boxSizing: "border-box" as const,
@@ -348,6 +367,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                                     showValidationErrors={showValidationErrors}
                                     toggleValidationErrorPanel={toggleValidationErrorPanel}
                                     updateNodeName={updateNodeName}
+                                    updateEdgeData={updateEdgeData}
                                 />
                             </Stack.Item>
                         </Stack>

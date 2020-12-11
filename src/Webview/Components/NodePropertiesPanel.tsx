@@ -17,7 +17,7 @@ interface INodePropertiesPanel {
     readOnly: boolean;
     data: any;
     parameters: MediaGraphParameterDeclaration[];
-    updateNodeName: (oldName: string, newName: string) => void;
+    updateNodeName?: (oldName: string, newName: string) => void;
 }
 
 const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (props) => {
@@ -100,10 +100,9 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
 export class NodePropertiesPanel implements IPanelConfig {
     private readonly readOnly: boolean;
     private parameters: MediaGraphParameterDeclaration[];
-    constructor(readOnly: boolean, parameters: MediaGraphParameterDeclaration[], updateName: (oldName: string, newName: string) => void) {
+    constructor(readOnly: boolean, parameters: MediaGraphParameterDeclaration[], private updateNodeName?: (oldName: string, newName: string) => void) {
         this.readOnly = readOnly;
         this.parameters = parameters;
-        this.updateNodeName = updateName;
     }
     public render(data: any): React.ReactElement {
         return <NodePropertiesPanelCore readOnly={this.readOnly} parameters={this.parameters} data={data} updateNodeName={this.updateNodeName} />;
@@ -115,9 +114,5 @@ export class NodePropertiesPanel implements IPanelConfig {
 
     public panelDidDismiss(): void {
         //
-    }
-
-    public updateNodeName(oldName: string, newName: string): void {
-        this.updateNodeName(oldName, newName);
     }
 }

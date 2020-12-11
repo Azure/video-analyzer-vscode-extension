@@ -1,33 +1,24 @@
 {
-  "compilerOptions": {
-    "module": "esnext",
-    "target": "es6",
-    "outDir": "out",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "sourceMap": true,
-    "rootDir": ".",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react"
-  },
-  "include": [
-    "src/Webview"
-  ],
-  "exclude": [
-    "node_modules",
-    "Common/Tools",
-    "Extension"
-  ]
+    "compilerOptions": {
+        "module": "esnext",
+        "target": "es6",
+        "outDir": "out",
+        "lib": ["es2017", "dom"],
+        "sourceMap": true,
+        "rootDir": ".",
+        "esModuleInterop": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react"
+    },
+    "include": ["src/Webview", "src/wdyr.ts"],
+    "exclude": ["node_modules", "Common/Tools", "Extension"]
 }

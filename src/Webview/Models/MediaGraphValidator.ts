@@ -198,6 +198,9 @@ export default class GraphValidator {
             const propertyIsMissing = !nestedProperties || Helpers.isEmptyObject(nestedProperties);
             const thisPropertyPath = [...path, name];
 
+            if (name === "inputs") {
+                return [];
+            }
             if (isRequiredProperty && propertyIsMissing) {
                 errors.push({
                     // localized later

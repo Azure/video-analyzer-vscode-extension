@@ -59,7 +59,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
 
     const nodeDidAdd = (node: ICanvasNode) => {
         // show the side panel when adding a new node
-        propsAPI.selectNodeById(node.id);
+        propsAPI.openSidePanel("node", node);
     };
 
     const generateAccordionTitle = (node: any) => {

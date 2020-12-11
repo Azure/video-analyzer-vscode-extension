@@ -90,7 +90,9 @@ export default class NodeHelpers {
             "#Microsoft.Media.MediaGraphSignalGateProcessor": "Ringer",
             "#Microsoft.Media.MediaGraphAssetSink": "FabricAssetLibrary",
             "#Microsoft.Media.MediaGraphFileSink": "PageData",
-            "#Microsoft.Media.MediaGraphIoTHubMessageSink": "IOT"
+            "#Microsoft.Media.MediaGraphIoTHubMessageSink": "IOT",
+            "#Microsoft.Media.MediaGraphGrpcExtension": "Switch",
+            "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension": "CognitiveServices"
         } as Record<string, string>;
 
         const icon = icons[node.nodeProperties["@type"]];

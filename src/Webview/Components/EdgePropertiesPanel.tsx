@@ -1,131 +1,139 @@
+import { sortedUniq, update } from "lodash";
 import * as React from "react";
-import { List, Stack, TextField } from "@fluentui/react";
-import { useBoolean } from "@uifabric/react-hooks";
-import { IPanelConfig, usePropsAPI } from "@vienna/react-dag-editor";
-import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
-import Definitions from "../Definitions/Definitions";
+import {
+    Checkbox,
+    CheckboxVisibility,
+    DetailsList,
+    Dropdown,
+    IColumn,
+    IDropdownOption,
+    Label,
+    List,
+    MessageBar,
+    MessageBarType,
+    Selection,
+    SelectionMode,
+    Stack,
+    StackItem,
+    TextField
+} from "@fluentui/react";
+import {
+    EdgeModel,
+    IPanelConfig,
+    useGraphData,
+    usePropsAPI
+} from "@vienna/react-dag-editor";
 import Localizer from "../Localization/Localizer";
-import { ParameterizeValueCallback } from "../Types/GraphTypes";
-import { PropertyEditField } from "./PropertyEditor/PropertyEditField";
-import { PropertyEditor } from "./PropertyEditor/PropertyEditor";
-import { PropertyReadOnlyEditField } from "./PropertyEditor/PropertyReadonlyEditField";
+import { OutputSelectorValueType } from "../Types/GraphTypes";
+import { IEdgeData } from "./CustomEdgeConfig";
 import { AdjustedIconButton } from "./ThemeAdjustedComponents/AdjustedIconButton";
 
 const ParameterEditor = React.lazy(() => import("./ParameterEditor/ParameterEditor"));
 
 interface IEdgePropertiesPanelCoreProps {
     readOnly: boolean;
-    data?: any;
+    edge?: EdgeModel<IEdgeData>;
+    updateEdgeData?: (edeId: string, newTypes: string[]) => void;
 }
 
 const EdgePropertiesPanelCore: React.FunctionComponent<IEdgePropertiesPanelCoreProps> = (props) => {
-    const { readOnly, data } = props;
-    // const propsAPI = usePropsAPI();
+    const { readOnly, edge } = props;
+    const propsAPI = usePropsAPI();
+    const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const data = useGraphData();
 
-    // const [isParameterModalOpen, { setTrue: showModal, setFalse: hideModal }] = useBoolean(false);
-    // const [nodeName, setNodeName] = React.useState(data.name);
-    // const [parameterizationConfiguration, setParameterizationConfiguration] = React.useState<{
-    //     name: string;
-    //     callback: ParameterizeValueCallback;
-    //     prevValue?: string;
-    // }>();
+    // if (!edge.data) {
+    //     edge.update((currentEdge) => {
+    //         return {
+    //             ...currentEdge,
+    //             data: {
+    //                 source: data.nodes.find((node) => node.id === currentEdge.source)?.name,
+    //                 target: data.nodes.find((node) => node.id === currentEdge.target)?.name,
+    //                 types: [OutputSelectorValueType.Video]
+    //             }
+    //         };
+    //     });
+    // }
+
+    const types = edge?.data?.types;
+    if (types && (selectedKeys !== types ?? [])) {
+        setSelectedKeys(types ?? []);
+    }
+
+    let sourceName = edge?.data?.source;
+    if (!sourceName) {
+        sourceName = data.nodes.find((node) => node.id === edge?.source)?.name;
+    }
+    let targetName = edge?.data?.target;
+    if (!targetName) {
+        targetName = data.nodes.find((node) => node.id === edge?.target)?.name;
+    }
 
     const panelStyle: React.CSSProperties = {
         position: "absolute",
         right: 0,
-        top: 0,
-        bottom: 0,
+        top: 10,
         background: "var(--vscode-editor-background)",
-        borderLeft: "1px solid var(--vscode-editorWidget-border)",
+        border: "1px solid var(--vscode-editorWidget-border)",
+        borderRight: 0,
         width: 340,
         zIndex: 1000,
-        padding: 10,
+        padding: "0 10px 10px 10px",
         overflowY: "auto"
     };
 
-    // const nodeProperties = data.data.nodeProperties as any;
+    const dismissPanel = () => {
+        propsAPI.dismissSidePanel();
+        propsAPI.selectNodeById([]);
+    };
 
-    // const definition = Definitions.getNodeDefinition(nodeProperties);
+    const dropdownOptions = Object.keys(OutputSelectorValueType).map((key) => {
+        return {
+            text: key,
+            key: (OutputSelectorValueType as any)[key]
+        } as IDropdownOption;
+    });
 
-    // const requestParameterization = (propertyName: string, callback: ParameterizeValueCallback, prevValue?: string) => {
-    //     setParameterizationConfiguration({
-    //         name: propertyName,
-    //         callback: callback,
-    //         prevValue
-    //     });
-    //     showModal();
-    // };
-    // const setNewParameterizedValue = (newValue: string) => {
-    //     if (newValue && parameterizationConfiguration?.callback) {
-    //         parameterizationConfiguration?.callback(newValue);
-    //     }
-    // };
-
-    // const dismissPanel = () => {
-    //     propsAPI.dismissSidePanel();
-    //     propsAPI.selectNodeById([]);
-    // };
-
-    const onRenderCell = (item: any, index: number): JSX.Element => {
-        return (
-            <div data-is-focusable>
-                <div>
-                    {index} &nbsp; {item.name}
-                </div>
-            </div>
-        );
+    const onDropdownChange = (e: React.FormEvent, item?: IDropdownOption) => {
+        if (item) {
+            const keys = item.selected ? [...selectedKeys, item.key as string] : selectedKeys.filter((key) => key !== item.key);
+            setSelectedKeys(keys);
+            if (props?.updateEdgeData && edge?.id) props.updateEdgeData(edge.id, keys);
+        }
     };
 
     return (
         <div style={panelStyle}>
-            {/* <h2>ssdfasdfasdfasdfsdfsdf</h2> */}
-            {/* <List items={[{name:"all", id:"1"},{name:"video", id:"2"}{name:"audio", id:"3"},{name:"application", id:"4"}]} onRenderCell={onRenderCell}></List> */}
-            {/* <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: "s1" }}>
-                <h2 style={{ margin: 0 }}>{Localizer.getLocalizedStrings(definition.localizationKey).title}</h2>
-                <AdjustedIconButton
-                    iconProps={{
-                        iconName: "Clear"
-                    }}
-                    title={Localizer.l("closeButtonText")}
-                    ariaLabel={Localizer.l("propertyEditorCloseButtonAriaLabel")}
-                    onClick={dismissPanel}
-                />
+            <Stack>
+                <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: "s1" }}>
+                    <h2>Output Data</h2>
+                    <AdjustedIconButton
+                        iconProps={{
+                            iconName: "Clear"
+                        }}
+                        title={Localizer.l("closeButtonText")}
+                        ariaLabel={Localizer.l("propertyEditorCloseButtonAriaLabel")}
+                        onClick={dismissPanel}
+                    />
+                </Stack>
+                <Stack.Item>
+                    From {sourceName} To {targetName}
+                </Stack.Item>
+                <Stack.Item>
+                    <Dropdown options={dropdownOptions} multiSelect={true} label={"Output data"} selectedKeys={selectedKeys} onChange={onDropdownChange}></Dropdown>
+                </Stack.Item>
+                <Stack.Item>
+                    {selectedKeys.length == 0 && <MessageBar messageBarType={MessageBarType.info}>{Localizer.l("OutputSelectorsNoneSelectedMessage")}</MessageBar>}
+                </Stack.Item>
             </Stack>
-            {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
-            {readOnly ? (
-                <PropertyReadOnlyEditField name={definition.name} property={definition.name} nodeProperties={nodeProperties} />
-            ) : (
-                <PropertyEditField
-                    name={"name"}
-                    property={{ localizationKey: "MediaGraph.nodeName", type: "string" }}
-                    nodeProperties={nodeProperties}
-                    required={true}
-                    requestParameterization={requestParameterization}
-                    updateNodeName={updateNodeName}
-                />
-            )}
-            <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} />
-            <React.Suspense fallback={<></>}>
-                <ParameterEditor
-                    onSelectValue={setNewParameterizedValue}
-                    parameters={parameters}
-                    isShown={isParameterModalOpen}
-                    hideModal={hideModal}
-                    propertyName={parameterizationConfiguration?.name || ""}
-                    prevValue={parameterizationConfiguration?.prevValue || ""}
-                />
-            </React.Suspense> */}
         </div>
     );
 };
 
 export class EdgePropertiesPanel implements IPanelConfig {
-    private readonly readOnly: boolean;
-    constructor(readOnly: boolean) {
-        this.readOnly = readOnly;
-    }
+    constructor(private readOnly: boolean, private updateEdgeData?: (edeId: string, newTypes: string[]) => void) {}
     public render(data: any): React.ReactElement {
-        return <EdgePropertiesPanelCore readOnly={this.readOnly} />;
+        return <EdgePropertiesPanelCore readOnly={this.readOnly} edge={data} updateEdgeData={this.updateEdgeData} />;
     }
 
     public panelDidOpen(): void {

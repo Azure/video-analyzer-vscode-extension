@@ -1,4 +1,5 @@
 import dagre from "dagre";
+import { remove } from "lodash";
 import { v4 as uuid } from "uuid";
 import {
     GraphModel,
@@ -9,6 +10,7 @@ import {
 } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
+    MediaGraphOutputSelectorOperator,
     MediaGraphParameterDeclaration,
     MediaGraphProcessorUnion,
     MediaGraphSinkUnion,
@@ -22,6 +24,7 @@ import {
     CanvasNodeProperties,
     GraphInfo,
     MediaGraphNodeType,
+    OutputSelectorValueType,
     ValidationError
 } from "../Types/GraphTypes";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
@@ -98,14 +101,34 @@ export default class Graph {
             const targetNode = this.graphStructureStore.getNode(node.name);
             const targetPort = this.graphStructureStore.getPort(node.name, true);
 
-            // since we know all of the inputs for node, we can form edges (input, node)
+            const outputTypes: string[] = [];
+            if (input.outputSelectors) {
+                const isNotItems = input.outputSelectors.filter((selector) => selector.operator?.toLowerCase() === MediaGraphOutputSelectorOperator.IsNot.toLowerCase());
+                if (isNotItems.length) {
+                    outputTypes.push(...Object.values(OutputSelectorValueType));
+                    isNotItems.forEach((selector) => {
+                        remove(outputTypes, (item) => item === selector.value);
+                    });
+                }
+                const isItems = input.outputSelectors.filter((selector) => selector.operator?.toLowerCase() === MediaGraphOutputSelectorOperator.Is.toLowerCase());
+                if (isItems.length) {
+                    isItems.forEach((selector) => {
+                        if (selector.value) {
+                            outputTypes.push(selector.value);
+                        }
+                    });
+                }
+            } else {
+                outputTypes.push(...Object.values(OutputSelectorValueType));
+            }
+
             if (sourceNode && sourcePort && targetNode && targetPort) {
                 this.graphStructureStore.edges.push({
                     source: sourceNode.id,
                     target: targetNode.id,
                     sourcePortId: sourcePort.id,
                     targetPortId: targetPort.id,
-                    data: input.outputSelectors,
+                    data: { source: sourceNode.name, target: targetNode.name, types: outputTypes },
                     id: uuid()
                 });
             }

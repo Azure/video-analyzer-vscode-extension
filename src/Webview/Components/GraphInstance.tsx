@@ -375,8 +375,6 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                                     validationErrors={validationErrors}
                                     showValidationErrors={showValidationErrors}
                                     toggleValidationErrorPanel={toggleValidationErrorPanel}
-                                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                                    updateNodeName={() => {}}
                                 />
                             </Stack.Item>
                         </Stack>

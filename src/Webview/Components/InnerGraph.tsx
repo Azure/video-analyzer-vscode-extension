@@ -24,7 +24,6 @@ import GraphClass from "../Models/GraphData";
 import { GraphInfo, ValidationError } from "../Types/GraphTypes";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
-import { useTraceUpdate } from "../Utils/Helpers";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
 import { CustomEdgeConfig } from "./CustomEdgeConfig";
 import { EdgePropertiesPanel } from "./EdgePropertiesPanel";
@@ -43,12 +42,12 @@ export interface IInnerGraphProps {
     validationErrors?: ValidationError[];
     showValidationErrors?: boolean;
     toggleValidationErrorPanel?: () => void;
-    updateNodeName: (oldName: string, newName: string) => void | undefined;
+    updateNodeName?: (oldName: string, newName: string) => void;
+    updateEdgeData?: (edeId: string, newTypes: string[]) => void;
     vsCodeSetState: VSCodeSetState;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
-    useTraceUpdate(props);
     const { readOnly = false, parameters = [], propsApiRef, triggerValidation, updateNodeName, graph, graphTopologyName, graphDescription, vsCodeSetState } = props;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
@@ -65,11 +64,6 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
     const { zoomPanSettings } = state;
     const data = useGraphData();
 
-    data.nodes.forEach((node) => {
-        if (node.state === GraphNodeState.selected) {
-            inspectNode(node);
-        }
-    });
     const clamp = (min: number, max: number, value: number): number => {
         if (min > value) {
             return min;
@@ -112,11 +106,11 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             case GraphNodeEvent.Click:
                 onNodeClick(event.node);
                 break;
-            // case GraphEdgeEvent.Click:
-            //     propsApiRef.current?.openSidePanel("edgePanel", {
-            //         edge: event.edge
-            //     });
-            //     break;
+            case GraphEdgeEvent.Click:
+                if (!readOnly) {
+                    propsApiRef.current?.openSidePanel("edgePanel", event.edge);
+                }
+                break;
             default:
         }
     };
@@ -134,14 +128,14 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
     features.delete(GraphFeatures.nodeResizable);
 
     // save state in VS Code when data or zoomPanSettings change
-    React.useEffect(() => {
-        graph.setName(graphTopologyName);
-        graph.setDescription(graphDescription);
-        vsCodeSetState({
-            graphData: { ...data.toJSON(), meta: graph.getTopology() } as GraphInfo,
-            zoomPanSettings
-        } as any);
-    }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
+    // React.useEffect(() => {
+    //     graph.setName(graphTopologyName);
+    //     graph.setDescription(graphDescription);
+    //     vsCodeSetState({
+    //         graphData: { ...data.toJSON(), meta: graph.getTopology() } as GraphInfo,
+    //         zoomPanSettings
+    //     } as any);
+    // }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
 
     return (
         <>
@@ -152,7 +146,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             ) : (
                 ""
             )}
-            {/* <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(readOnly)} /> */}
+            <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(readOnly, props.updateEdgeData)} />
             <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters, updateNodeName)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <Graph

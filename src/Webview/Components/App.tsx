@@ -63,7 +63,6 @@ export const App: React.FunctionComponent<IProps> = (props) => {
                     }
                     if (isHorizontal !== isGraphHorizontal) {
                         toggleIsHorizontal();
-                        console.log("toggling horizontal to " + isHorizontal, isGraphHorizontal);
                     }
                     if (graphData) {
                         graph.setTopology(graphData, isHorizontal);

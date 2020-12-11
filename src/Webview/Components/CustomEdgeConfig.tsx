@@ -1,5 +1,7 @@
+import { fill } from "lodash";
 import React, { useContext } from "react";
 import { render } from "react-dom";
+import { ThemeColor } from "vscode";
 import {
     getCurvePathD,
     GraphEdgeState,
@@ -8,31 +10,25 @@ import {
     IEdgeConfig,
     IEdgeDrawArgs,
     IPropsAPI,
-    ITheme
+    ITheme,
+    useGraphData
 } from "@vienna/react-dag-editor";
+import Localizer from "../Localization/Localizer";
+import { OutputSelectorValueType } from "../Types/GraphTypes";
+import { graphTheme } from "../Utils/Constants";
 import AppContext from "./AppContext";
+
+export interface IEdgeData {
+    source: string;
+    target: string;
+    types: string[];
+}
 
 export class CustomEdgeConfig implements IEdgeConfig {
     private readonly propsAPI: IPropsAPI;
 
     constructor(propsAPI: IPropsAPI) {
         this.propsAPI = propsAPI;
-    }
-
-    private isSelected(edge: ICanvasEdge) {
-        return hasState(GraphEdgeState.selected | GraphEdgeState.activated | GraphEdgeState.connectedToSelected)(edge.state);
-    }
-
-    private getColor(edge: ICanvasEdge, theme: ITheme) {
-        return this.isSelected(edge) ? theme.edgeColorSelected : theme.edgeColor;
-    }
-
-    public getStyle(edge: ICanvasEdge, theme: ITheme): React.CSSProperties {
-        return {
-            cursor: "pointer",
-            stroke: this.getColor(edge, theme),
-            strokeWidth: this.isSelected(edge) ? 3 : 2
-        };
     }
 
     public render(args: IEdgeDrawArgs): React.ReactNode {
@@ -43,6 +39,20 @@ export class CustomEdgeConfig implements IEdgeConfig {
 const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) => {
     const { theme, model: edge, x1, x2, y1, y2 } = props.args;
     const appContext = useContext(AppContext);
+    //const data = useGraphData();
+
+    // if (!edge.data) {
+    //     edge.update((currentEdge) => {
+    //         return {
+    //             ...currentEdge,
+    //             data: {
+    //                 source: data.nodes.find((node) => node.id === currentEdge.source)?.name,
+    //                 target: data.nodes.find((node) => node.id === currentEdge.target)?.name,
+    //                 types: [OutputSelectorValueType.Video]
+    //             }
+    //         };
+    //     });
+    // }
 
     const isSelected = (edge: ICanvasEdge) => {
         return hasState(GraphEdgeState.selected | GraphEdgeState.activated | GraphEdgeState.connectedToSelected)(edge.state);
@@ -72,8 +82,17 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
         );
     };
 
+    const getEdgeStringArray = (edge: ICanvasEdge<any>): string[] => {
+        return !edge.data || !edge.data.types || edge.data.types.length === 3 || edge.data.types.length === 0
+            ? [Localizer.l("OutputSelectorsAllSelected")]
+            : edge.data.types;
+    };
+
     const color = getColor(edge, theme);
     const style = getStyle ? getStyle(edge, props.args.theme) : {};
+    const edgeString = getEdgeStringArray(edge).map((edgeString: string) => {
+        return <div>{edgeString}</div>;
+    });
 
     const verticalFixedY2 = y2 - 12;
     const verticalTriangleHeadPoints = `${x2 - 3} ${verticalFixedY2}, ${x2 + 3} ${verticalFixedY2}, ${x2} ${verticalFixedY2 + 6}`;
@@ -87,11 +106,16 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
         visibility: "hidden"
     };
 
+    const textWidth = 60;
+    const textX = (x1 + x2 - textWidth) / 2;
+    const textY = (y1 + y2) / 2;
     return appContext.isHorizontal ? (
-        //return (
         <>
             <path key={`${edge.id}-hidden`} d={horizontalPathD} pointerEvents="stroke" style={transparentPathStyle} />
             <path key={edge.id} d={horizontalPathD} fill="none" style={style} id={`edge${edge.id}`} />
+            <foreignObject width={textWidth} x={textX} y={textY} style={{ overflow: "visible" }}>
+                <div style={{ color: graphTheme.primaryColor, borderRadius: 6, transform: "translateY(-50%)", textAlign: "center", paddingBottom: 3 }}>{edgeString}</div>
+            </foreignObject>
             <polygon
                 points={`${x2 - 16} ${y2 - 3}, ${x2 - 16} ${y2 + 3}, ${x2 - 6} ${y2}`}
                 style={{
@@ -106,6 +130,9 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
         <>
             <path key={`${edge.id}-hidden`} d={verticalPathD} pointerEvents="stroke" style={transparentPathStyle} />
             <path key={edge.id} d={verticalPathD} fill="none" style={style} id={`edge${edge.id}`} />
+            <foreignObject width={textWidth} x={textX} y={textY} style={{ overflow: "visible" }}>
+                <div style={{ borderRadius: 6, transform: "translateY(-50%)", textAlign: "center", paddingBottom: 3 }}>{edgeString}</div>
+            </foreignObject>
             <polygon
                 points={verticalTriangleHeadPoints}
                 style={{

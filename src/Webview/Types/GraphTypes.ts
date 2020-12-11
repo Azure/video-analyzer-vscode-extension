@@ -12,6 +12,12 @@ export enum MediaGraphNodeType {
     Other = "other"
 }
 
+export enum OutputSelectorValueType {
+    Audio = "audio",
+    Video = "video",
+    Application = "application"
+}
+
 export interface GraphInfo {
     meta: MediaGraphTopology;
     nodes: ICanvasNode<any>[];

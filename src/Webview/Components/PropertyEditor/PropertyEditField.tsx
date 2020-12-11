@@ -40,7 +40,7 @@ enum PropertyFormatType {
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
     const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
-    const [value, setValue] = React.useState<string>(getInitialValue);
+    const [value, setValue] = React.useState<string>("");
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const [isParameterized, { setFalse: setParameterizeFalse }] = useBoolean(!!(value && typeof value === "string" && value.includes("${")));
 

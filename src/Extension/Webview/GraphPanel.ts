@@ -248,19 +248,6 @@ export class GraphEditorPanel {
                     window.language = "${language}";
                     </script>
                     ${scriptInjection}
-                    <script type="text/javascript">
-                    (function() {
-                        console.log("script running");
-                        var _Worker = window.Worker;
-                        window.Worker = function (url, opts) {
-                            console.log(url);
-                        var blob = new Blob(["importScripts(" + JSON.stringify(url) + ")"], {
-                            type: "text/javascript"
-                        });
-                        return new _Worker(URL.createObjectURL(blob), opts);
-                        }
-                    })();
-                    </script>
                 </body>
                 </html>`;
     }

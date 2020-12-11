@@ -105,6 +105,10 @@
                     "group": "inline"
                 },
                 {
+                    "command": "moduleExplorer.resetConnection",
+                    "when": "view == moduleExplorer && viewItem == hubItemContext"
+                },
+                {
                     "command": "moduleExplorer.createInstance",
                     "when": "view == moduleExplorer && viewItem =~ /^graphItemContext.*$/",
                     "group": "inline"
@@ -192,7 +196,7 @@
         "@fluentui/react": "^7.153.0",
         "@uifabric/icons": "^7.5.17",
         "@uifabric/react-hooks": "^7.13.9",
-        "@vienna/react-dag-editor": "2.0.0-rc.41",
+        "@vienna/react-dag-editor": "^2.0.0-rc.41",
         "azure-iothub": "1.12.4",
         "dagre": "^0.8.5",
         "lodash": "^4.17.20",
