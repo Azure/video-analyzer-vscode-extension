@@ -1,9 +1,4 @@
 {
-    "MediaGraphEndpoint.url": {
-        "type": "regex",
-        "value": "^(rtsp|ftp|http|https)://[^ \"]+$",
-        "errorLocKey": "notValidUrl"
-    },
     "MediaGraphFileSink.filePathPattern": {
         "type": "minMaxLength",
         "value": [1, 260]

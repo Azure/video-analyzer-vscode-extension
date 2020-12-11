@@ -264,7 +264,7 @@ export default class GraphValidator {
         }
         const format = (customPropertyTypes as any)[key];
         if (format === "urlFormat") {
-            const r = new RegExp('^(rtsp|ftp|http|https)://[^ "]+$');
+            const r = new RegExp('^(rtsp|ftp|http|https|tcp)://[^ "]+$');
             if (!r.test(value)) {
                 return Localizer.l("notValidUrl");
             }
