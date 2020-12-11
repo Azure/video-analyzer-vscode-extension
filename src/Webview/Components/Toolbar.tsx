@@ -66,7 +66,8 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
     const iconButtonStyles = {
         height: "100%",
         width: 40,
-        margin: 0
+        margin: 0,
+        color: Constants.graphTheme.buttonBackground
     };
 
     const autoLayout = () => {

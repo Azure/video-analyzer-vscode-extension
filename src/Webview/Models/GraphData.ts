@@ -118,8 +118,6 @@ export default class Graph {
                         }
                     });
                 }
-            } else {
-                outputTypes.push(...Object.values(OutputSelectorValueType));
             }
 
             if (sourceNode && sourcePort && targetNode && targetPort) {

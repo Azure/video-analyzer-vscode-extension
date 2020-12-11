@@ -7,6 +7,7 @@ import {
     Dropdown,
     IColumn,
     IDropdownOption,
+    IStackTokens,
     Label,
     List,
     MessageBar,
@@ -15,6 +16,7 @@ import {
     SelectionMode,
     Stack,
     StackItem,
+    Text,
     TextField
 } from "@fluentui/react";
 import {
@@ -75,10 +77,9 @@ const EdgePropertiesPanelCore: React.FunctionComponent<IEdgePropertiesPanelCoreP
         top: 10,
         background: "var(--vscode-editor-background)",
         border: "1px solid var(--vscode-editorWidget-border)",
-        borderRight: 0,
         width: 340,
         zIndex: 1000,
-        padding: "0 10px 10px 10px",
+        padding: "0 10px 20px 20px",
         overflowY: "auto"
     };
 
@@ -102,11 +103,15 @@ const EdgePropertiesPanelCore: React.FunctionComponent<IEdgePropertiesPanelCoreP
         }
     };
 
+    const stackTokens: IStackTokens = {
+        childrenGap: 10
+    };
+
     return (
         <div style={panelStyle}>
-            <Stack>
+            <Stack tokens={stackTokens}>
                 <Stack horizontal horizontalAlign="space-between" tokens={{ childrenGap: "s1" }}>
-                    <h2>Output Data</h2>
+                    <h2>{Localizer.l("EdgePropertyPanelTitle")}</h2>
                     <AdjustedIconButton
                         iconProps={{
                             iconName: "Clear"
@@ -117,10 +122,29 @@ const EdgePropertiesPanelCore: React.FunctionComponent<IEdgePropertiesPanelCoreP
                     />
                 </Stack>
                 <Stack.Item>
-                    From {sourceName} To {targetName}
+                    <Stack horizontal tokens={{ childrenGap: 8 }}>
+                        <Stack.Item grow>
+                            <Label htmlFor="fromConnectionId">{Localizer.l("EdgePropertyPanelFromLabel")}</Label>
+                            <Text id="fromConnectionId" block>
+                                {sourceName}
+                            </Text>
+                        </Stack.Item>
+                        <Stack.Item grow>
+                            <Label htmlFor="toConnectionId">{Localizer.l("EdgePropertyPanelToLabel")}</Label>
+                            <Text id="toConnectionId" block>
+                                {targetName}
+                            </Text>
+                        </Stack.Item>
+                    </Stack>
                 </Stack.Item>
                 <Stack.Item>
-                    <Dropdown options={dropdownOptions} multiSelect={true} label={"Output data"} selectedKeys={selectedKeys} onChange={onDropdownChange}></Dropdown>
+                    <Dropdown
+                        options={dropdownOptions}
+                        multiSelect={true}
+                        label={Localizer.l("EdgePropertyPanelTypeDropdownLabel")}
+                        selectedKeys={selectedKeys}
+                        onChange={onDropdownChange}
+                    ></Dropdown>
                 </Stack.Item>
                 <Stack.Item>
                     {selectedKeys.length == 0 && <MessageBar messageBarType={MessageBarType.info}>{Localizer.l("OutputSelectorsNoneSelectedMessage")}</MessageBar>}

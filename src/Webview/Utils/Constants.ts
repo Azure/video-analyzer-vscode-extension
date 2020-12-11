@@ -39,7 +39,9 @@ export const graphTheme = {
     focusOutlineColor: "var(--vscode-focusBorder)",
     dummyNodeStroke: "var(--vscode-foreground)",
     inputFocusBorderAlt: "var(--vscode-foreground)",
-    buttonBorder: "var(--vscode-input-border)"
+    buttonBorder: "var(--vscode-input-border)",
+    buttonForeground: "var(--vscode-button-foreground)",
+    buttonBackground: "var(--vscode-button-background)"
 };
 
 export const horizontalLayoutOptions = {

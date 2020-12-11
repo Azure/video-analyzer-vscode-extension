@@ -2,6 +2,7 @@ import { fill } from "lodash";
 import React, { useContext } from "react";
 import { render } from "react-dom";
 import { ThemeColor } from "vscode";
+import { Icon } from "@fluentui/react";
 import {
     getCurvePathD,
     GraphEdgeState,
@@ -55,7 +56,7 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
     // }
 
     const isSelected = (edge: ICanvasEdge) => {
-        return hasState(GraphEdgeState.selected | GraphEdgeState.activated | GraphEdgeState.connectedToSelected)(edge.state);
+        return hasState(GraphEdgeState.selected | GraphEdgeState.activated)(edge.state);
     };
 
     const getColor = (edge: ICanvasEdge, theme: ITheme) => {
@@ -66,7 +67,22 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
         return {
             cursor: "pointer",
             stroke: getColor(edge, theme),
-            strokeWidth: isSelected(edge) ? 3 : 2
+            strokeWidth: isSelected(edge) ? 2 : 1
+        };
+    };
+
+    const getIconStyle = () => {
+        return {
+            transform: "translate(-50%, -50%)",
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            height: 24,
+            width: edgeString.length * 24 + 6,
+            color: isSelected(edge) ? graphTheme.buttonForeground : graphTheme.primaryColor,
+            backgroundColor: isSelected(edge) ? graphTheme.edgeColorSelected : graphTheme.canvasBackground,
+            borderRadius: 8,
+            padding: "0 4px"
         };
     };
 
@@ -83,15 +99,23 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
     };
 
     const getEdgeStringArray = (edge: ICanvasEdge<any>): string[] => {
-        return !edge.data || !edge.data.types || edge.data.types.length === 3 || edge.data.types.length === 0
-            ? [Localizer.l("OutputSelectorsAllSelected")]
-            : edge.data.types;
+        return !edge.data || !edge.data.types || edge.data.types.length === 0 ? [] : edge.data.types;
     };
 
     const color = getColor(edge, theme);
     const style = getStyle ? getStyle(edge, props.args.theme) : {};
+    const getIcon = (outputValue: OutputSelectorValueType) => {
+        switch (outputValue) {
+            case OutputSelectorValueType.Video:
+                return "Video";
+            case OutputSelectorValueType.Audio:
+                return "Volume2";
+            default:
+                return "GenericScanFilled";
+        }
+    };
     const edgeString = getEdgeStringArray(edge).map((edgeString: string) => {
-        return <div>{edgeString}</div>;
+        return <Icon title={edgeString} iconName={getIcon(edgeString as any)} style={{ padding: "0 4px" }}></Icon>;
     });
 
     const verticalFixedY2 = y2 - 12;
@@ -106,22 +130,23 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
         visibility: "hidden"
     };
 
-    const textWidth = 60;
-    const textX = (x1 + x2 - textWidth) / 2;
+    const textX = (x1 + x2) / 2;
     const textY = (y1 + y2) / 2;
     return appContext.isHorizontal ? (
         <>
             <path key={`${edge.id}-hidden`} d={horizontalPathD} pointerEvents="stroke" style={transparentPathStyle} />
             <path key={edge.id} d={horizontalPathD} fill="none" style={style} id={`edge${edge.id}`} />
-            <foreignObject width={textWidth} x={textX} y={textY} style={{ overflow: "visible" }}>
-                <div style={{ color: graphTheme.primaryColor, borderRadius: 6, transform: "translateY(-50%)", textAlign: "center", paddingBottom: 3 }}>{edgeString}</div>
-            </foreignObject>
+            {edgeString.length && (
+                <foreignObject x={textX} y={textY} style={{ overflow: "visible" }}>
+                    <div style={getIconStyle()}>{edgeString}</div>
+                </foreignObject>
+            )}
             <polygon
                 points={`${x2 - 16} ${y2 - 3}, ${x2 - 16} ${y2 + 3}, ${x2 - 6} ${y2}`}
                 style={{
                     stroke: color,
                     fill: color,
-                    strokeWidth: isSelected(edge) ? 3 : 2
+                    strokeWidth: isSelected(edge) ? 2 : 1
                 }}
             />
         </>
@@ -130,9 +155,11 @@ const EdgeComponent: React.FunctionComponent<{ args: IEdgeDrawArgs }> = (props) 
         <>
             <path key={`${edge.id}-hidden`} d={verticalPathD} pointerEvents="stroke" style={transparentPathStyle} />
             <path key={edge.id} d={verticalPathD} fill="none" style={style} id={`edge${edge.id}`} />
-            <foreignObject width={textWidth} x={textX} y={textY} style={{ overflow: "visible" }}>
-                <div style={{ borderRadius: 6, transform: "translateY(-50%)", textAlign: "center", paddingBottom: 3 }}>{edgeString}</div>
-            </foreignObject>
+            {edgeString.length && (
+                <foreignObject x={textX} y={textY} style={{ overflow: "visible" }}>
+                    <div style={getIconStyle()}>{edgeString}</div>
+                </foreignObject>
+            )}
             <polygon
                 points={verticalTriangleHeadPoints}
                 style={{
