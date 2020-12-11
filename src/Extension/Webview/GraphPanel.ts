@@ -134,7 +134,7 @@ export class GraphEditorPanel {
             name: Constants.PostMessageNames.setGraphAlignment,
             callback: (isHorizontal: boolean) => {
                 context.globalState.update(Constants.LvaGlobalStateGraphAlignKey, {
-                    horizontal: isHorizontal
+                    isHorizontal: isHorizontal
                 });
             }
         });

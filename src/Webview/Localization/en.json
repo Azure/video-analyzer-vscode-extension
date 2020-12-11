@@ -1,5 +1,6 @@
 {
     "copy": "Copy",
+    "addAction": "Add",
     "delete": "Delete",
     "copySelected": "Copy selected",
     "deleteSelected": "Delete selected",

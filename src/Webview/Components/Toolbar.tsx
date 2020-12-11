@@ -22,7 +22,9 @@ import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
+import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
 import NodeHelpers from "../Utils/NodeHelpers";
+import PostMessage from "../Utils/PostMessage";
 import AppContext from "./AppContext";
 import { AdjustedPrimaryButton } from "./ThemeAdjustedComponents/AdjustedPrimaryButton";
 
@@ -95,6 +97,9 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
         }
         props.vsCodeSetState({ isHorizontal: !isHorizontal } as any);
         toggleIsHorizontal();
+        if (ExtensionInteraction.getVSCode()) {
+            PostMessage.sendMessageToParent({ name: Constants.PostMessageNames.setGraphAlignment, data: !isHorizontal });
+        }
     };
 
     return (
