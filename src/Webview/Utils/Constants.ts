@@ -6,7 +6,8 @@ export enum PostMessageNames {
     getInitialData = "getInitialData",
     setInitialData = "setInitialData",
     nameAvailableCheck = "nameAvailableCheck",
-    failedOperationReason = "failedOperationReason"
+    failedOperationReason = "failedOperationReason",
+    setGraphAlignment = "setGraphAlignment"
 }
 
 export enum PageType {
