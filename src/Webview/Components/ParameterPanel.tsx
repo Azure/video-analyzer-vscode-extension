@@ -44,7 +44,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
     const getLocalizationKey = () => {
         const key = graph.getLocalizationKeyOfParameter(parameter.name);
         const localizationKey = ( nameToLocalizationKey as any)[key];
-        return localizationKey;
+        return localizationKey ?? "";
     };
     const { parameter, graph, setParameter } = props;
     const { name, defaultValue, type, error } = parameter;
@@ -54,12 +54,10 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
 
     const onChange = (event: React.FormEvent, newValue?: string) => {
         if (newValue !== undefined) {
-            let error = "";
-            if (!defaultValue && !newValue) {
-                error = Localizer.l("sidebarGraphInstanceParameterMissing");
-            }
-
-            // TODO: Perform additional validation
+            const error = "";
+            // if (!defaultValue && !newValue) {
+            //     error = Localizer.l("sidebarGraphInstanceParameterMissing");
+            // }
 
             setParameter({ ...parameter, error, value: newValue });
             setValue(newValue);

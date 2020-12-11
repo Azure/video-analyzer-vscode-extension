@@ -17,6 +17,7 @@ import {
     MediaGraphInstance,
     MediaGraphParameterDeclaration
 } from "../../Common/Types/LVASDKTypes";
+import nameToLocalizationKey from "../Definitions/v2.0.0/nameToLocalizationKey.json";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import GraphValidator from "../Models/MediaGraphValidator";
@@ -257,17 +258,23 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                         });
                     }
 
-                    //TODO. Scott. do the validation from the property key where param is being used. and add the errors here.
-                    // console.log('parameterVE',parameter);
-                    // const instanceValidationError = GraphValidator.validateProperty(parameter.value, parameter.type);
-                    // console.log('instanceVE', instanceValidationError);
-                    // if(instanceValidationError !== '') {
-                    //     validationErrors.push({
-                    //         type: ValidationErrorType.PropertyValueValidationError,
-                    //         description: instanceValidationError,
-                    //         nodeName: parameter.name
-                    //     });
-                    // }
+                    //Todo scott instance stuff
+                    if (parameter.value) {
+                        console.log("parameter changed");
+                        const key = graph.getLocalizationKeyOfParameter(parameter.name);
+                        const localizationKey = (nameToLocalizationKey as any)[key];
+                        console.log("🚀 ~ file: GraphInstance.tsx ~ line 258 ~ parameters.forEach ~ localizationKey", localizationKey);
+                        if (localizationKey != undefined) {
+                            const instanceValidationError = GraphValidator.validateProperty(parameter.value, localizationKey);
+                            if (instanceValidationError !== "") {
+                                validationErrors.push({
+                                    type: ValidationErrorType.PropertyValueValidationError,
+                                    description: instanceValidationError,
+                                    nodeName: parameter.name
+                                });
+                            }
+                        }
+                    }
                 });
                 setValidationErrors(validationErrors);
                 setParameters(parameters);
