@@ -260,10 +260,8 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
 
                     //Todo scott instance stuff
                     if (parameter.value) {
-                        console.log("parameter changed");
                         const key = graph.getLocalizationKeyOfParameter(parameter.name);
                         const localizationKey = (nameToLocalizationKey as any)[key];
-                        console.log("🚀 ~ file: GraphInstance.tsx ~ line 258 ~ parameters.forEach ~ localizationKey", localizationKey);
                         if (localizationKey != undefined) {
                             const instanceValidationError = GraphValidator.validateProperty(parameter.value, localizationKey);
                             if (instanceValidationError !== "") {
