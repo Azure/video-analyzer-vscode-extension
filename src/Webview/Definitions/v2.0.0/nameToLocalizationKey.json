@@ -1,0 +1,12 @@
+{
+    "url": "MediaGraphEndpoint.url",
+    "filePathPattern": "MediaGraphFileSink.filePathPattern",
+    "segmentLength": "MediaGraphAssetSink.segmentLength",
+    "activationEvaluationWindow": "MediaGraphSignalGateProcessor.activationEvaluationWindow",
+    "activationSignalOffset": "MediaGraphSignalGateProcessor.activationSignalOffset",
+    "minimumActivationTime": "MediaGraphSignalGateProcessor.minimumActivationTime",
+    "maximumActivationTime": "MediaGraphSignalGateProcessor.maximumActivationTime",
+    "maximumFps": "MediaGraphFrameRateFilterProcessor.maximumFps",
+    "width": "MediaGraphImageScale.width",
+    "height": "MediaGraphImageScale.height"
+}

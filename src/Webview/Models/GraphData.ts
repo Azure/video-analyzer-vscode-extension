@@ -247,6 +247,36 @@ export default class Graph {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
 
+    public getLocalizationKeyOfParameter = (parameterName: string) => {
+        const nodes = this.graphStructureStore.nodes;
+        const parameterString = "${" + parameterName + "}";
+        let localizationKey = "";
+        for (const node of nodes) {
+            localizationKey = this.recursiveGetLocalizationKeyOfParameter(node.data, parameterString);
+            if(localizationKey !== '') {
+                return localizationKey;
+            }
+        }
+
+        return localizationKey;
+    }
+
+    public recursiveGetLocalizationKeyOfParameter = (nestedNode: any, parameterName: string): any => {
+        const propertyKeys = Object.keys(nestedNode);
+        for (let i = 0; i < propertyKeys.length; i++) {
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue !== "number" && typeof propertyValue !== "boolean") {
+                if (typeof propertyValue !== "string") {
+                    return this.recursiveGetLocalizationKeyOfParameter(propertyValue, parameterName);
+                } else {
+                    if (propertyValue != null && propertyValue === parameterName) {
+                        return propertyKeys[i];
+                    }
+                }
+            }
+        }
+    }
+
     public checkForParamsInGraphNode(parameter: string) {
         const nodes = this.graphStructureStore.nodes;
         const parameterString = "${" + parameter + "}";
