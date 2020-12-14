@@ -66,9 +66,7 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
 
     const iconButtonStyles = {
         height: "100%",
-        width: 40,
-        margin: 0,
-        color: Constants.graphTheme.buttonBackground
+        margin: 0
     };
 
     const autoLayout = () => {
@@ -112,19 +110,24 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
                 </Stack>
             </Stack>
             <Stack horizontal tokens={{ childrenGap: "s1" }} styles={toolbarStyles}>
-                <IconButton
+                <CommandBarButton
                     iconProps={{ iconName: "Library" }}
                     onClick={toggleSidebar}
-                    title={isSidebarShown ? Localizer.l("toolbarHideLeftSidebar") : Localizer.l("toolbarShowLeftSidebar")}
                     style={iconButtonStyles}
-                ></IconButton>
-                <IconButton iconProps={{ iconName: "TriggerAuto" }} onClick={autoLayout} style={iconButtonStyles} title={Localizer.l("toolbarAutoLayout")}></IconButton>
-                <IconButton
+                    text={isSidebarShown ? Localizer.l("toolbarHideLeftSidebar") : Localizer.l("toolbarShowLeftSidebar")}
+                ></CommandBarButton>
+                <CommandBarButton
+                    iconProps={{ iconName: "TriggerAuto" }}
+                    onClick={autoLayout}
+                    style={iconButtonStyles}
+                    text={Localizer.l("toolbarAutoLayout")}
+                ></CommandBarButton>
+                <CommandBarButton
                     iconProps={{ iconName: isHorizontal ? "Orientation" : "Orientation2" }}
                     onClick={changeLayout}
-                    title={isHorizontal ? Localizer.l("toolbarToVertical") : Localizer.l("toolbarToHorizontal")}
                     style={iconButtonStyles}
-                ></IconButton>
+                    text={isHorizontal ? Localizer.l("toolbarToVertical") : Localizer.l("toolbarToHorizontal")}
+                ></CommandBarButton>
                 {props.children}
             </Stack>
         </>
