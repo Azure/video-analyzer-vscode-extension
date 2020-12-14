@@ -37,7 +37,7 @@ You will need to use the IoT Hub connection string to connect this extension to 
 
     - Enter the Iot Hub Connection string that you want use (It is one-time configuration, and please make sure it is IoT Hub Connection String and not Device Connection String. The format is **`HostName=<my-hub>.azure-devices.net;SharedAccessKeyName=<my-policy>;SharedAccessKey=<my-policy-key>`**)
 
-        ![Setup IoT Hub Connection String](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/addConnectionString.gif)
+![Setup IoT Hub Connection String](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/addConnectionString.gif)
 
 1. The device list will be shown
     - Choose the device you want to use to deploy the media graphs
