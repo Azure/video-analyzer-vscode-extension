@@ -47,7 +47,7 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
 
     const nodeProperties = data.data.nodeProperties as any;
 
-    const definition = Definitions.getNodeDefinition(nodeProperties);
+    const definition = Definitions.getNodeDefinition(nodeProperties?.["@type"]);
 
     const requestParameterization = (propertyName: string, callback: ParameterizeValueCallback, prevValue?: string) => {
         setParameterizationConfiguration({
@@ -82,7 +82,13 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
                 />
             </Stack>
             {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
-            <PropertyEditor nodeProperties={nodeProperties} readOnly={readOnly} requestParameterization={requestParameterization} updateNodeName={updateNodeName} />
+            <PropertyEditor
+                nodeTypeName={nodeProperties?.["@type"]}
+                nodeProperties={nodeProperties}
+                readOnly={readOnly}
+                requestParameterization={requestParameterization}
+                updateNodeName={updateNodeName}
+            />
             <React.Suspense fallback={<></>}>
                 <ParameterEditor
                     onSelectValue={setNewParameterizedValue}

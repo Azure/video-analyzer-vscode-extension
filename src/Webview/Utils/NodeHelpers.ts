@@ -141,14 +141,11 @@ export default class NodeHelpers {
     loosing the values or properties not needed for the selected type, properties
     that might not be needed are retained. We can remove these when exporting. */
     static getTrimmedNodeProperties(nodeProperties: CanvasNodeProperties): CanvasNodeProperties {
-        const definition = Definitions.getNodeDefinition(nodeProperties);
+        const definition = Definitions.getNodeDefinition(nodeProperties["@type"]);
         const neededProperties: any = {};
 
         if (!definition) {
-            return {
-                "@type": nodeProperties["@type"],
-                name: nodeProperties.name
-            };
+            return nodeProperties;
         }
 
         // copy over only properties as needed (determined by definition)
@@ -159,7 +156,7 @@ export default class NodeHelpers {
             // some properties can be false and we want to include that value
             if (nestedProperties !== undefined) {
                 if (property && property.type === "object") {
-                    if (!Helpers.isEmptyObject(nestedProperties) && nestedProperties["@type"]) {
+                    if (!Helpers.isEmptyObject(nestedProperties)) {
                         neededProperties[name] = this.getTrimmedNodeProperties(nestedProperties);
                     }
                 } else {

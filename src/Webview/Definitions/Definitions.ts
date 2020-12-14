@@ -9,13 +9,16 @@ const availableNodes: NodeDefinition[] = storedNodes.availableNodes as NodeDefin
 const itemPanelNodes: any[] = storedNodes.itemPanelNodes;
 
 export default class Definitions {
-    public static getNodeDefinition(nodeProperties: CanvasNodeProperties): NodeDefinition {
-        return availableNodes.filter((x) => nodeProperties["@type"] && x.name === nodeProperties["@type"].replace("#Microsoft.Media.", ""))[0];
+    public static getNodeDefinition(type: string): NodeDefinition {
+        return availableNodes.filter((x) => type && x.name === type.replace("#Microsoft.Media.", ""))[0];
     }
 
+    public static getNameFromParsedRef(parsedRef: string) {
+        return parsedRef.replace("#/definitions/", "");
+    }
     public static getCompatibleNodes(fullParentTypeRef: string) {
         const compatibleNodes = [];
-        const parentType = fullParentTypeRef.replace("#/definitions/", "");
+        const parentType = this.getNameFromParsedRef(fullParentTypeRef);
 
         for (const candidateNode of availableNodes) {
             const nodeInheritsFrom = candidateNode.parsedAllOf && candidateNode.parsedAllOf.includes(fullParentTypeRef);

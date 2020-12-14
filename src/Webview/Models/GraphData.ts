@@ -1,5 +1,5 @@
 import dagre from "dagre";
-import { remove } from "lodash";
+import remove from "lodash/remove";
 import { v4 as uuid } from "uuid";
 import {
     GraphModel,
@@ -37,7 +37,7 @@ export default class Graph {
     private static readonly nodeTypeList = [MediaGraphNodeType.Source, MediaGraphNodeType.Processor, MediaGraphNodeType.Sink];
 
     // what we initialized with (contains name, description, etc.)
-    private graphInformation: MediaGraphTopology = { name: "" };
+    private graphInformation: MediaGraphTopology = { name: "", properties: { parameters: [] } };
 
     // the target format expects dividing up the nodes into these three types
     private sources: MediaGraphSourceUnion[] = [];

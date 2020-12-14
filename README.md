@@ -1,6 +1,6 @@
 # LVA Edge Graph Extension for VS Code
 
-Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is provided through this extension that makes it easy to edit and manage LVA Edge graph deployments.
+Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is provided through this extension that makes it easy to edit and manage LVA Edge media graphs.
 
 ## Suggested Pre-reading
 
@@ -22,7 +22,6 @@ Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is pr
         -   edgeHub
         -   Live Video Analytics agent
 
-> [!NOTE]
 > On first run, you need to connect to an Azure IoT Hub using a connection string. You can then manage graph topologies and instances on the chosen device. You can get a connection string by following the instructions in the [Quickstart](https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/get-started-detect-motion-emit-events-quickstart). Follow the steps up until _Configure the Azure IoT Tools extension_ and use the connection string in this extension instead of Azure IoT Tools.
 
 ## Setup LVA edge graph extension
@@ -35,11 +34,15 @@ You will need to use the IoT Hub connection string to connect this extension to 
 
 1. In Explorer of VS Code, click the "Live Video Analytics" extension in the left pane.
 1. Click on **"Enter Connection String"** button
-    1. Enter the Iot Hub Connection string that you want use (It is one-time configuration, and please make sure it is IoT Hub Connection String and not Device Connection String. The format is **`HostName=<my-hub>.azure-devices.net;SharedAccessKeyName=<my-policy>;SharedAccessKey=<my-policy-key>`**)
+
+    - Enter the Iot Hub Connection string that you want use (It is one-time configuration, and please make sure it is IoT Hub Connection String and not Device Connection String. The format is **`HostName=<my-hub>.azure-devices.net;SharedAccessKeyName=<my-policy>;SharedAccessKey=<my-policy-key>`**)
+
+        ![Setup IoT Hub Connection String](resources/gifs/addConnectionString.gif)
+
 1. The device list will be shown
-    1. Choose the device you want to use to deploy the media graphs
+    - Choose the device you want to use to deploy the media graphs
 1. A list of modules that are already deployed to the device will be displayed
-    1. Choose the Live Video Analytics module from the list
+    - Choose the Live Video Analytics module from the list
 1. Open the VS Code Explorer or press `Ctrl`+ `Shift` + `E` and search for the Azure IoT hub extension at the bottom left pane
 1. Pull up the extension and find the IoT Hub
 1. Right click the `...` button and select "**Start Monitoring Built-in Event Endpoint**" option
@@ -55,10 +58,28 @@ You will need to use the IoT Hub connection string to connect this extension to 
 1. Once you are done creating the topology and providing values for the required fields, save the topology by clicking the "**Save**" button
 1. You should then see the topology name in the left pane
 
+![Create a graph topology](resources/gifs/createTopology.gif)
+
 ### Activate Graph Instances
 
 1. Once a graph topology is created, you need to create an instance of the topology
-    1. Here you will provide the values to the graph instance parameters
+    - Here you will provide the values to the graph instance parameters
 1. Once all the required parameters are filled in, you can "**Save**" the instance and activate it later or "**Save and activate**" the graph instance
 1. Once the graph is activated, you will see a green icon next to the graph instance name
 1. Open the Output console by pressing `Ctrl`+ `Shift` + `U` and observe the IoT Hub messages start flowing
+
+![Activate an graph instance](resources/gifs/activateTopology.gif)
+
+## Contributing
+
+Got a suggestion for the Azure IoT Tools extension? Submit a new issue and a PR with an updated `package.json` and `README.md` and we'll take a look!
+
+Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.microsoft.com.
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## License
+
+[MIT](LICENSE)

@@ -43,6 +43,9 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand("moduleExplorer.deleteGraph", (graphNode: GraphTopologyItem) => {
             graphNode.deleteGraphCommand();
         }),
+        vscode.commands.registerCommand("moduleExplorer.showGraphJson", (graphNode: GraphTopologyItem) => {
+            graphNode.showGraphJson();
+        }),
         vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: InstanceItem) => {
             instanceNode.setInstanceCommand(context);
         }),
@@ -54,6 +57,9 @@ export async function activate(context: vscode.ExtensionContext) {
         }),
         vscode.commands.registerCommand("moduleExplorer.deleteInstance", (instanceNode: InstanceItem) => {
             instanceNode.deleteInstanceCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.showGraphInstanceJson", (instanceNode: InstanceItem) => {
+            instanceNode.showGraphInstanceJson();
         })
     );
 }

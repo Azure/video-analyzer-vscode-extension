@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Dropdown, IDropdownOption } from "@fluentui/react";
 import { useId } from "@uifabric/react-hooks";
+import { useGraphData } from "@vienna/react-dag-editor";
 import Definitions from "../../Definitions/Definitions";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
@@ -13,26 +14,30 @@ interface IPropertyNestedObjectProps {
     nodeProperties: any;
     required: boolean;
     readOnly?: boolean;
-    hideDropDown?: boolean;
     requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
-    const { property, nodeProperties, required, readOnly = false, requestParameterization, hideDropDown } = props;
+    const { property, nodeProperties, required, readOnly = false, requestParameterization, name } = props;
     const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
-    const [type, setType] = React.useState<string>();
+    const [nodeTypeName, setNodeTypeName] = React.useState<string>("");
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
 
-    if (type !== initType) {
-        setType(initType);
-    }
-
     React.useEffect(() => {
-        if (type == null && required) {
+        if (!nodeName && required) {
             setErrorMessage(Localizer.l("propertyEditorValidationUndefined"));
         }
-    }, [type]);
+    }, [nodeTypeName]);
+
+    const hadDiscriminator = property["discriminator"] != null;
+    const nodeName = !hadDiscriminator ? Definitions.getNameFromParsedRef(property.parsedRef) : initType;
+    if (nodeTypeName !== nodeName) {
+        setNodeTypeName(nodeName);
+        if (!nodeName && required) {
+            setErrorMessage(Localizer.l("propertyEditorValidationUndefined"));
+        }
+    }
 
     function handleTypeChange(e: React.FormEvent, item?: IDropdownOption) {
         if (item) {
@@ -42,14 +47,14 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
             } else {
                 nodeProperties["@type"] = "";
             }
-            setType(itemType);
+            setNodeTypeName(itemType);
             if (required) {
                 setErrorMessage(itemType === "" ? Localizer.l("propertyEditorValidationUndefined") : "");
             }
         }
     }
 
-    const options: IDropdownOption[] = hideDropDown
+    const options: IDropdownOption[] = !hadDiscriminator
         ? []
         : [
               ...Definitions.getCompatibleNodes(property.parsedRef).map((node) => {
@@ -68,15 +73,15 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
         return <PropertyDescription name={localizedPropertyStrings.title} required={required} property={property} labelId={labelId} />;
     }
 
-    const selectedType = type;
+    const selectedType = nodeTypeName;
     if (!selectedType && options.length == 1) {
         handleTypeChange(null as any, options[0]);
     }
 
     return (
         <>
-            {!hideDropDown &&
-                (readOnly ? (
+            {hadDiscriminator ? (
+                readOnly ? (
                     <>
                         {onRenderLabel()}
                         <div aria-labelledby={labelId}>
@@ -93,8 +98,11 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                         aria-labelledby={labelId}
                         errorMessage={errorMessage}
                     />
-                ))}
-            {type && (
+                )
+            ) : (
+                <PropertyDescription name={localizedPropertyStrings.title} required={required} property={property}></PropertyDescription>
+            )}
+            {nodeTypeName && (
                 <div
                     style={{
                         borderLeft: "1px solid",
@@ -103,6 +111,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                 >
                     {nodeProperties && (
                         <PropertyEditor
+                            nodeTypeName={nodeTypeName}
                             nodeProperties={nodeProperties}
                             readOnly={readOnly}
                             requestParameterization={requestParameterization}

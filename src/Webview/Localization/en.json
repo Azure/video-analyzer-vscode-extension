@@ -149,5 +149,5 @@
     "EdgePropertyPanelToLabel": "To",
     "EdgePropertyPanelTypeDropdownLabel": "Output type",
     "OutputSelectorsAllSelected": "All",
-    "OutputSelectorsNoneSelectedMessage": "Selecting none of the output types will be treated as selecting all."
+    "OutputSelectorsNoneSelectedMessage": "Selecting none of the output types will be treated as sending all applicable data from the sender node."
 }

@@ -16,7 +16,7 @@ interface IPropertyDescriptionProps {
     name: string;
     required: boolean;
     property: any;
-    labelId: string;
+    labelId?: string;
     useParameter?: () => void;
     isParameterized?: boolean;
     setNewValue?: (newValue: string) => void;

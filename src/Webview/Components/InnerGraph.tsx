@@ -9,6 +9,7 @@ import {
     GraphNodeEvent,
     GraphNodeState,
     GraphScrollBarEvent,
+    ICanvasEdge,
     ICanvasNode,
     IEvent,
     IPoint,
@@ -21,11 +22,15 @@ import {
 } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
 import GraphClass from "../Models/GraphData";
-import { GraphInfo, ValidationError } from "../Types/GraphTypes";
+import {
+    GraphInfo,
+    OutputSelectorValueType,
+    ValidationError
+} from "../Types/GraphTypes";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
-import { CustomEdgeConfig } from "./CustomEdgeConfig";
+import { CustomEdgeConfig, IEdgeData } from "./CustomEdgeConfig";
 import { EdgePropertiesPanel } from "./EdgePropertiesPanel";
 import { NodePropertiesPanel } from "./NodePropertiesPanel";
 import { ValidationErrorPanel } from "./ValidationErrorPanel";
@@ -115,6 +120,15 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
         }
     };
 
+    const edgeWillAdd = (edge: ICanvasEdge<IEdgeData>, node: any) => {
+        return {
+            ...edge,
+            data: {
+                types: [OutputSelectorValueType.Video]
+            }
+        };
+    };
+
     const itemStyles: React.CSSProperties = {
         maxHeight: "200px"
     };
@@ -127,15 +141,15 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
     const features = defaultFeatures;
     features.delete(GraphFeatures.nodeResizable);
 
-    // save state in VS Code when data or zoomPanSettings change
-    // React.useEffect(() => {
-    //     graph.setName(graphTopologyName);
-    //     graph.setDescription(graphDescription);
-    //     vsCodeSetState({
-    //         graphData: { ...data.toJSON(), meta: graph.getTopology() } as GraphInfo,
-    //         zoomPanSettings
-    //     } as any);
-    // }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
+    //save state in VS Code when data or zoomPanSettings change
+    React.useEffect(() => {
+        graph.setName(graphTopologyName);
+        graph.setDescription(graphDescription);
+        vsCodeSetState({
+            graphData: { ...data.toJSON(), meta: graph.getTopology() } as GraphInfo,
+            zoomPanSettings
+        } as any);
+    }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
 
     return (
         <>
@@ -146,13 +160,14 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             ) : (
                 ""
             )}
-            <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(readOnly, props.updateEdgeData)} />
+            <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(props.updateEdgeData)} />
             <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters, updateNodeName)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <Graph
                 svgRef={svgRef}
                 propsAPIRef={propsApiRef}
                 onEvent={handleEvent}
+                edgeWillAdd={edgeWillAdd}
                 defaultNodeShape="module"
                 defaultPortShape="modulePort"
                 defaultEdgeShape="customEdge"

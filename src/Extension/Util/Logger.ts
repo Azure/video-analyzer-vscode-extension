@@ -1,6 +1,4 @@
-import { get, nth } from "lodash";
 import { OutputChannel, ViewColumn, window } from "vscode";
-import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
 import { Constants } from "./Constants";
 
 export const enum LogLevel {

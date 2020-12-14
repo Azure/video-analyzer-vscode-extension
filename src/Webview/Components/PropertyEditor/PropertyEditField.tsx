@@ -1,4 +1,3 @@
-import { property } from "lodash";
 import * as React from "react";
 import {
     ChoiceGroup,
@@ -44,12 +43,28 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const [isParameterized, { setFalse: setParameterizeFalse, setTrue: setParameterizeTrue }] = useBoolean(false);
 
+    const validateInput = (value: string) => {
+        let errorMessage = "";
+        if (required) {
+            errorMessage = GraphValidator.validateRequiredProperty(value, property.type);
+        }
+        if (isValueParameterized(value)) {
+            return "";
+        }
+        if (!errorMessage) {
+            errorMessage = GraphValidator.validateProperty(value, property.localizationKey);
+        }
+
+        return errorMessage;
+    };
+
     const isValueParameterized = (valueString: string) => {
         return !!(valueString && typeof valueString === "string" && valueString.includes("${"));
     };
     const initValue = getInitialValue();
     if (value !== initValue) {
         setValue(initValue);
+        setErrorMessage(validateInput(initValue));
         if (isValueParameterized(initValue)) {
             setParameterizeTrue();
         } else setParameterizeFalse();
@@ -90,6 +105,15 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             setErrorMessage(validateInput(value));
         }
     }
+
+    const setParamValue = (newValue: string) => {
+        if (newValue && isValueParameterized(newValue)) {
+            setParameterizeTrue();
+        } else {
+            setParameterizeFalse();
+        }
+        setNewValue(newValue);
+    };
 
     function setNewValue(newValue: string) {
         if (updateNodeName) {
@@ -138,25 +162,10 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         }
     }
 
-    const validateInput = (value: string) => {
-        let errorMessage = "";
-        if (required) {
-            errorMessage = GraphValidator.validateRequiredProperty(value, property.type);
-        }
-        if (isValueParameterized(value)) {
-            return "";
-        }
-        if (!errorMessage) {
-            errorMessage = GraphValidator.validateProperty(value, property.localizationKey);
-        }
-
-        return errorMessage;
-    };
-
     const labelId: string = useId("label");
 
     function requestAndInsertParameter() {
-        requestParameterization!(name, setNewValue, value);
+        requestParameterization!(name, setParamValue, value);
     }
 
     function onRenderLabel() {
@@ -168,12 +177,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 labelId={labelId}
                 useParameter={requestParameterization && requestAndInsertParameter}
                 isParameterized={isParameterized}
-                setNewValue={(newValue) => {
-                    if (!newValue) {
-                        setParameterizeFalse();
-                    }
-                    setNewValue(newValue);
-                }}
+                setNewValue={setParamValue}
             />
         );
     }

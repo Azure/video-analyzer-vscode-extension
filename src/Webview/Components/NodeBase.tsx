@@ -41,7 +41,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         const iconName = node.data!.iconName;
         const accentColor = node.data!.color;
         const nodeType = node.data!.nodeProperties["@type"];
-        const definition = Definitions.getNodeDefinition(node.data?.nodeProperties);
+        const definition = Definitions.getNodeDefinition(node.data?.nodeProperties?.["@type"]);
         const nodeNameType = Localizer.l("nodeContainerNodeType").format(Localizer.getLocalizedStrings(definition.localizationKey).title);
         const dragging = node.data!.nodeProperties.dragging;
         const description = Localizer.l(nodeType.split(".").pop());
