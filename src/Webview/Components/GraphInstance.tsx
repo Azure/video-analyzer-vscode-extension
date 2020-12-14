@@ -262,9 +262,9 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                     if (parameter.value) {
                         const key = graph.getLocalizationKeyOfParameter(parameter.name);
                         const localizationKey = (nameToLocalizationKey as any)[key];
-                        if (localizationKey != undefined) {
+                        if (localizationKey !== undefined) {
                             const instanceValidationError = GraphValidator.validateProperty(parameter.value, localizationKey);
-                            if (instanceValidationError !== "") {
+                            if (instanceValidationError) {
                                 validationErrors.push({
                                     type: ValidationErrorType.PropertyValueValidationError,
                                     description: instanceValidationError,

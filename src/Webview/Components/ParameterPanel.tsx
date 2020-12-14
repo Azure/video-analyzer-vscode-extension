@@ -1,10 +1,10 @@
 import * as React from "react";
 import { getTheme, mergeStyleSets, Text, TextField } from "@fluentui/react";
+import nameToLocalizationKey from "../Definitions/v2.0.0/nameToLocalizationKey.json";
 import Localizer from "../Localization/Localizer";
-import { GraphInstanceParameter } from "../Types/GraphTypes";
 import Graph from "../Models/GraphData";
 import GraphValidator from "../Models/MediaGraphValidator";
-import nameToLocalizationKey from "../Definitions/v2.0.0/nameToLocalizationKey.json";
+import { GraphInstanceParameter } from "../Types/GraphTypes";
 
 export interface IGraphPanelProps {
     parameters: GraphInstanceParameter[];
@@ -43,7 +43,7 @@ interface IGraphPanelEditFieldProps {
 const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = (props) => {
     const getLocalizationKey = () => {
         const key = graph.getLocalizationKeyOfParameter(parameter.name);
-        const localizationKey = ( nameToLocalizationKey as any)[key];
+        const localizationKey = (nameToLocalizationKey as any)[key];
         return localizationKey ?? "";
     };
     const { parameter, graph, setParameter } = props;
@@ -51,14 +51,9 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
     const [value, setValue] = React.useState<string>(parameter.value);
     const [localizationKey] = React.useState<string>(getLocalizationKey());
 
-
     const onChange = (event: React.FormEvent, newValue?: string) => {
         if (newValue !== undefined) {
             const error = "";
-            // if (!defaultValue && !newValue) {
-            //     error = Localizer.l("sidebarGraphInstanceParameterMissing");
-            // }
-
             setParameter({ ...parameter, error, value: newValue });
             setValue(newValue);
         }
@@ -69,7 +64,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
         if (!defaultValue && !value) {
             errorMessage = Localizer.l("sidebarGraphInstanceParameterMissing");
         }
-        if (!errorMessage && localizationKey != undefined) {
+        if (!errorMessage && localizationKey !== undefined) {
             errorMessage = GraphValidator.validateProperty(value, localizationKey);
         }
 
