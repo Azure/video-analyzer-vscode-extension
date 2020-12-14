@@ -4,6 +4,15 @@
     "description": "%extensionDescription%",
     "version": "0.1.0",
     "publisher": "ms-azuretools",
+    "license": "SEE LICENSE IN LICENSE",
+    "homepage": "https://github.com/Azure/lva-edge-vscode-extension",
+    "bugs": {
+        "url": "https://github.com/Azure/lva-edge-vscode-extension/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Azure/lva-edge-vscode-extension"
+    },
     "icon": "lva-icon.png",
     "engines": {
         "vscode": "^1.38.0"
@@ -19,10 +28,6 @@
     "keywords": [
         "live video analytics"
     ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Azure/lva-edge-vscode-extension"
-    },
     "main": "./dist/extension",
     "contributes": {
         "commands": [
