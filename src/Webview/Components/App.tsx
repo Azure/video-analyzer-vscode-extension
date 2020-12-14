@@ -32,7 +32,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     const { pageViewType, graphData, zoomPanSettings = { transformMatrix: [1, 0, 0, 1, 0, 0] }, instance } = props.state;
 
     const [isEditMode, { setTrue: setEditModeTrue }] = useBoolean(props.state.editMode);
-    const [isGraphHorizontal, { toggle: toggleIsHorizontal }] = useBoolean(props.state.isHorizontal ?? true);
+    const [isGraphHorizontal, { setTrue: setHorizontalTrue, setFalse: setHorizontalFalse }] = useBoolean(props.state.isHorizontal ?? true);
 
     // when unmounting, disconnect the observer to prevent leaked references
     useEffect(() => {
@@ -62,7 +62,11 @@ export const App: React.FunctionComponent<IProps> = (props) => {
                         setEditModeTrue();
                     }
                     if (isHorizontal !== isGraphHorizontal) {
-                        toggleIsHorizontal();
+                        if (isHorizontal) {
+                            setHorizontalTrue();
+                        } else {
+                            setHorizontalFalse();
+                        }
                     }
                     if (graphData) {
                         graph.setTopology(graphData, isHorizontal);

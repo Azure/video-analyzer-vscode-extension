@@ -28,6 +28,7 @@ import {
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
+import NodeHelpers from "../Utils/NodeHelpers";
 import PostMessage from "../Utils/PostMessage";
 import AppContext from "./AppContext";
 import { ContextMenu } from "./ContextMenu";
@@ -61,6 +62,14 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const [isGraphHorizontal, { toggle: toggleIsHorizontal }] = useBoolean(props.isHorizontal);
     let errorsFromResponse: ValidationError[] = [];
 
+    const propsApiRef = React.useRef<IPropsAPI>(null);
+    const nameTextFieldRef = React.useRef<ITextField>(null);
+
+    React.useEffect(() => {
+        const data = graph.getICanvasData();
+        propsApiRef.current?.setData(GraphModel.fromJSON(NodeHelpers.autoLayout(data, isGraphHorizontal)));
+    }, [propsApiRef, graph, isGraphHorizontal]);
+
     let instanceNameValidationError: ValidationError | undefined;
 
     let initialParams: GraphInstanceParameter[] = [];
@@ -83,9 +92,6 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         });
     }
     const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
-
-    const propsApiRef = React.useRef<IPropsAPI>(null);
-    const nameTextFieldRef = React.useRef<ITextField>(null);
 
     // save state in VS Code when data, zoomPanSettings, or parameters change
     const saveState = (update?: any) => {
