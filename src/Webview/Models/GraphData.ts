@@ -282,6 +282,7 @@ export default class Graph {
                             value: nodeDrillDown
                         };
                         itemsThatWillChange.push(tempObj);
+                        break;
                     }
                 }
             }
