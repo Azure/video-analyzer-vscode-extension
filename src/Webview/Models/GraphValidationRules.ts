@@ -4,16 +4,10 @@
 export default class GraphValidationRules {
     static limitOnePerGraph = [
         // Only one RTSP source is allowed per graph topology.
-        "#Microsoft.Media.MediaGraphRtspSource",
-        // HTTP extension processor: There can be at most one such processor per graph topology.
-        "#Microsoft.Media.MediaGraphHttpExtension",
-        // Motion detection processor: There can be at most one such processor per graph topology.
-        "#Microsoft.Media.MediaGraphMotionDetectionProcessor"
+        "#Microsoft.Media.MediaGraphRtspSource"
     ];
 
     static mustBeImmediatelyDownstreamOf = [
-        // Frame rate filter processor: Must be immediately downstream from RTSP source or motion detection processor.
-        ["#Microsoft.Media.MediaGraphFrameRateFilterProcessor", ["#Microsoft.Media.MediaGraphRtspSource", "#Microsoft.Media.MediaGraphMotionDetectionProcessor"]],
         // Motion detection processor: Must be immediately downstream from RTSP source.
         ["#Microsoft.Media.MediaGraphMotionDetectionProcessor", ["#Microsoft.Media.MediaGraphRtspSource"]],
         // Signal gate processor: Must be immediately downstream from RTSP source.
@@ -34,13 +28,13 @@ export default class GraphValidationRules {
     ];
 
     static cannotBeDownstreamOf = [
-        // Frame rate filter processor: Cannot be used downstream of a HTTP extension processor.
-        ["#Microsoft.Media.MediaGraphFrameRateFilterProcessor", "#Microsoft.Media.MediaGraphHttpExtension"],
-        // Frame rate filter processor: Cannot be upstream from a motion detection processor.
-        // note the flipped order as this is an upstream rule
-        ["#Microsoft.Media.MediaGraphMotionDetectionProcessor", "#Microsoft.Media.MediaGraphFrameRateFilterProcessor"],
-        // Motion detection processor: Cannot be used downstream of a HTTP extension processor.
-        ["#Microsoft.Media.MediaGraphMotionDetectionProcessor", "#Microsoft.Media.MediaGraphHttpExtension"]
+        // Motion detection processor: Cannot be used downstream of a graph extension processor.
+        ["#Microsoft.Media.MediaGraphMotionDetectionProcessor", "#Microsoft.Media.MediaGraphHttpExtension"],
+        ["#Microsoft.Media.MediaGraphMotionDetectionProcessor", "#Microsoft.Media.MediaGraphGrpcExtension"],
+        // Motion detection processors cannot be in sequence
+        ["#Microsoft.Media.MediaGraphMotionDetectionProcessor", "#Microsoft.Media.MediaGraphMotionDetectionProcessor"],
+        // Signal gate processors cannot be in sequence
+        ["#Microsoft.Media.MediaGraphSignalGateProcessor", "#Microsoft.Media.MediaGraphSignalGateProcessor"]
     ];
 
     static documentationLinks = {
