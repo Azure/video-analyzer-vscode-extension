@@ -176,7 +176,7 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                     <DefaultButton onClick={toggleShowDeleteDialog} text={Localizer.l("editParametersCancelButtonText")} />
                 </DialogFooter>
             </Dialog>
-            <Panel isOpen={isOpen} onDismiss={onClose} closeButtonAriaLabel="Close" type={PanelType.medium} isLightDismiss>
+            <Panel isOpen={isOpen} onDismiss={onClose} closeButtonAriaLabel="Close" type={PanelType.medium}>
                 {addNewIsShown ? (
                     <Stack style={{ marginRight: 64 }}>
                         <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>

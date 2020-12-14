@@ -37,7 +37,7 @@ You will need to use the IoT Hub connection string to connect this extension to 
 
     - Enter the Iot Hub Connection string that you want use (It is one-time configuration, and please make sure it is IoT Hub Connection String and not Device Connection String. The format is **`HostName=<my-hub>.azure-devices.net;SharedAccessKeyName=<my-policy>;SharedAccessKey=<my-policy-key>`**)
 
-        ![Setup IoT Hub Connection String](resources/gifs/addConnectionString.gif)
+        ![Setup IoT Hub Connection String](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/addConnectionString.gif)
 
 1. The device list will be shown
     - Choose the device you want to use to deploy the media graphs
@@ -58,7 +58,7 @@ You will need to use the IoT Hub connection string to connect this extension to 
 1. Once you are done creating the topology and providing values for the required fields, save the topology by clicking the "**Save**" button
 1. You should then see the topology name in the left pane
 
-![Create a graph topology](resources/gifs/createTopology.gif)
+![Create a graph topology](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/createTopology.gif)
 
 ### Activate Graph Instances
 
@@ -68,7 +68,7 @@ You will need to use the IoT Hub connection string to connect this extension to 
 1. Once the graph is activated, you will see a green icon next to the graph instance name
 1. Open the Output console by pressing `Ctrl`+ `Shift` + `U` and observe the IoT Hub messages start flowing
 
-![Activate an graph instance](resources/gifs/activateTopology.gif)
+![Activate an graph instance](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/activateTopology.gif)
 
 ## Contributing
 

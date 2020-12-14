@@ -47,15 +47,10 @@ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (pr
     const confirmSelection = () => {
         setStatus(Status.WaitingOnSampleLoad);
 
-        // needed till 2.0 JSONs are public. should not be checked in
-        const requestHeaders: HeadersInit = new Headers();
-        requestHeaders.set("Authorization", "<githubToken>");
-        const requestInit = { method: "GET", headers: requestHeaders };
-
-        fetch("https://api.github.com/repos/lvateam/live-video-analytics/git/trees/topologies2.0?recursive=1", requestInit)
+        fetch("https://api.github.com/repos/azure/live-video-analytics/git/trees/master?recursive=1")
             .then((response) => response.json() as any)
             .then((data) => data.tree.filter((entry: any) => entry.path === selectedSampleName)[0].url)
-            .then((apiUrl) => fetch(apiUrl, requestInit))
+            .then((apiUrl) => fetch(apiUrl))
             .then((response) => response.json() as any)
             .then((data) => atob(data.content))
             .then((topology) => {
