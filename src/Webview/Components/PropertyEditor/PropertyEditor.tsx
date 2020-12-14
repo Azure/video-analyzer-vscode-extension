@@ -1,3 +1,4 @@
+import { type } from "os";
 import * as React from "react";
 import Definitions from "../../Definitions/Definitions";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
@@ -5,6 +6,7 @@ import { PropertyEditField } from "./PropertyEditField";
 import { PropertyReadOnlyEditField } from "./PropertyReadonlyEditField";
 
 interface IPropertyEditorProps {
+    nodeTypeName: string;
     nodeProperties: any;
     readOnly: boolean;
     updateNodeName?: (oldName: string, newName: string) => void;
@@ -12,9 +14,9 @@ interface IPropertyEditorProps {
 }
 
 export const PropertyEditor: React.FunctionComponent<IPropertyEditorProps> = (props) => {
-    const { nodeProperties, readOnly = false, requestParameterization, updateNodeName } = props;
+    const { nodeProperties, readOnly = false, requestParameterization, updateNodeName, nodeTypeName } = props;
 
-    const definition = Definitions.getNodeDefinition(nodeProperties);
+    const definition = Definitions.getNodeDefinition(nodeTypeName);
 
     if (!definition) {
         return null;

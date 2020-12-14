@@ -176,6 +176,7 @@ export default class GraphValidator {
     // helper function to get an array of validation errors
     private static getValidationErrors(properties: any) {
         return this.recursiveGetValidationErrors(
+            properties?.["@type"],
             properties,
             [] /* path to the property, this is root, so empty array */,
             [] /* this array will recursively fill with errors */
@@ -183,8 +184,8 @@ export default class GraphValidator {
     }
 
     // recursively checks for missing properties and returns a list of errors
-    private static recursiveGetValidationErrors(nodeProperties: any, path: string[], errors: ValidationError[]): ValidationError[] {
-        const definition = Definitions.getNodeDefinition(nodeProperties);
+    private static recursiveGetValidationErrors(type: string, nodeProperties: any, path: string[], errors: ValidationError[]): ValidationError[] {
+        const definition = Definitions.getNodeDefinition(type);
 
         if (!definition) {
             return errors;
@@ -199,7 +200,7 @@ export default class GraphValidator {
             const thisPropertyPath = [...path, name];
 
             if (name === "inputs") {
-                return [];
+                continue;
             }
             if (isRequiredProperty && propertyIsMissing) {
                 errors.push({
@@ -223,8 +224,13 @@ export default class GraphValidator {
                         property: thisPropertyPath
                     });
                 }
-            } else if (property!.type === "object" && !Helpers.isEmptyObject(nestedProperties)) {
-                this.recursiveGetValidationErrors(nestedProperties, thisPropertyPath, errors);
+            } else if (property!.type === "object" && nestedProperties) {
+                this.recursiveGetValidationErrors(
+                    property?.discriminator ? nestedProperties["@type"] : Definitions.getNameFromParsedRef(property?.parsedRef!),
+                    nestedProperties,
+                    thisPropertyPath,
+                    errors
+                );
             }
         }
 

@@ -127,15 +127,15 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
     const features = defaultFeatures;
     features.delete(GraphFeatures.nodeResizable);
 
-    // save state in VS Code when data or zoomPanSettings change
-    // React.useEffect(() => {
-    //     graph.setName(graphTopologyName);
-    //     graph.setDescription(graphDescription);
-    //     vsCodeSetState({
-    //         graphData: { ...data.toJSON(), meta: graph.getTopology() } as GraphInfo,
-    //         zoomPanSettings
-    //     } as any);
-    // }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
+    //save state in VS Code when data or zoomPanSettings change
+    React.useEffect(() => {
+        graph.setName(graphTopologyName);
+        graph.setDescription(graphDescription);
+        vsCodeSetState({
+            graphData: { ...data.toJSON(), meta: graph.getTopology() } as GraphInfo,
+            zoomPanSettings
+        } as any);
+    }, [data, zoomPanSettings, graphTopologyName, graphDescription, graph, vsCodeSetState]);
 
     return (
         <>
@@ -146,7 +146,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
             ) : (
                 ""
             )}
-            <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(readOnly, props.updateEdgeData)} />
+            <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(props.updateEdgeData)} />
             <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters, updateNodeName)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <Graph

@@ -1,7 +1,4 @@
-import { fill } from "lodash";
 import React, { useContext } from "react";
-import { render } from "react-dom";
-import { ThemeColor } from "vscode";
 import { Icon } from "@fluentui/react";
 import {
     getCurvePathD,

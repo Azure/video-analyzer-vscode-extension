@@ -1,5 +1,6 @@
 import * as fs from "fs";
-import { concat, merge } from "lodash";
+import concat from "lodash/concat";
+import merge from "lodash/merge";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
 import {

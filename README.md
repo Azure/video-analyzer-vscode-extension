@@ -1,6 +1,6 @@
 # LVA Edge Graph Extension for VS Code
 
-Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is provided through this extension that makes it easy to edit and manage LVA Edge graph deployments.
+Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is provided through this extension that makes it easy to edit and manage LVA Edge media graphs.
 
 ## Suggested Pre-reading
 
@@ -34,8 +34,8 @@ After successfully installing this extension and its prerequisites, you can foll
 You will need to use the IoT Hub connection string to connect this extension to it.
 
 1. In Explorer of VS Code, click the "Live Video Analytics" extension in the left pane.
-1. Click on **"Enter Connection String"** button
-    1. Enter the Iot Hub Connection string that you want use (It is one-time configuration, and please make sure it is IoT Hub Connection String and not Device Connection String. The format is **`HostName=<my-hub>.azure-devices.net;SharedAccessKeyName=<my-policy>;SharedAccessKey=<my-policy-key>`**)
+1. Click on **"Enter Connection String"** button 1. Enter the Iot Hub Connection string that you want use (It is one-time configuration, and please make sure it is IoT Hub Connection String and not Device Connection String. The format is **`HostName=<my-hub>.azure-devices.net;SharedAccessKeyName=<my-policy>;SharedAccessKey=<my-policy-key>`**)
+   ![Setup IoT Hub Connection String](resources\gifs\Add-connection-string.gif)
 1. The device list will be shown
     1. Choose the device you want to use to deploy the media graphs
 1. A list of modules that are already deployed to the device will be displayed
@@ -54,6 +54,7 @@ You will need to use the IoT Hub connection string to connect this extension to 
 1. Or, you can try out some sample topologies that we have created by clicking the "**Try sample topologies**" in the top menu bar
 1. Once you are done creating the topology and providing values for the required fields, save the topology by clicking the "**Save**" button
 1. You should then see the topology name in the left pane
+   ![Create a graph topology](resources\gifs\Create-topology.gif)
 
 ### Activate Graph Instances
 
@@ -62,3 +63,4 @@ You will need to use the IoT Hub connection string to connect this extension to 
 1. Once all the required parameters are filled in, you can "**Save**" the instance and activate it later or "**Save and activate**" the graph instance
 1. Once the graph is activated, you will see a green icon next to the graph instance name
 1. Open the Output console by pressing `Ctrl`+ `Shift` + `U` and observe the IoT Hub messages start flowing
+   ![Activate an graph instance](resources\gifs\Activate-graph.gif)

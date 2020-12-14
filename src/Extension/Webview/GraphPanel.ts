@@ -1,4 +1,6 @@
-import { get, nth, remove } from "lodash";
+import get from "lodash/get";
+import nth from "lodash/nth";
+import remove from "lodash/remove";
 import * as path from "path";
 import * as vscode from "vscode";
 import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";

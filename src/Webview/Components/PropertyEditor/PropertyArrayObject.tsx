@@ -46,7 +46,7 @@ export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectPr
         updateArray(newArray);
     };
 
-    const definition = Definitions.getNodeDefinition(nodeProperties);
+    const definition = Definitions.getNodeDefinition(nodeProperties?.["@type"]);
 
     const properties = nodeProperties[name];
     if (properties && arrayItems !== properties) {

@@ -1,7 +1,8 @@
 {
-    "name": "azure-lva-edge-tools",
-    "description": "LVA Edge VS Code Extension",
-    "version": "0.0.1",
+    "name": "live-video-analytics-edge",
+    "displayName": "Live Video Analytics on IoT Edge",
+    "description": "%extensionDescription%",
+    "version": "0.1.0",
     "publisher": "ms-azuretools",
     "icon": "lva-icon.png",
     "engines": {
@@ -14,6 +15,9 @@
     "activationEvents": [
         "onWebviewPanel:lvaTopologyEditor",
         "onView:moduleExplorer"
+    ],
+    "keywords": [
+        "live video analytics"
     ],
     "repository": {
         "type": "git",

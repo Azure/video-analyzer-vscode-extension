@@ -1,3 +1,4 @@
+import isEqual from "lodash/isEqual";
 import React, { useContext } from "react";
 import {
     ActionButton,

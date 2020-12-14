@@ -1,23 +1,13 @@
-import { sortedUniq, update } from "lodash";
 import * as React from "react";
 import {
-    Checkbox,
-    CheckboxVisibility,
-    DetailsList,
     Dropdown,
-    IColumn,
     IDropdownOption,
     IStackTokens,
     Label,
-    List,
     MessageBar,
     MessageBarType,
-    Selection,
-    SelectionMode,
     Stack,
-    StackItem,
-    Text,
-    TextField
+    Text
 } from "@fluentui/react";
 import {
     EdgeModel,
@@ -33,13 +23,12 @@ import { AdjustedIconButton } from "./ThemeAdjustedComponents/AdjustedIconButton
 const ParameterEditor = React.lazy(() => import("./ParameterEditor/ParameterEditor"));
 
 interface IEdgePropertiesPanelCoreProps {
-    readOnly: boolean;
     edge?: EdgeModel<IEdgeData>;
     updateEdgeData?: (edeId: string, newTypes: string[]) => void;
 }
 
 const EdgePropertiesPanelCore: React.FunctionComponent<IEdgePropertiesPanelCoreProps> = (props) => {
-    const { readOnly, edge } = props;
+    const { edge } = props;
     const propsAPI = usePropsAPI();
     const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
     const data = useGraphData();
@@ -155,9 +144,9 @@ const EdgePropertiesPanelCore: React.FunctionComponent<IEdgePropertiesPanelCoreP
 };
 
 export class EdgePropertiesPanel implements IPanelConfig {
-    constructor(private readOnly: boolean, private updateEdgeData?: (edeId: string, newTypes: string[]) => void) {}
+    constructor(private updateEdgeData?: (edeId: string, newTypes: string[]) => void) {}
     public render(data: any): React.ReactElement {
-        return <EdgePropertiesPanelCore readOnly={this.readOnly} edge={data} updateEdgeData={this.updateEdgeData} />;
+        return <EdgePropertiesPanelCore edge={data} updateEdgeData={this.updateEdgeData} />;
     }
 
     public panelDidOpen(): void {
