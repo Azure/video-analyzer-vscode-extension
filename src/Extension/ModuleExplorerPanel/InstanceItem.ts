@@ -153,4 +153,12 @@ export class InstanceItem extends vscode.TreeItem {
             }
         }
     }
+
+    public async showGraphInstanceJson() {
+        if (this._graphInstance) {
+            vscode.workspace.openTextDocument({ language: "json", content: JSON.stringify(this._graphInstance, undefined, 4) }).then((doc) => {
+                vscode.window.showTextDocument(doc);
+            });
+        }
+    }
 }

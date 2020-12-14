@@ -9,6 +9,7 @@ import {
     GraphNodeEvent,
     GraphNodeState,
     GraphScrollBarEvent,
+    ICanvasEdge,
     ICanvasNode,
     IEvent,
     IPoint,
@@ -21,11 +22,15 @@ import {
 } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
 import GraphClass from "../Models/GraphData";
-import { GraphInfo, ValidationError } from "../Types/GraphTypes";
+import {
+    GraphInfo,
+    OutputSelectorValueType,
+    ValidationError
+} from "../Types/GraphTypes";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
-import { CustomEdgeConfig } from "./CustomEdgeConfig";
+import { CustomEdgeConfig, IEdgeData } from "./CustomEdgeConfig";
 import { EdgePropertiesPanel } from "./EdgePropertiesPanel";
 import { NodePropertiesPanel } from "./NodePropertiesPanel";
 import { ValidationErrorPanel } from "./ValidationErrorPanel";
@@ -115,6 +120,15 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
         }
     };
 
+    const edgeWillAdd = (edge: ICanvasEdge<IEdgeData>, node: any) => {
+        return {
+            ...edge,
+            data: {
+                types: [OutputSelectorValueType.Video]
+            }
+        };
+    };
+
     const itemStyles: React.CSSProperties = {
         maxHeight: "200px"
     };
@@ -153,6 +167,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                 svgRef={svgRef}
                 propsAPIRef={propsApiRef}
                 onEvent={handleEvent}
+                edgeWillAdd={edgeWillAdd}
                 defaultNodeShape="module"
                 defaultPortShape="modulePort"
                 defaultEdgeShape="customEdge"

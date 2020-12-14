@@ -109,6 +109,14 @@ export class GraphTopologyItem extends vscode.TreeItem {
         }
     }
 
+    public async showGraphJson() {
+        if (this._graphTopology) {
+            vscode.workspace.openTextDocument({ language: "json", content: JSON.stringify(this._graphTopology, undefined, 4) }).then((doc) => {
+                vscode.window.showTextDocument(doc);
+            });
+        }
+    }
+
     public createNewGraphInstanceCommand(context: vscode.ExtensionContext) {
         const graphInstance = new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology!, undefined, (name) => {
             return (

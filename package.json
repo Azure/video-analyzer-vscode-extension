@@ -46,6 +46,10 @@
                 "title": "%editGraphButton%"
             },
             {
+                "command": "moduleExplorer.showGraphJson",
+                "title": "%showGraphJson%"
+            },
+            {
                 "command": "moduleExplorer.deleteGraph",
                 "title": "%deleteGraphButton%",
                 "enablement": "view == moduleExplorer && viewItem == graphItemContext"
@@ -74,6 +78,10 @@
                 "command": "moduleExplorer.deleteInstance",
                 "title": "%deleteInstanceButton%",
                 "enablement": "view == moduleExplorer && viewItem == InstanceItemContextInactive"
+            },
+            {
+                "command": "moduleExplorer.showGraphInstanceJson",
+                "title": "%showGraphInstanceJson%"
             }
         ],
         "viewsContainers": {
@@ -133,6 +141,11 @@
                     "group": "2_groupCommands@1"
                 },
                 {
+                    "command": "moduleExplorer.showGraphJson",
+                    "when": "view == moduleExplorer && viewItem =~ /^graphItemContext.*$/",
+                    "group": "3_groupCommands@0"
+                },
+                {
                     "command": "moduleExplorer.activateInstance",
                     "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/",
                     "group": "1_instanceCommands@0"
@@ -151,6 +164,11 @@
                     "command": "moduleExplorer.deleteInstance",
                     "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/",
                     "group": "2_instanceCommands@3"
+                },
+                {
+                    "command": "moduleExplorer.showGraphInstanceJson",
+                    "when": "view == moduleExplorer && viewItem =~ /^InstanceItemContext.*$/",
+                    "group": "3_instanceCommands@0"
                 },
                 {
                     "command": "moduleExplorer.createGraph",
