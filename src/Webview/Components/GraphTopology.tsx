@@ -223,17 +223,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         });
     };
 
-    const updateNodeName = (oldName: string, newName: string) => {
-        propsApiRef.current?.updateData((prev: GraphModel) => {
-            return prev.mapNodes((currNode) => {
-                if (currNode.name === oldName) {
-                    return currNode.update((n) => ({ ...n, name: newName }));
-                }
-                return currNode;
-            });
-        });
-    };
-
     const updateEdgeData = (edgeId: string, newTypes: string[]) => {
         let newEdge: ICanvasEdge<any>;
         propsApiRef.current?.updateData((prev: GraphModel) => {
@@ -367,7 +356,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                                     validationErrors={validationErrors}
                                     showValidationErrors={showValidationErrors}
                                     toggleValidationErrorPanel={toggleValidationErrorPanel}
-                                    updateNodeName={updateNodeName}
                                     updateEdgeData={updateEdgeData}
                                 />
                             </Stack.Item>
