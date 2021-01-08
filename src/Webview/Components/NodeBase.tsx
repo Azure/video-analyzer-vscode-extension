@@ -38,33 +38,12 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
     public render = (args: IItemConfigArgs<ICanvasNode>): React.ReactNode => {
         const node = args.model as NodeModel<any>;
 
-        const iconName = node.data!.iconName;
-        const accentColor = node.data!.color;
-        const nodeType = node.data!.nodeProperties["@type"];
-        const definition = Definitions.getNodeDefinition(node.data?.nodeProperties?.["@type"]);
-        const nodeNameType = Localizer.l("nodeContainerNodeType").format(Localizer.getLocalizedStrings(definition.localizationKey).title);
-        const dragging = node.data!.nodeProperties.dragging;
-        const description = Localizer.l(nodeType.split(".").pop());
-        const hasErrors = node.data!.hasErrors;
-
         const rectHeight = getRectHeight<ICanvasNode>(this, node);
         const rectWidth = getRectWidth<ICanvasNode>(this, node);
 
         return (
             <foreignObject transform={`translate(${node.x}, ${node.y})`} width={rectWidth} overflow="visible">
-                <NodeContainer
-                    nodeName={node.name as string}
-                    nodeType={nodeNameType as string}
-                    iconName={iconName}
-                    accentColor={accentColor}
-                    title={description}
-                    selected={hasState(GraphNodeState.selected)(node.state)}
-                    hovered={hasState(GraphNodeState.activated)(node.state)}
-                    dragging={dragging}
-                    hasErrors={hasErrors}
-                    isDraggable={!this.readOnly}
-                    nodeRef={this.nodeRef}
-                />
+                <NodeContainer nodeId={node.id} isDraggable={!this.readOnly} nodeRef={this.nodeRef} />
             </foreignObject>
         );
     };
