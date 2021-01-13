@@ -81,7 +81,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         }
         if (property.type === PropertyFormatType.string && initValue) {
             if ((customPropertyTypes as any)[property.localizationKey] === PropertyFormatType.isoDuration) {
-                initValue = Helpers.isoToSeconds(initValue);
+                if (!isValueParameterized(initValue)) {
+                    initValue = Helpers.isoToSeconds(initValue);
+                }
             }
             initValue = initValue + "";
         }
@@ -135,7 +137,13 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         } else {
             const format = (customPropertyTypes as any)[property.localizationKey] ?? null;
             if (format === PropertyFormatType.isoDuration) {
-                nodeProperties[name] = Helpers.secondsToIso(newValue);
+                if (isValueParameterized(newValue)) {
+                    setParameterizeTrue();
+                    nodeProperties[name] = newValue;
+                } else {
+                    setParameterizeFalse();
+                    nodeProperties[name] = Helpers.secondsToIso(newValue);
+                }
             } else {
                 switch (property.type) {
                     case PropertyFormatType.boolean:
