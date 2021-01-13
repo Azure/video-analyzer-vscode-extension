@@ -9,7 +9,7 @@ import {
     TextField
 } from "@fluentui/react";
 import { useBoolean, useId } from "@uifabric/react-hooks";
-import { useGraphData, usePropsAPI } from "@vienna/react-dag-editor";
+import { usePropsAPI } from "@vienna/react-dag-editor";
 import customPropertyTypes from "../../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../../Localization/Localizer";
 import GraphValidator from "../../Models/MediaGraphValidator";
@@ -45,7 +45,6 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const [isParameterized, { setFalse: setParameterizeFalse, setTrue: setParameterizeTrue }] = useBoolean(false);
 
-    const data = useGraphData();
     const propsAPI = usePropsAPI();
 
     const validateInput = (value: string) => {

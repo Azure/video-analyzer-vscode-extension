@@ -6,7 +6,7 @@ Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is pr
 
 ## Changed
 
--   Node names will not affect others nodes with the same name
+-   Fixed a bug, where node name updates was affecting other nodes with same name
 
 # What's New (v0.1.0)
 
