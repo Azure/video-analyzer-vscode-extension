@@ -81,7 +81,7 @@
                                 "description": "The media graph instance is transitioning into the inactive state."
                             }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                     }
                 }
             },
@@ -244,7 +244,7 @@
                                 "description": "A boolean value that is either true or false."
                             }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                     }
                 },
                 "description": {
@@ -387,7 +387,7 @@
                     "description": "Password for a username/password pair. Please use a parameter so that the actual value is not returned on PUT or GET requests."
                 }
             },
-            "required": ["username"],
+            "required": ["username", "password"],
             "allOf": [
                 {
                     "$ref": "#/definitions/MediaGraphCredentials"
@@ -518,6 +518,7 @@
         },
         "MediaGraphNodeInput": {
             "type": "object",
+            "required": ["nodeName"],
             "properties": {
                 "nodeName": {
                     "type": "string",
@@ -548,7 +549,7 @@
                                 "description": "The stream's MIME type or subtype."
                             }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                     }
                 },
                 "operator": {
@@ -567,7 +568,7 @@
                                 "description": "A media type is not the same type or a subtype."
                             }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                     }
                 },
                 "value": {
@@ -828,7 +829,6 @@
         },
         "MediaGraphImageScale": {
             "type": "object",
-            "required": ["mode"],
             "properties": {
                 "mode": {
                     "type": "string",
@@ -985,7 +985,6 @@
         },
         "MediaGraphSignalGateProcessor": {
             "type": "object",
-            "required": ["activationSignalOffset", "minimumActivationTime", "maximumActivationTime"],
             "properties": {
                 "activationEvaluationWindow": {
                     "type": "string",

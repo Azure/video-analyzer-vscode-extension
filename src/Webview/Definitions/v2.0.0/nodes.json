@@ -88,7 +88,7 @@
                     "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
                   }
                 ],
-                "modelAsString": false
+                "modelAsString": true
               },
               "localizationKey": "MediaGraphInstanceProperties.state"
             }
@@ -158,7 +158,7 @@
                 "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
               }
             ],
-            "modelAsString": false
+            "modelAsString": true
           },
           "localizationKey": "MediaGraphInstanceProperties.state"
         }
@@ -279,7 +279,7 @@
                           "localizationKey": "MediaGraphInstanceProperties.state.Deactivating"
                         }
                       ],
-                      "modelAsString": false
+                      "modelAsString": true
                     },
                     "localizationKey": "MediaGraphInstanceProperties.state"
                   }
@@ -384,7 +384,7 @@
                                 "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
                               }
                             ],
-                            "modelAsString": false
+                            "modelAsString": true
                           },
                           "localizationKey": "MediaGraphParameterDeclaration.type"
                         },
@@ -450,6 +450,9 @@
                           "items": {
                             "parsedRef": "#/definitions/MediaGraphNodeInput",
                             "type": "object",
+                            "required": [
+                              "nodeName"
+                            ],
                             "properties": {
                               "nodeName": {
                                 "type": "string",
@@ -473,7 +476,7 @@
                                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                           }
                                         ],
-                                        "modelAsString": false
+                                        "modelAsString": true
                                       },
                                       "localizationKey": "MediaGraphOutputSelector.property"
                                     },
@@ -493,7 +496,7 @@
                                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                           }
                                         ],
-                                        "modelAsString": false
+                                        "modelAsString": true
                                       },
                                       "localizationKey": "MediaGraphOutputSelector.operator"
                                     },
@@ -541,6 +544,9 @@
                           "items": {
                             "parsedRef": "#/definitions/MediaGraphNodeInput",
                             "type": "object",
+                            "required": [
+                              "nodeName"
+                            ],
                             "properties": {
                               "nodeName": {
                                 "type": "string",
@@ -564,7 +570,7 @@
                                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                           }
                                         ],
-                                        "modelAsString": false
+                                        "modelAsString": true
                                       },
                                       "localizationKey": "MediaGraphOutputSelector.property"
                                     },
@@ -584,7 +590,7 @@
                                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                           }
                                         ],
-                                        "modelAsString": false
+                                        "modelAsString": true
                                       },
                                       "localizationKey": "MediaGraphOutputSelector.operator"
                                     },
@@ -702,7 +708,7 @@
                           "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
                         }
                       ],
-                      "modelAsString": false
+                      "modelAsString": true
                     },
                     "localizationKey": "MediaGraphParameterDeclaration.type"
                   },
@@ -768,6 +774,9 @@
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphNodeInput",
                       "type": "object",
+                      "required": [
+                        "nodeName"
+                      ],
                       "properties": {
                         "nodeName": {
                           "type": "string",
@@ -791,7 +800,7 @@
                                       "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                     }
                                   ],
-                                  "modelAsString": false
+                                  "modelAsString": true
                                 },
                                 "localizationKey": "MediaGraphOutputSelector.property"
                               },
@@ -811,7 +820,7 @@
                                       "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                     }
                                   ],
-                                  "modelAsString": false
+                                  "modelAsString": true
                                 },
                                 "localizationKey": "MediaGraphOutputSelector.operator"
                               },
@@ -859,6 +868,9 @@
                     "items": {
                       "parsedRef": "#/definitions/MediaGraphNodeInput",
                       "type": "object",
+                      "required": [
+                        "nodeName"
+                      ],
                       "properties": {
                         "nodeName": {
                           "type": "string",
@@ -882,7 +894,7 @@
                                       "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                     }
                                   ],
-                                  "modelAsString": false
+                                  "modelAsString": true
                                 },
                                 "localizationKey": "MediaGraphOutputSelector.property"
                               },
@@ -902,7 +914,7 @@
                                       "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                     }
                                   ],
-                                  "modelAsString": false
+                                  "modelAsString": true
                                 },
                                 "localizationKey": "MediaGraphOutputSelector.operator"
                               },
@@ -983,7 +995,7 @@
                       "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
                     }
                   ],
-                  "modelAsString": false
+                  "modelAsString": true
                 },
                 "localizationKey": "MediaGraphParameterDeclaration.type"
               },
@@ -1049,6 +1061,9 @@
                 "items": {
                   "parsedRef": "#/definitions/MediaGraphNodeInput",
                   "type": "object",
+                  "required": [
+                    "nodeName"
+                  ],
                   "properties": {
                     "nodeName": {
                       "type": "string",
@@ -1072,7 +1087,7 @@
                                   "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                 }
                               ],
-                              "modelAsString": false
+                              "modelAsString": true
                             },
                             "localizationKey": "MediaGraphOutputSelector.property"
                           },
@@ -1092,7 +1107,7 @@
                                   "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                 }
                               ],
-                              "modelAsString": false
+                              "modelAsString": true
                             },
                             "localizationKey": "MediaGraphOutputSelector.operator"
                           },
@@ -1140,6 +1155,9 @@
                 "items": {
                   "parsedRef": "#/definitions/MediaGraphNodeInput",
                   "type": "object",
+                  "required": [
+                    "nodeName"
+                  ],
                   "properties": {
                     "nodeName": {
                       "type": "string",
@@ -1163,7 +1181,7 @@
                                   "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                                 }
                               ],
-                              "modelAsString": false
+                              "modelAsString": true
                             },
                             "localizationKey": "MediaGraphOutputSelector.property"
                           },
@@ -1183,7 +1201,7 @@
                                   "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                                 }
                               ],
-                              "modelAsString": false
+                              "modelAsString": true
                             },
                             "localizationKey": "MediaGraphOutputSelector.operator"
                           },
@@ -1269,7 +1287,7 @@
                 "localizationKey": "MediaGraphParameterDeclaration.type.Bool"
               }
             ],
-            "modelAsString": false
+            "modelAsString": true
           },
           "localizationKey": "MediaGraphParameterDeclaration.type"
         },
@@ -1432,6 +1450,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -1455,7 +1476,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -1475,7 +1496,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -1583,7 +1604,8 @@
       },
       "required": [
         "@type",
-        "username"
+        "username",
+        "password"
       ],
       "x-ms-discriminator-value": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials",
       "localizationKey": "MediaGraphUsernamePasswordCredentials",
@@ -1813,6 +1835,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -1836,7 +1861,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -1856,7 +1881,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -1881,6 +1906,9 @@
       "name": "MediaGraphNodeInput",
       "nodeType": "other",
       "type": "object",
+      "required": [
+        "nodeName"
+      ],
       "properties": {
         "nodeName": {
           "type": "string",
@@ -1904,7 +1932,7 @@
                       "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                     }
                   ],
-                  "modelAsString": false
+                  "modelAsString": true
                 },
                 "localizationKey": "MediaGraphOutputSelector.property"
               },
@@ -1924,7 +1952,7 @@
                       "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                     }
                   ],
-                  "modelAsString": false
+                  "modelAsString": true
                 },
                 "localizationKey": "MediaGraphOutputSelector.operator"
               },
@@ -1957,7 +1985,7 @@
                 "localizationKey": "MediaGraphOutputSelector.property.mediaType"
               }
             ],
-            "modelAsString": false
+            "modelAsString": true
           },
           "localizationKey": "MediaGraphOutputSelector.property"
         },
@@ -1977,7 +2005,7 @@
                 "localizationKey": "MediaGraphOutputSelector.operator.isNot"
               }
             ],
-            "modelAsString": false
+            "modelAsString": true
           },
           "localizationKey": "MediaGraphOutputSelector.operator"
         },
@@ -2006,6 +2034,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -2029,7 +2060,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -2049,7 +2080,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -2112,6 +2143,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -2135,7 +2169,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -2155,7 +2189,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -2229,6 +2263,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -2252,7 +2289,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -2272,7 +2309,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -2311,6 +2348,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -2334,7 +2374,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -2354,7 +2394,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -2442,6 +2482,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -2465,7 +2508,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -2485,7 +2528,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -2545,9 +2588,6 @@
             "scale": {
               "parsedRef": "#/definitions/MediaGraphImageScale",
               "type": "object",
-              "required": [
-                "mode"
-              ],
               "properties": {
                 "mode": {
                   "type": "string",
@@ -2643,6 +2683,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -2666,7 +2709,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -2686,7 +2729,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -2746,9 +2789,6 @@
             "scale": {
               "parsedRef": "#/definitions/MediaGraphImageScale",
               "type": "object",
-              "required": [
-                "mode"
-              ],
               "properties": {
                 "mode": {
                   "type": "string",
@@ -2860,6 +2900,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -2883,7 +2926,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -2903,7 +2946,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -2963,9 +3006,6 @@
             "scale": {
               "parsedRef": "#/definitions/MediaGraphImageScale",
               "type": "object",
-              "required": [
-                "mode"
-              ],
               "properties": {
                 "mode": {
                   "type": "string",
@@ -3141,6 +3181,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -3164,7 +3207,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -3184,7 +3227,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -3244,9 +3287,6 @@
             "scale": {
               "parsedRef": "#/definitions/MediaGraphImageScale",
               "type": "object",
-              "required": [
-                "mode"
-              ],
               "properties": {
                 "mode": {
                   "type": "string",
@@ -3335,9 +3375,6 @@
         "scale": {
           "parsedRef": "#/definitions/MediaGraphImageScale",
           "type": "object",
-          "required": [
-            "mode"
-          ],
           "properties": {
             "mode": {
               "type": "string",
@@ -3413,9 +3450,6 @@
       "name": "MediaGraphImageScale",
       "nodeType": "other",
       "type": "object",
-      "required": [
-        "mode"
-      ],
       "properties": {
         "mode": {
           "type": "string",
@@ -3613,14 +3647,6 @@
       "name": "MediaGraphSignalGateProcessor",
       "nodeType": "processor",
       "type": "object",
-      "required": [
-        "@type",
-        "inputs",
-        "name",
-        "activationSignalOffset",
-        "minimumActivationTime",
-        "maximumActivationTime"
-      ],
       "properties": {
         "@type": {
           "type": "string",
@@ -3635,6 +3661,9 @@
           "items": {
             "parsedRef": "#/definitions/MediaGraphNodeInput",
             "type": "object",
+            "required": [
+              "nodeName"
+            ],
             "properties": {
               "nodeName": {
                 "type": "string",
@@ -3658,7 +3687,7 @@
                             "localizationKey": "MediaGraphOutputSelector.property.mediaType"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.property"
                     },
@@ -3678,7 +3707,7 @@
                             "localizationKey": "MediaGraphOutputSelector.operator.isNot"
                           }
                         ],
-                        "modelAsString": false
+                        "modelAsString": true
                       },
                       "localizationKey": "MediaGraphOutputSelector.operator"
                     },
@@ -3717,6 +3746,12 @@
       "localizationKey": "MediaGraphSignalGateProcessor",
       "parsedAllOf": [
         "#/definitions/MediaGraphProcessor"
+      ],
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        null
       ]
     }
   ],
@@ -3730,11 +3765,11 @@
       "children": [
         {
           "extra": {
-            "id": "e945c2c2-dfdd-422b-a246-74db3fbbc7a5",
+            "id": "22604988-763b-47e7-bed5-521d5d89c611",
             "shape": "module",
             "ports": [
               {
-                "id": "3bfd1939-cb4b-49f0-8877-c8d0986347d2",
+                "id": "6957a3f4-687c-4304-987e-5b925c718f95",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -3749,16 +3784,16 @@
               "nodeType": "source"
             }
           },
-          "id": "ce876f15-4758-42cf-8953-b581b1d7e453",
+          "id": "a31a4b2c-c8e9-4948-a2f8-dbf38c10157e",
           "children": []
         },
         {
           "extra": {
-            "id": "0c3498db-f72f-44e6-918b-1359dd219e90",
+            "id": "56e6844f-9f37-4698-bb15-cca627858ec8",
             "shape": "module",
             "ports": [
               {
-                "id": "a2fc563b-7c12-4c73-be45-9a76e0ed483d",
+                "id": "b42918a1-3236-4d59-8286-ab5f548c02b3",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
@@ -3773,7 +3808,7 @@
               "nodeType": "source"
             }
           },
-          "id": "794bd34f-1df1-414a-94be-79325414b604",
+          "id": "9552b760-ab12-4402-8e04-477b063e2a88",
           "children": []
         }
       ],
@@ -3788,18 +3823,18 @@
       "children": [
         {
           "extra": {
-            "id": "c354878d-cac8-4d82-ae63-82bd747481ea",
+            "id": "b03c6019-8a0f-4ac1-bf2e-0eda98850a7a",
             "shape": "module",
             "ports": [
               {
-                "id": "848bf886-854f-4ed7-9a0a-b8b217551ec5",
+                "id": "7e9695b0-8ecd-4cfc-8fd3-1262834b6be3",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "d9d7e253-cfdc-4cd4-9396-ea937efa6632",
+                "id": "9eeb4c3c-8bfb-4364-825a-840d2f293886",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3814,23 +3849,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "32323910-f149-4a0b-aae0-88ca385b547f",
+          "id": "27a08b28-8867-4930-947c-cad90683fbec",
           "children": []
         },
         {
           "extra": {
-            "id": "5b4e8fb8-41cc-4110-9e92-a3c9bda9db81",
+            "id": "2d2dbe11-c7ae-436e-875f-9d21f5d854f2",
             "shape": "module",
             "ports": [
               {
-                "id": "f234be00-17fc-42c5-83b5-fe607c0a3a75",
+                "id": "f100acdb-bd1c-4eb4-8567-cf14bcbb51d0",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "4c7909ab-1064-488a-930a-291372160383",
+                "id": "a7a18f23-3f72-4c37-9cc9-4447ea611aaa",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3845,23 +3880,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "d695534f-14f7-4968-9053-72009c78c7aa",
+          "id": "58b4d68b-99ab-4401-a7f3-9529de3bf95e",
           "children": []
         },
         {
           "extra": {
-            "id": "8f502b0c-3b60-43ae-846f-36802461ac96",
+            "id": "5ba63713-70a8-43b0-8e7f-f1187544f752",
             "shape": "module",
             "ports": [
               {
-                "id": "77e79d34-9641-4398-9d80-12b51ed1b9af",
+                "id": "9f2f7275-e3b1-41e2-acba-1ef80c43d133",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "cff3c22d-50c2-42b5-9dc3-170e72db4a9b",
+                "id": "a721e328-c135-409d-a2f7-b06966ed7a74",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3876,23 +3911,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "8c10c694-8b2e-4a6b-92bf-532fd1074cfe",
+          "id": "b9c58eed-c273-4d13-b190-4189ed99ad60",
           "children": []
         },
         {
           "extra": {
-            "id": "e743b8d3-bad8-4919-8613-cae4cdcdfd34",
+            "id": "98685f19-cb31-4ccc-9ba8-d7228f9009bb",
             "shape": "module",
             "ports": [
               {
-                "id": "486fbee7-d66b-4530-bab4-e4b0c62d1f99",
+                "id": "9d14e4df-49ea-4637-a150-49f9670b0fd1",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "c3a3977b-39a7-4304-b151-95923a3bc6ae",
+                "id": "d9bdc24f-aed7-4bab-9d43-5b5b4ab1e271",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3907,23 +3942,23 @@
               "nodeType": "processor"
             }
           },
-          "id": "bd0a8b42-aae7-4be5-a08b-90de00e8c368",
+          "id": "029990ca-46fb-4595-99cf-237abccef0ad",
           "children": []
         },
         {
           "extra": {
-            "id": "8da6ba89-ae35-413b-8e12-e27d0162199a",
+            "id": "b1906e71-5171-41a6-a9b7-af2b2c105ce5",
             "shape": "module",
             "ports": [
               {
-                "id": "b10c4583-d07b-4db5-af6f-7658f34236c5",
+                "id": "342adfae-ae1e-4b34-a952-b73b6c98b75e",
                 "shape": "modulePort",
                 "isInputDisabled": true,
                 "isOutputDisabled": false,
                 "name": ""
               },
               {
-                "id": "8bee662b-29ab-4f82-b445-e215133bba62",
+                "id": "c907f48b-5633-4cc2-a9e2-4bcd40db6e1c",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3938,7 +3973,7 @@
               "nodeType": "processor"
             }
           },
-          "id": "bba48ffd-618f-40e6-8790-8501189fe626",
+          "id": "40e74ef7-b527-48e9-b4c3-2f1d45c51c7c",
           "children": []
         }
       ],
@@ -3953,11 +3988,11 @@
       "children": [
         {
           "extra": {
-            "id": "d074896d-8227-4eab-8348-8a194b53d8ff",
+            "id": "16a507dd-fd90-4848-8e4e-a792d7546738",
             "shape": "module",
             "ports": [
               {
-                "id": "0b11909a-4ccf-4e34-8074-6e0f9d891f40",
+                "id": "aea1b54a-89f2-4ed4-b0b4-ebd12da67cd0",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3972,16 +4007,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "af673bba-959b-45f8-a78f-dc647960323e",
+          "id": "8bb5a4f0-3929-4774-bf3c-3b96cc2445cd",
           "children": []
         },
         {
           "extra": {
-            "id": "1790c325-3a53-45c2-92ed-ccec84106045",
+            "id": "d3b2165c-b189-47bc-b207-84cbd87bcfac",
             "shape": "module",
             "ports": [
               {
-                "id": "137a1313-57e6-4b33-8bdb-c9303b9edf87",
+                "id": "fc5d6710-b98d-4709-ac24-e47dd33c3097",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -3996,16 +4031,16 @@
               "nodeType": "sink"
             }
           },
-          "id": "e000e274-df5c-4612-8db5-ab8cf12e2bda",
+          "id": "d0e11430-d3b6-4a79-b341-c41a8e49ad7b",
           "children": []
         },
         {
           "extra": {
-            "id": "f52dc90f-f63e-438e-9e1f-d2a97e873b37",
+            "id": "a876f936-6f6d-4972-abba-86b32e06b8c5",
             "shape": "module",
             "ports": [
               {
-                "id": "2d649b7c-6fb6-4b19-925f-e13b5b1c5db6",
+                "id": "973b95a6-95b4-40e5-ac86-700beb156aa9",
                 "shape": "modulePort",
                 "isInputDisabled": false,
                 "isOutputDisabled": true,
@@ -4020,7 +4055,7 @@
               "nodeType": "sink"
             }
           },
-          "id": "c700a7dd-ce63-4ad1-8461-29fe19c1a1fd",
+          "id": "7089e432-5858-47d5-a78c-83bc2efec0ab",
           "children": []
         }
       ],
