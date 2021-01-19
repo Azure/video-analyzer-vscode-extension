@@ -117,8 +117,8 @@ export const ItemPanel: React.FunctionComponent = (props) => {
                                             overflow: "hidden",
                                             display: "-webkit-box",
                                             // these properties aren't recognized
-                                            ["-webkit-line-clamp" as any]: "2",
-                                            ["-webkit-box-orient" as any]: "vertical"
+                                            ["WebkitLineClamp" as any]: "2",
+                                            ["WebkitBoxOrient" as any]: "vertical"
                                         }}
                                     >
                                         {description}
@@ -129,7 +129,7 @@ export const ItemPanel: React.FunctionComponent = (props) => {
                     });
 
                     return (
-                        <AccordionItem style={{ padding: "5px 0" }} uuid={category.id}>
+                        <AccordionItem style={{ padding: "5px 0" }} uuid={category.id} key={category.id}>
                             <AccordionItemHeading>
                                 <AccordionItemButton>{generateAccordionTitle(category)}</AccordionItemButton>
                             </AccordionItemHeading>

@@ -47,13 +47,12 @@ export interface IInnerGraphProps {
     validationErrors?: ValidationError[];
     showValidationErrors?: boolean;
     toggleValidationErrorPanel?: () => void;
-    updateNodeName?: (oldName: string, newName: string) => void;
     updateEdgeData?: (edeId: string, newTypes: string[]) => void;
     vsCodeSetState: VSCodeSetState;
 }
 
 export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => {
-    const { readOnly = false, parameters = [], propsApiRef, triggerValidation, updateNodeName, graph, graphTopologyName, graphDescription, vsCodeSetState } = props;
+    const { readOnly = false, parameters = [], propsApiRef, triggerValidation, graph, graphTopologyName, graphDescription, vsCodeSetState } = props;
 
     const svgRef = React.useRef<SVGSVGElement>(null);
     const propsAPI = usePropsAPI();
@@ -161,7 +160,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                 ""
             )}
             <RegisterPanel name={"edgePanel"} config={new EdgePropertiesPanel(props.updateEdgeData)} />
-            <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters, updateNodeName)} />
+            <RegisterPanel name={"node"} config={new NodePropertiesPanel(readOnly, parameters)} />
             <RegisterEdge name={"customEdge"} config={new CustomEdgeConfig(propsAPI)} />
             <Graph
                 svgRef={svgRef}

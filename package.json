@@ -2,7 +2,7 @@
     "name": "live-video-analytics-edge",
     "displayName": "Live Video Analytics on IoT Edge",
     "description": "%extensionDescription%",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "ms-azuretools",
     "license": "SEE LICENSE IN LICENSE",
     "homepage": "https://github.com/Azure/lva-edge-vscode-extension",

@@ -2,6 +2,18 @@
 
 Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is provided through this extension that makes it easy to edit and manage LVA Edge media graphs.
 
+# What's New (v0.1.1)
+
+## Changed
+
+-   Fixed a bug, where node name updates was affecting other nodes with same name
+
+# What's New (v0.1.0)
+
+## Added
+
+-   Create and manage LVA Edge 2.0.0 module media graphs
+
 ## Suggested Pre-reading
 
 -   [Live Video Analytics on IoT Edge overview](https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/overview)

@@ -9,6 +9,7 @@ import {
     TextField
 } from "@fluentui/react";
 import { useBoolean, useId } from "@uifabric/react-hooks";
+import { usePropsAPI } from "@vienna/react-dag-editor";
 import customPropertyTypes from "../../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../../Localization/Localizer";
 import GraphValidator from "../../Models/MediaGraphValidator";
@@ -21,10 +22,11 @@ import { PropertyNestedObject } from "./PropertyNestedObject";
 interface IPropertyEditFieldProps {
     name: string;
     property: any;
+    nodeId?: string;
     nodeProperties: any;
     required: boolean;
+    isNodeName?: boolean;
     requestParameterization?: ParameterizeValueRequestFunction;
-    updateNodeName?: (oldName: string, newName: string) => void;
 }
 
 enum PropertyFormatType {
@@ -37,11 +39,13 @@ enum PropertyFormatType {
 }
 
 export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps> = (props) => {
-    const { name, property, nodeProperties, required, requestParameterization, updateNodeName } = props;
+    const { name, property, nodeProperties, required, requestParameterization, isNodeName, nodeId } = props;
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
     const [value, setValue] = React.useState<string>("");
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const [isParameterized, { setFalse: setParameterizeFalse, setTrue: setParameterizeTrue }] = useBoolean(false);
+
+    const propsAPI = usePropsAPI();
 
     const validateInput = (value: string) => {
         let errorMessage = "";
@@ -116,8 +120,12 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     };
 
     function setNewValue(newValue: string) {
-        if (updateNodeName) {
-            updateNodeName(value, newValue);
+        if (nodeId && isNodeName) {
+            propsAPI.updateData((prev) => {
+                return prev.updateNode(nodeId, (currNode) => {
+                    return { ...currNode, name: newValue };
+                });
+            });
         }
 
         setValue(newValue);

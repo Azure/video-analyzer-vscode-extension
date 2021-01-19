@@ -115,7 +115,6 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                             nodeProperties={nodeProperties}
                             readOnly={readOnly}
                             requestParameterization={requestParameterization}
-                            updateNodeName={undefined}
                         />
                     )}
                 </div>

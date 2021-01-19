@@ -6,15 +6,24 @@ import {
     Stack,
     Text
 } from "@fluentui/react";
-import { usePropsAPI } from "@vienna/react-dag-editor";
+import {
+    GraphNodeState,
+    hasState,
+    NodeModel,
+    useGraphData,
+    usePropsAPI
+} from "@vienna/react-dag-editor";
+import Definitions from "../Definitions/Definitions";
+import Localizer from "../Localization/Localizer";
 import { StatusIcon } from "./StatusIcon";
 
 interface INodeContainerProps {
-    nodeType: string;
+    nodeId?: string;
+    nodeType?: string;
     nodeName?: string;
     title?: string;
-    iconName: string;
-    accentColor: string;
+    iconName?: string;
+    accentColor?: string;
     children?: React.ReactElement[] | React.ReactElement | string;
     selected?: boolean;
     dragging?: boolean;
@@ -27,28 +36,35 @@ interface INodeContainerProps {
 }
 
 export const NodeContainer: React.FunctionComponent<INodeContainerProps> = (props) => {
-    const {
-        iconName,
-        accentColor,
-        nodeType,
-        nodeName,
-        title,
-        children = [],
-        selected = false,
-        dragging = false,
-        hovered = false,
-        isDraggable,
-        hideShadow = false,
-        hasErrors,
-        nodeRef
-    } = props;
+    const { nodeId, nodeRef, isDraggable, hideShadow = false, children = [] } = props;
+    let { iconName, accentColor, nodeType, nodeName, title, selected = false, dragging = false, hovered = false, hasErrors } = props;
     const propsAPI = usePropsAPI();
+    const data = useGraphData();
     const transformMatrix = propsAPI.getZoomPanSettings().transformMatrix;
     const transform = dragging ? `matrix(${transformMatrix.join(",")})` : "none";
 
     const background = props.background || "var(--vscode-editor-background)";
     const selectionOutline = selected ? `, 0 0 0 1px  ${accentColor}` : "";
     const dropShadow = hovered || selected ? `0px 4px 12px rgba(var(--node-shadow-color), 0.1)` : `0px 4px 6px rgba(var(--node-shadow-color), 0.1)`;
+
+    if (nodeId) {
+        const currentNode: NodeModel<any> | undefined = data.nodes.find((node) => {
+            return node.id === nodeId;
+        });
+        if (currentNode) {
+            iconName = currentNode.data!.iconName;
+            accentColor = currentNode.data!.color;
+            nodeName = currentNode.name;
+            const type = currentNode.data!.nodeProperties["@type"];
+            const definition = Definitions.getNodeDefinition(currentNode.data?.nodeProperties?.["@type"]);
+            selected = hasState(GraphNodeState.selected)(currentNode.state);
+            hovered = hasState(GraphNodeState.activated)(currentNode.state);
+            nodeType = Localizer.l("nodeContainerNodeType").format(Localizer.getLocalizedStrings(definition.localizationKey).title);
+            dragging = currentNode.data!.nodeProperties.dragging;
+            title = Localizer.l(type.split(".").pop());
+            hasErrors = currentNode.data!.hasErrors;
+        }
+    }
 
     const styles = mergeStyleSets({
         card: {

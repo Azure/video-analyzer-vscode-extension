@@ -40,7 +40,7 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
             default: parameterDefaultValue,
             nameError: parameterNameError
         });
-    }, [parameterName, parameterNameError, parameterType, parameterDefaultValue]);
+    }, [parameterName, parameterNameError, parameterType, parameterDefaultValue, setParamCreateConfig]);
 
     const parameterNameValidate = (newName: string) => {
         let error = "";

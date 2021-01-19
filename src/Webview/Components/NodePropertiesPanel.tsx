@@ -3,8 +3,6 @@ import { Stack, TextField } from "@fluentui/react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { IPanelConfig, usePropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
-import { PropertyEditField } from "../Components/PropertyEditor/PropertyEditField";
-import { PropertyReadOnlyEditField } from "../Components/PropertyEditor/PropertyReadonlyEditField";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { ParameterizeValueCallback } from "../Types/GraphTypes";
@@ -17,11 +15,10 @@ interface INodePropertiesPanel {
     readOnly: boolean;
     data: any;
     parameters: MediaGraphParameterDeclaration[];
-    updateNodeName?: (oldName: string, newName: string) => void;
 }
 
 const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (props) => {
-    const { readOnly, parameters, data, updateNodeName } = props;
+    const { readOnly, parameters, data } = props;
     const propsAPI = usePropsAPI();
 
     const [isParameterModalOpen, { setTrue: showModal, setFalse: hideModal }] = useBoolean(false);
@@ -84,10 +81,10 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
             {definition.localizationKey && <p>{Localizer.getLocalizedStrings(definition.localizationKey).description}</p>}
             <PropertyEditor
                 nodeTypeName={nodeProperties?.["@type"]}
+                nodeId={data.id}
                 nodeProperties={nodeProperties}
                 readOnly={readOnly}
                 requestParameterization={requestParameterization}
-                updateNodeName={updateNodeName}
             />
             <React.Suspense fallback={<></>}>
                 <ParameterEditor
@@ -106,12 +103,12 @@ const NodePropertiesPanelCore: React.FunctionComponent<INodePropertiesPanel> = (
 export class NodePropertiesPanel implements IPanelConfig {
     private readonly readOnly: boolean;
     private parameters: MediaGraphParameterDeclaration[];
-    constructor(readOnly: boolean, parameters: MediaGraphParameterDeclaration[], private updateNodeName?: (oldName: string, newName: string) => void) {
+    constructor(readOnly: boolean, parameters: MediaGraphParameterDeclaration[]) {
         this.readOnly = readOnly;
         this.parameters = parameters;
     }
     public render(data: any): React.ReactElement {
-        return <NodePropertiesPanelCore readOnly={this.readOnly} parameters={this.parameters} data={data} updateNodeName={this.updateNodeName} />;
+        return <NodePropertiesPanelCore readOnly={this.readOnly} parameters={this.parameters} data={data} />;
     }
 
     public panelDidOpen(): void {
