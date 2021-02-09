@@ -1,7 +1,11 @@
+import { ConfigurationTarget } from "vscode";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
 
 export function createParameter(configuration: MediaGraphParameterDeclaration, parameters: MediaGraphParameterDeclaration[]) {
     // TODO: Validate parameter
+    if (configuration.default === "") {
+        delete configuration.default;
+    }
     parameters.push(configuration);
 }
 

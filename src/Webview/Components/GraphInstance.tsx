@@ -17,7 +17,7 @@ import {
     MediaGraphInstance,
     MediaGraphParameterDeclaration
 } from "../../Common/Types/LVASDKTypes";
-import nameToLocalizationKey from "../Definitions/v2.0.0/nameToLocalizationKey.json";
+import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import GraphValidator from "../Models/MediaGraphValidator";
@@ -30,6 +30,7 @@ import {
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
+import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import PostMessage from "../Utils/PostMessage";
 import AppContext from "./AppContext";
@@ -47,6 +48,15 @@ interface IGraphInstanceProps {
     zoomPanSettings: IZoomPanSettings;
     instance: MediaGraphInstance;
     vsCodeSetState: VSCodeSetState;
+}
+
+enum PropertyFormatType {
+    number = "number",
+    string = "string",
+    isoDuration = "isoDuration",
+    boolean = "boolean",
+    object = "object",
+    array = "array"
 }
 
 const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
@@ -260,10 +270,16 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
 
                     //Todo scott instance stuff
                     if (parameter.value) {
-                        const key = graph.getLocalizationKeyOfParameter(parameter.name);
-                        const localizationKey = (nameToLocalizationKey as any)[key];
+                        const localizationKey = graph.checkForParamsInGraphNode(parameter.name)[0]?.localizationKey;
                         if (localizationKey !== undefined) {
-                            const instanceValidationError = GraphValidator.validateProperty(parameter.value, localizationKey);
+                            const format = (customPropertyTypes as any)[localizationKey] ?? null;
+                            let instanceValidationError;
+                            if (format === PropertyFormatType.isoDuration) {
+                                const seconds: any = Helpers.isoToSeconds(parameter.value);
+                                instanceValidationError = GraphValidator.validateProperty(seconds, localizationKey);
+                            } else {
+                                instanceValidationError = GraphValidator.validateProperty(parameter.value, localizationKey);
+                            }
                             if (instanceValidationError) {
                                 validationErrors.push({
                                     type: ValidationErrorType.PropertyValueValidationError,
@@ -276,7 +292,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                 });
                 setValidationErrors(validationErrors);
                 setParameters(parameters);
-                resolve(!instanceNameValidationError && !missingParameter);
+                resolve(!instanceNameValidationError && !missingParameter && !validationErrors.length);
             });
         });
     };

@@ -37,8 +37,7 @@ export const ParameterEditorCreateForm: React.FunctionComponent<IParameterEditor
         setParamCreateConfig({
             name: parameterName,
             type: parameterType,
-            default: parameterDefaultValue,
-            nameError: parameterNameError
+            default: parameterDefaultValue
         });
     }, [parameterName, parameterNameError, parameterType, parameterDefaultValue, setParamCreateConfig]);
 

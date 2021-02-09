@@ -1,10 +1,11 @@
 import * as React from "react";
 import { getTheme, mergeStyleSets, Text, TextField } from "@fluentui/react";
-import nameToLocalizationKey from "../Definitions/v2.0.0/nameToLocalizationKey.json";
+import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../Localization/Localizer";
 import Graph from "../Models/GraphData";
 import GraphValidator from "../Models/MediaGraphValidator";
 import { GraphInstanceParameter } from "../Types/GraphTypes";
+import Helpers from "../Utils/Helpers";
 
 export interface IGraphPanelProps {
     parameters: GraphInstanceParameter[];
@@ -12,9 +13,17 @@ export interface IGraphPanelProps {
     setParameters: (parameters: GraphInstanceParameter[]) => void;
 }
 
+enum PropertyFormatType {
+    number = "number",
+    string = "string",
+    isoDuration = "isoDuration",
+    boolean = "boolean",
+    object = "object",
+    array = "array"
+}
+
 export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props) => {
     const { parameters, graph, setParameters } = props;
-
     const customParameterSetter = (index: number) => {
         return (newValue: GraphInstanceParameter) => {
             parameters[index] = newValue;
@@ -42,21 +51,44 @@ interface IGraphPanelEditFieldProps {
 
 const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = (props) => {
     const getLocalizationKey = () => {
-        const key = graph.getLocalizationKeyOfParameter(parameter.name);
-        const localizationKey = (nameToLocalizationKey as any)[key];
+        const paramsInNode = graph.checkForParamsInGraphNode(parameter.name);
+        const localizationKey = paramsInNode[0]?.localizationKey;
         return localizationKey ?? "";
     };
     const { parameter, graph, setParameter } = props;
     const { name, defaultValue, type, error } = parameter;
-    const [value, setValue] = React.useState<string>(parameter.value);
     const [localizationKey] = React.useState<string>(getLocalizationKey());
+    const [value, setValue] = React.useState<string>(getInitialValue());
+
+    function getInitialValue() {
+        let initValue = parameter.value;
+        if ((customPropertyTypes as any)[localizationKey] === PropertyFormatType.isoDuration) {
+            initValue = Helpers.isoToSeconds(initValue) as any;
+        }
+
+        return initValue;
+    }
 
     const onChange = (event: React.FormEvent, newValue?: string) => {
         if (newValue !== undefined) {
             const error = "";
-            setParameter({ ...parameter, error, value: newValue });
+            const format = (customPropertyTypes as any)[localizationKey] ?? null;
+            if (format === PropertyFormatType.isoDuration) {
+                const isoValue = Helpers.secondsToIso(newValue);
+                setParameter({ ...parameter, error, value: isoValue });
+            } else {
+                setParameter({ ...parameter, error, value: newValue });
+            }
             setValue(newValue);
         }
+    };
+
+    const checkIsIsoDuration = (value: string) => {
+        const format = (customPropertyTypes as any)[localizationKey] ?? null;
+        if (format === PropertyFormatType.isoDuration) {
+            return Helpers.isoToSeconds(value);
+        }
+        return value;
     };
 
     const validateInput = (value: string) => {
@@ -93,7 +125,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
             />
             {defaultValue && (
                 <Text variant="small" className={styles.defaultText} block>
-                    {Localizer.l("sidebarGraphInstanceParameterDefaultText").format(defaultValue)}
+                    {Localizer.l("sidebarGraphInstanceParameterDefaultText").format(checkIsIsoDuration(defaultValue))}
                 </Text>
             )}
         </>

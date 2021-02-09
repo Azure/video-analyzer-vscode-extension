@@ -152,7 +152,7 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
                     <DefaultButton
                         iconProps={{ iconName: "Add" }}
                         onClick={onCreateFormAddClick}
-                        disabled={paramCreateConfig == null || paramCreateConfig.name == null || paramCreateConfig.type == null || !!paramCreateConfig.nameError}
+                        disabled={paramCreateConfig == null || paramCreateConfig.name == null || paramCreateConfig.type == null}
                     />
                 </Stack>
             )}
