@@ -1,16 +1,27 @@
+import compareVersions from "compare-versions";
 import { ITreeNode } from "react-accessible-tree";
 import { ICanvasNode } from "@vienna/react-dag-editor";
 import Localizer from "../Localization/Localizer";
-import { CanvasNodeProperties, NodeDefinition } from "../Types/GraphTypes";
+import { NodeDefinition } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
-import * as storedNodes from "./v2.0.0/nodes.json"; // TODO  load the correct version when needed support for multiple versions
-
-const availableNodes: NodeDefinition[] = storedNodes.availableNodes as NodeDefinition[];
-const itemPanelNodes: any[] = storedNodes.itemPanelNodes;
 
 export default class Definitions {
+    private static _availableNodes: NodeDefinition[];
+    private static _itemPanelNodes: any[];
+    public static TypePrefix = "";
+    public static ModuleVersion = "";
+
+    public static loadDefinitions() {
+        this.ModuleVersion = (window as any).version;
+        this.TypePrefix = compareVersions(this.ModuleVersion, "3.0.0") < 0 ? "#Microsoft.Media." : "#Microsoft.VideoAnalyzer.";
+        return import(`./v${this.ModuleVersion}/nodes.json`).then((storedNodes) => {
+            Definitions._availableNodes = storedNodes.availableNodes as NodeDefinition[];
+            Definitions._itemPanelNodes = storedNodes.itemPanelNodes;
+        });
+    }
+
     public static getNodeDefinition(type: string): NodeDefinition {
-        return availableNodes.filter((x) => type && x.name === type.replace("#Microsoft.Media.", ""))[0];
+        return this._availableNodes.filter((x) => type && x.name === type.replace(this.TypePrefix, ""))[0];
     }
 
     public static getNameFromParsedRef(parsedRef: string) {
@@ -20,7 +31,7 @@ export default class Definitions {
         const compatibleNodes = [];
         const parentType = this.getNameFromParsedRef(fullParentTypeRef);
 
-        for (const candidateNode of availableNodes) {
+        for (const candidateNode of this._availableNodes) {
             const nodeInheritsFrom = candidateNode.parsedAllOf && candidateNode.parsedAllOf.includes(fullParentTypeRef);
             if (nodeInheritsFrom || (!nodeInheritsFrom && candidateNode.name === parentType && candidateNode.discriminator == null)) {
                 compatibleNodes.push(candidateNode);
@@ -31,11 +42,11 @@ export default class Definitions {
     }
 
     public static getAllAvailableNodes() {
-        return availableNodes;
+        return this._availableNodes;
     }
 
     public static getItemPanelNodes(): ITreeNode[] {
-        return itemPanelNodes.map((category) => ({
+        return this._itemPanelNodes.map((category) => ({
             ...category,
             children: category.children!.map((node: ITreeNode) => {
                 const initialNode = node.extra as ICanvasNode<any>;

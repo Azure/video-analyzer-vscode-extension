@@ -1,3 +1,4 @@
+import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { InitializationParameters } from "../Types/VSCodeDelegationTypes";
 import { PageType } from "./Constants";
@@ -14,6 +15,7 @@ export class ExtensionInteraction {
     }
 
     public static async initializeEnvironment(language: string) {
+        await Definitions.loadDefinitions();
         await Localizer.loadUserLanguage(language);
 
         return new Promise((resolve: (params: InitializationParameters) => void, reject) => {

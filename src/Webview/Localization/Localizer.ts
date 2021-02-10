@@ -1,4 +1,5 @@
 import merge from "lodash/merge";
+import Definitions from "../Definitions/Definitions";
 import { NestedLocalizedStrings } from "../Types/GraphTypes";
 
 export default class Localizer {
@@ -6,9 +7,10 @@ export default class Localizer {
     private static localizedNested: Record<string, NestedLocalizedStrings> = {};
 
     static async getLanguage(language: string) {
+        const moduleVersion = Definitions.ModuleVersion;
         const interfaceLocStrings = await import(/* webpackMode: "lazy" */ `./${language}.json`);
-        const swaggerLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/v2.0.0/i18n.${language}.json`); // TODO  load the correct version when needed support for multiple versions
-        const swaggerOverrideLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/v2.0.0/generatedStringOverrides.json`); // TODO  localize and get correct file
+        const swaggerLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/v${moduleVersion}/i18n.${language}.json`); // TODO  load the correct version when needed support for multiple versions
+        const swaggerOverrideLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/v${moduleVersion}/generatedStringOverrides.json`); // TODO  localize and get correct file
 
         return [interfaceLocStrings, merge(swaggerLocStrings, swaggerOverrideLocStrings)];
     }

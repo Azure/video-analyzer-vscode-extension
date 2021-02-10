@@ -1,5 +1,6 @@
 import { Client, Registry } from "azure-iothub";
-import { Constants } from "../Util/Constants";
+import compareVersions from "compare-versions";
+import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
 
 export interface DirectMethodError {
     message: string;
@@ -19,19 +20,19 @@ export class IotHubData {
         this.registryClient = Registry.fromConnectionString(connectionString);
     }
 
-    public directMethodCall(deviceId: string, moduleId: string, methodName: string, payload?: any): Promise<any> {
+    public directMethodCall(moduleDetails: ModuleDetails, methodName: string, payload?: any): Promise<any> {
         return new Promise((resolve, reject) => {
             if (!this.iotHubClient) {
                 reject("Iot hub client not found");
                 return;
             }
             this.iotHubClient.invokeDeviceMethod(
-                deviceId,
-                moduleId,
+                moduleDetails.deviceId,
+                moduleDetails.moduleId,
                 {
                     methodName,
                     payload: {
-                        "@apiVersion": Constants.ApiVersion.version2,
+                        "@apiVersion": moduleDetails.apiVersion,
                         ...payload
                     },
                     responseTimeoutInSeconds: 10,
@@ -75,8 +76,10 @@ export class IotHubData {
         const productInfo = twinResult?.responseBody?.properties?.reported?.ProductInfo;
         if (productInfo) {
             const infoParts = productInfo.split(":");
-            if (infoParts.length === 2 && infoParts[0] == "live-video-analytics") {
-                return infoParts[1];
+            if (infoParts.length === 2 && (infoParts[0] == "live-video-analytics" || infoParts[0] == "video-analyzer")) {
+                const version: string = infoParts[1];
+                const apiVersion = version.substr(0, 3);
+                return { version, apiVersion, legacy: compareVersions(version, "3.0.0") < 0 };
             }
         }
         return null;

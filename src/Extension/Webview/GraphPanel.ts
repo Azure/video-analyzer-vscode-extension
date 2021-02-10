@@ -41,8 +41,10 @@ export class GraphEditorPanel {
     private readonly _extensionPath: string;
     private _disposables: vscode.Disposable[] = [];
     private _registeredMessages: RegisteredMessage[] = [];
+    private static _version = "";
 
-    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string) {
+    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string, lvaVersion: string) {
+        this._version = lvaVersion;
         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
         const logger = Logger.getOrCreateOutputChannel();
         // If we already have a panel, show it.
@@ -248,6 +250,7 @@ export class GraphEditorPanel {
                     __webpack_nonce__ = "${nonce}";
                     __webpack_public_path__ = "${webview.asWebviewUri(vscode.Uri.file(path.join(this._extensionPath, "build")))}/";
                     window.language = "${language}";
+                    window.version ="${GraphEditorPanel._version}"
                     </script>
                     ${scriptInjection}
                 </body>

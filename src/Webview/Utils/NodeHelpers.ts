@@ -83,16 +83,27 @@ export default class NodeHelpers {
     static getNodeAppearance(node: CanvasNodeData) {
         const icons = {
             "#Microsoft.Media.MediaGraphRtspSource": "SecurityCamera",
+            "#Microsoft.VideoAnalyzer.RtspSource": "SecurityCamera",
             "#Microsoft.Media.MediaGraphIoTHubMessageSource": "IOT",
+            "#Microsoft.VideoAnalyzer.IoTHubMessageSource": "IOT",
             "#Microsoft.Media.MediaGraphMotionDetectionProcessor": "RedEye",
+            "#Microsoft.VideoAnalyzer.MotionDetectionProcessor": "RedEye",
             "#Microsoft.Media.MediaGraphFrameRateFilterProcessor": "PlaybackRate1x",
+            "#Microsoft.VideoAnalyzer.FrameRateFilterProcessor": "PlaybackRate1x",
             "#Microsoft.Media.MediaGraphHttpExtension": "PhotoVideoMedia",
+            "#Microsoft.VideoAnalyzer.HttpExtension": "PhotoVideoMedia",
             "#Microsoft.Media.MediaGraphSignalGateProcessor": "Ringer",
+            "#Microsoft.VideoAnalyzer.SignalGateProcessor": "Ringer",
             "#Microsoft.Media.MediaGraphAssetSink": "FabricAssetLibrary",
+            "#Microsoft.VideoAnalyzer.AssetSink": "FabricAssetLibrary",
             "#Microsoft.Media.MediaGraphFileSink": "PageData",
+            "#Microsoft.VideoAnalyzer.FileSink": "PageData",
             "#Microsoft.Media.MediaGraphIoTHubMessageSink": "IOT",
+            "#Microsoft.VideoAnalyzer.IoTHubMessageSink": "IOT",
             "#Microsoft.Media.MediaGraphGrpcExtension": "Switch",
-            "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension": "CognitiveServices"
+            "#Microsoft.VideoAnalyzer.GrpcExtension": "Switch",
+            "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension": "CognitiveServices",
+            "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension": "CognitiveServices"
         } as Record<string, string>;
 
         const icon = icons[node.nodeProperties["@type"]];

@@ -10,7 +10,7 @@ import {
 } from "@fluentui/react";
 import { useBoolean, useId } from "@uifabric/react-hooks";
 import { usePropsAPI } from "@vienna/react-dag-editor";
-import customPropertyTypes from "../../Definitions/v2.0.0/customPropertyTypes.json";
+import Definitions from "../../Definitions/Definitions";
 import Localizer from "../../Localization/Localizer";
 import GraphValidator from "../../Models/MediaGraphValidator";
 import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
@@ -44,10 +44,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const [value, setValue] = React.useState<string>("");
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const [isParameterized, { setFalse: setParameterizeFalse, setTrue: setParameterizeTrue }] = useBoolean(false);
+    const moduleVersion = Definitions.ModuleVersion;
 
     const propsAPI = usePropsAPI();
 
-    const validateInput = (value: string) => {
+    const validateInput = async (value: string) => {
         let errorMessage = "";
         if (required) {
             errorMessage = GraphValidator.validateRequiredProperty(value, property.type);
@@ -56,7 +57,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             return "";
         }
         if (!errorMessage) {
-            errorMessage = GraphValidator.validateProperty(value, property.localizationKey);
+            errorMessage = await GraphValidator.validateProperty(value, property.localizationKey);
         }
 
         return errorMessage;
@@ -65,16 +66,19 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const isValueParameterized = (valueString: string) => {
         return !!(valueString && typeof valueString === "string" && valueString.includes("${"));
     };
-    const initValue = getInitialValue();
-    if (value !== initValue) {
-        setValue(initValue);
-        setErrorMessage(validateInput(initValue));
-        if (isValueParameterized(initValue)) {
-            setParameterizeTrue();
-        } else setParameterizeFalse();
-    }
 
-    function getInitialValue() {
+    getInitialValue().then(async (initValue) => {
+        if (value !== initValue) {
+            setValue(initValue);
+            setErrorMessage(await validateInput(initValue));
+            if (isValueParameterized(initValue)) {
+                setParameterizeTrue();
+            } else setParameterizeFalse();
+        }
+    });
+
+    async function getInitialValue() {
+        const customPropertyTypes = await import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`);
         let initValue = nodeProperties[name];
         if (property.type !== PropertyFormatType.boolean && property.type !== PropertyFormatType.string) {
             initValue = JSON.stringify(initValue);
@@ -90,11 +94,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         return initValue;
     }
 
-    function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
+    async function handleDropdownChange(e: React.FormEvent, item?: IDropdownOption) {
         if (item) {
             const value = item.key as string;
             setNewValue(value);
-            setErrorMessage(validateInput(value));
+            setErrorMessage(await validateInput(value));
         }
     }
 
@@ -104,11 +108,11 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         }
     }
 
-    function handleChoiceGroupChange(e?: React.FormEvent, option?: IChoiceGroupOption) {
+    async function handleChoiceGroupChange(e?: React.FormEvent, option?: IChoiceGroupOption) {
         if (option !== undefined) {
             const value = option.key as string;
             setNewValue(value);
-            setErrorMessage(validateInput(value));
+            setErrorMessage(await validateInput(value));
         }
     }
 
@@ -135,46 +139,48 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (newValue === "" || newValue == null) {
             nodeProperties[name] = newValue;
         } else {
-            const format = (customPropertyTypes as any)[property.localizationKey] ?? null;
-            if (format === PropertyFormatType.isoDuration) {
-                if (isValueParameterized(newValue)) {
-                    setParameterizeTrue();
-                    nodeProperties[name] = newValue;
+            import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`).then((customPropertyTypes) => {
+                const format = (customPropertyTypes as any)[property.localizationKey] ?? null;
+                if (format === PropertyFormatType.isoDuration) {
+                    if (isValueParameterized(newValue)) {
+                        setParameterizeTrue();
+                        nodeProperties[name] = newValue;
+                    } else {
+                        setParameterizeFalse();
+                        nodeProperties[name] = Helpers.secondsToIso(newValue);
+                    }
                 } else {
-                    setParameterizeFalse();
-                    nodeProperties[name] = Helpers.secondsToIso(newValue);
-                }
-            } else {
-                switch (property.type) {
-                    case PropertyFormatType.boolean:
-                        if (newValue === "true") {
-                            nodeProperties[name] = true;
-                        } else if (newValue === "false") {
-                            nodeProperties[name] = false;
-                        } else {
-                            delete nodeProperties[name];
-                        }
-                        break;
-                    case PropertyFormatType.string:
-                        if (newValue) {
-                            nodeProperties[name] = newValue;
-                        } else {
-                            delete nodeProperties[name];
-                        }
-                        break;
-                    default:
-                        if (newValue) {
-                            try {
-                                nodeProperties[name] = JSON.parse(newValue);
-                            } catch (e) {
-                                // no change in value
+                    switch (property.type) {
+                        case PropertyFormatType.boolean:
+                            if (newValue === "true") {
+                                nodeProperties[name] = true;
+                            } else if (newValue === "false") {
+                                nodeProperties[name] = false;
+                            } else {
+                                delete nodeProperties[name];
                             }
-                        } else {
-                            delete nodeProperties[name];
-                        }
-                        break;
+                            break;
+                        case PropertyFormatType.string:
+                            if (newValue) {
+                                nodeProperties[name] = newValue;
+                            } else {
+                                delete nodeProperties[name];
+                            }
+                            break;
+                        default:
+                            if (newValue) {
+                                try {
+                                    nodeProperties[name] = JSON.parse(newValue);
+                                } catch (e) {
+                                    // no change in value
+                                }
+                            } else {
+                                delete nodeProperties[name];
+                            }
+                            break;
+                    }
                 }
-            }
+            });
         }
     }
 

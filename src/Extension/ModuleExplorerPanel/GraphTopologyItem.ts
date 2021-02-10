@@ -3,8 +3,8 @@ import {
     MediaGraphInstance,
     MediaGraphTopology
 } from "../../Common/Types/LVASDKTypes";
-import { GraphTopologyData } from "../Data/GraphTolologyData";
 import { IotHubData } from "../Data/IotHubData";
+import { TopologyData } from "../Data/TolologyData";
 import { Constants } from "../Util/Constants";
 import { ExtensionUtils } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
@@ -12,6 +12,7 @@ import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
 import { InstanceItem } from "./InstanceItem";
+import { ModuleDetails } from "./ModuleItem";
 import { INode } from "./Node";
 
 export class GraphTopologyItem extends vscode.TreeItem {
@@ -19,8 +20,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
     private _instanceList: InstanceItem[] = [];
     constructor(
         public iotHubData: IotHubData,
-        public readonly deviceId: string,
-        public readonly moduleId: string,
+        private readonly _moduleDetails: ModuleDetails,
         private readonly _graphTopology?: MediaGraphTopology,
         private readonly _graphInstances?: MediaGraphInstance[],
         private _nameCheckCallback?: (name: string) => boolean
@@ -36,7 +36,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
                         return instance?.properties?.topologyName === this._graphTopology?.name;
                     })
                     .map((instance) => {
-                        return new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology!, instance);
+                        return new InstanceItem(this.iotHubData, this._moduleDetails, this._graphTopology!, instance);
                     }) ?? [];
             if (instanceItems.length === 0) {
                 this.collapsibleState = vscode.TreeItemCollapsibleState.None;
@@ -51,7 +51,11 @@ export class GraphTopologyItem extends vscode.TreeItem {
     }
 
     public setGraphCommand(context: vscode.ExtensionContext) {
-        const createGraphPanel = GraphEditorPanel.createOrShow(context, Localizer.localize(this._graphTopology ? "editGraphPageTile" : "createNewGraphPageTile"));
+        const createGraphPanel = GraphEditorPanel.createOrShow(
+            context,
+            Localizer.localize(this._graphTopology ? "editGraphPageTile" : "createNewGraphPageTile"),
+            this._moduleDetails.lvaVersion
+        );
         if (createGraphPanel) {
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
@@ -74,7 +78,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveGraph,
                 callback: async (topology: MediaGraphTopology) => {
-                    GraphTopologyData.putGraphTopology(this.iotHubData, this.deviceId, this.moduleId, topology).then(
+                    TopologyData.putTopology(this.iotHubData, this._moduleDetails, topology).then(
                         (response) => {
                             TreeUtils.refresh();
                             createGraphPanel.dispose();
@@ -95,7 +99,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
         if (this._graphTopology) {
             const allowDelete = await ExtensionUtils.showConfirmation(Localizer.localize("deleteGraphConfirmation"));
             if (allowDelete) {
-                GraphTopologyData.deleteGraphTopology(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology.name).then(
+                TopologyData.deleteTopology(this.iotHubData, this._moduleDetails, this._graphTopology.name).then(
                     (response) => {
                         TreeUtils.refresh();
                         this._logger.showInformationMessage(`${Localizer.localize("deleteGraphSuccessMessage")} "${this._graphTopology!.name}"`);
@@ -118,7 +122,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
     }
 
     public createNewGraphInstanceCommand(context: vscode.ExtensionContext) {
-        const graphInstance = new InstanceItem(this.iotHubData, this.deviceId, this.moduleId, this._graphTopology!, undefined, (name) => {
+        const graphInstance = new InstanceItem(this.iotHubData, this._moduleDetails, this._graphTopology!, undefined, (name) => {
             return (
                 this._graphInstances == null ||
                 this._graphInstances.length == 0 ||

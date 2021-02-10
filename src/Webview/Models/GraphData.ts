@@ -244,7 +244,7 @@ export class GraphData {
         return graphInfo;
     }
 
-    public validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>, errorsFromService?: ValidationError[]): ValidationError[] {
+    public async validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>, errorsFromService?: ValidationError[]): Promise<ValidationError[]> {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
 

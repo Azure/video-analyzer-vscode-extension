@@ -223,7 +223,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         }
         return new Promise<boolean>((resolve) => {
             const validationErrors: ValidationError[] = [];
-            validateName(graphTopologyName).then(() => {
+            validateName(graphTopologyName).then(async () => {
                 if (graphNameValidationError) {
                     nameTextFieldRef.current!.focus();
                     validationErrors.push(graphNameValidationError);
@@ -235,7 +235,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     graph.setGraphDataFromICanvasData(data.toJSON());
                 }
 
-                validationErrors.push(...graph.validate(propsApiRef, errorsFromResponse ?? serverErrors));
+                validationErrors.push(...(await graph.validate(propsApiRef, errorsFromResponse ?? serverErrors)));
                 setValidationErrors(validationErrors);
                 resolve(!validationErrors.length);
             });
