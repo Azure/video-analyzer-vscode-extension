@@ -67,15 +67,17 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         return !!(valueString && typeof valueString === "string" && valueString.includes("${"));
     };
 
-    getInitialValue().then(async (initValue) => {
-        if (value !== initValue) {
-            setValue(initValue);
-            setErrorMessage(await validateInput(initValue));
-            if (isValueParameterized(initValue)) {
-                setParameterizeTrue();
-            } else setParameterizeFalse();
-        }
-    });
+    React.useEffect(() => {
+        getInitialValue().then(async (initValue) => {
+            if (value !== initValue) {
+                setValue(initValue);
+                setErrorMessage(await validateInput(initValue));
+                if (isValueParameterized(initValue)) {
+                    setParameterizeTrue();
+                } else setParameterizeFalse();
+            }
+        });
+    }, []);
 
     async function getInitialValue() {
         const customPropertyTypes = await import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`);
@@ -137,7 +139,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         setValue(newValue);
 
         if (newValue === "" || newValue == null) {
-            nodeProperties[name] = newValue;
+            nodeProperties[name] = null;
         } else {
             import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`).then((customPropertyTypes) => {
                 const format = (customPropertyTypes as any)[property.localizationKey] ?? null;
@@ -147,7 +149,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                         nodeProperties[name] = newValue;
                     } else {
                         setParameterizeFalse();
-                        nodeProperties[name] = Helpers.secondsToIso(newValue);
+                        nodeProperties[name] = Helpers.secondsToIso(newValue) ?? newValue;
                     }
                 } else {
                     switch (property.type) {

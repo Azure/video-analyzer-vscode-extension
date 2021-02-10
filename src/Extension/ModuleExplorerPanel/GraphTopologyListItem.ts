@@ -44,7 +44,6 @@ export class GraphTopologyListItem extends vscode.TreeItem {
                 TopologyData.getTopologies(this.iotHubData, this._moduleDetails).then(
                     (graphTopologies) => {
                         this._graphTopologies = graphTopologies;
-                        console.log("topologies: ", graphTopologies.length, "   instances: ", this._graphInstances.length);
                         resolve(
                             graphTopologies?.map((topology) => {
                                 return new GraphTopologyItem(this.iotHubData, this._moduleDetails, topology, this._graphInstances ?? [], undefined);
