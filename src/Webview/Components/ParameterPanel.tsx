@@ -62,7 +62,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
 
     function getInitialValue() {
         let initValue = parameter.value;
-        if ((customPropertyTypes as any)[localizationKey] === PropertyFormatType.isoDuration) {
+        if (initValue && (customPropertyTypes as any)[localizationKey] === PropertyFormatType.isoDuration) {
             initValue = Helpers.isoToSeconds(initValue) as any;
         }
 
@@ -85,7 +85,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
 
     const checkIsIsoDuration = (value: string) => {
         const format = (customPropertyTypes as any)[localizationKey] ?? null;
-        if (format === PropertyFormatType.isoDuration) {
+        if (value && format === PropertyFormatType.isoDuration) {
             return Helpers.isoToSeconds(value);
         }
         return value;

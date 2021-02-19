@@ -290,7 +290,6 @@ export default class Graph {
                 );
             }
         }
-        console.log("params in graph node", parameter, resultNodes);
         return resultNodes;
     }
 

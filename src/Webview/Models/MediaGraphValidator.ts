@@ -213,7 +213,7 @@ export default class GraphValidator {
                 const key = `${definition.localizationKey}.${name}`;
                 const format = (customPropertyTypes as any)[key] ?? null;
                 let value = nestedProperties;
-                if (format === "isoDuration") {
+                if (value && format === "isoDuration") {
                     value = Helpers.isoToSeconds(nestedProperties);
                 }
                 const validationError = GraphValidator.validateProperty(value, key);

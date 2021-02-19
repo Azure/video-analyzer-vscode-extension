@@ -80,7 +80,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             initValue = JSON.stringify(initValue);
         }
         if (property.type === PropertyFormatType.string && initValue) {
-            if ((customPropertyTypes as any)[property.localizationKey] === PropertyFormatType.isoDuration) {
+            if (initValue && (customPropertyTypes as any)[property.localizationKey] === PropertyFormatType.isoDuration) {
                 if (!isValueParameterized(initValue)) {
                     initValue = Helpers.isoToSeconds(initValue);
                 }
