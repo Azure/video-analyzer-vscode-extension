@@ -31,10 +31,10 @@ import {
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import SharedNodeHelpers from "../Utils/SharedNodeHelpers";
-import GraphData from "./GraphEditorViewModel";
+import GraphEditorViewModel from "./GraphEditorViewModel";
 import GraphValidator from "./MediaGraphValidator";
 
-export default class Graph {
+export class GraphData {
     private static readonly nodeTypeList = [MediaGraphNodeType.Source, MediaGraphNodeType.Processor, MediaGraphNodeType.Sink];
 
     // what we initialized with (contains name, description, etc.)
@@ -45,7 +45,7 @@ export default class Graph {
     private processors: MediaGraphProcessorUnion[] = [];
     private sinks: MediaGraphSinkUnion[] = [];
 
-    private graphStructureStore = new GraphData();
+    private graphStructureStore = new GraphEditorViewModel();
 
     public setGraphData(graphInfo: GraphInfo) {
         this.graphInformation = graphInfo.meta;
@@ -65,7 +65,7 @@ export default class Graph {
         this.graphStructureStore.edges = [];
 
         // go through all the sources, processors, and sinks we are given and flatten them into nodes
-        for (const nodeType of Graph.nodeTypeList) {
+        for (const nodeType of GraphData.nodeTypeList) {
             const nodesForType = topology.properties[SharedNodeHelpers.getNodeTypeKey(nodeType)];
             if (!nodesForType) {
                 // no nodes for this type
@@ -394,7 +394,7 @@ export default class Graph {
     // helper to loop through all inputs for all nodes
     private forEachNodeInput(callback: (node: CanvasNodeProperties, input: MediaGraphNodeInput) => void) {
         if (this.graphInformation && this.graphInformation.properties) {
-            for (const nodeType of Graph.nodeTypeList) {
+            for (const nodeType of GraphData.nodeTypeList) {
                 const nodesForType = (this.graphInformation.properties as Record<string, CanvasNodeProperties[]>)[SharedNodeHelpers.getNodeTypeKey(nodeType)];
                 if (!nodesForType) {
                     // no nodes for this type

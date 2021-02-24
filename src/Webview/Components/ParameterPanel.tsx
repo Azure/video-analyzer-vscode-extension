@@ -1,29 +1,22 @@
 import * as React from "react";
 import { getTheme, mergeStyleSets, Text, TextField } from "@fluentui/react";
+import { useGraphData } from "@vienna/react-dag-editor";
 import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../Localization/Localizer";
-import Graph from "../Models/GraphData";
+import { GraphData } from "../Models/GraphData";
 import GraphValidator from "../Models/MediaGraphValidator";
 import { GraphInstanceParameter } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
+import GraphContext from "./GraphContext";
+import { PropertyFormatType } from "./GraphInstance";
 
 export interface IGraphPanelProps {
     parameters: GraphInstanceParameter[];
-    graph: Graph;
     setParameters: (parameters: GraphInstanceParameter[]) => void;
 }
 
-enum PropertyFormatType {
-    number = "number",
-    string = "string",
-    isoDuration = "isoDuration",
-    boolean = "boolean",
-    object = "object",
-    array = "array"
-}
-
 export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props) => {
-    const { parameters, graph, setParameters } = props;
+    const { parameters, setParameters } = props;
     const customParameterSetter = (index: number) => {
         return (newValue: GraphInstanceParameter) => {
             parameters[index] = newValue;
@@ -31,13 +24,16 @@ export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props)
         };
     };
 
+    const graphContext = React.useContext(GraphContext);
+    const graph = graphContext.graph;
+
     return (
         <>
             <h2>{Localizer.l("sidebarHeadingParameters")}</h2>
             <p>{Localizer.l("sidebarGraphInstanceParameterText")}</p>
             {parameters &&
                 parameters.map((parameter, i) => {
-                    return <GraphPanelEditField key={parameter.name} parameter={parameter} graph={graph} setParameter={customParameterSetter(i)} />;
+                    return <GraphPanelEditField key={parameter.name} graph={graph} parameter={parameter} setParameter={customParameterSetter(i)} />;
                 })}
         </>
     );
@@ -45,7 +41,7 @@ export const ParameterPanel: React.FunctionComponent<IGraphPanelProps> = (props)
 
 interface IGraphPanelEditFieldProps {
     parameter: GraphInstanceParameter;
-    graph: Graph;
+    graph: GraphData;
     setParameter: (newValue: GraphInstanceParameter) => void;
 }
 

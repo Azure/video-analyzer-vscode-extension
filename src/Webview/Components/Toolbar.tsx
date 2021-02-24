@@ -18,7 +18,6 @@ import {
     updatePort
 } from "@vienna/react-dag-editor";
 import Localizer from "../Localization/Localizer";
-import Graph from "../Models/GraphData";
 import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";

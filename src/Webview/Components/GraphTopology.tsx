@@ -23,7 +23,7 @@ import {
 } from "@vienna/react-dag-editor";
 import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
-import Graph from "../Models/GraphData";
+import { GraphData } from "../Models/GraphData";
 import {
     GraphInfo,
     ServerError,
@@ -46,7 +46,7 @@ import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
 import { Toolbar } from "./Toolbar";
 
 interface IGraphTopologyProps {
-    graph: Graph;
+    graph: GraphData;
     isEditMode: boolean;
     isHorizontal: boolean;
     zoomPanSettings: IZoomPanSettings;
@@ -120,6 +120,25 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 graph.setDescription(graphDescription);
                 graph.setGraphDataFromICanvasData(data.toJSON());
                 const topology = graph.getTopology();
+                if (topology.properties?.parameters) {
+                    for (const params in topology.properties.parameters) {
+                        const parameter = topology.properties.parameters[params];
+                        const tempParameter: any = {};
+                        if (parameter.name) {
+                            tempParameter.name = parameter.name;
+                        }
+                        if (parameter.default) {
+                            tempParameter.default = parameter.default;
+                        }
+                        if (parameter.type) {
+                            tempParameter.type = parameter.type;
+                        }
+                        if (parameter.description) {
+                            tempParameter.description = parameter.description;
+                        }
+                        topology.properties.parameters[params] = tempParameter;
+                    }
+                }
                 if (ExtensionInteraction.getVSCode()) {
                     PostMessage.sendMessageToParent(
                         { name: Constants.PostMessageNames.saveGraph, data: topology },

@@ -24,6 +24,7 @@ import { ParameterEditorCreateForm } from "../ParameterEditor/ParameterEditorCre
 import { EditableParameter } from "./EditableParameter";
 
 export interface ParamCreateConfig extends MediaGraphParameterDeclaration {
+    nameError?: string;
     defaultValueError?: string;
 }
 
@@ -193,7 +194,7 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                                 <DefaultButton
                                     text="Add"
                                     onClick={onCreateFormAddClick}
-                                    disabled={!!(!paramCreateConfig?.name || paramCreateConfig?.defaultValueError)}
+                                    disabled={!!(!paramCreateConfig?.name || paramCreateConfig?.nameError || paramCreateConfig?.defaultValueError)}
                                 />
                             </Stack>
                         </Stack>

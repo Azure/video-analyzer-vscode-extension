@@ -16,13 +16,17 @@ import {
 } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
-import GraphData from "./GraphEditorViewModel";
+import GraphEditorViewModel from "./GraphEditorViewModel";
 import GraphValidationRules from "./GraphValidationRules";
 
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
 
 export default class GraphValidator {
-    public static validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>, nodesAndEdges: GraphData, errorsFromService?: ValidationError[]): ValidationError[] {
+    public static validate(
+        graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>,
+        nodesAndEdges: GraphEditorViewModel,
+        errorsFromService?: ValidationError[]
+    ): ValidationError[] {
         const errors: ValidationError[] = [...(errorsFromService ?? [])];
 
         if (!nodesAndEdges.isGraphConnected()) {
@@ -265,6 +269,7 @@ export default class GraphValidator {
     }
 
     static validateProperty(value: string, key: any) {
+        // console.log("key/value", key, value);
         if (value === "" || value == undefined) {
             return "";
         }

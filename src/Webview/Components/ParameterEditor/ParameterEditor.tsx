@@ -74,7 +74,7 @@ const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) 
     };
 
     const setButtonDisabled = () => {
-        return (paramCreateConfig == null && selectedValue === "") || paramCreateConfig?.name == "";
+        return (paramCreateConfig == null && selectedValue === "") || paramCreateConfig?.name == "" || !!paramCreateConfig?.nameError;
     };
 
     return (
