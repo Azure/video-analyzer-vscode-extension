@@ -1,6 +1,5 @@
 import * as React from "react";
 import { getTheme, mergeStyleSets, Text, TextField } from "@fluentui/react";
-import { useGraphData } from "@vienna/react-dag-editor";
 import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
 import Localizer from "../Localization/Localizer";
 import { GraphData } from "../Models/GraphData";

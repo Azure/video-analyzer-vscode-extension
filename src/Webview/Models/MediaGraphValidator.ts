@@ -269,7 +269,6 @@ export default class GraphValidator {
     }
 
     static validateProperty(value: string, key: any) {
-        // console.log("key/value", key, value);
         if (value === "" || value == undefined) {
             return "";
         }
