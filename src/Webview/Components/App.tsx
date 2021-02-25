@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { ITheme, Spinner, SpinnerSize } from "@fluentui/react";
 import { ThemeProvider } from "@fluentui/react/lib/Foundation";
 import { useBoolean } from "@uifabric/react-hooks";
-import Graph from "../Models/GraphData";
+import { GraphData } from "../Models/GraphData";
 import { VSCodeState } from "../Types/VSCodeDelegationTypes";
 import * as Constants from "../Utils/Constants";
 import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
@@ -24,7 +24,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
     const [theme, setTheme] = React.useState<ITheme>(ThemeHelpers.getAdaptedTheme());
     const [pageType, setPageType] = React.useState<Constants.PageType>(Constants.PageType.spinner);
 
-    const [graph, setGraph] = React.useState<Graph>(new Graph());
+    const [graph, setGraph] = React.useState<GraphData>(new GraphData());
     const [graphInstance] = React.useState<any>({ instance: null });
     const observer = ThemeHelpers.attachHtmlStyleAttrListener(() => {
         setTheme(ThemeHelpers.getAdaptedTheme());

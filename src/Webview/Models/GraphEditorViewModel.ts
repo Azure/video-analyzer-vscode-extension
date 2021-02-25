@@ -5,11 +5,10 @@ import {
     MediaGraphOutputSelectorOperator,
     MediaGraphOutputSelectorProperty
 } from "../../Common/Types/LVASDKTypes";
-import { IEdgeData } from "../Components/CustomEdgeConfig";
 import { CanvasNodeData, OutputSelectorValueType } from "../Types/GraphTypes";
 import NodeHelpers from "../Utils/NodeHelpers";
 
-export default class GraphData {
+export default class GraphEditorViewModel {
     // output is a list of nodes, edges, and some metadata
     public nodes: ICanvasNode<CanvasNodeData>[] = [];
     public edges: ICanvasEdge[] = [];

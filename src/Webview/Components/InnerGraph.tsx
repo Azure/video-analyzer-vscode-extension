@@ -21,7 +21,7 @@ import {
     usePropsAPI
 } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
-import GraphClass from "../Models/GraphData";
+import { GraphData as GraphData } from "../Models/GraphData";
 import {
     GraphInfo,
     OutputSelectorValueType,
@@ -36,7 +36,7 @@ import { NodePropertiesPanel } from "./NodePropertiesPanel";
 import { ValidationErrorPanel } from "./ValidationErrorPanel";
 
 export interface IInnerGraphProps {
-    graph: GraphClass;
+    graph: GraphData;
     graphTopologyName: string;
     graphDescription: string;
     canvasMouseMode: CanvasMouseMode;

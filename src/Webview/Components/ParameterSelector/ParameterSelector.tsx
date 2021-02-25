@@ -39,6 +39,7 @@ interface ParameterSelectorProps {
 export interface ParameterChangeValidation {
     nodeId: string;
     nodeName: string;
+    localizationKey?: string;
     value: string[];
 }
 

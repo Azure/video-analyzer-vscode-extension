@@ -18,6 +18,7 @@ import {
     MediaGraphTopology
 } from "../../Common/Types/LVASDKTypes";
 import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
+import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import {
     CanvasNodeData,
@@ -30,10 +31,10 @@ import {
 import LocalizerHelpers from "../Utils/LocalizerHelpers";
 import NodeHelpers from "../Utils/NodeHelpers";
 import SharedNodeHelpers from "../Utils/SharedNodeHelpers";
-import GraphData from "./GraphEditorViewModel";
+import GraphEditorViewModel from "./GraphEditorViewModel";
 import GraphValidator from "./MediaGraphValidator";
 
-export default class Graph {
+export class GraphData {
     private static readonly nodeTypeList = [MediaGraphNodeType.Source, MediaGraphNodeType.Processor, MediaGraphNodeType.Sink];
 
     // what we initialized with (contains name, description, etc.)
@@ -44,7 +45,7 @@ export default class Graph {
     private processors: MediaGraphProcessorUnion[] = [];
     private sinks: MediaGraphSinkUnion[] = [];
 
-    private graphStructureStore = new GraphData();
+    private graphStructureStore = new GraphEditorViewModel();
 
     public setGraphData(graphInfo: GraphInfo) {
         this.graphInformation = graphInfo.meta;
@@ -64,7 +65,7 @@ export default class Graph {
         this.graphStructureStore.edges = [];
 
         // go through all the sources, processors, and sinks we are given and flatten them into nodes
-        for (const nodeType of Graph.nodeTypeList) {
+        for (const nodeType of GraphData.nodeTypeList) {
             const nodesForType = topology.properties[SharedNodeHelpers.getNodeTypeKey(nodeType)];
             if (!nodesForType) {
                 // no nodes for this type
@@ -247,6 +248,36 @@ export default class Graph {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
 
+    public getLocalizationKeyOfParameter = (parameterName: string) => {
+        const nodes = this.graphStructureStore.nodes;
+        const parameterString = "${" + parameterName + "}";
+        let localizationKey = "";
+        for (const node of nodes) {
+            localizationKey = this.recursiveGetLocalizationKeyOfParameter(node.data, parameterString);
+            if (localizationKey !== "") {
+                return localizationKey;
+            }
+        }
+
+        return localizationKey;
+    };
+
+    public recursiveGetLocalizationKeyOfParameter = (nestedNode: any, parameterName: string): any => {
+        const propertyKeys = Object.keys(nestedNode);
+        for (let i = 0; i < propertyKeys.length; i++) {
+            const propertyValue = nestedNode[propertyKeys[i]];
+            if (typeof propertyValue !== "number" && typeof propertyValue !== "boolean") {
+                if (typeof propertyValue !== "string") {
+                    return this.recursiveGetLocalizationKeyOfParameter(propertyValue, parameterName);
+                } else {
+                    if (propertyValue != null && propertyValue === parameterName) {
+                        return propertyKeys[i];
+                    }
+                }
+            }
+        }
+    };
+
     public checkForParamsInGraphNode(parameter: string) {
         const nodes = this.graphStructureStore.nodes;
         const parameterString = "${" + parameter + "}";
@@ -254,32 +285,34 @@ export default class Graph {
         for (const node of nodes) {
             if (node.data && node.name) {
                 const nodeDrillDown: string[] = [node.name];
-                resultNodes = resultNodes.concat(this.recursiveCheckForParamsInGraphNode(node.data, node.name, node.id, parameterString, nodeDrillDown));
+                resultNodes = resultNodes.concat(
+                    this.recursiveCheckForParamsInGraphNode(node.data.nodeProperties["@type"], node.data, node.name, node.id, parameterString, nodeDrillDown)
+                );
             }
         }
-
         return resultNodes;
     }
 
     // recursively returns an array that shows what properties will be affected if the parameter is deleted
-    private recursiveCheckForParamsInGraphNode(nestedNode: any, nodeName: string, nodeId: string, parameterName: string, nodeDrillDown: string[]) {
+    private recursiveCheckForParamsInGraphNode(type: string, nestedNode: any, nodeName: string, nodeId: string, parameterName: string, nodeDrillDown: string[]) {
         let itemsThatWillChange: ParameterChangeValidation[] = [];
-        const propertyKeys = Object.keys(nestedNode);
-
-        for (let i = 0; i < propertyKeys.length; i++) {
-            const propertyValue = nestedNode[propertyKeys[i]];
+        const definition = Definitions.getNodeDefinition(type);
+        for (const propertyKey in nestedNode) {
+            const propertyValue = nestedNode[propertyKey];
             if (typeof propertyValue !== "number" && typeof propertyValue !== "boolean") {
                 if (typeof propertyValue !== "string") {
-                    nodeDrillDown.push(propertyKeys[i]);
-                    const newItem = this.recursiveCheckForParamsInGraphNode(propertyValue, nodeName, nodeId, parameterName, nodeDrillDown);
+                    nodeDrillDown.push(propertyKey);
+                    const newItem = this.recursiveCheckForParamsInGraphNode(type, propertyValue, nodeName, nodeId, parameterName, nodeDrillDown);
                     itemsThatWillChange = itemsThatWillChange.concat(newItem);
                 } else {
                     if (propertyValue != null && propertyValue.indexOf(parameterName) !== -1) {
-                        nodeDrillDown.push(propertyKeys[i]);
+                        const localizationKey = this.recursiveGetDefinitionFromProperty(definition.properties, propertyKey);
+                        nodeDrillDown.push(propertyKey);
                         const tempObj: ParameterChangeValidation = {
                             nodeId: nodeId,
                             nodeName: nodeName,
-                            value: nodeDrillDown
+                            value: nodeDrillDown,
+                            localizationKey: localizationKey
                         };
                         itemsThatWillChange.push(tempObj);
                         break;
@@ -287,8 +320,25 @@ export default class Graph {
                 }
             }
         }
-
         return itemsThatWillChange;
+    }
+
+    private recursiveGetDefinitionFromProperty(definition: any, propertyKey: string) {
+        let localizationKey = "";
+        for (const def in definition) {
+            const property = definition[def];
+            if (typeof property !== "boolean" && typeof property !== "number") {
+                if (property?.properties != undefined) {
+                    localizationKey = this.recursiveGetDefinitionFromProperty(property.properties, propertyKey);
+                } else {
+                    if (def === propertyKey) {
+                        localizationKey = definition[def].localizationKey;
+                        break;
+                    }
+                }
+            }
+        }
+        return localizationKey;
     }
 
     public deleteParamsFromGraph(parameter: any) {
@@ -344,7 +394,7 @@ export default class Graph {
     // helper to loop through all inputs for all nodes
     private forEachNodeInput(callback: (node: CanvasNodeProperties, input: MediaGraphNodeInput) => void) {
         if (this.graphInformation && this.graphInformation.properties) {
-            for (const nodeType of Graph.nodeTypeList) {
+            for (const nodeType of GraphData.nodeTypeList) {
                 const nodesForType = (this.graphInformation.properties as Record<string, CanvasNodeProperties[]>)[SharedNodeHelpers.getNodeTypeKey(nodeType)];
                 if (!nodesForType) {
                     // no nodes for this type

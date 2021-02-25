@@ -8,5 +8,7 @@
     "MediaGraphSignalGateProcessor.maximumActivationTime": "isoDuration",
     "MediaGraphFrameRateFilterProcessor.maximumFps": "number",
     "MediaGraphImageScale.width": "number",
-    "MediaGraphImageScale.height": "number"
+    "MediaGraphImageScale.height": "number",
+    "MediaGraphAssetSink.localMediaCacheMaximumSizeMiB": "number",
+    "MediaGraphSamplingOptions.maximumSamplesPerSecond": "number"
 }

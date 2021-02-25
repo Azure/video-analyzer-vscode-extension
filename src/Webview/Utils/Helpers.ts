@@ -50,6 +50,9 @@ export default class Helpers {
     static parseXmlDuration(duration: any): Duration {
         const regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
         const matches: any[] = duration.match(regex);
+        if (matches == undefined) {
+            return { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+        }
         return {
             years: matches[3] ? parseFloat(matches[3]) : 0,
             months: matches[5] ? parseFloat(matches[5]) : 0,
