@@ -1,12 +1,10 @@
 import * as vscode from "vscode";
-import { GraphInstanceData } from "../Data/GraphInstanceData";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
 import { CredentialStore } from "../Util/CredentialStore";
 import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
 import { DeviceListItem } from "./DeviceListItem";
-import { GraphTopologyListItem } from "./GraphTopologyListItem";
 import { IoTHubLabelNode } from "./IoTHubLabelNode";
 import { INode } from "./Node";
 
@@ -67,20 +65,6 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
             this._autoRefreshIntervalID = this.generateAutoRefreshInterval();
 
             return [new IoTHubLabelNode(this._iotHubData, ExtensionUtils.getIoTHubName(this._connectionConfig.connectionString)), new DeviceListItem(this._iotHubData)];
-        }
-
-        if (element instanceof GraphTopologyListItem) {
-            return GraphInstanceData.getGraphInstances(this._iotHubData, element.deviceId, element.moduleId).then(
-                (graphInstances) => {
-                    return element.getChildren(this._connectionConfig, graphInstances);
-                },
-                (error) => {
-                    // if(error.message == "Not found"){
-
-                    // }
-                    return [];
-                }
-            );
         }
         return element.getChildren(this._connectionConfig);
     }

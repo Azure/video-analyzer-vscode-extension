@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 import { customWords } from "../../Tools/DefinitionGenerator/customWords";
 
@@ -39,19 +40,25 @@ export default class Helpers {
     }
 
     static secondsToIso = (value: any) => {
-        return `PT0H0M${value}S`;
+        if (value == "") {
+            return "";
+        }
+        return _.isNaN(_.toNumber(value)) ? null : `PT0H0M${value}S`;
     };
 
     static isoToSeconds(isoString: any) {
         const duration = Helpers.parseXmlDuration(isoString);
+        if (duration == null) {
+            return null;
+        }
         return duration.days * 24 * 60 * 60 + duration.hours * 60 * 60 + duration.minutes * 60 + duration.seconds;
     }
 
-    static parseXmlDuration(duration: any): Duration {
+    static parseXmlDuration(duration: any): Duration | null {
         const regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
         const matches: any[] = duration.match(regex);
         if (matches == undefined) {
-            return { years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+            return null;
         }
         return {
             years: matches[3] ? parseFloat(matches[3]) : 0,

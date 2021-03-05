@@ -120,25 +120,6 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                 graph.setDescription(graphDescription);
                 graph.setGraphDataFromICanvasData(data.toJSON());
                 const topology = graph.getTopology();
-                if (topology.properties?.parameters) {
-                    for (const params in topology.properties.parameters) {
-                        const parameter = topology.properties.parameters[params];
-                        const tempParameter: any = {};
-                        if (parameter.name) {
-                            tempParameter.name = parameter.name;
-                        }
-                        if (parameter.default) {
-                            tempParameter.default = parameter.default;
-                        }
-                        if (parameter.type) {
-                            tempParameter.type = parameter.type;
-                        }
-                        if (parameter.description) {
-                            tempParameter.description = parameter.description;
-                        }
-                        topology.properties.parameters[params] = tempParameter;
-                    }
-                }
                 if (ExtensionInteraction.getVSCode()) {
                     PostMessage.sendMessageToParent(
                         { name: Constants.PostMessageNames.saveGraph, data: topology },
@@ -223,7 +204,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         }
         return new Promise<boolean>((resolve) => {
             const validationErrors: ValidationError[] = [];
-            validateName(graphTopologyName).then(() => {
+            validateName(graphTopologyName).then(async () => {
                 if (graphNameValidationError) {
                     nameTextFieldRef.current!.focus();
                     validationErrors.push(graphNameValidationError);
@@ -235,7 +216,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
                     graph.setGraphDataFromICanvasData(data.toJSON());
                 }
 
-                validationErrors.push(...graph.validate(propsApiRef, errorsFromResponse ?? serverErrors));
+                validationErrors.push(...(await graph.validate(propsApiRef, errorsFromResponse ?? serverErrors)));
                 setValidationErrors(validationErrors);
                 resolve(!validationErrors.length);
             });

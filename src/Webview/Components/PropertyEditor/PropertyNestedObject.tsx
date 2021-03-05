@@ -19,7 +19,7 @@ interface IPropertyNestedObjectProps {
 
 export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObjectProps> = (props) => {
     const { property, nodeProperties, required, readOnly = false, requestParameterization, name } = props;
-    const initType = nodeProperties["@type"] && nodeProperties["@type"].replace("#Microsoft.Media.", "");
+    const initType = nodeProperties["@type"] && nodeProperties["@type"].replace(Definitions.TypePrefix, "");
     const [nodeTypeName, setNodeTypeName] = React.useState<string>("");
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const localizedPropertyStrings = Localizer.getLocalizedStrings(property.localizationKey);
@@ -43,7 +43,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
         if (item) {
             const itemType = item.key as string;
             if (itemType) {
-                nodeProperties["@type"] = `#Microsoft.Media.${itemType}`;
+                nodeProperties["@type"] = `${Definitions.TypePrefix}${itemType}`;
             } else {
                 nodeProperties["@type"] = "";
             }

@@ -17,7 +17,7 @@ import {
     MediaGraphInstance,
     MediaGraphParameterDeclaration
 } from "../../Common/Types/LVASDKTypes";
-import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
+import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { GraphData } from "../Models/GraphData";
 import GraphValidator from "../Models/MediaGraphValidator";
@@ -79,6 +79,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const nameTextFieldRef = React.useRef<ITextField>(null);
 
     React.useEffect(() => {
+        console.log(instance);
         const data = graph.getICanvasData();
         propsApiRef.current?.setData(GraphModel.fromJSON(NodeHelpers.autoLayout(data, isGraphHorizontal)));
     }, [propsApiRef, graph, isGraphHorizontal]);
@@ -245,12 +246,13 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     };
 
     const canContinue = (errorsFromResponse?: ValidationError[]) => {
+        console.log("🚀 ~ file: GraphInstance.tsx ~ line 262 ~ validateName ~ parameters", parameters);
         if (errorsFromResponse) {
             // save errors in the state, to remember when canContinue is called by node triggerValidation
             setServerErrors(errorsFromResponse ?? []);
         }
         return new Promise<boolean>((resolve) => {
-            validateName(instanceName).then(() => {
+            validateName(instanceName).then(async () => {
                 const validationErrors: ValidationError[] = [];
                 validationErrors.push(...(errorsFromResponse ?? serverErrors));
                 if (instanceNameValidationError) {
@@ -258,7 +260,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                     validationErrors.push({ type: ValidationErrorType.MissingField, description: "sidebarGraphInstanceNameMissing" });
                 }
                 let missingParameter = false;
-                parameters.forEach((parameter, index) => {
+                for (const parameter of parameters) {
                     if (!parameter.defaultValue && !parameter.value) {
                         missingParameter = true;
                         parameter.error = Localizer.l("sidebarGraphInstanceParameterMissing");
@@ -272,13 +274,15 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                     if (parameter.value) {
                         const localizationKey = graph.checkForParamsInGraphNode(parameter.name)[0]?.localizationKey;
                         if (localizationKey) {
+                            const moduleVersion = Definitions.ModuleVersion;
+                            const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
                             const format = (customPropertyTypes as any)[localizationKey] ?? null;
                             let instanceValidationError;
                             if (format === PropertyFormatType.isoDuration) {
-                                const seconds: any = Helpers.isoToSeconds(parameter.value);
-                                instanceValidationError = GraphValidator.validateProperty(seconds, localizationKey);
+                                const seconds: any = Helpers.isoToSeconds(parameter.value) ?? parameter.value;
+                                instanceValidationError = await GraphValidator.validateProperty(seconds, localizationKey);
                             } else {
-                                instanceValidationError = GraphValidator.validateProperty(parameter.value, localizationKey);
+                                instanceValidationError = await GraphValidator.validateProperty(parameter.value, localizationKey);
                             }
                             if (instanceValidationError) {
                                 validationErrors.push({
@@ -289,7 +293,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                             }
                         }
                     }
-                });
+                }
                 setValidationErrors(validationErrors);
                 setParameters(parameters);
                 resolve(!instanceNameValidationError && !missingParameter && !validationErrors.length);

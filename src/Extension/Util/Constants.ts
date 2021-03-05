@@ -12,9 +12,7 @@ export class Constants {
         [Constants.DeviceConnectionStringKey]: /^HostName=.+;DeviceId=.+;SharedAccessKey=.+$/
     };
 
-    public static ApiVersion = {
-        version2: "2.0"
-    };
+    public static SupportedApiVersions = ["2.0"];
 
     public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
     public static LvaGlobalStateGraphAlignKey = "lvaGlobalStateGraphAlignKey";

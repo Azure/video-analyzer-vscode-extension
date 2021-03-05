@@ -1,4 +1,4 @@
-import dagre from "dagre";
+import clone from "lodash/clone";
 import remove from "lodash/remove";
 import { v4 as uuid } from "uuid";
 import {
@@ -170,13 +170,20 @@ export class GraphData {
             }
         }
 
+        let parameters = clone(this.graphInformation.properties?.parameters);
+        parameters = parameters?.map((parameter) => {
+            delete (parameter as any)["error"];
+            return parameter;
+        });
+
         const topology: MediaGraphTopology = {
             name: this.graphInformation.name,
             properties: {
                 ...this.graphInformation.properties,
                 sources: this.sources,
                 processors: this.processors,
-                sinks: this.sinks
+                sinks: this.sinks,
+                parameters: parameters
             }
         };
         if (this.graphInformation.systemData) {
@@ -244,7 +251,7 @@ export class GraphData {
         return graphInfo;
     }
 
-    public validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>, errorsFromService?: ValidationError[]): ValidationError[] {
+    public async validate(graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>, errorsFromService?: ValidationError[]): Promise<ValidationError[]> {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
 

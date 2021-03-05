@@ -5,8 +5,6 @@ import {
     IPropsAPI
 } from "@vienna/react-dag-editor";
 import Definitions from "../Definitions/Definitions";
-import customPropertyTypes from "../Definitions/v2.0.0/customPropertyTypes.json";
-import validationJson from "../Definitions/v2.0.0/validation.json";
 import Localizer from "../Localization/Localizer";
 import {
     CanvasNodeProperties,
@@ -16,99 +14,108 @@ import {
 } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
 import NodeHelpers from "../Utils/NodeHelpers";
-import GraphEditorViewModel from "./GraphEditorViewModel";
-import GraphValidationRules from "./GraphValidationRules";
+import GraphData from "./GraphEditorViewModel";
 
 type TypeToNodesMap = Record<string, ICanvasNode[]>;
 
 export default class GraphValidator {
-    public static validate(
+    public static async validate(
         graphPropsApi: React.RefObject<IPropsAPI<any, any, any>>,
-        nodesAndEdges: GraphEditorViewModel,
+        nodesAndEdges: GraphData,
         errorsFromService?: ValidationError[]
-    ): ValidationError[] {
-        const errors: ValidationError[] = [...(errorsFromService ?? [])];
+    ): Promise<ValidationError[]> {
+        try {
+            const moduleVersion = Definitions.ModuleVersion;
 
-        if (!nodesAndEdges.isGraphConnected()) {
-            errors.push({
-                // localized later
-                description: "errorPanelGraphNotConnectedText",
-                type: ValidationErrorType.NotConnected
-            });
-        }
+            const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
+            const errors: ValidationError[] = [...(errorsFromService ?? [])];
 
-        const nodesByType: TypeToNodesMap = {};
-
-        for (const node of nodesAndEdges.nodes) {
-            const nodeData = node.data;
-            if (nodeData) {
-                // check for required properties
-                const properties = NodeHelpers.getTrimmedNodeProperties(nodeData.nodeProperties as CanvasNodeProperties);
-                const missingPropErrors = this.getValidationErrors(properties);
-                errors.push(
-                    ...missingPropErrors.map((error) => ({
-                        nodeName: node.name,
-                        ...error
-                    }))
-                );
-                const serverErrorsFound = errorsFromService?.some((error) => {
-                    return error.nodeName === nodeData.nodeProperties.name;
-                });
-                graphPropsApi.current?.updateData((prev: GraphModel) => {
-                    prev.updateNodesPositionAndSize;
-                    return prev.updateNode(node.id, (currNode) => {
-                        return {
-                            ...currNode,
-                            data: {
-                                ...(currNode.data as ICanvasData),
-                                hasErrors: missingPropErrors?.length > 0 || serverErrorsFound
-                            }
-                        };
-                    });
-                });
-
-                // count the number of nodes of each type
-                if (!(properties["@type"] in nodesByType)) {
-                    nodesByType[properties["@type"]] = [];
-                }
-                nodesByType[properties["@type"]].push(node);
-            }
-        }
-
-        for (const nodeType in nodesByType) {
-            const nodesOfType = nodesByType[nodeType];
-            const count = nodesOfType.length;
-
-            // only one of these nodes is allowed per graph
-            if (GraphValidationRules.limitOnePerGraph.includes(nodeType) && count > 1) {
+            if (!nodesAndEdges.isGraphConnected()) {
                 errors.push({
-                    description: "errorPanelOnlyOneNodeOfTypeAllowedText",
-                    type: ValidationErrorType.NodeCountLimit,
-                    nodeType,
-                    helpLink: GraphValidationRules.documentationLinks.limitationsAtPreview
+                    // localized later
+                    description: "errorPanelGraphNotConnectedText",
+                    type: ValidationErrorType.NotConnected
                 });
             }
 
-            for (const node of nodesOfType) {
-                const immediateParents = nodesAndEdges.getDirectParentsOfNodeById(node.id);
-                const allParents = nodesAndEdges.getAllParentsOfNodeById(node.id);
+            const nodesByType: TypeToNodesMap = {};
 
-                // check for nodes that have to be immediately downstream from another
-                errors.push(...this.checkForRequiredDirectDownstream(nodeType, immediateParents));
+            for (const node of nodesAndEdges.nodes) {
+                const nodeData = node.data;
+                if (nodeData) {
+                    // check for required properties
+                    const properties = NodeHelpers.getTrimmedNodeProperties(nodeData.nodeProperties as CanvasNodeProperties);
+                    const missingPropErrors = await this.getValidationErrors(properties);
+                    errors.push(
+                        ...missingPropErrors.map((error) => ({
+                            nodeName: node.name,
+                            ...error
+                        }))
+                    );
+                    const serverErrorsFound = errorsFromService?.some((error) => {
+                        return error.nodeName === nodeData.nodeProperties.name;
+                    });
+                    graphPropsApi.current?.updateData((prev: GraphModel) => {
+                        prev.updateNodesPositionAndSize;
+                        return prev.updateNode(node.id, (currNode) => {
+                            return {
+                                ...currNode,
+                                data: {
+                                    ...(currNode.data as ICanvasData),
+                                    hasErrors: missingPropErrors?.length > 0 || serverErrorsFound
+                                }
+                            };
+                        });
+                    });
 
-                // check for nodes that cannot be immediately downstream from another
-                errors.push(...this.checkForProhibitedDirectlyDownstream(nodeType, immediateParents));
-
-                // check for nodes that cannot be immediately downstream from another
-                errors.push(...this.checkForProhibitedAnywhereDownstream(nodeType, allParents));
+                    // count the number of nodes of each type
+                    if (!(properties["@type"] in nodesByType)) {
+                        nodesByType[properties["@type"]] = [];
+                    }
+                    nodesByType[properties["@type"]].push(node);
+                }
             }
-        }
 
-        return errors;
+            for (const nodeType in nodesByType) {
+                const nodesOfType = nodesByType[nodeType];
+                const count = nodesOfType.length;
+
+                // only one of these nodes is allowed per graph
+                if (GraphValidationRules.limitOnePerGraph.includes(nodeType) && count > 1) {
+                    errors.push({
+                        description: "errorPanelOnlyOneNodeOfTypeAllowedText",
+                        type: ValidationErrorType.NodeCountLimit,
+                        nodeType,
+                        helpLink: GraphValidationRules.documentationLinks.limitationsAtPreview
+                    });
+                }
+
+                for (const node of nodesOfType) {
+                    const immediateParents = nodesAndEdges.getDirectParentsOfNodeById(node.id);
+                    const allParents = nodesAndEdges.getAllParentsOfNodeById(node.id);
+
+                    // check for nodes that have to be immediately downstream from another
+                    errors.push(...(await this.checkForRequiredDirectDownstream(nodeType, immediateParents)));
+
+                    // check for nodes that cannot be immediately downstream from another
+                    errors.push(...(await this.checkForProhibitedDirectlyDownstream(nodeType, immediateParents)));
+
+                    // check for nodes that cannot be immediately downstream from another
+                    errors.push(...(await this.checkForProhibitedAnywhereDownstream(nodeType, allParents)));
+                }
+            }
+
+            return errors;
+        } catch (error) {
+            return [];
+        }
     }
 
     // ensures nodes are direct children of another
-    private static checkForRequiredDirectDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+    private static async checkForRequiredDirectDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+        const moduleVersion = Definitions.ModuleVersion;
+
+        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
         const errors = [];
         for (const relation of GraphValidationRules.mustBeImmediatelyDownstreamOf) {
             const matchingChildType: string = relation[0] as string;
@@ -138,7 +145,10 @@ export default class GraphValidator {
     }
 
     // checks for nodes that cannot be a direct child or one of their children
-    private static checkForProhibitedAnywhereDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+    private static async checkForProhibitedAnywhereDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+        const moduleVersion = Definitions.ModuleVersion;
+
+        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
         const errors = [];
         for (const [matchingChildType, forbiddenParentType] of GraphValidationRules.cannotBeDownstreamOf) {
             if (thisNodeType === matchingChildType) {
@@ -158,7 +168,10 @@ export default class GraphValidator {
     }
 
     // checks for nodes that cannot be direct children of another node
-    private static checkForProhibitedDirectlyDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+    private static async checkForProhibitedDirectlyDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+        const moduleVersion = Definitions.ModuleVersion;
+
+        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
         const errors = [];
         for (const [matchingChildType, forbiddenParentType] of GraphValidationRules.cannotBeImmediatelyDownstreamOf) {
             if (thisNodeType === matchingChildType) {
@@ -178,8 +191,8 @@ export default class GraphValidator {
     }
 
     // helper function to get an array of validation errors
-    private static getValidationErrors(properties: any) {
-        return this.recursiveGetValidationErrors(
+    private static async getValidationErrors(properties: any) {
+        return await this.recursiveGetValidationErrors(
             properties?.["@type"],
             properties,
             [] /* path to the property, this is root, so empty array */,
@@ -188,8 +201,9 @@ export default class GraphValidator {
     }
 
     // recursively checks for missing properties and returns a list of errors
-    private static recursiveGetValidationErrors(type: string, nodeProperties: any, path: string[], errors: ValidationError[]): ValidationError[] {
+    private static async recursiveGetValidationErrors(type: string, nodeProperties: any, path: string[], errors: ValidationError[]): Promise<ValidationError[]> {
         const definition = Definitions.getNodeDefinition(type);
+        const moduleVersion = Definitions.ModuleVersion;
 
         if (!definition) {
             return errors;
@@ -215,12 +229,13 @@ export default class GraphValidator {
                 });
             } else if (property?.type === "string" && nestedProperties != null && nestedProperties !== "" && !nestedProperties.includes("${")) {
                 const key = `${definition.localizationKey}.${name}`;
+                const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
                 const format = (customPropertyTypes as any)[key] ?? null;
                 let value = nestedProperties;
                 if (value && format === "isoDuration") {
-                    value = Helpers.isoToSeconds(nestedProperties);
+                    value = Helpers.isoToSeconds(nestedProperties) ?? nestedProperties;
                 }
-                const validationError = GraphValidator.validateProperty(value, key);
+                const validationError = await GraphValidator.validateProperty(value, key);
                 if (validationError !== "") {
                     errors.push({
                         description: validationError,
@@ -229,7 +244,7 @@ export default class GraphValidator {
                     });
                 }
             } else if (property!.type === "object" && nestedProperties) {
-                this.recursiveGetValidationErrors(
+                await this.recursiveGetValidationErrors(
                     property?.discriminator ? nestedProperties["@type"] : Definitions.getNameFromParsedRef(property?.parsedRef!),
                     nestedProperties,
                     thisPropertyPath,
@@ -268,10 +283,13 @@ export default class GraphValidator {
         return "";
     }
 
-    static validateProperty(value: string, key: any) {
+    static async validateProperty(value: string, key: any) {
+        const moduleVersion = Definitions.ModuleVersion;
         if (value === "" || value == undefined) {
             return "";
         }
+
+        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
         const format = (customPropertyTypes as any)[key];
         if (format === "urlFormat") {
             const r = new RegExp('^(rtsp|ftp|http|https|tcp)://[^ "]+$');
@@ -284,6 +302,7 @@ export default class GraphValidator {
                 return Localizer.l("valueMustBeNumbersError");
             }
         }
+        const validationJson = import(`../Definitions/v${moduleVersion}/validation.json`);
         const validationValue = (validationJson as any)[key];
         if (validationValue) {
             const validationType = validationValue.type;
