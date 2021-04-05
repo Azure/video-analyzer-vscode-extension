@@ -79,7 +79,7 @@ export class IotHubData {
             if (infoParts.length === 2 && (infoParts[0] == "live-video-analytics" || infoParts[0] == "video-analyzer")) {
                 const version: string = infoParts[1];
                 const apiVersion = version.substr(0, 3);
-                return { version, apiVersion, legacy: compareVersions(version, "3.0.0") < 0 };
+                return { apiVersion, legacy: compareVersions(version, "3.0.0") < 0 };
             }
         }
         return null;

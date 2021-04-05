@@ -54,7 +54,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
         const createGraphPanel = GraphEditorPanel.createOrShow(
             context,
             Localizer.localize(this._graphTopology ? "editGraphPageTile" : "createNewGraphPageTile"),
-            this._moduleDetails.lvaVersion
+            this._moduleDetails.apiVersion
         );
         if (createGraphPanel) {
             createGraphPanel.waitForPostMessage({
@@ -85,6 +85,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
                             this._logger.showInformationMessage(`${Localizer.localize("saveGraphSuccessMessage")} "${topology.name}"`);
                         },
                         (error) => {
+                            this._logger.appendLine(JSON.stringify(topology));
                             const errorList = GraphEditorPanel.parseDirectMethodError(error, topology);
                             createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: errorList });
                             this._logger.logError(`${Localizer.localize("saveGraphFailedError")} "${topology.name}"`, errorList);

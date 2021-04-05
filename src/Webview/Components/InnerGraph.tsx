@@ -175,7 +175,7 @@ export const InnerGraph: React.FunctionComponent<IInnerGraphProps> = (props) => 
                 getNodeAriaLabel={LocalizerHelpers.getNodeAriaLabel}
                 getPortAriaLabel={LocalizerHelpers.getPortAriaLabel}
                 styles={graphStyles}
-                canvasBoundaryPadding={200}
+                canvasBoundaryPadding={{ left: 200, right: 200, top: 200, bottom: 200 }}
                 features={features}
             />
         </>

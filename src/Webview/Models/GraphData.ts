@@ -172,7 +172,7 @@ export class GraphData {
 
         let parameters = clone(this.graphInformation.properties?.parameters);
         parameters = parameters?.map((parameter) => {
-            delete (parameter as any)["error"];
+            delete (parameter as any)["nameError"];
             return parameter;
         });
 

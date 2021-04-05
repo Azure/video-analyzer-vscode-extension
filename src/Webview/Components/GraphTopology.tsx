@@ -75,7 +75,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     React.useEffect(() => {
         const data = graph.getICanvasData();
         propsApiRef.current?.setData(GraphModel.fromJSON(NodeHelpers.autoLayout(data, isGraphHorizontal)));
-    }, [propsApiRef, graph, isGraphHorizontal]);
+    }, [propsApiRef, graph]);
 
     const saveState = (update?: any) => {
         props.vsCodeSetState({
