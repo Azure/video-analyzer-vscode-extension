@@ -14,7 +14,6 @@ import { INode } from "./Node";
 export interface ModuleDetails {
     deviceId: string;
     moduleId: string;
-    lvaVersion: string;
     apiVersion: string;
     legacyModule: boolean;
 }
@@ -45,7 +44,6 @@ export class ModuleItem extends vscode.TreeItem {
                             {
                                 deviceId: this.deviceId,
                                 moduleId: this.moduleId,
-                                lvaVersion: versionDetails.version,
                                 apiVersion: versionDetails.apiVersion,
                                 legacyModule: versionDetails.legacy
                             },

@@ -82,7 +82,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         console.log(instance);
         const data = graph.getICanvasData();
         propsApiRef.current?.setData(GraphModel.fromJSON(NodeHelpers.autoLayout(data, isGraphHorizontal)));
-    }, [propsApiRef, graph, isGraphHorizontal]);
+    }, [propsApiRef, graph]);
 
     let instanceNameValidationError: ValidationError | undefined;
 

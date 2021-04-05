@@ -53,7 +53,7 @@ export class InstanceItem extends vscode.TreeItem {
         const createGraphPanel = GraphEditorPanel.createOrShow(
             context,
             Localizer.localize(this._graphInstance ? "editInstancePageTile" : "createNewInstancePageTile"),
-            this._moduleDetails.lvaVersion
+            this._moduleDetails.apiVersion
         );
         if (createGraphPanel) {
             createGraphPanel.waitForPostMessage({

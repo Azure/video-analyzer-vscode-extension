@@ -302,7 +302,7 @@ export default class GraphValidator {
                 return Localizer.l("valueMustBeNumbersError");
             }
         }
-        const validationJson = import(`../Definitions/v${moduleVersion}/validation.json`);
+        const validationJson = await import(`../Definitions/v${moduleVersion}/validation.json`);
         const validationValue = (validationJson as any)[key];
         if (validationValue) {
             const validationType = validationValue.type;
