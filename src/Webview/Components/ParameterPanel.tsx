@@ -7,7 +7,7 @@ import GraphValidator from "../Models/MediaGraphValidator";
 import { GraphInstanceParameter } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
 import GraphContext from "./GraphContext";
-import { PropertyFormatType } from "./GraphInstance";
+import { PropertyFormatType } from "./LivePipelineComponent";
 
 export interface IGraphPanelProps {
     parameters: GraphInstanceParameter[];
@@ -55,7 +55,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
     const [localizationKey] = React.useState<string>(getLocalizationKey());
     const [value, setValue] = React.useState<string>();
     const [defaultString, setDefaultString] = React.useState<string>();
-    const moduleVersion = Definitions.ModuleVersion;
+    const versionFolder = Definitions.VersionFolder;
 
     React.useEffect(() => {
         getInitialValue().then((initValue) => {
@@ -66,7 +66,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
     }, []);
 
     async function getInitialValue() {
-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
+        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
         let initValue = parameter.value;
         if (initValue && (customPropertyTypes as any)[localizationKey] === PropertyFormatType.isoDuration) {
             initValue = Helpers.isoToSeconds(initValue) as any;
@@ -76,7 +76,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
     }
 
     const onChange = async (event: React.FormEvent, newValue?: string) => {
-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
+        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
         if (newValue !== undefined) {
             const error = "";
             const format = (customPropertyTypes as any)[localizationKey] ?? null;
@@ -92,7 +92,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
     };
 
     const setDefaultValueString = async (value: string) => {
-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
+        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
         const format = (customPropertyTypes as any)[localizationKey] ?? null;
         const isoValue = value && format === PropertyFormatType.isoDuration ? Helpers.isoToSeconds(value) : value;
         setDefaultString(Localizer.l("sidebarGraphInstanceParameterDefaultText").format(isoValue));

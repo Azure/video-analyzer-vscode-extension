@@ -21,7 +21,7 @@ import {
     RegisterNode,
     RegisterPort
 } from "@vienna/react-dag-editor";
-import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
+import { PipelineTopology } from "../../Common/Types/LVASDKTypes";
 import Localizer from "../Localization/Localizer";
 import { GraphData } from "../Models/GraphData";
 import {
@@ -53,7 +53,7 @@ interface IGraphTopologyProps {
     vsCodeSetState: VSCodeSetState;
 }
 
-const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
+const PipelineTopologyComponent: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     const { graph, isEditMode } = props;
     const initData = graph.getICanvasData();
 
@@ -95,7 +95,7 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
     }
 
-    function setTopology(topology: MediaGraphTopology) {
+    function setTopology(topology: PipelineTopology) {
         graph.setTopology(topology, isGraphHorizontal);
         setGraphTopologyName(topology.name);
         if (topology.properties && topology.properties.description) {
@@ -368,4 +368,4 @@ const GraphTopology: React.FunctionComponent<IGraphTopologyProps> = (props) => {
     );
 };
 
-export default GraphTopology;
+export default PipelineTopologyComponent;

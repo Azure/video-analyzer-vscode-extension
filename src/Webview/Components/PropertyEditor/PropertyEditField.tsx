@@ -44,7 +44,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     const [value, setValue] = React.useState<string>("");
     const [errorMessage, setErrorMessage] = React.useState<string>("");
     const [isParameterized, { setFalse: setParameterizeFalse, setTrue: setParameterizeTrue }] = useBoolean(false);
-    const moduleVersion = Definitions.ModuleVersion;
+    const versionFolder = Definitions.VersionFolder;
 
     const propsAPI = usePropsAPI();
 
@@ -80,7 +80,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
     }, []);
 
     async function getInitialValue() {
-        const customPropertyTypes = await import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`);
+        const customPropertyTypes = await import(`../../Definitions/${versionFolder}/customPropertyTypes.json`);
         let initValue = nodeProperties[name];
         if (property.type !== PropertyFormatType.boolean && property.type !== PropertyFormatType.string) {
             initValue = JSON.stringify(initValue);
@@ -141,7 +141,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         if (newValue === "" || newValue == null) {
             nodeProperties[name] = null;
         } else {
-            import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`).then((customPropertyTypes) => {
+            import(`../../Definitions/${versionFolder}/customPropertyTypes.json`).then((customPropertyTypes) => {
                 const format = (customPropertyTypes as any)[property.localizationKey] ?? null;
                 if (format === PropertyFormatType.isoDuration) {
                     if (isValueParameterized(newValue)) {

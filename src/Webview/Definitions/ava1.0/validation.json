@@ -1,0 +1,46 @@
+{
+    "FileSink.filePathPattern": {
+        "type": "minMaxLength",
+        "value": [1, 260]
+    },
+    "AssetSink.assetNamePattern": {
+        "type": "regex",
+        "value": "@\"^[^<>%&:\\/?*+.']{1,260}$\""
+    },
+    "AssetSink.segmentLength": {
+        "type": "minMaxValue",
+        "value": [30, 300, "seconds"]
+    },
+    "IoTHubMessageSink.hubOutputName": {
+        "type": "maxLength",
+        "value": 50
+    },
+    "SignalGateProcessor.activationEvaluationWindow": {
+        "type": "minMaxValue",
+        "value": [0, 10, "seconds"]
+    },
+    "SignalGateProcessor.activationSignalOffset": {
+        "type": "minMaxValue",
+        "value": [-60, 60, "seconds"]
+    },
+    "SignalGateProcessor.minimumActivationTime": {
+        "type": "minMaxValue",
+        "value": [1, 3600, "seconds"]
+    },
+    "SignalGateProcessor.maximumActivationTime": {
+        "type": "minMaxValue",
+        "value": [1, 3600, "seconds"]
+    },
+    "FrameRateFilterProcessor.maximumFps": {
+        "type": "minValue",
+        "value": 0.0001
+    },
+    "ImageScale.width": {
+        "type": "minValue",
+        "value": 1
+    },
+    "ImageScale.height": {
+        "type": "minValue",
+        "value": 1
+    }
+}

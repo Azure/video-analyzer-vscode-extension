@@ -10,7 +10,7 @@ import {
     Spinner,
     SpinnerSize
 } from "@fluentui/react";
-import { MediaGraphTopology } from "../../../Common/Types/LVASDKTypes";
+import { PipelineTopology } from "../../../Common/Types/LVASDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
@@ -20,7 +20,7 @@ import { Status } from "./statusEnum";
 interface ISampleSelectorProps {
     status: Status;
     setStatus: React.Dispatch<React.SetStateAction<Status>>;
-    loadTopology: (topology: MediaGraphTopology) => void;
+    loadTopology: (topology: PipelineTopology) => void;
 }
 
 export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (props) => {

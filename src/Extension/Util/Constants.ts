@@ -12,7 +12,8 @@ export class Constants {
         [Constants.DeviceConnectionStringKey]: /^HostName=.+;DeviceId=.+;SharedAccessKey=.+$/
     };
 
-    public static SupportedApiVersions = ["2.0"];
+    public static LegacySupportedApiVersions = ["2.0"];
+    public static SupportedApiVersions = ["1.0"];
 
     public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
     public static LvaGlobalStateGraphAlignKey = "lvaGlobalStateGraphAlignKey";
@@ -24,7 +25,7 @@ export class Constants {
     public static PostMessageNames = {
         closeWindow: "closeWindow",
         saveGraph: "saveGraph",
-        saveInstance: "saveInstance",
+        saveLivePipeline: "saveInstance",
         saveAndActivate: "saveAndActivate",
         getInitialData: "getInitialData",
         setInitialData: "setInitialData",

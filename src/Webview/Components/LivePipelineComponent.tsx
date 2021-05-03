@@ -14,7 +14,7 @@ import {
     RegisterPort
 } from "@vienna/react-dag-editor";
 import {
-    MediaGraphInstance,
+    LivePipeline,
     MediaGraphParameterDeclaration
 } from "../../Common/Types/LVASDKTypes";
 import Definitions from "../Definitions/Definitions";
@@ -47,7 +47,7 @@ interface IGraphInstanceProps {
     isEditMode: boolean;
     isHorizontal: boolean;
     zoomPanSettings: IZoomPanSettings;
-    instance: MediaGraphInstance;
+    instance: LivePipeline;
     vsCodeSetState: VSCodeSetState;
 }
 
@@ -60,7 +60,7 @@ export enum PropertyFormatType {
     array = "array"
 }
 
-const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
+const LivePipelineComponent: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     const { graph, instance, isEditMode } = props;
     const initData = graph.getICanvasData();
     const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
@@ -137,7 +137,7 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
         return <h1>{Localizer.l("browserNotSupported")}</h1>;
     }
 
-    const generateInstance = (): MediaGraphInstance => {
+    const generateInstance = (): LivePipeline => {
         return {
             name: instanceName,
             properties: {
@@ -274,8 +274,8 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
                     if (parameter.value) {
                         const localizationKey = graph.checkForParamsInGraphNode(parameter.name)[0]?.localizationKey;
                         if (localizationKey) {
-                            const moduleVersion = Definitions.ModuleVersion;
-                            const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
+                            const versionFolder = Definitions.VersionFolder;
+                            const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
                             const format = (customPropertyTypes as any)[localizationKey] ?? null;
                             let instanceValidationError;
                             if (format === PropertyFormatType.isoDuration) {
@@ -430,4 +430,4 @@ const GraphInstance: React.FunctionComponent<IGraphInstanceProps> = (props) => {
     );
 };
 
-export default GraphInstance;
+export default LivePipelineComponent;

@@ -1,8 +1,5 @@
 import * as vscode from "vscode";
-import {
-    MediaGraphInstance,
-    MediaGraphTopology
-} from "../../Common/Types/LVASDKTypes";
+import { LivePipeline, PipelineTopology } from "../../Common/Types/LVASDKTypes";
 import { IotHubData } from "../Data/IotHubData";
 import { TopologyData } from "../Data/TolologyData";
 import { Constants } from "../Util/Constants";
@@ -11,18 +8,18 @@ import Localizer from "../Util/Localizer";
 import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
-import { InstanceItem } from "./InstanceItem";
+import { LivePipelineItem } from "./LivePipelineItem";
 import { ModuleDetails } from "./ModuleItem";
 import { INode } from "./Node";
 
-export class GraphTopologyItem extends vscode.TreeItem {
+export class TopologyItem extends vscode.TreeItem {
     private _logger: Logger;
-    private _instanceList: InstanceItem[] = [];
+    private _instanceList: LivePipelineItem[] = [];
     constructor(
         public iotHubData: IotHubData,
         private readonly _moduleDetails: ModuleDetails,
-        private readonly _graphTopology?: MediaGraphTopology,
-        private readonly _graphInstances?: MediaGraphInstance[],
+        private readonly _graphTopology?: PipelineTopology,
+        private readonly _graphInstances?: LivePipeline[],
         private _nameCheckCallback?: (name: string) => boolean
     ) {
         super(_graphTopology?.name ?? "", vscode.TreeItemCollapsibleState.Expanded);
@@ -36,14 +33,15 @@ export class GraphTopologyItem extends vscode.TreeItem {
                         return instance?.properties?.topologyName === this._graphTopology?.name;
                     })
                     .map((instance) => {
-                        return new InstanceItem(this.iotHubData, this._moduleDetails, this._graphTopology!, instance);
+                        return new LivePipelineItem(this.iotHubData, this._moduleDetails, this._graphTopology!, instance);
                     }) ?? [];
             if (instanceItems.length === 0) {
                 this.collapsibleState = vscode.TreeItemCollapsibleState.None;
             }
             this._instanceList.push(...instanceItems);
         }
-        this.contextValue = this._instanceList?.length ? "graphItemContextInUse" : "graphItemContext";
+        const contextPrefix = this._moduleDetails.legacyModule ? "graph" : "topology";
+        this.contextValue = contextPrefix + (this._instanceList?.length ? "ItemContextInUse" : "ItemContext");
     }
 
     public getChildren(): Promise<INode[]> | INode[] {
@@ -51,11 +49,14 @@ export class GraphTopologyItem extends vscode.TreeItem {
     }
 
     public setGraphCommand(context: vscode.ExtensionContext) {
-        const createGraphPanel = GraphEditorPanel.createOrShow(
-            context,
-            Localizer.localize(this._graphTopology ? "editGraphPageTile" : "createNewGraphPageTile"),
-            this._moduleDetails.apiVersion
-        );
+        const pageTitle = this._moduleDetails.legacyModule
+            ? this._graphTopology
+                ? "editGraphPageTile"
+                : "createNewGraphPageTile"
+            : this._graphTopology
+            ? "topology.edit.pageTitle"
+            : "topology.new.pageTitle";
+        const createGraphPanel = GraphEditorPanel.createOrShow(context, Localizer.localize(pageTitle), this._moduleDetails);
         if (createGraphPanel) {
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.closeWindow,
@@ -77,18 +78,23 @@ export class GraphTopologyItem extends vscode.TreeItem {
 
             createGraphPanel.waitForPostMessage({
                 name: Constants.PostMessageNames.saveGraph,
-                callback: async (topology: MediaGraphTopology) => {
+                callback: async (topology: PipelineTopology) => {
                     TopologyData.putTopology(this.iotHubData, this._moduleDetails, topology).then(
                         (response) => {
                             TreeUtils.refresh();
                             createGraphPanel.dispose();
-                            this._logger.showInformationMessage(`${Localizer.localize("saveGraphSuccessMessage")} "${topology.name}"`);
+                            this._logger.showInformationMessage(
+                                `${Localizer.localize(this._moduleDetails.legacyModule ? "saveGraphSuccessMessage" : "topology.save.successMessage")} "${topology.name}"`
+                            );
                         },
                         (error) => {
                             this._logger.appendLine(JSON.stringify(topology));
                             const errorList = GraphEditorPanel.parseDirectMethodError(error, topology);
                             createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: errorList });
-                            this._logger.logError(`${Localizer.localize("saveGraphFailedError")} "${topology.name}"`, errorList);
+                            this._logger.logError(
+                                `${Localizer.localize(this._moduleDetails.legacyModule ? "saveGraphFailedError" : "topology.save.failedError")} "${topology.name}"`,
+                                errorList
+                            );
                         }
                     );
                 }
@@ -98,23 +104,34 @@ export class GraphTopologyItem extends vscode.TreeItem {
 
     public async deleteGraphCommand() {
         if (this._graphTopology) {
-            const allowDelete = await ExtensionUtils.showConfirmation(Localizer.localize("deleteGraphConfirmation"));
+            const allowDelete = await ExtensionUtils.showConfirmation(
+                Localizer.localize(this._moduleDetails.legacyModule ? "deleteGraphConfirmation" : "topology.delete.confirmation")
+            );
             if (allowDelete) {
                 TopologyData.deleteTopology(this.iotHubData, this._moduleDetails, this._graphTopology.name).then(
                     (response) => {
                         TreeUtils.refresh();
-                        this._logger.showInformationMessage(`${Localizer.localize("deleteGraphSuccessMessage")} "${this._graphTopology!.name}"`);
+                        this._logger.showInformationMessage(
+                            `${Localizer.localize(this._moduleDetails.legacyModule ? "deleteGraphSuccessMessage" : "topology.delete.successMessage")} "${
+                                this._graphTopology!.name
+                            }"`
+                        );
                     },
                     (error) => {
                         const errorList = GraphEditorPanel.parseDirectMethodError(error);
-                        this._logger.logError(`${Localizer.localize("deleteGraphFailedError")} "${this._graphTopology!.name}"`, errorList);
+                        this._logger.logError(
+                            `${Localizer.localize(this._moduleDetails.legacyModule ? "deleteGraphFailedError" : "topology.delete.failedError")} "${
+                                this._graphTopology!.name
+                            }"`,
+                            errorList
+                        );
                     }
                 );
             }
         }
     }
 
-    public async showGraphJson() {
+    public async showTopologyJson() {
         if (this._graphTopology) {
             vscode.workspace.openTextDocument({ language: "json", content: JSON.stringify(this._graphTopology, undefined, 4) }).then((doc) => {
                 vscode.window.showTextDocument(doc);
@@ -123,7 +140,7 @@ export class GraphTopologyItem extends vscode.TreeItem {
     }
 
     public createNewGraphInstanceCommand(context: vscode.ExtensionContext) {
-        const graphInstance = new InstanceItem(this.iotHubData, this._moduleDetails, this._graphTopology!, undefined, (name) => {
+        const graphInstance = new LivePipelineItem(this.iotHubData, this._moduleDetails, this._graphTopology!, undefined, (name) => {
             return (
                 this._graphInstances == null ||
                 this._graphInstances.length == 0 ||

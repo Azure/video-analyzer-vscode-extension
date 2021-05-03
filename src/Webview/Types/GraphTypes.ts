@@ -2,7 +2,7 @@ import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
 import {
     MediaGraphNodeInput,
     MediaGraphParameterType,
-    MediaGraphTopology
+    PipelineTopology
 } from "../../Common/Types/LVASDKTypes";
 
 export enum MediaGraphNodeType {
@@ -19,7 +19,7 @@ export enum OutputSelectorValueType {
 }
 
 export interface GraphInfo {
-    meta: MediaGraphTopology;
+    meta: PipelineTopology;
     nodes: ICanvasNode<any>[];
     edges: ICanvasEdge<any>[];
 }

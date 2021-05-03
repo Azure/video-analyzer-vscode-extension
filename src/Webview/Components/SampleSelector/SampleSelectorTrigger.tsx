@@ -6,7 +6,7 @@ import {
     IContextualMenuProps
 } from "@fluentui/react";
 import { useConst } from "@uifabric/react-hooks";
-import { MediaGraphTopology } from "../../../Common/Types/LVASDKTypes";
+import { PipelineTopology } from "../../../Common/Types/LVASDKTypes";
 import Definitions from "../../Definitions/Definitions";
 import Localizer from "../../Localization/Localizer";
 import { OverwriteConfirmation } from "./OverwriteConfirmation";
@@ -14,7 +14,7 @@ import { SampleSelector } from "./SampleSelector";
 import { Status } from "./statusEnum";
 
 interface ISampleSelectorTriggerProps {
-    setTopology: (topology: MediaGraphTopology) => void;
+    setTopology: (topology: PipelineTopology) => void;
     hasUnsavedChanges: boolean;
 }
 
@@ -54,8 +54,8 @@ export const SampleSelectorTrigger: React.FunctionComponent<ISampleSelectorTrigg
     };
 
     const getMenuProps = async () => {
-        const moduleVersion = Definitions.ModuleVersion;
-        const SamplesSelectorList = await import(`../../Definitions/v${moduleVersion}/SampleSelectorList`);
+        const versionFolder = Definitions.VersionFolder;
+        const SamplesSelectorList = await import(`../../Definitions/${versionFolder}/SampleSelectorList`);
         setMenuProps({
             shouldFocusOnMount: true,
             items: SamplesSelectorList.SamplesList.getCommandBarItems(menuItemOnClick)

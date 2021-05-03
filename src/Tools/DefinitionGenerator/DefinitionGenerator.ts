@@ -30,8 +30,8 @@ export default class DefinitionGenerator {
     }
 
     public constructor(version: string, outputFolder: string) {
-        this.apiDefinition = this.readJson(`Tools/DefinitionGenerator/v${version}/LiveVideoAnalytics.json`);
-        this.usableNodes = this.readJson(`Tools/DefinitionGenerator/v${version}/usableNodes.json`);
+        this.apiDefinition = this.readJson(`Tools/DefinitionGenerator/${version}/AzureVideoAnalyzer.json`);
+        this.usableNodes = this.readJson(`Tools/DefinitionGenerator/${version}/usableNodes.json`);
 
         this.outputFolder = outputFolder;
         this.definitions = this.apiDefinition["definitions"] as any;
@@ -142,7 +142,7 @@ export default class DefinitionGenerator {
 
     public writeFiles() {
         // write to files in appropriate versioned folder
-        const versionedBase = DefinitionGenerator.resolveFile(`Webview/${this.outputFolder}/v` + this.version);
+        const versionedBase = DefinitionGenerator.resolveFile(`Webview/${this.outputFolder}/` + this.version);
         console.log(versionedBase);
 
         if (!fs.existsSync(versionedBase)) {

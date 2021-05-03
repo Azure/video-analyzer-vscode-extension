@@ -9,12 +9,13 @@ export default class Definitions {
     private static _availableNodes: NodeDefinition[];
     private static _itemPanelNodes: any[];
     public static TypePrefix = "";
-    public static ModuleVersion = "";
+    public static VersionFolder = "";
 
     public static loadDefinitions() {
-        this.ModuleVersion = (window as any).version;
-        this.TypePrefix = compareVersions(this.ModuleVersion, "3.0.0") < 0 ? "#Microsoft.Media." : "#Microsoft.VideoAnalyzer.";
-        return import(`./v${this.ModuleVersion}/nodes.json`).then((storedNodes) => {
+        this.VersionFolder = (window as any).versionFolder;
+        const isLegacyModule = (window as any).isLegacyModule == "true";
+        this.TypePrefix = isLegacyModule ? "#Microsoft.Media." : "#Microsoft.VideoAnalyzer.";
+        return import(`./${this.VersionFolder}/nodes.json`).then((storedNodes) => {
             Definitions._availableNodes = storedNodes.availableNodes as NodeDefinition[];
             Definitions._itemPanelNodes = storedNodes.itemPanelNodes;
         });

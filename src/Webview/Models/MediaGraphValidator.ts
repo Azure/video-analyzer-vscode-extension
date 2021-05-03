@@ -25,9 +25,9 @@ export default class GraphValidator {
         errorsFromService?: ValidationError[]
     ): Promise<ValidationError[]> {
         try {
-            const moduleVersion = Definitions.ModuleVersion;
+            const versionFolder = Definitions.VersionFolder;
 
-            const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
+            const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
             const errors: ValidationError[] = [...(errorsFromService ?? [])];
 
             if (!nodesAndEdges.isGraphConnected()) {
@@ -113,9 +113,9 @@ export default class GraphValidator {
 
     // ensures nodes are direct children of another
     private static async checkForRequiredDirectDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
-        const moduleVersion = Definitions.ModuleVersion;
+        const versionFolder = Definitions.VersionFolder;
 
-        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
+        const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
         const errors = [];
         for (const relation of GraphValidationRules.mustBeImmediatelyDownstreamOf) {
             const matchingChildType: string = relation[0] as string;
@@ -146,9 +146,9 @@ export default class GraphValidator {
 
     // checks for nodes that cannot be a direct child or one of their children
     private static async checkForProhibitedAnywhereDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
-        const moduleVersion = Definitions.ModuleVersion;
+        const versionFolder = Definitions.VersionFolder;
 
-        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
+        const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
         const errors = [];
         for (const [matchingChildType, forbiddenParentType] of GraphValidationRules.cannotBeDownstreamOf) {
             if (thisNodeType === matchingChildType) {
@@ -169,9 +169,9 @@ export default class GraphValidator {
 
     // checks for nodes that cannot be direct children of another node
     private static async checkForProhibitedDirectlyDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
-        const moduleVersion = Definitions.ModuleVersion;
+        const versionFolder = Definitions.VersionFolder;
 
-        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
+        const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
         const errors = [];
         for (const [matchingChildType, forbiddenParentType] of GraphValidationRules.cannotBeImmediatelyDownstreamOf) {
             if (thisNodeType === matchingChildType) {
@@ -203,7 +203,7 @@ export default class GraphValidator {
     // recursively checks for missing properties and returns a list of errors
     private static async recursiveGetValidationErrors(type: string, nodeProperties: any, path: string[], errors: ValidationError[]): Promise<ValidationError[]> {
         const definition = Definitions.getNodeDefinition(type);
-        const moduleVersion = Definitions.ModuleVersion;
+        const versionFolder = Definitions.VersionFolder;
 
         if (!definition) {
             return errors;
@@ -229,7 +229,7 @@ export default class GraphValidator {
                 });
             } else if (property?.type === "string" && nestedProperties != null && nestedProperties !== "" && !nestedProperties.includes("${")) {
                 const key = `${definition.localizationKey}.${name}`;
-                const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
+                const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
                 const format = (customPropertyTypes as any)[key] ?? null;
                 let value = nestedProperties;
                 if (value && format === "isoDuration") {
@@ -284,12 +284,12 @@ export default class GraphValidator {
     }
 
     static async validateProperty(value: string, key: any) {
-        const moduleVersion = Definitions.ModuleVersion;
+        const versionFolder = Definitions.VersionFolder;
         if (value === "" || value == undefined) {
             return "";
         }
 
-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
+        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
         const format = (customPropertyTypes as any)[key];
         if (format === "urlFormat") {
             const r = new RegExp('^(rtsp|ftp|http|https|tcp)://[^ "]+$');
@@ -302,7 +302,7 @@ export default class GraphValidator {
                 return Localizer.l("valueMustBeNumbersError");
             }
         }
-        const validationJson = await import(`../Definitions/v${moduleVersion}/validation.json`);
+        const validationJson = await import(`../Definitions/${versionFolder}/validation.json`);
         const validationValue = (validationJson as any)[key];
         if (validationValue) {
             const validationType = validationValue.type;

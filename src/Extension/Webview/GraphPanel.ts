@@ -4,6 +4,7 @@ import remove from "lodash/remove";
 import * as path from "path";
 import * as vscode from "vscode";
 import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
+import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
 import { Constants } from "../Util/Constants";
 import Localizer from "../Util/Localizer";
 import { ErrorOption, Logger, LogLevel } from "../Util/Logger";
@@ -41,10 +42,10 @@ export class GraphEditorPanel {
     private readonly _extensionPath: string;
     private _disposables: vscode.Disposable[] = [];
     private _registeredMessages: RegisteredMessage[] = [];
-    private static _version = "";
+    private static _moduleDetails: ModuleDetails;
 
-    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string, lvaVersion: string) {
-        this._version = lvaVersion;
+    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string, moduleDetails: ModuleDetails) {
+        this._moduleDetails = moduleDetails;
         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
         const logger = Logger.getOrCreateOutputChannel();
         // If we already have a panel, show it.
@@ -250,7 +251,9 @@ export class GraphEditorPanel {
                     __webpack_nonce__ = "${nonce}";
                     __webpack_public_path__ = "${webview.asWebviewUri(vscode.Uri.file(path.join(this._extensionPath, "build")))}/";
                     window.language = "${language}";
-                    window.version ="${GraphEditorPanel._version}"
+                    window.version ="${GraphEditorPanel._moduleDetails.apiVersion}"
+                    window.versionFolder ="${GraphEditorPanel._moduleDetails.versionFolder}"
+                    window.isLegacyModule ="${GraphEditorPanel._moduleDetails.legacyModule}"
                     </script>
                     ${scriptInjection}
                 </body>

@@ -87,6 +87,53 @@
             {
                 "command": "moduleExplorer.showGraphInstanceJson",
                 "title": "%showGraphInstanceJson%"
+            },
+            {
+                "command": "moduleExplorer.topology.create",
+                "title": "%topology.create%",
+                "icon": "$(add)"
+            },
+            {
+                "command": "moduleExplorer.topology.edit",
+                "title": "%topology.edit%"
+            },
+            {
+                "command": "moduleExplorer.topology.delete",
+                "title": "%topology.delete%",
+                "enablement": "view == moduleExplorer && viewItem == topologyItemContext"
+            },
+            {
+                "command": "moduleExplorer.topology.showJson",
+                "title": "%topology.showJson%"
+            },
+            {
+                "command": "moduleExplorer.livePipeline.create",
+                "title": "%livePipeline.create%",
+                "icon": "$(add)"
+            },
+            {
+                "command": "moduleExplorer.livePipeline.activate",
+                "title": "%livePipeline.activate%",
+                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextInactive"
+            },
+            {
+                "command": "moduleExplorer.livePipeline.deactivate",
+                "title": "%livePipeline.deactivate%",
+                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextActive"
+            },
+            {
+                "command": "moduleExplorer.livePipeline.edit",
+                "title": "%livePipeline.edit%",
+                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextInactive"
+            },
+            {
+                "command": "moduleExplorer.livePipeline.delete",
+                "title": "%livePipeline.delete%",
+                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextInactive"
+            },
+            {
+                "command": "moduleExplorer.livePipeline.showJson",
+                "title": "%livePipeline.showJson%"
             }
         ],
         "viewsContainers": {
@@ -183,6 +230,65 @@
                 {
                     "command": "moduleExplorer.createGraph",
                     "when": "view == moduleExplorer && viewItem == graphListContext"
+                },
+                {
+                    "command": "moduleExplorer.topology.create",
+                    "when": "view == moduleExplorer && viewItem == topologyListContext",
+                    "group": "inline"
+                },
+                {
+                    "command": "moduleExplorer.topology.create",
+                    "when": "view == moduleExplorer && viewItem == topologyListContext"
+                },
+                {
+                    "command": "moduleExplorer.topology.edit",
+                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
+                    "group": "2_groupCommands@0"
+                },
+                {
+                    "command": "moduleExplorer.topology.delete",
+                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
+                    "group": "2_groupCommands@1"
+                },
+                {
+                    "command": "moduleExplorer.topology.showJson",
+                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
+                    "group": "3_groupCommands@0"
+                },
+                {
+                    "command": "moduleExplorer.livePipeline.create",
+                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
+                    "group": "inline"
+                },
+                {
+                    "command": "moduleExplorer.livePipeline.create",
+                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
+                    "group": "1_groupCommands@0"
+                },
+                {
+                    "command": "moduleExplorer.livePipeline.activate",
+                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
+                    "group": "1_instanceCommands@0"
+                },
+                {
+                    "command": "moduleExplorer.livePipeline.deactivate",
+                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
+                    "group": "1_instanceCommands@1"
+                },
+                {
+                    "command": "moduleExplorer.livePipeline.edit",
+                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
+                    "group": "2_instanceCommands@2"
+                },
+                {
+                    "command": "moduleExplorer.livePipeline.delete",
+                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
+                    "group": "2_instanceCommands@3"
+                },
+                {
+                    "command": "moduleExplorer.livePipeline.showJson",
+                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
+                    "group": "3_instanceCommands@0"
                 }
             ]
         },
@@ -212,7 +318,7 @@
         "eject-react": "react-app-rewired eject",
         "compile-ext": "rimraf dist && webpack --mode development --config src/Extension/webpack.config.js",
         "dev-ext": "tsc -p src/Extension/tsconfig.json",
-        "dev": "set PORT=3008 && react-app-rewired start",
+        "dev": "set PORT=3009 && react-app-rewired start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
         "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
