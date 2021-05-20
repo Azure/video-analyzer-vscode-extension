@@ -2,7 +2,7 @@
     "name": "azure-video-analyzer",
     "displayName": "Azure Video Analyzer on IoT Edge",
     "description": "%extensionDescription%",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "publisher": "ms-azuretools",
     "license": "SEE LICENSE IN LICENSE",
     "homepage": "https://github.com/Azure/video-analyzer-vscode-extension",
