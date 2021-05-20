@@ -1,3 +1,5 @@
+import isNaN from "lodash/isNaN";
+import toNumber from "lodash/toNumber";
 import {
     GraphModel,
     ICanvasData,
@@ -297,8 +299,7 @@ export default class GraphValidator {
                 return Localizer.l("notValidUrl");
             }
         } else if (format === "number" || format === "isoDuration") {
-            const isNum = /^-?\d+$/.test(value);
-            if (!isNum) {
+            if (isNaN(toNumber(value))) {
                 return Localizer.l("valueMustBeNumbersError");
             }
         }

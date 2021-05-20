@@ -4,7 +4,7 @@ import {
     MediaGraphOutputSelector,
     MediaGraphOutputSelectorOperator,
     MediaGraphOutputSelectorProperty
-} from "../../Common/Types/LVASDKTypes";
+} from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { CanvasNodeData, OutputSelectorValueType } from "../Types/GraphTypes";
 import NodeHelpers from "../Utils/NodeHelpers";
 

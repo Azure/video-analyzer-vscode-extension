@@ -16,7 +16,7 @@ import {
 import {
     LivePipeline,
     MediaGraphParameterDeclaration
-} from "../../Common/Types/LVASDKTypes";
+} from "../../Common/Types/VideoAnalyzerSDKTypes";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { GraphData } from "../Models/GraphData";

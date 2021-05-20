@@ -1,4 +1,4 @@
-import { PipelineTopology } from "../../Common/Types/LVASDKTypes";
+import { PipelineTopology } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
 import { IotHubData } from "./IotHubData";
 

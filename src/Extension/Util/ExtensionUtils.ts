@@ -5,7 +5,7 @@ import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "./Constants";
 import Localizer from "./Localizer";
 
-export interface LvaHubConfig {
+export interface AvaHubConfig {
     connectionString: string;
     devices: DeviceConfig[];
 }
@@ -34,7 +34,7 @@ export class ExtensionUtils {
     }
 
     public static async setConnectionString() {
-        return new Promise<{ iotHubData: IotHubData; lvaHubConfig: LvaHubConfig }>((resolve, reject) => {
+        return new Promise<{ iotHubData: IotHubData; avaHubConfig: AvaHubConfig }>((resolve, reject) => {
             const inputBox = vscode.window.createInputBox();
             inputBox.ignoreFocusOut = true;
             inputBox.placeholder = Constants.ConnectionStringFormat[Constants.IotHubConnectionStringKey];
@@ -48,12 +48,12 @@ export class ExtensionUtils {
                     if (device) {
                         const module = await this.showModulesInListDialog(iotHubData, device.deviceId);
                         if (module) {
-                            const lvaVersion = await iotHubData.getVersion(device.deviceId, module.moduleId);
-                            if (lvaVersion) {
+                            const moduleVersion = await iotHubData.getVersion(device.deviceId, module.moduleId);
+                            if (moduleVersion) {
                                 inputBox.dispose();
                                 resolve({
                                     iotHubData: iotHubData,
-                                    lvaHubConfig: { connectionString, devices: [{ deviceId: device.deviceId, modules: [module.moduleId] }] }
+                                    avaHubConfig: { connectionString, devices: [{ deviceId: device.deviceId, modules: [module.moduleId] }] }
                                 });
                             } else {
                                 inputBox.validationMessage = Localizer.localize("iotHub.connectionString.moduleNotLVA");

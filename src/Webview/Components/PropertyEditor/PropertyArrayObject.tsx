@@ -1,3 +1,4 @@
+import uniqueId from "lodash/uniqueId";
 import { check } from "prettier";
 import * as React from "react";
 import {
@@ -11,6 +12,11 @@ import {
 import { useBoolean } from "@uifabric/react-hooks";
 import Definitions from "../../Definitions/Definitions";
 import Localizer from "../../Localization/Localizer";
+import { ParameterizeValueRequestFunction } from "../../Types/GraphTypes";
+import { PropertyFormatType } from "../LivePipelineComponent";
+import { PropertyEditField } from "./PropertyEditField";
+import { PropertyNestedObject } from "./PropertyNestedObject";
+import { PropertyReadOnlyEditField } from "./PropertyReadonlyEditField";
 
 interface IPropertyArrayObjectProps {
     name: string;
@@ -18,12 +24,14 @@ interface IPropertyArrayObjectProps {
     nodeProperties: any;
     required: boolean;
     readOnly?: boolean;
+    requestParameterization?: ParameterizeValueRequestFunction;
 }
 
 export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectProps> = (props) => {
-    const { name, property, nodeProperties, required, readOnly = false } = props;
+    const { name, property, nodeProperties, required, requestParameterization, readOnly = false } = props;
     const [arrayItems, setArrayItems] = React.useState([] as any[]);
     const [addLinkDisabled, { setTrue: addLinkDisabledTrue, setFalse: addLinkDisabledFalse }] = useBoolean(false);
+    //const [arrayComponents, setArrayComponents] = React.useState<any[]>([]);
 
     const checkAddLinkDisable = (newArray: string[]) => {
         if (newArray.some((item) => item === "")) {
@@ -38,7 +46,7 @@ export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectPr
         checkAddLinkDisable(newArray);
     };
     const onAddInputClick = () => {
-        updateArray([...arrayItems, ""]);
+        updateArray([...arrayItems, property.items.type === PropertyFormatType.object ? {} : ""]);
     };
     const onDeleteClick = (index: number) => {
         const newArray = [...arrayItems];
@@ -54,26 +62,35 @@ export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectPr
         checkAddLinkDisable(nodeProperties[name]);
     }
 
-    const propertyFields: any[] = [];
-
-    arrayItems.forEach((item: any, index: number) => {
-        propertyFields.push(
-            <Stack horizontal>
+    const propertyFields = arrayItems.map((item: any, index: number) => {
+        const key = uniqueId();
+        return (
+            <Stack horizontal key={key} style={{ borderLeft: "1px solid", paddingLeft: 10 }}>
                 <Stack.Item grow>
-                    <TextField
-                        placeholder={"Enter comma separated strings"}
-                        type="text"
-                        defaultValue={item}
-                        onChange={(e, newValue) => {
-                            arrayItems[index] = newValue;
-                            updateArray(arrayItems);
-                        }}
-                        onGetErrorMessage={(newValue) => {
-                            return newValue === "" ? Localizer.l("propertyEditorValidationUndefinedOrEmpty") : "";
-                        }}
-                        required={required}
-                        readOnly={false}
-                    />
+                    {property.items.type === PropertyFormatType.object ? (
+                        <PropertyNestedObject
+                            name={name}
+                            property={property.items}
+                            nodeProperties={item}
+                            required={required}
+                            requestParameterization={requestParameterization}
+                        />
+                    ) : (
+                        <TextField
+                            placeholder={"Enter comma separated strings"}
+                            type="text"
+                            defaultValue={item}
+                            onChange={(e, newValue) => {
+                                arrayItems[index] = newValue;
+                                updateArray(arrayItems);
+                            }}
+                            onGetErrorMessage={(newValue) => {
+                                return newValue === "" ? Localizer.l("propertyEditorValidationUndefinedOrEmpty") : "";
+                            }}
+                            required={required}
+                            readOnly={false}
+                        />
+                    )}
                 </Stack.Item>
                 <IconButton
                     iconProps={{ iconName: "delete" }}
@@ -85,6 +102,8 @@ export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectPr
         );
     });
 
+    //setArrayComponents(propertyFields);
+
     return (
         <>
             <Stack style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
@@ -93,7 +112,7 @@ export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectPr
                     {Localizer.l("addAction")}
                 </Link>
             </Stack>
-            {propertyFields.length ? <Stack tokens={{ childrenGap: 4 }}>{propertyFields} </Stack> : <Text>Empty</Text>}
+            {propertyFields.length ? <Stack tokens={{ childrenGap: 16 }}>{propertyFields} </Stack> : <Text>Empty</Text>}
         </>
     );
 };

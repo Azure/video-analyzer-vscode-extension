@@ -1,9 +1,9 @@
 import { Device } from "azure-iothub";
 import * as vscode from "vscode";
-import { LivePipeline } from "../../Common/Types/LVASDKTypes";
+import { LivePipeline } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
-import { LvaHubConfig } from "../Util/ExtensionUtils";
+import { AvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
 import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";
@@ -35,7 +35,7 @@ export class ModuleItem extends vscode.TreeItem {
         this._logger = Logger.getOrCreateOutputChannel();
     }
 
-    public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: LivePipeline[]): Promise<INode[]> | INode[] {
+    public getChildren(avaHubConfig?: AvaHubConfig, graphInstances?: LivePipeline[]): Promise<INode[]> | INode[] {
         return this.iotHubData.getVersion(this.deviceId, this.moduleId).then(
             async (versionDetails) => {
                 try {

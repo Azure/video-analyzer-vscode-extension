@@ -10,7 +10,7 @@ import {
     Selection,
     SelectionMode
 } from "@fluentui/react";
-import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParamCreateConfig } from "../ParameterSelector/ParameterSelector";
 import { ParameterEditorAdvanced } from "./ParameterEditorAdvanced";

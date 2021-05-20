@@ -1,14 +1,13 @@
 {
     "Endpoint.url": "urlFormat",
     "FileSink.filePathPattern": "number",
-    "AssetSink.segmentLength": "isoDuration",
+    "VideoCreationProperties.segmentLength": "isoDuration",
     "SignalGateProcessor.activationEvaluationWindow": "isoDuration",
     "SignalGateProcessor.activationSignalOffset": "isoDuration",
     "SignalGateProcessor.minimumActivationTime": "isoDuration",
     "SignalGateProcessor.maximumActivationTime": "isoDuration",
-    "FrameRateFilterProcessor.maximumFps": "number",
     "ImageScale.width": "number",
     "ImageScale.height": "number",
-    "AssetSink.localMediaCacheMaximumSizeMiB": "number",
+    "VideoSink.localMediaCacheMaximumSizeMiB": "number",
     "SamplingOptions.maximumSamplesPerSecond": "number"
 }

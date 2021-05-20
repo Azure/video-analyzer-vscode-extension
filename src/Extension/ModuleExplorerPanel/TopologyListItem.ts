@@ -1,10 +1,13 @@
 import * as vscode from "vscode";
-import { LivePipeline, PipelineTopology } from "../../Common/Types/LVASDKTypes";
+import {
+    LivePipeline,
+    PipelineTopology
+} from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { IotHubData } from "../Data/IotHubData";
 import { LivePipelineData } from "../Data/LivePipelineData";
 import { TopologyData } from "../Data/TolologyData";
 import { Constants } from "../Util/Constants";
-import { LvaHubConfig } from "../Util/ExtensionUtils";
+import { AvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
 import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";

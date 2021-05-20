@@ -3,15 +3,11 @@
         "type": "minMaxLength",
         "value": [1, 260]
     },
-    "AssetSink.assetNamePattern": {
-        "type": "regex",
-        "value": "@\"^[^<>%&:\\/?*+.']{1,260}$\""
-    },
-    "AssetSink.segmentLength": {
+    "VideoCreationProperties.segmentLength": {
         "type": "minMaxValue",
         "value": [30, 300, "seconds"]
     },
-    "IoTHubMessageSink.hubOutputName": {
+    "IotHubMessageSink.hubOutputName": {
         "type": "maxLength",
         "value": 50
     },
@@ -25,15 +21,11 @@
     },
     "SignalGateProcessor.minimumActivationTime": {
         "type": "minMaxValue",
-        "value": [1, 3600, "seconds"]
+        "value": [10, 3600, "seconds"]
     },
     "SignalGateProcessor.maximumActivationTime": {
         "type": "minMaxValue",
-        "value": [1, 3600, "seconds"]
-    },
-    "FrameRateFilterProcessor.maximumFps": {
-        "type": "minValue",
-        "value": 0.0001
+        "value": [10, 3600, "seconds"]
     },
     "ImageScale.width": {
         "type": "minValue",

@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { IotHubData } from "../Data/IotHubData";
-import { LvaHubConfig } from "../Util/ExtensionUtils";
+import { AvaHubConfig } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
 import { ModuleItem } from "./ModuleItem";
 import { INode } from "./Node";
@@ -14,9 +14,9 @@ export class ModulesListItem extends vscode.TreeItem implements INode {
         super(Localizer.localize("modulesListTreeItem"), _collapsibleState);
     }
 
-    public getChildren(lvaHubConfig: LvaHubConfig): Promise<INode[]> | INode[] {
+    public getChildren(avaHubConfig: AvaHubConfig): Promise<INode[]> | INode[] {
         return new Promise((resolve, reject) => {
-            const deviceConfigList = lvaHubConfig?.devices?.filter((device) => {
+            const deviceConfigList = avaHubConfig?.devices?.filter((device) => {
                 return device.deviceId === this.deviceId;
             });
             if (!deviceConfigList || deviceConfigList!.length !== 1) {

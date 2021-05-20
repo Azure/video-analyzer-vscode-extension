@@ -206,7 +206,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
         );
     }
 
-    if (property.type !== PropertyFormatType.object && isParameterized) {
+    if (property.type !== PropertyFormatType.object && property.type !== PropertyFormatType.array && isParameterized) {
         return (
             <TextField
                 label={name}
@@ -303,7 +303,9 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             />
         );
     } else if (property.type === PropertyFormatType.array) {
-        return <PropertyArrayObject name={name} property={property} nodeProperties={nodeProperties} required={required} />;
+        return (
+            <PropertyArrayObject name={name} property={property} nodeProperties={nodeProperties} required={required} requestParameterization={requestParameterization} />
+        );
     } else {
         return (
             <TextField

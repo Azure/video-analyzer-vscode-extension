@@ -12,7 +12,7 @@ import {
     Stack
 } from "@fluentui/react";
 import { useId } from "@uifabric/react-hooks";
-import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParameterizeValueCallback } from "../../Types/GraphTypes";
 import { ParamCreateConfig } from "../ParameterSelector/ParameterSelector";

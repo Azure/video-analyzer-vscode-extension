@@ -1,6 +1,6 @@
 import React from "react";
 import { FontIcon, IconButton, Stack, Text } from "@fluentui/react";
-import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParameterEditorCreateForm } from "../ParameterEditor/ParameterEditorCreateForm";
 

@@ -3,11 +3,11 @@ import {
     LivePipeline,
     MediaGraphInstanceState,
     PipelineTopology
-} from "../../Common/Types/LVASDKTypes";
+} from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { IotHubData } from "../Data/IotHubData";
 import { LivePipelineData } from "../Data/LivePipelineData";
 import { Constants } from "../Util/Constants";
-import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
+import { AvaHubConfig, ExtensionUtils } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
 import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";
@@ -48,7 +48,7 @@ export class LivePipelineItem extends vscode.TreeItem {
         }
     }
 
-    public getChildren(lvaHubConfig: LvaHubConfig): Promise<INode[]> | INode[] {
+    public getChildren(avaHubConfig: AvaHubConfig): Promise<INode[]> | INode[] {
         return [];
     }
 

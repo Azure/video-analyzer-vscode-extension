@@ -5,9 +5,11 @@ import {
     DefaultButton,
     FontWeights,
     IconButton,
+    ITooltipHostStyles,
     mergeStyles,
     Stack,
-    Text
+    Text,
+    TooltipHost
 } from "@fluentui/react";
 import {
     applyDefaultPortsPosition,
@@ -97,6 +99,7 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
             PostMessage.sendMessageToParent({ name: Constants.PostMessageNames.setGraphAlignment, data: !isHorizontal });
         }
     };
+    const hostStyles: Partial<ITooltipHostStyles> = { root: { display: "inline-block", backgroundColor: "yellow" } };
 
     return (
         <>
@@ -109,24 +112,30 @@ export const Toolbar: React.FunctionComponent<IGraphPanelProps> = (props) => {
                 </Stack>
             </Stack>
             <Stack horizontal tokens={{ childrenGap: "s1" }} styles={toolbarStyles}>
-                <CommandBarButton
-                    iconProps={{ iconName: "Library" }}
-                    onClick={toggleSidebar}
-                    style={iconButtonStyles}
-                    text={isSidebarShown ? Localizer.l("toolbarHideLeftSidebar") : Localizer.l("toolbarShowLeftSidebar")}
-                ></CommandBarButton>
-                <CommandBarButton
-                    iconProps={{ iconName: "TriggerAuto" }}
-                    onClick={autoLayout}
-                    style={iconButtonStyles}
-                    text={Localizer.l("toolbarAutoLayout")}
-                ></CommandBarButton>
-                <CommandBarButton
-                    iconProps={{ iconName: isHorizontal ? "Orientation" : "Orientation2" }}
-                    onClick={changeLayout}
-                    style={iconButtonStyles}
-                    text={isHorizontal ? Localizer.l("toolbarToVertical") : Localizer.l("toolbarToHorizontal")}
-                ></CommandBarButton>
+                <TooltipHost content={isSidebarShown ? Localizer.l("toolbarHideLeftSidebar") : Localizer.l("toolbarShowLeftSidebar")} styles={hostStyles}>
+                    <CommandBarButton
+                        iconProps={{ iconName: "Library" }}
+                        onClick={toggleSidebar}
+                        style={iconButtonStyles}
+                        ariaLabel={isSidebarShown ? Localizer.l("toolbarHideLeftSidebar") : Localizer.l("toolbarShowLeftSidebar")}
+                    ></CommandBarButton>
+                </TooltipHost>
+                <TooltipHost content={Localizer.l("toolbarAutoLayout")} styles={hostStyles}>
+                    <CommandBarButton
+                        iconProps={{ iconName: "TriggerAuto" }}
+                        onClick={autoLayout}
+                        style={iconButtonStyles}
+                        ariaLabel={Localizer.l("toolbarAutoLayout")}
+                    ></CommandBarButton>
+                </TooltipHost>
+                <TooltipHost content={isHorizontal ? Localizer.l("toolbarToVertical") : Localizer.l("toolbarToHorizontal")} styles={hostStyles}>
+                    <CommandBarButton
+                        iconProps={{ iconName: isHorizontal ? "Orientation" : "Orientation2" }}
+                        onClick={changeLayout}
+                        style={iconButtonStyles}
+                        ariaLabel={isHorizontal ? Localizer.l("toolbarToVertical") : Localizer.l("toolbarToHorizontal")}
+                    ></CommandBarButton>
+                </TooltipHost>
                 {props.children}
             </Stack>
         </>

@@ -13,7 +13,7 @@ import {
 import { Dialog, DialogFooter, DialogType } from "@fluentui/react/lib/Dialog";
 import { useBoolean } from "@uifabric/react-hooks";
 import { IPropsAPI } from "@vienna/react-dag-editor";
-import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
 import {
     createParameter,

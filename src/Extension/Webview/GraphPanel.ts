@@ -36,7 +36,7 @@ export class GraphEditorPanel {
      */
     public static currentPanel: GraphEditorPanel | undefined;
 
-    public static readonly viewType = "lvaTopologyEditor";
+    public static readonly viewType = "TopologyEditor";
 
     private readonly _panel: vscode.WebviewPanel;
     private readonly _extensionPath: string;
@@ -130,7 +130,7 @@ export class GraphEditorPanel {
     }
 
     public isGraphAlignedToHorizontal(context: vscode.ExtensionContext) {
-        const graphAlignmentInfo: any = context.globalState.get(Constants.LvaGlobalStateGraphAlignKey);
+        const graphAlignmentInfo: any = context.globalState.get(Constants.VideoAnalyzerGlobalStateGraphAlignKey);
         return graphAlignmentInfo?.isHorizontal ?? true;
     }
 
@@ -138,7 +138,7 @@ export class GraphEditorPanel {
         this.waitForPostMessage({
             name: Constants.PostMessageNames.setGraphAlignment,
             callback: (isHorizontal: boolean) => {
-                context.globalState.update(Constants.LvaGlobalStateGraphAlignKey, {
+                context.globalState.update(Constants.VideoAnalyzerGlobalStateGraphAlignKey, {
                     isHorizontal: isHorizontal
                 });
             }

@@ -10,11 +10,12 @@ export default class Definitions {
     private static _itemPanelNodes: any[];
     public static TypePrefix = "";
     public static VersionFolder = "";
+    public static IsLegacyModule = false;
 
     public static loadDefinitions() {
         this.VersionFolder = (window as any).versionFolder;
-        const isLegacyModule = (window as any).isLegacyModule == "true";
-        this.TypePrefix = isLegacyModule ? "#Microsoft.Media." : "#Microsoft.VideoAnalyzer.";
+        this.IsLegacyModule = (window as any).isLegacyModule == "true";
+        this.TypePrefix = this.IsLegacyModule ? "#Microsoft.Media." : "#Microsoft.VideoAnalyzer.";
         return import(`./${this.VersionFolder}/nodes.json`).then((storedNodes) => {
             Definitions._availableNodes = storedNodes.availableNodes as NodeDefinition[];
             Definitions._itemPanelNodes = storedNodes.itemPanelNodes;

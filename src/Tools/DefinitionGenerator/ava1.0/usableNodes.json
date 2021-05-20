@@ -4,7 +4,6 @@
         "#Microsoft.VideoAnalyzer.MotionDetectionProcessor",
         "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor",
         "#Microsoft.VideoAnalyzer.LineCrossingProcessor",
-        "#Microsoft.VideoAnalyzer.ExtensionProcessorBase",
         "#Microsoft.VideoAnalyzer.SignalGateProcessor",
         "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor",
         "#Microsoft.VideoAnalyzer.GrpcExtension",

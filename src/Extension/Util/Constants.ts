@@ -15,9 +15,9 @@ export class Constants {
     public static LegacySupportedApiVersions = ["2.0"];
     public static SupportedApiVersions = ["1.0"];
 
-    public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
-    public static LvaGlobalStateGraphAlignKey = "lvaGlobalStateGraphAlignKey";
-    public static ExtensionId = "azure-lva-edge-tools";
+    public static VideoAnalyzerGlobalStateKey = "videoAnalyzerGlobalStateConfigKey";
+    public static VideoAnalyzerGlobalStateGraphAlignKey = "videoAnalyzerGlobalStateGraphAlignKey";
+    public static ExtensionId = "azure-video-analyzer";
 
     public static TreeViewAutoRefreshIntervalInSecondsKey = "treeViewAutoRefreshIntervalInSeconds";
 

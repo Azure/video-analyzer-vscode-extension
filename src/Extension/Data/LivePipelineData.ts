@@ -1,4 +1,4 @@
-import { LivePipeline } from "../../Common/Types/LVASDKTypes";
+import { LivePipeline } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
 import { IotHubData } from "./IotHubData";
 

@@ -3,7 +3,7 @@ import {
     MediaGraphNodeInput,
     MediaGraphParameterType,
     PipelineTopology
-} from "../../Common/Types/LVASDKTypes";
+} from "../../Common/Types/VideoAnalyzerSDKTypes";
 
 export enum MediaGraphNodeType {
     Source = "source",

@@ -1,6 +1,9 @@
 import Localizer from "../../Localization/Localizer";
 
 export class SamplesList {
+    public static gitHubInfo = {
+        apiUrl: "https://api.github.com/repos/azure/live-video-analytics/git/trees/master?recursive=1"
+    };
     public static getCommandBarItems = (menuItemOnClick: () => void) => {
         return [
             {

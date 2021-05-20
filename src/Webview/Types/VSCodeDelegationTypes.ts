@@ -1,5 +1,5 @@
 import { IZoomPanSettings } from "@vienna/react-dag-editor";
-import { LivePipeline } from "../../Common/Types/LVASDKTypes";
+import { LivePipeline } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { PageType } from "../Utils/Constants";
 import { GraphInfo } from "./GraphTypes";
 

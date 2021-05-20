@@ -2,7 +2,7 @@ import * as React from "react";
 import { Stack, TextField } from "@fluentui/react";
 import { useBoolean } from "@uifabric/react-hooks";
 import { IPanelConfig, usePropsAPI } from "@vienna/react-dag-editor";
-import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import { ParameterizeValueCallback } from "../Types/GraphTypes";

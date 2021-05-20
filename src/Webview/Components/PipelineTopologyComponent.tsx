@@ -21,7 +21,7 @@ import {
     RegisterNode,
     RegisterPort
 } from "@vienna/react-dag-editor";
-import { PipelineTopology } from "../../Common/Types/LVASDKTypes";
+import { PipelineTopology } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../Localization/Localizer";
 import { GraphData } from "../Models/GraphData";
 import {
@@ -103,9 +103,13 @@ const PipelineTopologyComponent: React.FunctionComponent<IGraphTopologyProps> = 
         }
         setDirty(false);
         if (propsApiRef.current) {
-            propsApiRef.current.setData(GraphModel.fromJSON(graph.getICanvasData()));
-            propsApiRef.current.dismissSidePanel();
-            propsApiRef.current.resetZoom();
+            try {
+                propsApiRef.current.setData(GraphModel.fromJSON(graph.getICanvasData()));
+                propsApiRef.current.dismissSidePanel();
+                propsApiRef.current.resetZoom();
+            } catch {
+                console.log("failed to parse");
+            }
         }
         setValidationErrors([]);
     }

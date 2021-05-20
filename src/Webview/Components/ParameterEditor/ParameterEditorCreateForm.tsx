@@ -4,7 +4,7 @@ import { Dropdown, IDropdownOption, Stack, TextField } from "@fluentui/react";
 import {
     MediaGraphParameterDeclaration,
     MediaGraphParameterType
-} from "../../../Common/Types/LVASDKTypes";
+} from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParamCreateConfig } from "../ParameterSelector/ParameterSelector";
 

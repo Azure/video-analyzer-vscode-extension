@@ -1,17 +1,17 @@
 {
-    "name": "live-video-analytics-edge",
-    "displayName": "Live Video Analytics on IoT Edge",
+    "name": "azure-video-analyzer",
+    "displayName": "Azure Video Analyzer on IoT Edge",
     "description": "%extensionDescription%",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "publisher": "ms-azuretools",
     "license": "SEE LICENSE IN LICENSE",
-    "homepage": "https://github.com/Azure/lva-edge-vscode-extension",
+    "homepage": "https://github.com/Azure/video-analyzer-vscode-extension",
     "bugs": {
-        "url": "https://github.com/Azure/lva-edge-vscode-extension/issues"
+        "url": "https://github.com/Azure/video-analyzer-vscode-extension/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Azure/lva-edge-vscode-extension"
+        "url": "https://github.com/Azure/video-analyzer-vscode-extension"
     },
     "icon": "lva-icon.png",
     "engines": {
@@ -26,7 +26,7 @@
         "onView:moduleExplorer"
     ],
     "keywords": [
-        "live video analytics"
+        "azure video analyzer, video analyzer, AVA"
     ],
     "main": "./dist/extension",
     "contributes": {
@@ -140,7 +140,7 @@
             "activitybar": [
                 {
                     "id": "module-explorer",
-                    "title": "%lva-edge.views.moduleExplorer.name%",
+                    "title": "%video-analyzer.views.moduleExplorer.name%",
                     "icon": "resources/images/LVA-mono.svg"
                 }
             ]
@@ -149,7 +149,7 @@
             "module-explorer": [
                 {
                     "id": "moduleExplorer",
-                    "name": "%lva-edge.views.moduleExplorer.name%",
+                    "name": "%video-analyzer.views.moduleExplorer.name%",
                     "icon": "resources/images/LVA-mono.svg"
                 }
             ]
@@ -302,7 +302,7 @@
             "type": "object",
             "title": "%extensionConfigurationTitle%",
             "properties": {
-                "azure-lva-edge-tools.treeViewAutoRefreshIntervalInSeconds": {
+                "azure-video-analyzer.treeViewAutoRefreshIntervalInSeconds": {
                     "type": "number",
                     "default": 60,
                     "description": "%treeViewAutoRefreshIntervalInSecondsDescription%"
@@ -318,7 +318,7 @@
         "eject-react": "react-app-rewired eject",
         "compile-ext": "rimraf dist && webpack --mode development --config src/Extension/webpack.config.js",
         "dev-ext": "tsc -p src/Extension/tsconfig.json",
-        "dev": "set PORT=3009 && react-app-rewired start",
+        "dev": "set PORT=3008 && react-app-rewired start",
         "lint": "eslint . --ext .ts,.tsx",
         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
         "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",

@@ -20,7 +20,8 @@ import { useBoolean } from "@uifabric/react-hooks";
 import {
     MediaGraphParameterDeclaration,
     MediaGraphParameterType
-} from "../../../Common/Types/LVASDKTypes";
+} from "../../../Common/Types/VideoAnalyzerSDKTypes";
+import Definitions from "../../Definitions/Definitions";
 import Localizer from "../../Localization/Localizer";
 import { ParamCreateConfig } from "../ParameterSelector/ParameterSelector";
 import { createParameter } from "./createParameter";
@@ -39,21 +40,30 @@ export const ParameterEditorParameterList: React.FunctionComponent<IParameterEdi
     const [isCreateFormShown, { toggle: toggleCreateForm }] = useBoolean(false);
     const [filterText, setFilterText] = React.useState<string>("");
     const [paramCreateConfig, setParamCreateConfig] = React.useState<ParamCreateConfig | undefined>();
-
+    Definitions.IsLegacyModule;
     const items: MediaGraphParameterDeclaration[] = [
         ...parameters,
-        {
-            name: "System.DateTime",
-            type: MediaGraphParameterType.String
-        },
-        {
-            name: "System.GraphTopologyName",
-            type: MediaGraphParameterType.String
-        },
-        {
-            name: "System.GraphInstanceName",
-            type: MediaGraphParameterType.String
-        }
+        ...(Definitions.IsLegacyModule
+            ? [
+                  {
+                      name: "System.DateTime",
+                      type: MediaGraphParameterType.String
+                  },
+                  {
+                      name: "System.GraphTopologyName",
+                      type: MediaGraphParameterType.String
+                  },
+                  {
+                      name: "System.GraphInstanceName",
+                      type: MediaGraphParameterType.String
+                  }
+              ]
+            : [
+                  { name: "System.TopologyName", type: MediaGraphParameterType.String },
+                  { name: "System.PipelineName", type: MediaGraphParameterType.String },
+                  { name: "System.Runtime.DateTime", type: MediaGraphParameterType.String },
+                  { name: "System.Runtime.PreciseDateTime", type: MediaGraphParameterType.String }
+              ])
     ];
 
     let renderItemsFunction = renderItemList;

@@ -1,5 +1,8 @@
 import * as vscode from "vscode";
-import { LivePipeline, PipelineTopology } from "../../Common/Types/LVASDKTypes";
+import {
+    LivePipeline,
+    PipelineTopology
+} from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { IotHubData } from "../Data/IotHubData";
 import { TopologyData } from "../Data/TolologyData";
 import { Constants } from "../Util/Constants";
