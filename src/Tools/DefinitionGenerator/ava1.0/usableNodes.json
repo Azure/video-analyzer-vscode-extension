@@ -1,0 +1,13 @@
+{
+    "sources": ["#Microsoft.VideoAnalyzer.RtspSource", "#Microsoft.VideoAnalyzer.IotHubMessageSource"],
+    "processors": [
+        "#Microsoft.VideoAnalyzer.MotionDetectionProcessor",
+        "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor",
+        "#Microsoft.VideoAnalyzer.LineCrossingProcessor",
+        "#Microsoft.VideoAnalyzer.SignalGateProcessor",
+        "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor",
+        "#Microsoft.VideoAnalyzer.GrpcExtension",
+        "#Microsoft.VideoAnalyzer.HttpExtension"
+    ],
+    "sinks": ["#Microsoft.VideoAnalyzer.IotHubMessageSink", "#Microsoft.VideoAnalyzer.FileSink", "#Microsoft.VideoAnalyzer.VideoSink"]
+}

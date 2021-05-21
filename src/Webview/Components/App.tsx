@@ -11,8 +11,8 @@ import IconSetupHelpers from "../Utils/IconSetupHelpers";
 import PostMessage from "../Utils/PostMessage";
 import ThemeHelpers from "../Utils/ThemeHelpers";
 
-const GraphInstance = React.lazy(() => import("./GraphInstance"));
-const GraphTopology = React.lazy(() => import("./GraphTopology"));
+const LivePipelineComponent = React.lazy(() => import("./LivePipelineComponent"));
+const PipelineTopologyComponent = React.lazy(() => import("./PipelineTopologyComponent"));
 IconSetupHelpers.initializeIcons();
 
 interface IProps {
@@ -88,7 +88,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
         <ThemeProvider theme={theme}>
             <React.Suspense fallback={<></>}>
                 {pageType === Constants.PageType.graphPage && (
-                    <GraphTopology
+                    <PipelineTopologyComponent
                         graph={graph}
                         zoomPanSettings={zoomPanSettings}
                         isHorizontal={isGraphHorizontal}
@@ -97,7 +97,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
                     />
                 )}
                 {pageType === Constants.PageType.instancePage && (
-                    <GraphInstance
+                    <LivePipelineComponent
                         graph={graph}
                         zoomPanSettings={zoomPanSettings}
                         isHorizontal={isGraphHorizontal}

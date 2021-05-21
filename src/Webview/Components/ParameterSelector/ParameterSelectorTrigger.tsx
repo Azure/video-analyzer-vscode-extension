@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ActionButton, CommandBarButton } from "@fluentui/react";
 import { IPropsAPI } from "@vienna/react-dag-editor";
-import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParameterSelector } from "./ParameterSelector";
 

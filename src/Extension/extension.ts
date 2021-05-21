@@ -1,8 +1,8 @@
 import * as vscode from "vscode";
-import { GraphTopologyItem } from "./ModuleExplorerPanel/GraphTopologyItem";
-import { GraphTopologyListItem } from "./ModuleExplorerPanel/GraphTopologyListItem";
-import { InstanceItem } from "./ModuleExplorerPanel/InstanceItem";
+import { LivePipelineItem } from "./ModuleExplorerPanel/LivePipelineItem";
 import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
+import { TopologyItem } from "./ModuleExplorerPanel/TopologyItem";
+import { TopologyListItem } from "./ModuleExplorerPanel/TopologyListItem";
 import { Constants } from "./Util/Constants";
 import { CredentialStore } from "./Util/CredentialStore";
 import Localizer from "./Util/Localizer";
@@ -25,10 +25,10 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand("moduleExplorer.setConnectionString", () => {
             moduleExplorer.setConnectionString();
         }),
-        vscode.commands.registerCommand("moduleExplorer.createGraph", (graphListNode: GraphTopologyListItem) => {
+        vscode.commands.registerCommand("moduleExplorer.createGraph", (graphListNode: TopologyListItem) => {
             graphListNode.createNewGraphCommand(context);
         }),
-        vscode.commands.registerCommand("moduleExplorer.createInstance", (graphNode: GraphTopologyItem) => {
+        vscode.commands.registerCommand("moduleExplorer.createInstance", (graphNode: TopologyItem) => {
             graphNode.createNewGraphInstanceCommand(context);
         }),
         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
@@ -37,29 +37,59 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand("moduleExplorer.resetConnection", () => {
             moduleExplorer.resetConnectionString();
         }),
-        vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: GraphTopologyItem) => {
+        vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: TopologyItem) => {
             graphNode.setGraphCommand(context);
         }),
-        vscode.commands.registerCommand("moduleExplorer.deleteGraph", (graphNode: GraphTopologyItem) => {
+        vscode.commands.registerCommand("moduleExplorer.deleteGraph", (graphNode: TopologyItem) => {
             graphNode.deleteGraphCommand();
         }),
-        vscode.commands.registerCommand("moduleExplorer.showGraphJson", (graphNode: GraphTopologyItem) => {
-            graphNode.showGraphJson();
+        vscode.commands.registerCommand("moduleExplorer.showTopologyJson", (graphNode: TopologyItem) => {
+            graphNode.showTopologyJson();
         }),
-        vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: InstanceItem) => {
+        vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: LivePipelineItem) => {
             instanceNode.setInstanceCommand(context);
         }),
-        vscode.commands.registerCommand("moduleExplorer.activateInstance", (instanceNode: InstanceItem) => {
+        vscode.commands.registerCommand("moduleExplorer.activateInstance", (instanceNode: LivePipelineItem) => {
             instanceNode.activateInstanceCommand();
         }),
-        vscode.commands.registerCommand("moduleExplorer.deactivateInstance", (instanceNode: InstanceItem) => {
+        vscode.commands.registerCommand("moduleExplorer.deactivateInstance", (instanceNode: LivePipelineItem) => {
             instanceNode.deactivateInstanceCommand();
         }),
-        vscode.commands.registerCommand("moduleExplorer.deleteInstance", (instanceNode: InstanceItem) => {
+        vscode.commands.registerCommand("moduleExplorer.deleteInstance", (instanceNode: LivePipelineItem) => {
             instanceNode.deleteInstanceCommand();
         }),
-        vscode.commands.registerCommand("moduleExplorer.showGraphInstanceJson", (instanceNode: InstanceItem) => {
-            instanceNode.showGraphInstanceJson();
+        vscode.commands.registerCommand("moduleExplorer.showGraphInstanceJson", (instanceNode: LivePipelineItem) => {
+            instanceNode.showLivePipelineJson();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.topology.create", (graphListNode: TopologyListItem) => {
+            graphListNode.createNewGraphCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.topology.edit", (graphNode: TopologyItem) => {
+            graphNode.setGraphCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.topology.delete", (graphNode: TopologyItem) => {
+            graphNode.deleteGraphCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.topology.showJson", (graphNode: TopologyItem) => {
+            graphNode.showTopologyJson();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.livePipeline.create", (graphNode: TopologyItem) => {
+            graphNode.createNewGraphInstanceCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.livePipeline.edit", (instanceNode: LivePipelineItem) => {
+            instanceNode.setInstanceCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.livePipeline.activate", (instanceNode: LivePipelineItem) => {
+            instanceNode.activateInstanceCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.livePipeline.deactivate", (instanceNode: LivePipelineItem) => {
+            instanceNode.deactivateInstanceCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.livePipeline.delete", (instanceNode: LivePipelineItem) => {
+            instanceNode.deleteInstanceCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.livePipeline.showJson", (instanceNode: LivePipelineItem) => {
+            instanceNode.showLivePipelineJson();
         })
     );
 }

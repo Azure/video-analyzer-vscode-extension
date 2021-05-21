@@ -1,7 +1,7 @@
 import { Device } from "azure-iothub";
 import * as vscode from "vscode";
 import { IotHubData } from "../Data/IotHubData";
-import { LvaHubConfig } from "../Util/ExtensionUtils";
+import { AvaHubConfig } from "../Util/ExtensionUtils";
 import { TreeUtils } from "../Util/TreeUtils";
 import { ModulesListItem } from "./ModulesListItem";
 import { INode } from "./Node";
@@ -14,7 +14,7 @@ export class DeviceItem extends vscode.TreeItem implements INode {
         this.iconPath = TreeUtils.getIconPath(`device-${state}`);
     }
 
-    public getChildren(lvaHubConfig?: LvaHubConfig): Promise<INode[]> | INode[] {
+    public getChildren(avaHubConfig?: AvaHubConfig): Promise<INode[]> | INode[] {
         return [new ModulesListItem(this.iotHubData, this.deviceId, vscode.TreeItemCollapsibleState.Expanded)];
     }
 }

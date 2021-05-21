@@ -20,7 +20,7 @@ import {
     useGraphState,
     usePropsAPI
 } from "@vienna/react-dag-editor";
-import { MediaGraphParameterDeclaration } from "../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { GraphData as GraphData } from "../Models/GraphData";
 import {
     GraphInfo,

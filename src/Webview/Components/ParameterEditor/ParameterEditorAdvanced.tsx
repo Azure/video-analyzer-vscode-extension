@@ -14,7 +14,7 @@ import {
     Text,
     TextField
 } from "@fluentui/react";
-import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
 import { ParameterEditorParameterList } from "./ParameterEditorParameterList";
 

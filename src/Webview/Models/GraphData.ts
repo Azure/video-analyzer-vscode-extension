@@ -15,8 +15,8 @@ import {
     MediaGraphProcessorUnion,
     MediaGraphSinkUnion,
     MediaGraphSourceUnion,
-    MediaGraphTopology
-} from "../../Common/Types/LVASDKTypes";
+    PipelineTopology
+} from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
@@ -38,7 +38,7 @@ export class GraphData {
     private static readonly nodeTypeList = [MediaGraphNodeType.Source, MediaGraphNodeType.Processor, MediaGraphNodeType.Sink];
 
     // what we initialized with (contains name, description, etc.)
-    private graphInformation: MediaGraphTopology = { name: "", properties: { parameters: [] } };
+    private graphInformation: PipelineTopology = { name: "", properties: { parameters: [] } };
 
     // the target format expects dividing up the nodes into these three types
     private sources: MediaGraphSourceUnion[] = [];
@@ -176,7 +176,7 @@ export class GraphData {
             return parameter;
         });
 
-        const topology: MediaGraphTopology = {
+        const topology: PipelineTopology = {
             name: this.graphInformation.name,
             properties: {
                 ...this.graphInformation.properties,

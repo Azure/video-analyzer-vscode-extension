@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { IotHubData } from "../Data/IotHubData";
 import { Constants } from "../Util/Constants";
 import { CredentialStore } from "../Util/CredentialStore";
-import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
+import { AvaHubConfig, ExtensionUtils } from "../Util/ExtensionUtils";
 import Localizer from "../Util/Localizer";
 import { DeviceListItem } from "./DeviceListItem";
 import { IoTHubLabelNode } from "./IoTHubLabelNode";
@@ -12,13 +12,13 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
     private _onDidChangeTreeData: vscode.EventEmitter<INode | undefined> = new vscode.EventEmitter<INode | undefined>();
     readonly onDidChangeTreeData: vscode.Event<INode | undefined> = this._onDidChangeTreeData.event;
 
-    private _connectionConfig?: LvaHubConfig;
+    private _connectionConfig?: AvaHubConfig;
     private _iotHubData?: IotHubData;
     private _autoRefreshIntervalID?: NodeJS.Timer;
 
     constructor(private context: vscode.ExtensionContext) {}
 
-    public async setConnectionString(connectionConfig?: LvaHubConfig) {
+    public async setConnectionString(connectionConfig?: AvaHubConfig) {
         if (connectionConfig && connectionConfig.connectionString) {
             this._connectionConfig = connectionConfig;
             this._iotHubData = new IotHubData(connectionConfig.connectionString);
@@ -26,7 +26,7 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
             const connectionInfo = await ExtensionUtils.setConnectionString();
             if (connectionInfo) {
                 this._iotHubData = connectionInfo.iotHubData;
-                this._connectionConfig = connectionInfo.lvaHubConfig;
+                this._connectionConfig = connectionInfo.avaHubConfig;
                 CredentialStore.setConnectionInfo(this.context, this._connectionConfig);
             }
         }
@@ -39,7 +39,7 @@ export default class ModuleExplorer implements vscode.TreeDataProvider<INode> {
     public async resetConnectionString() {
         const allowDelete = await ExtensionUtils.showConfirmation(Localizer.localize("deleteConnectionToHubConfirmation"));
         if (allowDelete) {
-            this._connectionConfig = (null as unknown) as LvaHubConfig;
+            this._connectionConfig = (null as unknown) as AvaHubConfig;
             this._iotHubData = (null as unknown) as IotHubData;
             await CredentialStore.resetConnectionInfo(this.context);
             this.refresh();

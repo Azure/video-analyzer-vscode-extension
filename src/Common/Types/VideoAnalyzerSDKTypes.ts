@@ -65,7 +65,7 @@ export interface MediaGraphInstanceProperties {
 /**
  * Represents a Media Graph instance.
  */
-export interface MediaGraphInstance {
+export interface LivePipeline {
     name: string;
     apiVersion?: string;
     systemData?: MediaGraphSystemData;
@@ -79,7 +79,7 @@ export interface MediaGraphInstanceCollection {
     /**
      * Collection of graph instances.
      */
-    value?: MediaGraphInstance[];
+    value?: LivePipeline[];
     /**
      * Continuation token to use in subsequent calls to enumerate through the graph instance
      * collection (when the collection contains too many results to return in one response).
@@ -234,7 +234,7 @@ export interface MediaGraphTopologyProperties {
 /**
  * Describes a graph topology.
  */
-export interface MediaGraphTopology {
+export interface PipelineTopology {
     name: string;
     apiVersion?: string;
     systemData?: MediaGraphSystemData;
@@ -248,7 +248,7 @@ export interface MediaGraphTopologyCollection {
     /**
      * Collection of graph topologies.
      */
-    value?: MediaGraphTopology[];
+    value?: PipelineTopology[];
     /**
      * Continuation token to use in subsequent calls to enumerate through the graph topologies
      * collection (when the collection contains too many results to return in one response).

@@ -1,5 +1,5 @@
 import { ConfigurationTarget } from "vscode";
-import { MediaGraphParameterDeclaration } from "../../../Common/Types/LVASDKTypes";
+import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 
 export function createParameter(configuration: MediaGraphParameterDeclaration, parameters: MediaGraphParameterDeclaration[]) {
     // TODO: Validate parameter

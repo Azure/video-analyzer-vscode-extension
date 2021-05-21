@@ -85,7 +85,7 @@ export default class NodeHelpers {
             "#Microsoft.Media.MediaGraphRtspSource": "SecurityCamera",
             "#Microsoft.VideoAnalyzer.RtspSource": "SecurityCamera",
             "#Microsoft.Media.MediaGraphIoTHubMessageSource": "IOT",
-            "#Microsoft.VideoAnalyzer.IoTHubMessageSource": "IOT",
+            "#Microsoft.VideoAnalyzer.IotHubMessageSource": "IOT",
             "#Microsoft.Media.MediaGraphMotionDetectionProcessor": "RedEye",
             "#Microsoft.VideoAnalyzer.MotionDetectionProcessor": "RedEye",
             "#Microsoft.Media.MediaGraphFrameRateFilterProcessor": "PlaybackRate1x",
@@ -96,14 +96,17 @@ export default class NodeHelpers {
             "#Microsoft.VideoAnalyzer.SignalGateProcessor": "Ringer",
             "#Microsoft.Media.MediaGraphAssetSink": "FabricAssetLibrary",
             "#Microsoft.VideoAnalyzer.AssetSink": "FabricAssetLibrary",
+            "#Microsoft.VideoAnalyzer.VideoSink": "FabricAssetLibrary",
             "#Microsoft.Media.MediaGraphFileSink": "PageData",
             "#Microsoft.VideoAnalyzer.FileSink": "PageData",
             "#Microsoft.Media.MediaGraphIoTHubMessageSink": "IOT",
-            "#Microsoft.VideoAnalyzer.IoTHubMessageSink": "IOT",
+            "#Microsoft.VideoAnalyzer.IotHubMessageSink": "IOT",
             "#Microsoft.Media.MediaGraphGrpcExtension": "Switch",
             "#Microsoft.VideoAnalyzer.GrpcExtension": "Switch",
             "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension": "CognitiveServices",
-            "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension": "CognitiveServices"
+            "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor": "CognitiveServices",
+            "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor": "ObjectRecognition",
+            "#Microsoft.VideoAnalyzer.LineCrossingProcessor": "ObjectRecognition"
         } as Record<string, string>;
 
         const icon = icons[node.nodeProperties["@type"]];

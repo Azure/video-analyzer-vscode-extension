@@ -12,11 +12,12 @@ export class Constants {
         [Constants.DeviceConnectionStringKey]: /^HostName=.+;DeviceId=.+;SharedAccessKey=.+$/
     };
 
-    public static SupportedApiVersions = ["2.0"];
+    public static LegacySupportedApiVersions = ["2.0"];
+    public static SupportedApiVersions = ["1.0"];
 
-    public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
-    public static LvaGlobalStateGraphAlignKey = "lvaGlobalStateGraphAlignKey";
-    public static ExtensionId = "azure-lva-edge-tools";
+    public static VideoAnalyzerGlobalStateKey = "videoAnalyzerGlobalStateConfigKey";
+    public static VideoAnalyzerGlobalStateGraphAlignKey = "videoAnalyzerGlobalStateGraphAlignKey";
+    public static ExtensionId = "azure-video-analyzer";
 
     public static TreeViewAutoRefreshIntervalInSecondsKey = "treeViewAutoRefreshIntervalInSeconds";
 
@@ -24,7 +25,7 @@ export class Constants {
     public static PostMessageNames = {
         closeWindow: "closeWindow",
         saveGraph: "saveGraph",
-        saveInstance: "saveInstance",
+        saveLivePipeline: "saveInstance",
         saveAndActivate: "saveAndActivate",
         getInitialData: "getInitialData",
         setInitialData: "setInitialData",

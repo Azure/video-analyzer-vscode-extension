@@ -1,5 +1,5 @@
 import { IZoomPanSettings } from "@vienna/react-dag-editor";
-import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
+import { LivePipeline } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { PageType } from "../Utils/Constants";
 import { GraphInfo } from "./GraphTypes";
 
@@ -15,7 +15,7 @@ export interface VSCodeState {
     isHorizontal: boolean;
     graphData?: GraphInfo;
     zoomPanSettings?: IZoomPanSettings;
-    instance?: MediaGraphInstance;
+    instance?: LivePipeline;
 }
 
 export interface InitializationParameters {

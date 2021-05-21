@@ -4,6 +4,7 @@ import remove from "lodash/remove";
 import * as path from "path";
 import * as vscode from "vscode";
 import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
+import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
 import { Constants } from "../Util/Constants";
 import Localizer from "../Util/Localizer";
 import { ErrorOption, Logger, LogLevel } from "../Util/Logger";
@@ -35,16 +36,16 @@ export class GraphEditorPanel {
      */
     public static currentPanel: GraphEditorPanel | undefined;
 
-    public static readonly viewType = "lvaTopologyEditor";
+    public static readonly viewType = "TopologyEditor";
 
     private readonly _panel: vscode.WebviewPanel;
     private readonly _extensionPath: string;
     private _disposables: vscode.Disposable[] = [];
     private _registeredMessages: RegisteredMessage[] = [];
-    private static _version = "";
+    private static _moduleDetails: ModuleDetails;
 
-    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string, lvaVersion: string) {
-        this._version = lvaVersion;
+    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string, moduleDetails: ModuleDetails) {
+        this._moduleDetails = moduleDetails;
         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
         const logger = Logger.getOrCreateOutputChannel();
         // If we already have a panel, show it.
@@ -129,7 +130,7 @@ export class GraphEditorPanel {
     }
 
     public isGraphAlignedToHorizontal(context: vscode.ExtensionContext) {
-        const graphAlignmentInfo: any = context.globalState.get(Constants.LvaGlobalStateGraphAlignKey);
+        const graphAlignmentInfo: any = context.globalState.get(Constants.VideoAnalyzerGlobalStateGraphAlignKey);
         return graphAlignmentInfo?.isHorizontal ?? true;
     }
 
@@ -137,7 +138,7 @@ export class GraphEditorPanel {
         this.waitForPostMessage({
             name: Constants.PostMessageNames.setGraphAlignment,
             callback: (isHorizontal: boolean) => {
-                context.globalState.update(Constants.LvaGlobalStateGraphAlignKey, {
+                context.globalState.update(Constants.VideoAnalyzerGlobalStateGraphAlignKey, {
                     isHorizontal: isHorizontal
                 });
             }
@@ -250,7 +251,9 @@ export class GraphEditorPanel {
                     __webpack_nonce__ = "${nonce}";
                     __webpack_public_path__ = "${webview.asWebviewUri(vscode.Uri.file(path.join(this._extensionPath, "build")))}/";
                     window.language = "${language}";
-                    window.version ="${GraphEditorPanel._version}"
+                    window.version ="${GraphEditorPanel._moduleDetails.apiVersion}"
+                    window.versionFolder ="${GraphEditorPanel._moduleDetails.versionFolder}"
+                    window.isLegacyModule ="${GraphEditorPanel._moduleDetails.legacyModule}"
                     </script>
                     ${scriptInjection}
                 </body>

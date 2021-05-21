@@ -1,23 +1,23 @@
-import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
+import { PipelineTopology } from "../../Common/Types/VideoAnalyzerSDKTypes";
 import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
 import { IotHubData } from "./IotHubData";
 
 export class TopologyData {
-    public static async getTopologies(iotHubData: IotHubData, moduleDetails: ModuleDetails): Promise<MediaGraphTopology[]> {
+    public static async getTopologies(iotHubData: IotHubData, moduleDetails: ModuleDetails): Promise<PipelineTopology[]> {
         try {
-            const response = await iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyList" : "topologyList");
+            const response = await iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyList" : "pipelineTopologyList");
             return response?.value;
         } catch (error) {
             return Promise.reject(error);
         }
     }
 
-    public static putTopology(iotHubData: IotHubData, moduleDetails: ModuleDetails, graphData: MediaGraphTopology): Promise<MediaGraphTopology[]> {
-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologySet" : "topologySet", graphData);
+    public static putTopology(iotHubData: IotHubData, moduleDetails: ModuleDetails, graphData: PipelineTopology): Promise<PipelineTopology[]> {
+        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologySet" : "pipelineTopologySet", graphData);
     }
 
     public static deleteTopology(iotHubData: IotHubData, moduleDetails: ModuleDetails, graphName: string): Promise<void> {
-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyDelete" : "topologyDelete", {
+        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyDelete" : "pipelineTopologyDelete", {
             name: graphName
         });
     }

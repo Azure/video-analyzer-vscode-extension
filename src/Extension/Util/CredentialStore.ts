@@ -6,7 +6,7 @@ import * as keytarType from "keytar";
 import { v4 as uuid } from "uuid";
 import * as vscode from "vscode";
 import { Constants } from "./Constants";
-import { DeviceConfig, LvaHubConfig } from "./ExtensionUtils";
+import { AvaHubConfig, DeviceConfig } from "./ExtensionUtils";
 
 interface CredentialLvaHubConfig {
     connectionStringKey: string;
@@ -16,10 +16,10 @@ interface CredentialLvaHubConfig {
 export class CredentialStore {
     private static keytar: typeof keytarType = CredentialStore.getCoreNodeModule("keytar");
 
-    public static async getConnectionInfo(context: vscode.ExtensionContext): Promise<LvaHubConfig> {
-        const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.LvaGlobalStateKey);
+    public static async getConnectionInfo(context: vscode.ExtensionContext): Promise<AvaHubConfig> {
+        const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.VideoAnalyzerGlobalStateKey);
         if (!connectionInfo) {
-            return (null as unknown) as LvaHubConfig;
+            return (null as unknown) as AvaHubConfig;
         }
         let connectionString: string | undefined | null = "";
         try {
@@ -32,15 +32,15 @@ export class CredentialStore {
         }
 
         if (!connectionString) {
-            return (null as unknown) as LvaHubConfig;
+            return (null as unknown) as AvaHubConfig;
         }
         return { connectionString: connectionString as string, devices: connectionInfo.devices };
     }
 
-    public static async setConnectionInfo(context: vscode.ExtensionContext, connectionInfo: LvaHubConfig) {
+    public static async setConnectionInfo(context: vscode.ExtensionContext, connectionInfo: AvaHubConfig) {
         const connectionKey = uuid();
 
-        context.globalState.update(Constants.LvaGlobalStateKey, {
+        context.globalState.update(Constants.VideoAnalyzerGlobalStateKey, {
             connectionStringKey: connectionKey,
             devices: connectionInfo.devices
         });
@@ -56,8 +56,8 @@ export class CredentialStore {
     }
 
     public static async resetConnectionInfo(context: vscode.ExtensionContext) {
-        const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.LvaGlobalStateKey);
-        context.globalState.update(Constants.LvaGlobalStateKey, null);
+        const connectionInfo: CredentialLvaHubConfig | undefined = context.globalState.get(Constants.VideoAnalyzerGlobalStateKey);
+        context.globalState.update(Constants.VideoAnalyzerGlobalStateKey, null);
         if (connectionInfo) {
             try {
                 if (this.keytar == null) {

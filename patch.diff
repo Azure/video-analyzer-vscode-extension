@@ -1,0 +1,2264 @@
+diff --git a/package.json b/package.json
+index cce9264..32d3cf7 100644
+--- a/package.json
++++ b/package.json
+@@ -87,6 +87,53 @@
+             {
+                 "command": "moduleExplorer.showGraphInstanceJson",
+                 "title": "%showGraphInstanceJson%"
++            },
++            {
++                "command": "moduleExplorer.topology.create",
++                "title": "%topology.create%",
++                "icon": "$(add)"
++            },
++            {
++                "command": "moduleExplorer.topology.edit",
++                "title": "%topology.edit%"
++            },
++            {
++                "command": "moduleExplorer.topology.delete",
++                "title": "%topology.delete%",
++                "enablement": "view == moduleExplorer && viewItem == topologyItemContext"
++            },
++            {
++                "command": "moduleExplorer.topology.showJson",
++                "title": "%topology.showJson%"
++            },
++            {
++                "command": "moduleExplorer.livePipeline.create",
++                "title": "%livePipeline.create%",
++                "icon": "$(add)"
++            },
++            {
++                "command": "moduleExplorer.livePipeline.activate",
++                "title": "%livePipeline.activate%",
++                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextInactive"
++            },
++            {
++                "command": "moduleExplorer.livePipeline.deactivate",
++                "title": "%livePipeline.deactivate%",
++                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextActive"
++            },
++            {
++                "command": "moduleExplorer.livePipeline.edit",
++                "title": "%livePipeline.edit%",
++                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextInactive"
++            },
++            {
++                "command": "moduleExplorer.livePipeline.delete",
++                "title": "%livePipeline.delete%",
++                "enablement": "view == moduleExplorer && viewItem == livePipelineItemContextInactive"
++            },
++            {
++                "command": "moduleExplorer.livePipeline.showJson",
++                "title": "%livePipeline.showJson%"
+             }
+         ],
+         "viewsContainers": {
+@@ -183,6 +230,65 @@
+                 {
+                     "command": "moduleExplorer.createGraph",
+                     "when": "view == moduleExplorer && viewItem == graphListContext"
++                },
++                {
++                    "command": "moduleExplorer.topology.create",
++                    "when": "view == moduleExplorer && viewItem == topologyListContext",
++                    "group": "inline"
++                },
++                {
++                    "command": "moduleExplorer.topology.create",
++                    "when": "view == moduleExplorer && viewItem == topologyListContext"
++                },
++                {
++                    "command": "moduleExplorer.topology.edit",
++                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
++                    "group": "2_groupCommands@0"
++                },
++                {
++                    "command": "moduleExplorer.topology.delete",
++                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
++                    "group": "2_groupCommands@1"
++                },
++                {
++                    "command": "moduleExplorer.topology.showJson",
++                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
++                    "group": "3_groupCommands@0"
++                },
++                {
++                    "command": "moduleExplorer.livePipeline.create",
++                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
++                    "group": "inline"
++                },
++                {
++                    "command": "moduleExplorer.livePipeline.create",
++                    "when": "view == moduleExplorer && viewItem =~ /^topologyItemContext.*$/",
++                    "group": "1_groupCommands@0"
++                },
++                {
++                    "command": "moduleExplorer.livePipeline.activate",
++                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
++                    "group": "1_instanceCommands@0"
++                },
++                {
++                    "command": "moduleExplorer.livePipeline.deactivate",
++                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
++                    "group": "1_instanceCommands@1"
++                },
++                {
++                    "command": "moduleExplorer.livePipeline.edit",
++                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
++                    "group": "2_instanceCommands@2"
++                },
++                {
++                    "command": "moduleExplorer.livePipeline.delete",
++                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
++                    "group": "2_instanceCommands@3"
++                },
++                {
++                    "command": "moduleExplorer.livePipeline.showJson",
++                    "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
++                    "group": "3_instanceCommands@0"
+                 }
+             ]
+         },
+@@ -212,7 +318,7 @@
+         "eject-react": "react-app-rewired eject",
+         "compile-ext": "rimraf dist && webpack --mode development --config src/Extension/webpack.config.js",
+         "dev-ext": "tsc -p src/Extension/tsconfig.json",
+-        "dev": "set PORT=3008 && react-app-rewired start",
++        "dev": "set PORT=3009 && react-app-rewired start",
+         "lint": "eslint . --ext .ts,.tsx",
+         "format": "prettier --write \"./**/*.{js,jsx,json,ts,tsx}\" \"!./build\"",
+         "create-definitions": "tsc -p ./src/Tools/DefinitionGenerator/tsconfig.json && node ./DefinitionGenerator/Tools/DefinitionGenerator/entry.js",
+diff --git a/package.nls.json b/package.nls.json
+index 9169a6d..36e4b6e 100644
+--- a/package.nls.json
++++ b/package.nls.json
+@@ -1,51 +1,81 @@
+ {
+-    "lva-edge.views.moduleExplorer.name": "Live Video Analytics",
+-    "extensionDescription": "Live Video Analytics on IoT Edge support for Visual Studio Code is provided through this extension that makes it easy to edit and manage media graphs.",
++    "activateInstanceButton": "Activate graph instance",
++    "activateInstanceFailedError": "Failed to activate the instance",
++    "activateInstanceSuccessMessage": "Successfully activated the instance",
+     "connectionString.prompt": "Enter IoT hub connection string",
+-    "deviceList.prompt": "Select a device",
+-    "moduleList.prompt": "Select the Live Video Analytics module",
+-    "iotHub.connectionString.validationMessageFormat": "The format should be:",
+-    "iotHub.connectionString.moduleNotLVA": "The selected module is not Live Video Analytics module. Please try a different module.",
+     "createGraphButton": "Create graph",
+     "createGraphInstanceButton": "Create instance",
+-    "editGraphButton": "Edit graph topology",
+-    "showGraphJson": "Show graph JSON",
+-    "deleteGraphButton": "Delete graph topology",
++    "createNewGraphPageTile": "Create new graph topology",
++    "createNewInstancePageTile": "Create new graph instance",
++    "deactivateInstanceButton": "Deactivate graph instance",
++    "deactivateInstanceFailedError": "Failed to deactivate the instance ",
++    "deactivateInstanceSuccessMessage": "Successfully deactivated the instance.",
++    "deleteConnectionToHub": "Disconnect IoT hub",
++    "deleteConnectionToHubConfirmation": "Are you sure you want to delete the connection to IoT hub?",
++    "deleteGraphButton": "Delete topology",
+     "deleteGraphConfirmation": "Are you sure you want to delete the graph topology?",
+-    "saveGraphFailedError": "Failed to save the graph ",
+-    "saveGraphSuccessMessage": "Successfully saved the graph topology ",
+     "deleteGraphFailedError": "Failed to delete the graph ",
+-    "deleteGraphSuccessMessage": "Successfully deleted the graph topology ",
+-    "getAllGraphsFailedError": "Failed to get the list of graphs ",
+-    "deleteConnectionToHub": "Disconnect IoT hub",
+-    "treeViewAutoRefreshIntervalInSecondsDescription": "Time interval in seconds for tree view auto refresh, auto refresh has to be enabled for it to work.",
+-    "extensionConfigurationTitle": "Live Video Analytics extension configuration",
+-    "refresh": "Refresh",
+-    "editInstanceButton": "Edit graph instance",
+-    "activateInstanceButton": "Activate graph instance",
+-    "deactivateInstanceButton": "Deactivate graph instance",
+-    "showGraphInstanceJson": "Show graph instance JSON",
++    "deleteGraphSuccessMessage": "Successfully deleted the graph topology.",
+     "deleteInstanceButton": "Delete graph instance",
+     "deleteInstanceConfirmation": "Are you sure you want to delete the graph instance?",
+-    "saveInstanceFailedError": "Failed to save the instance ",
+-    "saveInstanceSuccessMessage": "Successfully saved the instance ",
+     "deleteInstanceFailedError": "Failed to delete the instance ",
+     "deleteInstanceSuccessMessage": "Successfully deleted the instance ",
+-    "activateInstanceFailedError": "Failed to activate the instance ",
+-    "activateInstanceSuccessMessage": "Successfully activated the instance ",
+-    "deactivateInstanceFailedError": "Failed to deactivate the instance ",
+-    "deactivateInstanceSuccessMessage": "Successfully deactivated the instance ",
+-    "createNewGraphPageTile": "Create new graph topology",
++    "deviceList.NoItems": "No Devices found in this IoT hub, please setup a device with the Live Video Analytics module and come back.",
++    "deviceList.prompt": "Select a device",
++    "devicesListTreeItem": "Devices",
++    "editGraphButton": "Edit graph topology",
+     "editGraphPageTile": "Edit topology",
+-    "createNewInstancePageTile": "Create new graph instance",
++    "editInstanceButton": "Edit graph instance",
+     "editInstancePageTile": "Edit topology instance",
+-    "devicesListTreeItem": "Devices",
+-    "modulesListTreeItem": "Modules",
+-    "graphTopologyListTreeItem": "Graph topologies",
++    "extensionConfigurationTitle": "Live Video Analytics extension configuration",
++    "extensionDescription": "Live Video Analytics on IoT Edge support for Visual Studio Code is provided through this extension that makes it easy to edit and manage media graphs.",
++    "getAllGraphsFailedError": "Failed to get the list of graphs ",
+     "graphInstanceListTreeItem": "Graph instances",
+-    "deviceList.NoItems": "No Devices found in this IoT hub, please setup a device with the Live Video Analytics module and come back.",
++    "graphTopologyListTreeItem": "Graph topologies",
++    "iotHub.connectionString.moduleNotLVA": "The selected module is not Live Video Analytics module. Please try a different module.",
++    "iotHub.connectionString.validationMessageFormat": "The format should be:",
++    "livePipeline.activate.failedError": "Failed to activate the live pipeline ",
++    "livePipeline.activate.SuccessMessage": "Successfully activated the live pipeline",
++    "livePipeline.activate": "Activate live pipeline",
++    "livePipeline.create": "Create live pipeline",
++    "livePipeline.deactivate.failedError": "Failed to deactivate the live pipeline ",
++    "livePipeline.deactivate.successMessage": "Successfully deactivated the live pipeline.",
++    "livePipeline.deactivate": "Deactivate live pipeline",
++    "livePipeline.delete.confirmation": "Are you sure you want to delete the live pipeline?",
++    "livePipeline.delete.failedError": "Failed to delete the live pipeline",
++    "livePipeline.delete.successMessage": "Successfully deleted the live pipeline",
++    "livePipeline.delete": "Delete live pipeline",
++    "livePipeline.edit.pageTitle": "Edit live pipeline",
++    "livePipeline.edit": "Edit live pipeline",
++    "livePipeline.new.pageTitle": "Create new live pipeline",
++    "livePipeline.save.failedError": "Failed to save the instance ",
++    "livePipeline.save.successMessage": "Successfully saved the instance ",
++    "livePipeline.showJson": "Show live pipeline JSON",
++    "lva-edge.views.moduleExplorer.name": "Live Video Analytics",
+     "moduleList.NoItems": "No modules installed on this device, please install the Live Video Analytics module and come back.",
+-    "deleteConnectionToHubConfirmation": "Are you sure you want to delete the connection to IoT hub?",
+-    "yes": "Yes",
+-    "no": "No"
++    "moduleList.prompt": "Select the Live Video Analytics module",
++    "modulesListTreeItem": "Modules",
++    "no": "No",
++    "refresh": "Refresh",
++    "saveGraphFailedError": "Failed to save the graph ",
++    "saveGraphSuccessMessage": "Successfully saved the graph topology ",
++    "saveInstanceFailedError": "Failed to save the instance ",
++    "saveInstanceSuccessMessage": "Successfully saved the instance ",
++    "showGraphInstanceJson": "Show graph instance JSON",
++    "showGraphJson": "Show topology JSON",
++    "topologies.getAll.failedError": "Failed to get the list of topologies ",
++    "topology.create": "Create topology",
++    "topology.delete.confirmation": "Are you sure you want to delete the topology?",
++    "topology.delete.failedError": "Failed to delete the topology ",
++    "topology.delete.successMessage": "Successfully deleted the topology.",
++    "topology.delete": "Delete graph topology",
++    "topology.edit.pageTitle": "Edit topology",
++    "topology.edit": "Edit topology",
++    "topology.list.treeItem": "Topologies",
++    "topology.new.pageTitle": "Create new topology",
++    "topology.save.failedError": "Failed to save the topology",
++    "topology.save.successMessage": "Successfully saved the topology ",
++    "topology.showJson": "Show topology JSON",
++    "treeViewAutoRefreshIntervalInSecondsDescription": "Time interval in seconds for tree view auto refresh, auto refresh has to be enabled for it to work.",
++    "yes": "Yes"
+ }
+diff --git a/public/index.html b/public/index.html
+index f397ee3..5dec159 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -401,6 +401,8 @@
+         <div id="root"></div>
+         <script>
+             window.version = "2.0";
++            window.versionFolder = "ava1.0";
++            window.isLegacyModule = "false";
+         </script>
+         <!--
+       This HTML file is a template.
+diff --git a/src/Common/Types/LVASDKTypes.ts b/src/Common/Types/LVASDKTypes.ts
+index 9ed077d..d47f551 100644
+--- a/src/Common/Types/LVASDKTypes.ts
++++ b/src/Common/Types/LVASDKTypes.ts
+@@ -65,7 +65,7 @@ export interface MediaGraphInstanceProperties {
+ /**
+  * Represents a Media Graph instance.
+  */
+-export interface MediaGraphInstance {
++export interface LivePipeline {
+     name: string;
+     apiVersion?: string;
+     systemData?: MediaGraphSystemData;
+@@ -79,7 +79,7 @@ export interface MediaGraphInstanceCollection {
+     /**
+      * Collection of graph instances.
+      */
+-    value?: MediaGraphInstance[];
++    value?: LivePipeline[];
+     /**
+      * Continuation token to use in subsequent calls to enumerate through the graph instance
+      * collection (when the collection contains too many results to return in one response).
+@@ -234,7 +234,7 @@ export interface MediaGraphTopologyProperties {
+ /**
+  * Describes a graph topology.
+  */
+-export interface MediaGraphTopology {
++export interface PipelineTopology {
+     name: string;
+     apiVersion?: string;
+     systemData?: MediaGraphSystemData;
+@@ -248,7 +248,7 @@ export interface MediaGraphTopologyCollection {
+     /**
+      * Collection of graph topologies.
+      */
+-    value?: MediaGraphTopology[];
++    value?: PipelineTopology[];
+     /**
+      * Continuation token to use in subsequent calls to enumerate through the graph topologies
+      * collection (when the collection contains too many results to return in one response).
+diff --git a/src/Extension/Data/IotHubData.ts b/src/Extension/Data/IotHubData.ts
+index 33675ee..6e25673 100644
+--- a/src/Extension/Data/IotHubData.ts
++++ b/src/Extension/Data/IotHubData.ts
+@@ -79,7 +79,8 @@ export class IotHubData {
+             if (infoParts.length === 2 && (infoParts[0] == "live-video-analytics" || infoParts[0] == "video-analyzer")) {
+                 const version: string = infoParts[1];
+                 const apiVersion = version.substr(0, 3);
+-                return { apiVersion, legacy: compareVersions(version, "3.0.0") < 0 };
++                const isLegacy = infoParts[0] === "live-video-analytics";
++                return { apiVersion, legacy: isLegacy, versionFolder: isLegacy ? `v${apiVersion}` : `ava${apiVersion}` };
+             }
+         }
+         return null;
+diff --git a/src/Extension/Data/StreamData.ts b/src/Extension/Data/StreamData.ts
+deleted file mode 100644
+index d205266..0000000
+--- a/src/Extension/Data/StreamData.ts
++++ /dev/null
+@@ -1,36 +0,0 @@
+-import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
+-import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
+-import { IotHubData } from "./IotHubData";
+-
+-export class StreamData {
+-    public static async getStream(iotHubData: IotHubData, moduleDetails: ModuleDetails): Promise<MediaGraphInstance[]> {
+-        try {
+-            const response = await iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphInstanceList" : "streamList");
+-            return response?.value;
+-        } catch (error) {
+-            return Promise.reject(error);
+-        }
+-    }
+-
+-    public static putStream(iotHubData: IotHubData, moduleDetails: ModuleDetails, instanceData: MediaGraphInstance): Promise<MediaGraphInstance[]> {
+-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphInstanceSet" : "streamSet", instanceData);
+-    }
+-
+-    public static startStream(iotHubData: IotHubData, moduleDetails: ModuleDetails, instanceName: string): Promise<void> {
+-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphInstanceActivate" : "streamStart", {
+-            name: instanceName
+-        });
+-    }
+-
+-    public static stopStream(iotHubData: IotHubData, moduleDetails: ModuleDetails, instanceName: string): Promise<void> {
+-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphInstanceDeactivate" : "streamStop", {
+-            name: instanceName
+-        });
+-    }
+-
+-    public static deleteStream(iotHubData: IotHubData, moduleDetails: ModuleDetails, instanceName: string): Promise<void> {
+-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphInstanceDelete" : "streamDelete", {
+-            name: instanceName
+-        });
+-    }
+-}
+diff --git a/src/Extension/Data/TolologyData.ts b/src/Extension/Data/TolologyData.ts
+index aaf8051..f305874 100644
+--- a/src/Extension/Data/TolologyData.ts
++++ b/src/Extension/Data/TolologyData.ts
+@@ -1,23 +1,23 @@
+-import { MediaGraphTopology } from "../../Common/Types/LVASDKTypes";
++import { PipelineTopology } from "../../Common/Types/LVASDKTypes";
+ import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
+ import { IotHubData } from "./IotHubData";
+ 
+ export class TopologyData {
+-    public static async getTopologies(iotHubData: IotHubData, moduleDetails: ModuleDetails): Promise<MediaGraphTopology[]> {
++    public static async getTopologies(iotHubData: IotHubData, moduleDetails: ModuleDetails): Promise<PipelineTopology[]> {
+         try {
+-            const response = await iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyList" : "topologyList");
++            const response = await iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyList" : "pipelineTopologyList");
+             return response?.value;
+         } catch (error) {
+             return Promise.reject(error);
+         }
+     }
+ 
+-    public static putTopology(iotHubData: IotHubData, moduleDetails: ModuleDetails, graphData: MediaGraphTopology): Promise<MediaGraphTopology[]> {
+-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologySet" : "topologySet", graphData);
++    public static putTopology(iotHubData: IotHubData, moduleDetails: ModuleDetails, graphData: PipelineTopology): Promise<PipelineTopology[]> {
++        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologySet" : "pipelineTopologySet", graphData);
+     }
+ 
+     public static deleteTopology(iotHubData: IotHubData, moduleDetails: ModuleDetails, graphName: string): Promise<void> {
+-        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyDelete" : "topologyDelete", {
++        return iotHubData.directMethodCall(moduleDetails, moduleDetails.legacyModule ? "GraphTopologyDelete" : "pipelineTopologyDelete", {
+             name: graphName
+         });
+     }
+diff --git a/src/Extension/ModuleExplorerPanel/InstanceItem.ts b/src/Extension/ModuleExplorerPanel/InstanceItem.ts
+deleted file mode 100644
+index e22240f..0000000
+--- a/src/Extension/ModuleExplorerPanel/InstanceItem.ts
++++ /dev/null
+@@ -1,168 +0,0 @@
+-import * as vscode from "vscode";
+-import {
+-    MediaGraphInstance,
+-    MediaGraphInstanceState,
+-    MediaGraphTopology
+-} from "../../Common/Types/LVASDKTypes";
+-import { IotHubData } from "../Data/IotHubData";
+-import { StreamData } from "../Data/StreamData";
+-import { Constants } from "../Util/Constants";
+-import { ExtensionUtils, LvaHubConfig } from "../Util/ExtensionUtils";
+-import Localizer from "../Util/Localizer";
+-import { Logger } from "../Util/Logger";
+-import { TreeUtils } from "../Util/TreeUtils";
+-import { GraphEditorPanel } from "../Webview/GraphPanel";
+-import { ModuleDetails } from "./ModuleItem";
+-import { INode } from "./Node";
+-
+-export class InstanceItem extends vscode.TreeItem {
+-    private _logger: Logger;
+-
+-    constructor(
+-        public iotHubData: IotHubData,
+-        private readonly _moduleDetails: ModuleDetails,
+-        private readonly _graphTopology: MediaGraphTopology,
+-        private readonly _graphInstance?: MediaGraphInstance,
+-        private _nameCheckCallback?: (name: string) => boolean
+-    ) {
+-        super(_graphInstance?.name ?? Localizer.localize("createGraphInstanceButton"), vscode.TreeItemCollapsibleState.None);
+-        this._logger = Logger.getOrCreateOutputChannel();
+-        if (_graphInstance) {
+-            switch (_graphInstance.properties?.state) {
+-                case MediaGraphInstanceState.Active:
+-                    this.contextValue = "InstanceItemContextActive";
+-                    this.iconPath = TreeUtils.getIconPath(`Graph-Instance-Active`);
+-                    break;
+-                case MediaGraphInstanceState.Inactive:
+-                    this.contextValue = "InstanceItemContextInactive";
+-                    this.iconPath = TreeUtils.getIconPath(`Graph-Instance-Inactive`);
+-                    break;
+-                default:
+-                    this.contextValue = "InstanceItemContextProgress";
+-                    this.iconPath = TreeUtils.getIconPath(`Graph-Instance-Inactive`);
+-            }
+-        }
+-    }
+-
+-    public getChildren(lvaHubConfig: LvaHubConfig): Promise<INode[]> | INode[] {
+-        return [];
+-    }
+-
+-    public setInstanceCommand(context: vscode.ExtensionContext) {
+-        const logger = Logger.getOrCreateOutputChannel();
+-        const createGraphPanel = GraphEditorPanel.createOrShow(
+-            context,
+-            Localizer.localize(this._graphInstance ? "editInstancePageTile" : "createNewInstancePageTile"),
+-            this._moduleDetails.apiVersion
+-        );
+-        if (createGraphPanel) {
+-            createGraphPanel.waitForPostMessage({
+-                name: Constants.PostMessageNames.closeWindow,
+-                callback: () => {
+-                    createGraphPanel.dispose();
+-                }
+-            });
+-
+-            createGraphPanel.setupInitialMessage({
+-                pageType: Constants.PageTypes.instancePage,
+-                graphData: this._graphTopology,
+-                isHorizontal: createGraphPanel.isGraphAlignedToHorizontal(context),
+-                graphInstanceData: this._graphInstance,
+-                editMode: !!this._graphInstance
+-            });
+-
+-            createGraphPanel.setupNameCheckMessage((name) => {
+-                return this._nameCheckCallback == null || this._nameCheckCallback(name);
+-            });
+-
+-            createGraphPanel.waitForPostMessage({
+-                name: Constants.PostMessageNames.saveInstance,
+-                callback: async (instance: any) => {
+-                    this.saveInstance(createGraphPanel, instance);
+-                }
+-            });
+-            createGraphPanel.waitForPostMessage({
+-                name: Constants.PostMessageNames.saveAndActivate,
+-                callback: async (instance: MediaGraphInstance) => {
+-                    this.saveInstance(createGraphPanel, instance).then(() => {
+-                        return this.activateInstanceCommand(instance.name);
+-                    });
+-                }
+-            });
+-        }
+-    }
+-
+-    public saveInstance(createGraphPanel: GraphEditorPanel, instance: MediaGraphInstance) {
+-        return StreamData.putStream(this.iotHubData, this._moduleDetails, instance).then(
+-            (response) => {
+-                TreeUtils.refresh();
+-                createGraphPanel.dispose();
+-                this._logger.showInformationMessage(`${Localizer.localize("saveInstanceSuccessMessage")} "${instance?.name}"`);
+-                return Promise.resolve();
+-            },
+-            (error) => {
+-                const errorList = GraphEditorPanel.parseDirectMethodError(error, this._graphTopology);
+-                createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: errorList });
+-                this._logger.logError(`${Localizer.localize("saveInstanceFailedError")} "${instance?.name}"`, errorList);
+-                return Promise.reject();
+-            }
+-        );
+-    }
+-
+-    public activateInstanceCommand(graphInstanceName?: string) {
+-        const instanceName = graphInstanceName || this._graphInstance?.name;
+-        if (instanceName) {
+-            StreamData.startStream(this.iotHubData, this._moduleDetails, instanceName).then(
+-                (response) => {
+-                    TreeUtils.refresh();
+-                    this._logger.showInformationMessage(`${Localizer.localize("activateInstanceSuccessMessage")} "${instanceName}"`);
+-                },
+-                (error) => {
+-                    const errorList = GraphEditorPanel.parseDirectMethodError(error);
+-                    this._logger.logError(`${Localizer.localize("activateInstanceFailedError")} "${instanceName}"`, errorList);
+-                }
+-            );
+-        }
+-    }
+-
+-    public deactivateInstanceCommand() {
+-        if (this._graphInstance) {
+-            StreamData.stopStream(this.iotHubData, this._moduleDetails, this._graphInstance.name).then(
+-                (response) => {
+-                    TreeUtils.refresh();
+-                    this._logger.showInformationMessage(`${Localizer.localize("deactivateInstanceSuccessMessage")} "${this._graphInstance?.name}"`);
+-                },
+-                (error) => {
+-                    const errorList = GraphEditorPanel.parseDirectMethodError(error);
+-                    this._logger.logError(`${Localizer.localize("deactivateInstanceFailedError")} "${this._graphInstance?.name}"`, errorList);
+-                }
+-            );
+-        }
+-    }
+-
+-    public async deleteInstanceCommand() {
+-        if (this._graphInstance) {
+-            const allowDelete = await ExtensionUtils.showConfirmation(Localizer.localize("deleteInstanceConfirmation"));
+-            if (allowDelete) {
+-                StreamData.deleteStream(this.iotHubData, this._moduleDetails, this._graphInstance.name).then(
+-                    (response) => {
+-                        TreeUtils.refresh();
+-                        this._logger.showInformationMessage(`${Localizer.localize("deleteInstanceSuccessMessage")} "${this._graphInstance?.name}"`);
+-                    },
+-                    (error) => {
+-                        const errorList = GraphEditorPanel.parseDirectMethodError(error);
+-                        this._logger.logError(`${Localizer.localize("deleteInstanceFailedError")} "${this._graphInstance?.name}"`, errorList);
+-                    }
+-                );
+-            }
+-        }
+-    }
+-
+-    public async showGraphInstanceJson() {
+-        if (this._graphInstance) {
+-            vscode.workspace.openTextDocument({ language: "json", content: JSON.stringify(this._graphInstance, undefined, 4) }).then((doc) => {
+-                vscode.window.showTextDocument(doc);
+-            });
+-        }
+-    }
+-}
+diff --git a/src/Extension/ModuleExplorerPanel/ModuleItem.ts b/src/Extension/ModuleExplorerPanel/ModuleItem.ts
+index f5cdf55..d3de168 100644
+--- a/src/Extension/ModuleExplorerPanel/ModuleItem.ts
++++ b/src/Extension/ModuleExplorerPanel/ModuleItem.ts
+@@ -1,6 +1,6 @@
+ import { Device } from "azure-iothub";
+ import * as vscode from "vscode";
+-import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
++import { LivePipeline } from "../../Common/Types/LVASDKTypes";
+ import { IotHubData } from "../Data/IotHubData";
+ import { Constants } from "../Util/Constants";
+ import { LvaHubConfig } from "../Util/ExtensionUtils";
+@@ -8,14 +8,15 @@ import Localizer from "../Util/Localizer";
+ import { Logger } from "../Util/Logger";
+ import { TreeUtils } from "../Util/TreeUtils";
+ import { GraphEditorPanel } from "../Webview/GraphPanel";
+-import { GraphTopologyListItem } from "./GraphTopologyListItem";
+ import { INode } from "./Node";
++import { TopologyListItem } from "./TopologyListItem";
+ 
+ export interface ModuleDetails {
+     deviceId: string;
+     moduleId: string;
+     apiVersion: string;
+     legacyModule: boolean;
++    versionFolder: string;
+ }
+ 
+ export class ModuleItem extends vscode.TreeItem {
+@@ -34,18 +35,23 @@ export class ModuleItem extends vscode.TreeItem {
+         this._logger = Logger.getOrCreateOutputChannel();
+     }
+ 
+-    public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: MediaGraphInstance[]): Promise<INode[]> | INode[] {
++    public getChildren(lvaHubConfig?: LvaHubConfig, graphInstances?: LivePipeline[]): Promise<INode[]> | INode[] {
+         return this.iotHubData.getVersion(this.deviceId, this.moduleId).then(
+             async (versionDetails) => {
+                 try {
+-                    if (versionDetails && Constants.SupportedApiVersions.find((version) => version === versionDetails.apiVersion)) {
+-                        const topologyListItem = new GraphTopologyListItem(
++                    if (
++                        versionDetails &&
++                        ((versionDetails.legacy && Constants.LegacySupportedApiVersions.find((version) => version === versionDetails.apiVersion)) ||
++                            (!versionDetails.legacy && Constants.SupportedApiVersions.find((version) => version === versionDetails.apiVersion)))
++                    ) {
++                        const topologyListItem = new TopologyListItem(
+                             this.iotHubData,
+                             {
+                                 deviceId: this.deviceId,
+                                 moduleId: this.moduleId,
+                                 apiVersion: versionDetails.apiVersion,
+-                                legacyModule: versionDetails.legacy
++                                legacyModule: versionDetails.legacy,
++                                versionFolder: versionDetails.versionFolder
+                             },
+                             this._collapsibleState
+                         );
+@@ -55,9 +61,10 @@ export class ModuleItem extends vscode.TreeItem {
+                         return [new vscode.TreeItem(Localizer.localize("iotHub.connectionString.moduleNotLVA"), vscode.TreeItemCollapsibleState.None) as INode];
+                     }
+                 } catch (error) {
+-                    const errorNode = new vscode.TreeItem(Localizer.localize("getAllGraphsFailedError"), vscode.TreeItemCollapsibleState.None);
++                    const errorString = versionDetails?.legacy ? "getAllGraphsFailedError" : "topologies.getAll.failedError";
++                    const errorNode = new vscode.TreeItem(Localizer.localize(errorString), vscode.TreeItemCollapsibleState.None);
+                     const errorList = GraphEditorPanel.parseDirectMethodError(error);
+-                    this._logger.logError(`${Localizer.localize("getAllGraphsFailedError")}`, errorList, false);
++                    this._logger.logError(`${Localizer.localize(errorString)}`, errorList, false);
+                     return [errorNode as INode];
+                 }
+             },
+diff --git a/src/Extension/ModuleExplorerPanel/TopologyItem.ts b/src/Extension/ModuleExplorerPanel/TopologyItem.ts
+new file mode 100644
+index 0000000..0a8625f
+--- /dev/null
++++ b/src/Extension/ModuleExplorerPanel/TopologyItem.ts
+@@ -0,0 +1,154 @@
++import * as vscode from "vscode";
++import { LivePipeline, PipelineTopology } from "../../Common/Types/LVASDKTypes";
++import { IotHubData } from "../Data/IotHubData";
++import { TopologyData } from "../Data/TolologyData";
++import { Constants } from "../Util/Constants";
++import { ExtensionUtils } from "../Util/ExtensionUtils";
++import Localizer from "../Util/Localizer";
++import { Logger } from "../Util/Logger";
++import { TreeUtils } from "../Util/TreeUtils";
++import { GraphEditorPanel } from "../Webview/GraphPanel";
++import { LivePipelineItem } from "./LivePipelineItem";
++import { ModuleDetails } from "./ModuleItem";
++import { INode } from "./Node";
++
++export class TopologyItem extends vscode.TreeItem {
++    private _logger: Logger;
++    private _instanceList: LivePipelineItem[] = [];
++    constructor(
++        public iotHubData: IotHubData,
++        private readonly _moduleDetails: ModuleDetails,
++        private readonly _graphTopology?: PipelineTopology,
++        private readonly _graphInstances?: LivePipeline[],
++        private _nameCheckCallback?: (name: string) => boolean
++    ) {
++        super(_graphTopology?.name ?? "", vscode.TreeItemCollapsibleState.Expanded);
++        this.iconPath = TreeUtils.getIconPath(`graph`);
++        this._logger = Logger.getOrCreateOutputChannel();
++
++        if (this._graphTopology && this._graphInstances) {
++            const instanceItems =
++                this._graphInstances
++                    .filter((instance) => {
++                        return instance?.properties?.topologyName === this._graphTopology?.name;
++                    })
++                    .map((instance) => {
++                        return new LivePipelineItem(this.iotHubData, this._moduleDetails, this._graphTopology!, instance);
++                    }) ?? [];
++            if (instanceItems.length === 0) {
++                this.collapsibleState = vscode.TreeItemCollapsibleState.None;
++            }
++            this._instanceList.push(...instanceItems);
++        }
++        const contextPrefix = this._moduleDetails.legacyModule ? "graph" : "topology";
++        this.contextValue = contextPrefix + (this._instanceList?.length ? "ItemContextInUse" : "ItemContext");
++    }
++
++    public getChildren(): Promise<INode[]> | INode[] {
++        return this._instanceList;
++    }
++
++    public setGraphCommand(context: vscode.ExtensionContext) {
++        const pageTitle = this._moduleDetails.legacyModule
++            ? this._graphTopology
++                ? "editGraphPageTile"
++                : "createNewGraphPageTile"
++            : this._graphTopology
++            ? "topology.edit.pageTitle"
++            : "topology.new.pageTitle";
++        const createGraphPanel = GraphEditorPanel.createOrShow(context, Localizer.localize(pageTitle), this._moduleDetails);
++        if (createGraphPanel) {
++            createGraphPanel.waitForPostMessage({
++                name: Constants.PostMessageNames.closeWindow,
++                callback: () => {
++                    createGraphPanel.dispose();
++                }
++            });
++
++            createGraphPanel.setupInitialMessage({
++                pageType: Constants.PageTypes.graphPage,
++                isHorizontal: createGraphPanel.isGraphAlignedToHorizontal(context),
++                graphData: this._graphTopology,
++                editMode: !!this._graphTopology
++            });
++
++            createGraphPanel.setupNameCheckMessage((name) => {
++                return this._nameCheckCallback == null || this._nameCheckCallback(name);
++            });
++
++            createGraphPanel.waitForPostMessage({
++                name: Constants.PostMessageNames.saveGraph,
++                callback: async (topology: PipelineTopology) => {
++                    TopologyData.putTopology(this.iotHubData, this._moduleDetails, topology).then(
++                        (response) => {
++                            TreeUtils.refresh();
++                            createGraphPanel.dispose();
++                            this._logger.showInformationMessage(
++                                `${Localizer.localize(this._moduleDetails.legacyModule ? "saveGraphSuccessMessage" : "topology.save.successMessage")} "${topology.name}"`
++                            );
++                        },
++                        (error) => {
++                            this._logger.appendLine(JSON.stringify(topology));
++                            const errorList = GraphEditorPanel.parseDirectMethodError(error, topology);
++                            createGraphPanel.postMessage({ name: Constants.PostMessageNames.failedOperationReason, data: errorList });
++                            this._logger.logError(
++                                `${Localizer.localize(this._moduleDetails.legacyModule ? "saveGraphFailedError" : "topology.save.failedError")} "${topology.name}"`,
++                                errorList
++                            );
++                        }
++                    );
++                }
++            });
++        }
++    }
++
++    public async deleteGraphCommand() {
++        if (this._graphTopology) {
++            const allowDelete = await ExtensionUtils.showConfirmation(
++                Localizer.localize(this._moduleDetails.legacyModule ? "deleteGraphConfirmation" : "topology.delete.confirmation")
++            );
++            if (allowDelete) {
++                TopologyData.deleteTopology(this.iotHubData, this._moduleDetails, this._graphTopology.name).then(
++                    (response) => {
++                        TreeUtils.refresh();
++                        this._logger.showInformationMessage(
++                            `${Localizer.localize(this._moduleDetails.legacyModule ? "deleteGraphSuccessMessage" : "topology.delete.successMessage")} "${
++                                this._graphTopology!.name
++                            }"`
++                        );
++                    },
++                    (error) => {
++                        const errorList = GraphEditorPanel.parseDirectMethodError(error);
++                        this._logger.logError(
++                            `${Localizer.localize(this._moduleDetails.legacyModule ? "deleteGraphFailedError" : "topology.delete.failedError")} "${
++                                this._graphTopology!.name
++                            }"`,
++                            errorList
++                        );
++                    }
++                );
++            }
++        }
++    }
++
++    public async showTopologyJson() {
++        if (this._graphTopology) {
++            vscode.workspace.openTextDocument({ language: "json", content: JSON.stringify(this._graphTopology, undefined, 4) }).then((doc) => {
++                vscode.window.showTextDocument(doc);
++            });
++        }
++    }
++
++    public createNewGraphInstanceCommand(context: vscode.ExtensionContext) {
++        const graphInstance = new LivePipelineItem(this.iotHubData, this._moduleDetails, this._graphTopology!, undefined, (name) => {
++            return (
++                this._graphInstances == null ||
++                this._graphInstances.length == 0 ||
++                this._graphInstances.filter((instance) => {
++                    return instance.name === name;
++                }).length === 0
++            );
++        });
++        graphInstance.setInstanceCommand(context);
++    }
++}
+diff --git a/src/Extension/ModuleExplorerPanel/TopologyListItem.ts b/src/Extension/ModuleExplorerPanel/TopologyListItem.ts
+new file mode 100644
+index 0000000..063d491
+--- /dev/null
++++ b/src/Extension/ModuleExplorerPanel/TopologyListItem.ts
+@@ -0,0 +1,72 @@
++import * as vscode from "vscode";
++import { LivePipeline, PipelineTopology } from "../../Common/Types/LVASDKTypes";
++import { IotHubData } from "../Data/IotHubData";
++import { LivePipelineData } from "../Data/LivePipelineData";
++import { TopologyData } from "../Data/TolologyData";
++import { Constants } from "../Util/Constants";
++import { LvaHubConfig } from "../Util/ExtensionUtils";
++import Localizer from "../Util/Localizer";
++import { Logger } from "../Util/Logger";
++import { TreeUtils } from "../Util/TreeUtils";
++import { GraphEditorPanel } from "../Webview/GraphPanel";
++import { ModuleDetails } from "./ModuleItem";
++import { INode } from "./Node";
++import { TopologyItem } from "./TopologyItem";
++
++export class TopologyListItem extends vscode.TreeItem {
++    private _logger: Logger;
++    private _graphTopologies: any[] = [];
++    private _graphInstances: any[] = [];
++    constructor(
++        public iotHubData: IotHubData,
++        private readonly _moduleDetails: ModuleDetails,
++        private readonly _collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.Expanded
++    ) {
++        super(Localizer.localize(_moduleDetails.legacyModule ? "graphTopologyListTreeItem" : "topology.list.treeItem"), _collapsibleState);
++        this.contextValue = `${this._moduleDetails.legacyModule ? "graph" : "topology"}ListContext`;
++        this._logger = Logger.getOrCreateOutputChannel();
++    }
++
++    public async loadInstances() {
++        try {
++            this._graphInstances = await LivePipelineData.getLivePipeline(this.iotHubData, this._moduleDetails);
++        } catch (error) {
++            Promise.reject(error);
++        }
++    }
++
++    public getChildren(): Promise<INode[]> | INode[] {
++        return new Promise((resolve, reject) => {
++            if (this._graphInstances)
++                TopologyData.getTopologies(this.iotHubData, this._moduleDetails).then(
++                    (graphTopologies) => {
++                        this._graphTopologies = graphTopologies;
++                        resolve(
++                            graphTopologies?.map((topology) => {
++                                return new TopologyItem(this.iotHubData, this._moduleDetails, topology, this._graphInstances ?? [], undefined);
++                            })
++                        );
++                    },
++                    (error) => {
++                        const errorString = this._moduleDetails.legacyModule ? "getAllGraphsFailedError" : "topologies.getAll.failedError";
++                        const errorNode = new vscode.TreeItem(Localizer.localize(errorString), vscode.TreeItemCollapsibleState.None);
++                        const errorList = GraphEditorPanel.parseDirectMethodError(error);
++                        this._logger.logError(`${Localizer.localize(errorString)}`, errorList, false);
++                        resolve([errorNode as INode]);
++                    }
++                );
++        });
++    }
++
++    public createNewGraphCommand(context: vscode.ExtensionContext) {
++        const graphItem = new TopologyItem(this.iotHubData, this._moduleDetails, undefined, undefined, (name) => {
++            return (
++                this._graphTopologies.length === 0 ||
++                this._graphTopologies.filter((graph) => {
++                    return graph.name === name;
++                }).length === 0
++            );
++        });
++        graphItem.setGraphCommand(context);
++    }
++}
+diff --git a/src/Extension/Util/Constants.ts b/src/Extension/Util/Constants.ts
+index ea9341a..616e38c 100644
+--- a/src/Extension/Util/Constants.ts
++++ b/src/Extension/Util/Constants.ts
+@@ -12,7 +12,8 @@ export class Constants {
+         [Constants.DeviceConnectionStringKey]: /^HostName=.+;DeviceId=.+;SharedAccessKey=.+$/
+     };
+ 
+-    public static SupportedApiVersions = ["2.0"];
++    public static LegacySupportedApiVersions = ["2.0"];
++    public static SupportedApiVersions = ["1.0"];
+ 
+     public static LvaGlobalStateKey = "lvaGlobalStateConfigKey";
+     public static LvaGlobalStateGraphAlignKey = "lvaGlobalStateGraphAlignKey";
+@@ -24,7 +25,7 @@ export class Constants {
+     public static PostMessageNames = {
+         closeWindow: "closeWindow",
+         saveGraph: "saveGraph",
+-        saveInstance: "saveInstance",
++        saveLivePipeline: "saveInstance",
+         saveAndActivate: "saveAndActivate",
+         getInitialData: "getInitialData",
+         setInitialData: "setInitialData",
+diff --git a/src/Extension/Webview/GraphPanel.ts b/src/Extension/Webview/GraphPanel.ts
+index 6c57231..22f71de 100644
+--- a/src/Extension/Webview/GraphPanel.ts
++++ b/src/Extension/Webview/GraphPanel.ts
+@@ -4,6 +4,7 @@ import remove from "lodash/remove";
+ import * as path from "path";
+ import * as vscode from "vscode";
+ import { DirectMethodError, DirectMethodErrorDetail } from "../Data/IotHubData";
++import { ModuleDetails } from "../ModuleExplorerPanel/ModuleItem";
+ import { Constants } from "../Util/Constants";
+ import Localizer from "../Util/Localizer";
+ import { ErrorOption, Logger, LogLevel } from "../Util/Logger";
+@@ -41,10 +42,10 @@ export class GraphEditorPanel {
+     private readonly _extensionPath: string;
+     private _disposables: vscode.Disposable[] = [];
+     private _registeredMessages: RegisteredMessage[] = [];
+-    private static _version = "";
++    private static _moduleDetails: ModuleDetails;
+ 
+-    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string, lvaVersion: string) {
+-        this._version = lvaVersion;
++    public static createOrShow(context: vscode.ExtensionContext, pageTitle: string, moduleDetails: ModuleDetails) {
++        this._moduleDetails = moduleDetails;
+         const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
+         const logger = Logger.getOrCreateOutputChannel();
+         // If we already have a panel, show it.
+@@ -250,7 +251,9 @@ export class GraphEditorPanel {
+                     __webpack_nonce__ = "${nonce}";
+                     __webpack_public_path__ = "${webview.asWebviewUri(vscode.Uri.file(path.join(this._extensionPath, "build")))}/";
+                     window.language = "${language}";
+-                    window.version ="${GraphEditorPanel._version}"
++                    window.version ="${GraphEditorPanel._moduleDetails.apiVersion}"
++                    window.versionFolder ="${GraphEditorPanel._moduleDetails.versionFolder}"
++                    window.isLegacyModule ="${GraphEditorPanel._moduleDetails.legacyModule}"
+                     </script>
+                     ${scriptInjection}
+                 </body>
+diff --git a/src/Extension/extension.ts b/src/Extension/extension.ts
+index 303324a..98bee61 100644
+--- a/src/Extension/extension.ts
++++ b/src/Extension/extension.ts
+@@ -1,8 +1,8 @@
+ import * as vscode from "vscode";
+-import { GraphTopologyItem } from "./ModuleExplorerPanel/GraphTopologyItem";
+-import { GraphTopologyListItem } from "./ModuleExplorerPanel/GraphTopologyListItem";
+-import { InstanceItem } from "./ModuleExplorerPanel/InstanceItem";
++import { LivePipelineItem } from "./ModuleExplorerPanel/LivePipelineItem";
+ import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
++import { TopologyItem } from "./ModuleExplorerPanel/TopologyItem";
++import { TopologyListItem } from "./ModuleExplorerPanel/TopologyListItem";
+ import { Constants } from "./Util/Constants";
+ import { CredentialStore } from "./Util/CredentialStore";
+ import Localizer from "./Util/Localizer";
+@@ -25,10 +25,10 @@ export async function activate(context: vscode.ExtensionContext) {
+         vscode.commands.registerCommand("moduleExplorer.setConnectionString", () => {
+             moduleExplorer.setConnectionString();
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.createGraph", (graphListNode: GraphTopologyListItem) => {
++        vscode.commands.registerCommand("moduleExplorer.createGraph", (graphListNode: TopologyListItem) => {
+             graphListNode.createNewGraphCommand(context);
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.createInstance", (graphNode: GraphTopologyItem) => {
++        vscode.commands.registerCommand("moduleExplorer.createInstance", (graphNode: TopologyItem) => {
+             graphNode.createNewGraphInstanceCommand(context);
+         }),
+         vscode.commands.registerCommand("moduleExplorer.refresh", (element) => {
+@@ -37,29 +37,59 @@ export async function activate(context: vscode.ExtensionContext) {
+         vscode.commands.registerCommand("moduleExplorer.resetConnection", () => {
+             moduleExplorer.resetConnectionString();
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: GraphTopologyItem) => {
++        vscode.commands.registerCommand("moduleExplorer.editGraph", (graphNode: TopologyItem) => {
+             graphNode.setGraphCommand(context);
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.deleteGraph", (graphNode: GraphTopologyItem) => {
++        vscode.commands.registerCommand("moduleExplorer.deleteGraph", (graphNode: TopologyItem) => {
+             graphNode.deleteGraphCommand();
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.showGraphJson", (graphNode: GraphTopologyItem) => {
+-            graphNode.showGraphJson();
++        vscode.commands.registerCommand("moduleExplorer.showTopologyJson", (graphNode: TopologyItem) => {
++            graphNode.showTopologyJson();
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: InstanceItem) => {
++        vscode.commands.registerCommand("moduleExplorer.editInstance", (instanceNode: LivePipelineItem) => {
+             instanceNode.setInstanceCommand(context);
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.activateInstance", (instanceNode: InstanceItem) => {
++        vscode.commands.registerCommand("moduleExplorer.activateInstance", (instanceNode: LivePipelineItem) => {
+             instanceNode.activateInstanceCommand();
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.deactivateInstance", (instanceNode: InstanceItem) => {
++        vscode.commands.registerCommand("moduleExplorer.deactivateInstance", (instanceNode: LivePipelineItem) => {
+             instanceNode.deactivateInstanceCommand();
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.deleteInstance", (instanceNode: InstanceItem) => {
++        vscode.commands.registerCommand("moduleExplorer.deleteInstance", (instanceNode: LivePipelineItem) => {
+             instanceNode.deleteInstanceCommand();
+         }),
+-        vscode.commands.registerCommand("moduleExplorer.showGraphInstanceJson", (instanceNode: InstanceItem) => {
+-            instanceNode.showGraphInstanceJson();
++        vscode.commands.registerCommand("moduleExplorer.showGraphInstanceJson", (instanceNode: LivePipelineItem) => {
++            instanceNode.showLivePipelineJson();
++        }),
++        vscode.commands.registerCommand("moduleExplorer.topology.create", (graphListNode: TopologyListItem) => {
++            graphListNode.createNewGraphCommand(context);
++        }),
++        vscode.commands.registerCommand("moduleExplorer.topology.edit", (graphNode: TopologyItem) => {
++            graphNode.setGraphCommand(context);
++        }),
++        vscode.commands.registerCommand("moduleExplorer.topology.delete", (graphNode: TopologyItem) => {
++            graphNode.deleteGraphCommand();
++        }),
++        vscode.commands.registerCommand("moduleExplorer.topology.showJson", (graphNode: TopologyItem) => {
++            graphNode.showTopologyJson();
++        }),
++        vscode.commands.registerCommand("moduleExplorer.livePipeline.create", (graphNode: TopologyItem) => {
++            graphNode.createNewGraphInstanceCommand(context);
++        }),
++        vscode.commands.registerCommand("moduleExplorer.livePipeline.edit", (instanceNode: LivePipelineItem) => {
++            instanceNode.setInstanceCommand(context);
++        }),
++        vscode.commands.registerCommand("moduleExplorer.livePipeline.activate", (instanceNode: LivePipelineItem) => {
++            instanceNode.activateInstanceCommand();
++        }),
++        vscode.commands.registerCommand("moduleExplorer.livePipeline.deactivate", (instanceNode: LivePipelineItem) => {
++            instanceNode.deactivateInstanceCommand();
++        }),
++        vscode.commands.registerCommand("moduleExplorer.livePipeline.delete", (instanceNode: LivePipelineItem) => {
++            instanceNode.deleteInstanceCommand();
++        }),
++        vscode.commands.registerCommand("moduleExplorer.livePipeline.showJson", (instanceNode: LivePipelineItem) => {
++            instanceNode.showLivePipelineJson();
+         })
+     );
+ }
+diff --git a/src/Tools/DefinitionGenerator/DefinitionGenerator.ts b/src/Tools/DefinitionGenerator/DefinitionGenerator.ts
+index 83eb5f0..5aef127 100644
+--- a/src/Tools/DefinitionGenerator/DefinitionGenerator.ts
++++ b/src/Tools/DefinitionGenerator/DefinitionGenerator.ts
+@@ -30,8 +30,8 @@ export default class DefinitionGenerator {
+     }
+ 
+     public constructor(version: string, outputFolder: string) {
+-        this.apiDefinition = this.readJson(`Tools/DefinitionGenerator/v${version}/LiveVideoAnalytics.json`);
+-        this.usableNodes = this.readJson(`Tools/DefinitionGenerator/v${version}/usableNodes.json`);
++        this.apiDefinition = this.readJson(`Tools/DefinitionGenerator/${version}/AzureVideoAnalyzer.json`);
++        this.usableNodes = this.readJson(`Tools/DefinitionGenerator/${version}/usableNodes.json`);
+ 
+         this.outputFolder = outputFolder;
+         this.definitions = this.apiDefinition["definitions"] as any;
+@@ -142,7 +142,7 @@ export default class DefinitionGenerator {
+ 
+     public writeFiles() {
+         // write to files in appropriate versioned folder
+-        const versionedBase = DefinitionGenerator.resolveFile(`Webview/${this.outputFolder}/v` + this.version);
++        const versionedBase = DefinitionGenerator.resolveFile(`Webview/${this.outputFolder}/` + this.version);
+         console.log(versionedBase);
+ 
+         if (!fs.existsSync(versionedBase)) {
+diff --git a/src/Tools/DefinitionGenerator/entry.ts b/src/Tools/DefinitionGenerator/entry.ts
+index 26ac7fe..a2096ed 100644
+--- a/src/Tools/DefinitionGenerator/entry.ts
++++ b/src/Tools/DefinitionGenerator/entry.ts
+@@ -1,4 +1,4 @@
+ import DefinitionGenerator from "./DefinitionGenerator";
+ 
+ // constructor generates files as side effect
+-new DefinitionGenerator("2.0", "Definitions");
++new DefinitionGenerator("ava1.0", "Definitions");
+diff --git a/src/Webview/Components/App.tsx b/src/Webview/Components/App.tsx
+index eb5cfa8..d6acd22 100644
+--- a/src/Webview/Components/App.tsx
++++ b/src/Webview/Components/App.tsx
+@@ -11,8 +11,8 @@ import IconSetupHelpers from "../Utils/IconSetupHelpers";
+ import PostMessage from "../Utils/PostMessage";
+ import ThemeHelpers from "../Utils/ThemeHelpers";
+ 
+-const GraphInstance = React.lazy(() => import("./GraphInstance"));
+-const GraphTopology = React.lazy(() => import("./GraphTopology"));
++const LivePipelineComponent = React.lazy(() => import("./LivePipelineComponent"));
++const PipelineTopologyComponent = React.lazy(() => import("./PipelineTopologyComponent"));
+ IconSetupHelpers.initializeIcons();
+ 
+ interface IProps {
+@@ -88,7 +88,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
+         <ThemeProvider theme={theme}>
+             <React.Suspense fallback={<></>}>
+                 {pageType === Constants.PageType.graphPage && (
+-                    <GraphTopology
++                    <PipelineTopologyComponent
+                         graph={graph}
+                         zoomPanSettings={zoomPanSettings}
+                         isHorizontal={isGraphHorizontal}
+@@ -97,7 +97,7 @@ export const App: React.FunctionComponent<IProps> = (props) => {
+                     />
+                 )}
+                 {pageType === Constants.PageType.instancePage && (
+-                    <GraphInstance
++                    <LivePipelineComponent
+                         graph={graph}
+                         zoomPanSettings={zoomPanSettings}
+                         isHorizontal={isGraphHorizontal}
+diff --git a/src/Webview/Components/LivePipelineComponent.tsx b/src/Webview/Components/LivePipelineComponent.tsx
+new file mode 100644
+index 0000000..c79daa1
+--- /dev/null
++++ b/src/Webview/Components/LivePipelineComponent.tsx
+@@ -0,0 +1,433 @@
++import * as React from "react";
++import { ActionButton, ITextField, Stack, TextField } from "@fluentui/react";
++import { useBoolean } from "@uifabric/react-hooks";
++import {
++    CanvasMouseMode,
++    GraphModel,
++    GraphStateStore,
++    ICanvasData,
++    IPropsAPI,
++    isSupported,
++    IZoomPanSettings,
++    ReactDagEditor,
++    RegisterNode,
++    RegisterPort
++} from "@vienna/react-dag-editor";
++import {
++    LivePipeline,
++    MediaGraphParameterDeclaration
++} from "../../Common/Types/LVASDKTypes";
++import Definitions from "../Definitions/Definitions";
++import Localizer from "../Localization/Localizer";
++import { GraphData } from "../Models/GraphData";
++import GraphValidator from "../Models/MediaGraphValidator";
++import {
++    GraphInstanceParameter,
++    ServerError,
++    ValidationError,
++    ValidationErrorType
++} from "../Types/GraphTypes";
++import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
++import * as Constants from "../Utils/Constants";
++import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
++import Helpers from "../Utils/Helpers";
++import NodeHelpers from "../Utils/NodeHelpers";
++import PostMessage from "../Utils/PostMessage";
++import AppContext from "./AppContext";
++import { ContextMenu } from "./ContextMenu";
++import GraphContext from "./GraphContext";
++import { InnerGraph } from "./InnerGraph";
++import { NodeBase } from "./NodeBase";
++import { ParameterPanel } from "./ParameterPanel";
++import { modulePort } from "./Port";
++import { Toolbar } from "./Toolbar";
++
++interface IGraphInstanceProps {
++    graph: GraphData;
++    isEditMode: boolean;
++    isHorizontal: boolean;
++    zoomPanSettings: IZoomPanSettings;
++    instance: LivePipeline;
++    vsCodeSetState: VSCodeSetState;
++}
++
++export enum PropertyFormatType {
++    number = "number",
++    string = "string",
++    isoDuration = "isoDuration",
++    boolean = "boolean",
++    object = "object",
++    array = "array"
++}
++
++const LivePipelineComponent: React.FunctionComponent<IGraphInstanceProps> = (props) => {
++    const { graph, instance, isEditMode } = props;
++    const initData = graph.getICanvasData();
++    const [data, setData] = React.useState<ICanvasData>(graph.getICanvasData());
++    const [zoomPanSettings, setZoomPanSettings] = React.useState<IZoomPanSettings>(props.zoomPanSettings);
++    const [instanceName, setInstanceName] = React.useState<string>(instance?.name ?? "");
++    const [instanceDescription, setInstanceDescription] = React.useState<string>((instance?.properties && instance.properties.description) || "");
++    const [instanceNameError, setInstanceNameError] = React.useState<string>();
++    const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
++    const [serverErrors, setServerErrors] = React.useState<ValidationError[]>([]);
++    const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
++    const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
++    const [isGraphHorizontal, { toggle: toggleIsHorizontal }] = useBoolean(props.isHorizontal);
++    let errorsFromResponse: ValidationError[] = [];
++
++    const propsApiRef = React.useRef<IPropsAPI>(null);
++    const nameTextFieldRef = React.useRef<ITextField>(null);
++
++    React.useEffect(() => {
++        console.log(instance);
++        const data = graph.getICanvasData();
++        propsApiRef.current?.setData(GraphModel.fromJSON(NodeHelpers.autoLayout(data, isGraphHorizontal)));
++    }, [propsApiRef, graph]);
++
++    let instanceNameValidationError: ValidationError | undefined;
++
++    let initialParams: GraphInstanceParameter[] = [];
++    if (graph.getTopology().properties && graph.getTopology().properties!.parameters) {
++        initialParams = graph.getTopology().properties!.parameters!.map((param: MediaGraphParameterDeclaration) => {
++            let value = "";
++            if (instance?.properties && instance.properties.parameters) {
++                const matches = instance.properties.parameters.filter((parameter) => parameter.name === param.name);
++                if (matches?.length) {
++                    value = matches[0].value;
++                }
++            }
++            return {
++                name: param.name,
++                defaultValue: param.default || "",
++                value: value,
++                type: param.type,
++                error: ""
++            };
++        });
++    }
++    const [parameters, setParametersInternal] = React.useState<GraphInstanceParameter[]>(initialParams);
++
++    // save state in VS Code when data, zoomPanSettings, or parameters change
++    const saveState = (update?: any) => {
++        props.vsCodeSetState({
++            ...update,
++            pageViewType: Constants.PageType.instancePage,
++            instance: generateInstance(),
++            editMode: isEditMode
++        });
++    };
++    const setParameters = (parameters: GraphInstanceParameter[]) => {
++        setParametersInternal(parameters);
++        // the above might not update parameters immediately
++        saveState({
++            instance: generateInstance()
++        });
++    };
++    // React.useEffect(() => {
++    //     saveState();
++    // }, [data, zoomPanSettings, instanceName, instanceDescription]);
++    React.useEffect(() => {
++        // on mount
++        if (nameTextFieldRef) {
++            nameTextFieldRef.current?.focus();
++        }
++    }, []);
++
++    if (!isSupported()) {
++        return <h1>{Localizer.l("browserNotSupported")}</h1>;
++    }
++
++    const generateInstance = (): LivePipeline => {
++        return {
++            name: instanceName,
++            properties: {
++                topologyName: graph.getName(),
++                description: instanceDescription,
++                parameters: parameters
++                    .filter((parameter) => parameter.value.length > 0)
++                    .map((parameter) => ({
++                        name: parameter.name,
++                        value: parameter.value
++                    }))
++            }
++        };
++    };
++
++    const saveInstance = (activate = false) => {
++        errorsFromResponse = [];
++        canContinue([]).then((canSave: boolean) => {
++            if (canSave) {
++                if (ExtensionInteraction.getVSCode()) {
++                    PostMessage.sendMessageToParent(
++                        {
++                            name: activate ? Constants.PostMessageNames.saveAndActivate : Constants.PostMessageNames.saveInstance,
++                            data: generateInstance()
++                        },
++                        {
++                            name: Constants.PostMessageNames.failedOperationReason,
++                            onlyOnce: true,
++                            callback: (errors: ServerError[]) => {
++                                errorsFromResponse = errors.map((error) => {
++                                    return {
++                                        description: error.value,
++                                        type: ValidationErrorType.ServerError,
++                                        ...(error.nodeName && { nodeName: error.nodeName }),
++                                        ...(error.nodeProperty && { property: [error.nodeProperty] })
++                                    } as ValidationError;
++                                });
++                                canContinue(errorsFromResponse);
++                            }
++                        }
++                    );
++                } else {
++                    // running in browser
++                    console.log(generateInstance());
++                }
++            }
++        });
++    };
++
++    const saveInstanceAction = () => {
++        saveInstance(false);
++    };
++
++    const saveAndActivateAction = {
++        text: Localizer.l("saveAndActivateButtonText"),
++        callback: () => {
++            saveInstance(true);
++        }
++    };
++
++    const validateName = (name: string) => {
++        return new Promise<string>((resolve, reject) => {
++            if (!name) {
++                instanceNameValidationError = { description: "sidebarGraphInstanceNameMissing", type: ValidationErrorType.MissingField };
++                setInstanceNameError(Localizer.l(instanceNameValidationError.description));
++                resolve("");
++                return;
++            }
++            if (ExtensionInteraction.getVSCode()) {
++                PostMessage.sendMessageToParent(
++                    {
++                        name: Constants.PostMessageNames.nameAvailableCheck,
++                        data: name
++                    },
++                    {
++                        name: Constants.PostMessageNames.nameAvailableCheck,
++                        callback: (nameAvailable: boolean, args) => {
++                            instanceNameValidationError = nameAvailable
++                                ? undefined
++                                : { description: "nameNotAvailableError", type: ValidationErrorType.NameAlreadyInUse };
++                            setInstanceNameError(nameAvailable ? "" : Localizer.l("nameNotAvailableError"));
++                            args.resolve();
++                        },
++                        optionalParams: { resolve, reject },
++                        onlyOnce: true
++                    }
++                );
++            } else {
++                instanceNameValidationError = undefined;
++                setInstanceNameError(undefined);
++                resolve("");
++            }
++        });
++    };
++
++    const onNameChange = (event: React.FormEvent, newValue?: string) => {
++        if (typeof newValue !== "undefined") {
++            setInstanceName(newValue);
++            validateName(newValue);
++        }
++    };
++    const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
++        if (typeof newValue !== "undefined") {
++            setInstanceDescription(newValue);
++        }
++    };
++
++    const canContinue = (errorsFromResponse?: ValidationError[]) => {
++        console.log("🚀 ~ file: GraphInstance.tsx ~ line 262 ~ validateName ~ parameters", parameters);
++        if (errorsFromResponse) {
++            // save errors in the state, to remember when canContinue is called by node triggerValidation
++            setServerErrors(errorsFromResponse ?? []);
++        }
++        return new Promise<boolean>((resolve) => {
++            validateName(instanceName).then(async () => {
++                const validationErrors: ValidationError[] = [];
++                validationErrors.push(...(errorsFromResponse ?? serverErrors));
++                if (instanceNameValidationError) {
++                    nameTextFieldRef.current!.focus();
++                    validationErrors.push({ type: ValidationErrorType.MissingField, description: "sidebarGraphInstanceNameMissing" });
++                }
++                let missingParameter = false;
++                for (const parameter of parameters) {
++                    if (!parameter.defaultValue && !parameter.value) {
++                        missingParameter = true;
++                        parameter.error = Localizer.l("sidebarGraphInstanceParameterMissing");
++                        validationErrors.push({
++                            type: ValidationErrorType.MissingParameterField,
++                            description: "errorParameterPanelMissingText",
++                            nodeName: parameter.name
++                        });
++                    }
++
++                    if (parameter.value) {
++                        const localizationKey = graph.checkForParamsInGraphNode(parameter.name)[0]?.localizationKey;
++                        if (localizationKey) {
++                            const versionFolder = Definitions.VersionFolder;
++                            const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
++                            const format = (customPropertyTypes as any)[localizationKey] ?? null;
++                            let instanceValidationError;
++                            if (format === PropertyFormatType.isoDuration) {
++                                const seconds: any = Helpers.isoToSeconds(parameter.value) ?? parameter.value;
++                                instanceValidationError = await GraphValidator.validateProperty(seconds, localizationKey);
++                            } else {
++                                instanceValidationError = await GraphValidator.validateProperty(parameter.value, localizationKey);
++                            }
++                            if (instanceValidationError) {
++                                validationErrors.push({
++                                    type: ValidationErrorType.PropertyValueValidationError,
++                                    description: instanceValidationError,
++                                    nodeName: parameter.name
++                                });
++                            }
++                        }
++                    }
++                }
++                setValidationErrors(validationErrors);
++                setParameters(parameters);
++                resolve(!instanceNameValidationError && !missingParameter && !validationErrors.length);
++            });
++        });
++    };
++
++    const toggleValidationErrorPanel = () => {
++        setShowValidationErrors(!showValidationErrors);
++    };
++
++    const panelStyles = {
++        root: {
++            boxSizing: "border-box" as const,
++            overflowY: "auto" as const,
++            willChange: "transform",
++            width: 300,
++            borderRight: "1px solid var(--vscode-editorWidget-border)"
++        }
++    };
++    const panelItemStyles = {
++        padding: 10,
++        paddingTop: 0
++    };
++    const topSidebarStyles = {
++        padding: 10,
++        borderBottom: "1px solid var(--vscode-editorWidget-border)",
++        paddingBottom: 20,
++        marginBottom: 10
++    };
++    const mainEditorStyles = {
++        root: {
++            // uses flex-box, so it will grow, this prevents it from growing taller than the parent (force scroll)
++            height: 0
++        }
++    };
++    const validationErrorStyles: React.CSSProperties = {
++        alignItems: "center",
++        display: "flex",
++        justifyContent: "flex-end",
++        flex: 1,
++        paddingRight: "5%"
++    };
++
++    return (
++        <AppContext.Provider value={{ isHorizontal: isGraphHorizontal, toggleIsHorizontal: toggleIsHorizontal }}>
++            <GraphContext.Provider value={{ graph: graph }}>
++                <ReactDagEditor theme={Constants.graphTheme}>
++                    <GraphStateStore data={GraphModel.fromJSON(initData)}>
++                        <RegisterNode name="module" config={new NodeBase(/* readOnly */ true)} />
++                        <RegisterPort name="modulePort" config={modulePort} />
++                        <Stack styles={{ root: { height: "100vh" } }}>
++                            <Toolbar
++                                name={instanceName}
++                                primaryAction={saveInstanceAction}
++                                vsCodeSetState={saveState}
++                                secondaryAction={isEditMode ? undefined : saveAndActivateAction}
++                                cancelAction={() => {
++                                    if (ExtensionInteraction.getVSCode()) {
++                                        PostMessage.sendMessageToParent({
++                                            name: Constants.PostMessageNames.closeWindow
++                                        });
++                                    }
++                                }}
++                                toggleSidebar={setSidebarIsShown}
++                                isSidebarShown={sidebarIsShown}
++                                graphPropsApiRef={propsApiRef}
++                            >
++                                {validationErrors && validationErrors.length > 0 ? (
++                                    <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
++                                        <ActionButton
++                                            iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
++                                            onClick={toggleValidationErrorPanel}
++                                        >
++                                            <span style={{ color: "var(--vscode-errorForeground)" }}>
++                                                {validationErrors.length === 1
++                                                    ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
++                                                    : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
++                                                <u>{Localizer.l("ToolbarValidationErrors")}</u>
++                                            </span>
++                                        </ActionButton>
++                                    </Stack>
++                                ) : (
++                                    ""
++                                )}
++                            </Toolbar>
++                            <Stack grow horizontal styles={mainEditorStyles}>
++                                {sidebarIsShown && (
++                                    <Stack.Item styles={panelStyles}>
++                                        <div style={topSidebarStyles}>
++                                            <TextField
++                                                label={Localizer.l("sidebarGraphInstanceNameLabel")}
++                                                required
++                                                value={instanceName}
++                                                readOnly={isEditMode}
++                                                placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
++                                                errorMessage={instanceNameError}
++                                                onChange={onNameChange}
++                                                componentRef={nameTextFieldRef}
++                                            />
++                                            <TextField
++                                                label={Localizer.l("sidebarGraphDescriptionLabel")}
++                                                value={instanceDescription}
++                                                placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
++                                                onChange={onDescriptionChange}
++                                            />
++                                        </div>
++                                        <div style={panelItemStyles}>
++                                            <ParameterPanel parameters={parameters} setParameters={setParameters} />
++                                        </div>
++                                    </Stack.Item>
++                                )}
++                                <Stack.Item grow>
++                                    <InnerGraph
++                                        graph={graph}
++                                        graphTopologyName={graph.getName()}
++                                        graphDescription={instanceDescription}
++                                        canvasMouseMode={CanvasMouseMode.pan}
++                                        vsCodeSetState={saveState}
++                                        readOnly
++                                        propsApiRef={propsApiRef}
++                                        validationErrors={validationErrors}
++                                        showValidationErrors={showValidationErrors}
++                                        toggleValidationErrorPanel={toggleValidationErrorPanel}
++                                    />
++                                </Stack.Item>
++                            </Stack>
++                        </Stack>
++                        <ContextMenu />
++                    </GraphStateStore>
++                </ReactDagEditor>
++            </GraphContext.Provider>
++        </AppContext.Provider>
++    );
++};
++
++export default LivePipelineComponent;
+diff --git a/src/Webview/Components/ParameterPanel.tsx b/src/Webview/Components/ParameterPanel.tsx
+index 65ba7df..2807330 100644
+--- a/src/Webview/Components/ParameterPanel.tsx
++++ b/src/Webview/Components/ParameterPanel.tsx
+@@ -7,7 +7,7 @@ import GraphValidator from "../Models/MediaGraphValidator";
+ import { GraphInstanceParameter } from "../Types/GraphTypes";
+ import Helpers from "../Utils/Helpers";
+ import GraphContext from "./GraphContext";
+-import { PropertyFormatType } from "./GraphInstance";
++import { PropertyFormatType } from "./LivePipelineComponent";
+ 
+ export interface IGraphPanelProps {
+     parameters: GraphInstanceParameter[];
+@@ -55,7 +55,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> =
+     const [localizationKey] = React.useState<string>(getLocalizationKey());
+     const [value, setValue] = React.useState<string>();
+     const [defaultString, setDefaultString] = React.useState<string>();
+-    const moduleVersion = Definitions.ModuleVersion;
++    const versionFolder = Definitions.VersionFolder;
+ 
+     React.useEffect(() => {
+         getInitialValue().then((initValue) => {
+@@ -66,7 +66,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> =
+     }, []);
+ 
+     async function getInitialValue() {
+-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
++        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
+         let initValue = parameter.value;
+         if (initValue && (customPropertyTypes as any)[localizationKey] === PropertyFormatType.isoDuration) {
+             initValue = Helpers.isoToSeconds(initValue) as any;
+@@ -76,7 +76,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> =
+     }
+ 
+     const onChange = async (event: React.FormEvent, newValue?: string) => {
+-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
++        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
+         if (newValue !== undefined) {
+             const error = "";
+             const format = (customPropertyTypes as any)[localizationKey] ?? null;
+@@ -92,7 +92,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> =
+     };
+ 
+     const setDefaultValueString = async (value: string) => {
+-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
++        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
+         const format = (customPropertyTypes as any)[localizationKey] ?? null;
+         const isoValue = value && format === PropertyFormatType.isoDuration ? Helpers.isoToSeconds(value) : value;
+         setDefaultString(Localizer.l("sidebarGraphInstanceParameterDefaultText").format(isoValue));
+diff --git a/src/Webview/Components/PipelineTopologyComponent.tsx b/src/Webview/Components/PipelineTopologyComponent.tsx
+new file mode 100644
+index 0000000..bac2dbb
+--- /dev/null
++++ b/src/Webview/Components/PipelineTopologyComponent.tsx
+@@ -0,0 +1,371 @@
++import isEqual from "lodash/isEqual";
++import React, { useContext } from "react";
++import {
++    ActionButton,
++    ITextField,
++    Stack,
++    TextField,
++    VerticalDivider
++} from "@fluentui/react";
++import { useBoolean } from "@uifabric/react-hooks";
++import {
++    CanvasMouseMode,
++    GraphModel,
++    GraphStateStore,
++    ICanvasEdge,
++    IEdgeConfig,
++    IPropsAPI,
++    isSupported,
++    IZoomPanSettings,
++    ReactDagEditor,
++    RegisterNode,
++    RegisterPort
++} from "@vienna/react-dag-editor";
++import { PipelineTopology } from "../../Common/Types/LVASDKTypes";
++import Localizer from "../Localization/Localizer";
++import { GraphData } from "../Models/GraphData";
++import {
++    GraphInfo,
++    ServerError,
++    ValidationError,
++    ValidationErrorType
++} from "../Types/GraphTypes";
++import { VSCodeSetState } from "../Types/VSCodeDelegationTypes";
++import * as Constants from "../Utils/Constants";
++import { ExtensionInteraction } from "../Utils/ExtensionInteraction";
++import NodeHelpers from "../Utils/NodeHelpers";
++import PostMessage from "../Utils/PostMessage";
++import AppContext from "./AppContext";
++import { ContextMenu } from "./ContextMenu";
++import { InnerGraph } from "./InnerGraph";
++import { ItemPanel } from "./ItemPanel";
++import { NodeBase } from "./NodeBase";
++import { ParameterSelectorTrigger } from "./ParameterSelector/ParameterSelectorTrigger";
++import { modulePort } from "./Port";
++import { SampleSelectorTrigger } from "./SampleSelector/SampleSelectorTrigger";
++import { Toolbar } from "./Toolbar";
++
++interface IGraphTopologyProps {
++    graph: GraphData;
++    isEditMode: boolean;
++    isHorizontal: boolean;
++    zoomPanSettings: IZoomPanSettings;
++    vsCodeSetState: VSCodeSetState;
++}
++
++const PipelineTopologyComponent: React.FunctionComponent<IGraphTopologyProps> = (props) => {
++    const { graph, isEditMode } = props;
++    const initData = graph.getICanvasData();
++
++    const [dirty, setDirty] = React.useState<boolean>(false);
++    const [graphTopologyName, setGraphTopologyName] = React.useState<string>(graph.getName());
++    const [graphDescription, setGraphDescription] = React.useState<string>(graph.getDescription() || "");
++    const [graphNameError, setGraphNameError] = React.useState<string>();
++    const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
++    const [serverErrors, setServerErrors] = React.useState<ValidationError[]>([]);
++    const [sidebarIsShown, { toggle: setSidebarIsShown }] = useBoolean(true);
++    const [showValidationErrors, setShowValidationErrors] = React.useState<boolean>(false);
++    const [isGraphHorizontal, { toggle: toggleIsHorizontal }] = useBoolean(props.isHorizontal);
++    let errorsFromResponse: ValidationError[] = [];
++
++    const propsApiRef = React.useRef<IPropsAPI>(null);
++    const nameTextFieldRef = React.useRef<ITextField>(null);
++    let graphNameValidationError: ValidationError | undefined;
++
++    React.useEffect(() => {
++        const data = graph.getICanvasData();
++        propsApiRef.current?.setData(GraphModel.fromJSON(NodeHelpers.autoLayout(data, isGraphHorizontal)));
++    }, [propsApiRef, graph]);
++
++    const saveState = (update?: any) => {
++        props.vsCodeSetState({
++            ...update,
++            pageViewType: Constants.PageType.graphPage,
++            editMode: isEditMode
++        });
++    };
++    React.useEffect(() => {
++        // on mount
++        if (nameTextFieldRef) {
++            nameTextFieldRef.current?.focus();
++        }
++    }, []);
++
++    if (!isSupported()) {
++        return <h1>{Localizer.l("browserNotSupported")}</h1>;
++    }
++
++    function setTopology(topology: PipelineTopology) {
++        graph.setTopology(topology, isGraphHorizontal);
++        setGraphTopologyName(topology.name);
++        if (topology.properties && topology.properties.description) {
++            setGraphDescription(topology.properties.description);
++        }
++        setDirty(false);
++        if (propsApiRef.current) {
++            propsApiRef.current.setData(GraphModel.fromJSON(graph.getICanvasData()));
++            propsApiRef.current.dismissSidePanel();
++            propsApiRef.current.resetZoom();
++        }
++        setValidationErrors([]);
++    }
++
++    const saveTopology = () => {
++        errorsFromResponse = [];
++        canContinue([]).then((canSave: boolean) => {
++            const data = propsApiRef.current?.getData();
++
++            if (canSave && data) {
++                graph.setName(graphTopologyName);
++                graph.setDescription(graphDescription);
++                graph.setGraphDataFromICanvasData(data.toJSON());
++                const topology = graph.getTopology();
++                if (ExtensionInteraction.getVSCode()) {
++                    PostMessage.sendMessageToParent(
++                        { name: Constants.PostMessageNames.saveGraph, data: topology },
++                        {
++                            name: Constants.PostMessageNames.failedOperationReason,
++                            onlyOnce: true,
++                            callback: (errors: ServerError[]) => {
++                                errorsFromResponse = errors.map((error) => {
++                                    return {
++                                        description: error.value,
++                                        type: ValidationErrorType.ServerError,
++                                        ...(error.nodeName && { nodeName: error.nodeName }),
++                                        ...(error.nodeProperty && { property: [error.nodeProperty] })
++                                    } as ValidationError;
++                                });
++                                canContinue(errorsFromResponse);
++                            }
++                        }
++                    );
++                } else {
++                    // running in browser
++                    console.log(topology);
++                }
++            }
++        });
++    };
++
++    const validateName = (name: string) => {
++        return new Promise<string>((resolve, reject) => {
++            if (!name) {
++                graphNameValidationError = { description: "sidebarGraphTopologyNameMissing", type: ValidationErrorType.MissingField };
++                setGraphNameError(Localizer.l(graphNameValidationError.description));
++                resolve("");
++                return;
++            }
++            if (ExtensionInteraction.getVSCode()) {
++                PostMessage.sendMessageToParent(
++                    {
++                        name: Constants.PostMessageNames.nameAvailableCheck,
++                        data: name
++                    },
++                    {
++                        name: Constants.PostMessageNames.nameAvailableCheck,
++                        callback: (nameAvailable: boolean, args) => {
++                            graphNameValidationError = nameAvailable ? undefined : { description: "nameNotAvailableError", type: ValidationErrorType.NameAlreadyInUse };
++                            setGraphNameError(nameAvailable ? "" : Localizer.l("nameNotAvailableError"));
++                            args.resolve();
++                        },
++                        optionalParams: { resolve, reject },
++                        onlyOnce: true
++                    }
++                );
++            } else {
++                graphNameValidationError = undefined;
++                setGraphNameError(undefined);
++                resolve("");
++            }
++        });
++    };
++
++    const onNameChange = (event: React.FormEvent, newValue?: string) => {
++        if (typeof newValue !== "undefined") {
++            setGraphTopologyName(newValue);
++            validateName(newValue);
++        }
++    };
++    const onDescriptionChange = (event: React.FormEvent, newValue?: string) => {
++        if (typeof newValue !== "undefined") {
++            setGraphDescription(newValue);
++        }
++    };
++
++    const toggleValidationErrorPanel = () => {
++        setShowValidationErrors(!showValidationErrors);
++    };
++
++    const parameters = graph.getParameters();
++    const canContinue = (errorsFromResponse?: ValidationError[]) => {
++        if (errorsFromResponse) {
++            // save errors in the state, to remember when canContinue is called by node triggerValidation
++            setServerErrors(errorsFromResponse ?? []);
++        }
++        return new Promise<boolean>((resolve) => {
++            const validationErrors: ValidationError[] = [];
++            validateName(graphTopologyName).then(async () => {
++                if (graphNameValidationError) {
++                    nameTextFieldRef.current!.focus();
++                    validationErrors.push(graphNameValidationError);
++                }
++
++                const data = propsApiRef.current?.getData();
++
++                if (data) {
++                    graph.setGraphDataFromICanvasData(data.toJSON());
++                }
++
++                validationErrors.push(...(await graph.validate(propsApiRef, errorsFromResponse ?? serverErrors)));
++                setValidationErrors(validationErrors);
++                resolve(!validationErrors.length);
++            });
++        });
++    };
++
++    const updateEdgeData = (edgeId: string, newTypes: string[]) => {
++        let newEdge: ICanvasEdge<any>;
++        propsApiRef.current?.updateData((prev: GraphModel) => {
++            return prev.updateEdge(edgeId, (edge) => {
++                newEdge = {
++                    ...edge,
++                    data: {
++                        ...edge.data,
++                        types: newTypes
++                    }
++                };
++                propsApiRef.current?.openSidePanel("edgePanel", newEdge); // BUG. found issue in the dag-editor library, this is a work around. once the bug is fixed, this line should be removed.
++                return newEdge;
++            });
++        });
++    };
++
++    const panelStyles = {
++        root: {
++            boxSizing: "border-box" as const,
++            overflowY: "auto" as const,
++            willChange: "transform",
++            width: 300,
++            borderRight: "1px solid var(--vscode-editorWidget-border)"
++        }
++    };
++    const panelItemStyles = {
++        padding: 10,
++        paddingTop: 0
++    };
++    const topSidebarStyles = {
++        padding: 10,
++        borderBottom: "1px solid var(--vscode-editorWidget-border)",
++        paddingBottom: 20,
++        marginBottom: 10
++    };
++    const mainEditorStyles = {
++        root: {
++            // uses flex-box, so it will grow, this prevents it from growing taller than the parent (force scroll)
++            height: 0
++        }
++    };
++
++    const validationErrorStyles: React.CSSProperties = {
++        alignItems: "center",
++        display: "flex",
++        justifyContent: "flex-end",
++        flex: 1,
++        paddingRight: "5%"
++    };
++
++    return (
++        <AppContext.Provider value={{ isHorizontal: isGraphHorizontal, toggleIsHorizontal: toggleIsHorizontal }}>
++            <ReactDagEditor theme={Constants.graphTheme}>
++                <GraphStateStore data={GraphModel.fromJSON(initData)}>
++                    <RegisterNode name="module" config={new NodeBase(/* readOnly */ false)} />
++                    <RegisterPort name="modulePort" config={modulePort} />
++                    <Stack styles={{ root: { height: "100vh" } }}>
++                        <Toolbar
++                            name={graphTopologyName}
++                            primaryAction={saveTopology}
++                            vsCodeSetState={saveState}
++                            cancelAction={() => {
++                                if (ExtensionInteraction.getVSCode()) {
++                                    PostMessage.sendMessageToParent({
++                                        name: Constants.PostMessageNames.closeWindow
++                                    });
++                                }
++                            }}
++                            toggleSidebar={setSidebarIsShown}
++                            isSidebarShown={sidebarIsShown}
++                            graphPropsApiRef={propsApiRef}
++                        >
++                            <VerticalDivider styles={{ wrapper: { height: 30, alignSelf: "center" } }}></VerticalDivider>
++                            <SampleSelectorTrigger setTopology={setTopology} hasUnsavedChanges={dirty} />
++                            <ParameterSelectorTrigger parameters={parameters} graph={graph} propsApiRef={propsApiRef} />
++                            {validationErrors && validationErrors.length > 0 ? (
++                                <Stack horizontal horizontalAlign="end" style={validationErrorStyles}>
++                                    <ActionButton
++                                        iconProps={{ iconName: "StatusErrorFull", style: { color: "var(--vscode-errorForeground)" } }}
++                                        onClick={toggleValidationErrorPanel}
++                                    >
++                                        <span style={{ color: "var(--vscode-errorForeground)" }}>
++                                            {validationErrors.length === 1
++                                                ? Localizer.l("toolbarValidationTextSingular").format(validationErrors.length)
++                                                : Localizer.l("toolbarValidationTextPlural").format(validationErrors.length)}
++                                            <u>{Localizer.l("ToolbarValidationErrors")}</u>
++                                        </span>
++                                    </ActionButton>
++                                </Stack>
++                            ) : (
++                                ""
++                            )}
++                        </Toolbar>
++                        <Stack grow horizontal styles={mainEditorStyles}>
++                            {sidebarIsShown && (
++                                <Stack.Item styles={panelStyles}>
++                                    <div style={topSidebarStyles}>
++                                        <TextField
++                                            label={Localizer.l("sidebarGraphTopologyNameLabel")}
++                                            required
++                                            value={graphTopologyName}
++                                            readOnly={isEditMode}
++                                            placeholder={Localizer.l("sidebarGraphNamePlaceholder")}
++                                            errorMessage={graphNameError}
++                                            onChange={onNameChange}
++                                            componentRef={nameTextFieldRef}
++                                        />
++                                        <TextField
++                                            label={Localizer.l("sidebarGraphDescriptionLabel")}
++                                            value={graphDescription}
++                                            placeholder={Localizer.l("sidebarGraphDescriptionPlaceholder")}
++                                            onChange={onDescriptionChange}
++                                        />
++                                    </div>
++                                    <div style={panelItemStyles}>
++                                        <ItemPanel />
++                                    </div>
++                                </Stack.Item>
++                            )}
++                            <Stack.Item grow>
++                                <InnerGraph
++                                    graph={graph}
++                                    graphDescription={graphDescription}
++                                    graphTopologyName={graphTopologyName}
++                                    vsCodeSetState={saveState}
++                                    canvasMouseMode={CanvasMouseMode.pan}
++                                    triggerValidation={canContinue}
++                                    parameters={parameters}
++                                    propsApiRef={propsApiRef}
++                                    validationErrors={validationErrors}
++                                    showValidationErrors={showValidationErrors}
++                                    toggleValidationErrorPanel={toggleValidationErrorPanel}
++                                    updateEdgeData={updateEdgeData}
++                                />
++                            </Stack.Item>
++                        </Stack>
++                    </Stack>
++                    <ContextMenu />
++                </GraphStateStore>
++            </ReactDagEditor>
++        </AppContext.Provider>
++    );
++};
++
++export default PipelineTopologyComponent;
+diff --git a/src/Webview/Components/PropertyEditor/PropertyEditField.tsx b/src/Webview/Components/PropertyEditor/PropertyEditField.tsx
+index faf5783..01c83f3 100644
+--- a/src/Webview/Components/PropertyEditor/PropertyEditField.tsx
++++ b/src/Webview/Components/PropertyEditor/PropertyEditField.tsx
+@@ -44,7 +44,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
+     const [value, setValue] = React.useState<string>("");
+     const [errorMessage, setErrorMessage] = React.useState<string>("");
+     const [isParameterized, { setFalse: setParameterizeFalse, setTrue: setParameterizeTrue }] = useBoolean(false);
+-    const moduleVersion = Definitions.ModuleVersion;
++    const versionFolder = Definitions.VersionFolder;
+ 
+     const propsAPI = usePropsAPI();
+ 
+@@ -80,7 +80,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
+     }, []);
+ 
+     async function getInitialValue() {
+-        const customPropertyTypes = await import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`);
++        const customPropertyTypes = await import(`../../Definitions/${versionFolder}/customPropertyTypes.json`);
+         let initValue = nodeProperties[name];
+         if (property.type !== PropertyFormatType.boolean && property.type !== PropertyFormatType.string) {
+             initValue = JSON.stringify(initValue);
+@@ -141,7 +141,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
+         if (newValue === "" || newValue == null) {
+             nodeProperties[name] = null;
+         } else {
+-            import(`../../Definitions/v${moduleVersion}/customPropertyTypes.json`).then((customPropertyTypes) => {
++            import(`../../Definitions/${versionFolder}/customPropertyTypes.json`).then((customPropertyTypes) => {
+                 const format = (customPropertyTypes as any)[property.localizationKey] ?? null;
+                 if (format === PropertyFormatType.isoDuration) {
+                     if (isValueParameterized(newValue)) {
+diff --git a/src/Webview/Components/SampleSelector/SampleSelector.tsx b/src/Webview/Components/SampleSelector/SampleSelector.tsx
+index d455712..8604dc9 100644
+--- a/src/Webview/Components/SampleSelector/SampleSelector.tsx
++++ b/src/Webview/Components/SampleSelector/SampleSelector.tsx
+@@ -10,7 +10,7 @@ import {
+     Spinner,
+     SpinnerSize
+ } from "@fluentui/react";
+-import { MediaGraphTopology } from "../../../Common/Types/LVASDKTypes";
++import { PipelineTopology } from "../../../Common/Types/LVASDKTypes";
+ import Localizer from "../../Localization/Localizer";
+ import { AdjustedPrimaryButton } from "../ThemeAdjustedComponents/AdjustedPrimaryButton";
+ import { OverwriteConfirmation } from "./OverwriteConfirmation";
+@@ -20,7 +20,7 @@ import { Status } from "./statusEnum";
+ interface ISampleSelectorProps {
+     status: Status;
+     setStatus: React.Dispatch<React.SetStateAction<Status>>;
+-    loadTopology: (topology: MediaGraphTopology) => void;
++    loadTopology: (topology: PipelineTopology) => void;
+ }
+ 
+ export const SampleSelector: React.FunctionComponent<ISampleSelectorProps> = (props) => {
+diff --git a/src/Webview/Components/SampleSelector/SampleSelectorTrigger.tsx b/src/Webview/Components/SampleSelector/SampleSelectorTrigger.tsx
+index 03e10de..ddaf549 100644
+--- a/src/Webview/Components/SampleSelector/SampleSelectorTrigger.tsx
++++ b/src/Webview/Components/SampleSelector/SampleSelectorTrigger.tsx
+@@ -6,7 +6,7 @@ import {
+     IContextualMenuProps
+ } from "@fluentui/react";
+ import { useConst } from "@uifabric/react-hooks";
+-import { MediaGraphTopology } from "../../../Common/Types/LVASDKTypes";
++import { PipelineTopology } from "../../../Common/Types/LVASDKTypes";
+ import Definitions from "../../Definitions/Definitions";
+ import Localizer from "../../Localization/Localizer";
+ import { OverwriteConfirmation } from "./OverwriteConfirmation";
+@@ -14,7 +14,7 @@ import { SampleSelector } from "./SampleSelector";
+ import { Status } from "./statusEnum";
+ 
+ interface ISampleSelectorTriggerProps {
+-    setTopology: (topology: MediaGraphTopology) => void;
++    setTopology: (topology: PipelineTopology) => void;
+     hasUnsavedChanges: boolean;
+ }
+ 
+@@ -54,8 +54,8 @@ export const SampleSelectorTrigger: React.FunctionComponent<ISampleSelectorTrigg
+     };
+ 
+     const getMenuProps = async () => {
+-        const moduleVersion = Definitions.ModuleVersion;
+-        const SamplesSelectorList = await import(`../../Definitions/v${moduleVersion}/SampleSelectorList`);
++        const versionFolder = Definitions.VersionFolder;
++        const SamplesSelectorList = await import(`../../Definitions/${versionFolder}/SampleSelectorList`);
+         setMenuProps({
+             shouldFocusOnMount: true,
+             items: SamplesSelectorList.SamplesList.getCommandBarItems(menuItemOnClick)
+diff --git a/src/Webview/Definitions/Definitions.ts b/src/Webview/Definitions/Definitions.ts
+index 4a36122..293a459 100644
+--- a/src/Webview/Definitions/Definitions.ts
++++ b/src/Webview/Definitions/Definitions.ts
+@@ -9,12 +9,13 @@ export default class Definitions {
+     private static _availableNodes: NodeDefinition[];
+     private static _itemPanelNodes: any[];
+     public static TypePrefix = "";
+-    public static ModuleVersion = "";
++    public static VersionFolder = "";
+ 
+     public static loadDefinitions() {
+-        this.ModuleVersion = (window as any).version;
+-        this.TypePrefix = compareVersions(this.ModuleVersion, "3.0.0") < 0 ? "#Microsoft.Media." : "#Microsoft.VideoAnalyzer.";
+-        return import(`./v${this.ModuleVersion}/nodes.json`).then((storedNodes) => {
++        this.VersionFolder = (window as any).versionFolder;
++        const isLegacyModule = (window as any).isLegacyModule == "true";
++        this.TypePrefix = isLegacyModule ? "#Microsoft.Media." : "#Microsoft.VideoAnalyzer.";
++        return import(`./${this.VersionFolder}/nodes.json`).then((storedNodes) => {
+             Definitions._availableNodes = storedNodes.availableNodes as NodeDefinition[];
+             Definitions._itemPanelNodes = storedNodes.itemPanelNodes;
+         });
+diff --git a/src/Webview/Localization/Localizer.ts b/src/Webview/Localization/Localizer.ts
+index 28cc9b9..9822e0d 100644
+--- a/src/Webview/Localization/Localizer.ts
++++ b/src/Webview/Localization/Localizer.ts
+@@ -7,10 +7,10 @@ export default class Localizer {
+     private static localizedNested: Record<string, NestedLocalizedStrings> = {};
+ 
+     static async getLanguage(language: string) {
+-        const moduleVersion = Definitions.ModuleVersion;
++        const versionFolder = Definitions.VersionFolder;
+         const interfaceLocStrings = await import(/* webpackMode: "lazy" */ `./${language}.json`);
+-        const swaggerLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/v${moduleVersion}/i18n.${language}.json`); // TODO  load the correct version when needed support for multiple versions
+-        const swaggerOverrideLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/v${moduleVersion}/generatedStringOverrides.json`); // TODO  localize and get correct file
++        const swaggerLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/${versionFolder}/i18n.${language}.json`); // TODO  load the correct version when needed support for multiple versions
++        const swaggerOverrideLocStrings = await import(/* webpackMode: "lazy" */ `../Definitions/${versionFolder}/generatedStringOverrides.json`); // TODO  localize and get correct file
+ 
+         return [interfaceLocStrings, merge(swaggerLocStrings, swaggerOverrideLocStrings)];
+     }
+diff --git a/src/Webview/Models/GraphData.ts b/src/Webview/Models/GraphData.ts
+index 24f1563..724f0fd 100644
+--- a/src/Webview/Models/GraphData.ts
++++ b/src/Webview/Models/GraphData.ts
+@@ -15,7 +15,7 @@ import {
+     MediaGraphProcessorUnion,
+     MediaGraphSinkUnion,
+     MediaGraphSourceUnion,
+-    MediaGraphTopology
++    PipelineTopology
+ } from "../../Common/Types/LVASDKTypes";
+ import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
+ import Definitions from "../Definitions/Definitions";
+@@ -38,7 +38,7 @@ export class GraphData {
+     private static readonly nodeTypeList = [MediaGraphNodeType.Source, MediaGraphNodeType.Processor, MediaGraphNodeType.Sink];
+ 
+     // what we initialized with (contains name, description, etc.)
+-    private graphInformation: MediaGraphTopology = { name: "", properties: { parameters: [] } };
++    private graphInformation: PipelineTopology = { name: "", properties: { parameters: [] } };
+ 
+     // the target format expects dividing up the nodes into these three types
+     private sources: MediaGraphSourceUnion[] = [];
+@@ -176,7 +176,7 @@ export class GraphData {
+             return parameter;
+         });
+ 
+-        const topology: MediaGraphTopology = {
++        const topology: PipelineTopology = {
+             name: this.graphInformation.name,
+             properties: {
+                 ...this.graphInformation.properties,
+diff --git a/src/Webview/Models/MediaGraphValidator.ts b/src/Webview/Models/MediaGraphValidator.ts
+index a52cd0e..fe251ca 100644
+--- a/src/Webview/Models/MediaGraphValidator.ts
++++ b/src/Webview/Models/MediaGraphValidator.ts
+@@ -25,9 +25,9 @@ export default class GraphValidator {
+         errorsFromService?: ValidationError[]
+     ): Promise<ValidationError[]> {
+         try {
+-            const moduleVersion = Definitions.ModuleVersion;
++            const versionFolder = Definitions.VersionFolder;
+ 
+-            const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
++            const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
+             const errors: ValidationError[] = [...(errorsFromService ?? [])];
+ 
+             if (!nodesAndEdges.isGraphConnected()) {
+@@ -113,9 +113,9 @@ export default class GraphValidator {
+ 
+     // ensures nodes are direct children of another
+     private static async checkForRequiredDirectDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+-        const moduleVersion = Definitions.ModuleVersion;
++        const versionFolder = Definitions.VersionFolder;
+ 
+-        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
++        const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
+         const errors = [];
+         for (const relation of GraphValidationRules.mustBeImmediatelyDownstreamOf) {
+             const matchingChildType: string = relation[0] as string;
+@@ -146,9 +146,9 @@ export default class GraphValidator {
+ 
+     // checks for nodes that cannot be a direct child or one of their children
+     private static async checkForProhibitedAnywhereDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+-        const moduleVersion = Definitions.ModuleVersion;
++        const versionFolder = Definitions.VersionFolder;
+ 
+-        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
++        const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
+         const errors = [];
+         for (const [matchingChildType, forbiddenParentType] of GraphValidationRules.cannotBeDownstreamOf) {
+             if (thisNodeType === matchingChildType) {
+@@ -169,9 +169,9 @@ export default class GraphValidator {
+ 
+     // checks for nodes that cannot be direct children of another node
+     private static async checkForProhibitedDirectlyDownstream(thisNodeType: string, immediateParents: ICanvasNode[]) {
+-        const moduleVersion = Definitions.ModuleVersion;
++        const versionFolder = Definitions.VersionFolder;
+ 
+-        const GraphValidationRules = await import(`../Definitions/v${moduleVersion}/GraphValidationRules`);
++        const GraphValidationRules = await import(`../Definitions/${versionFolder}/GraphValidationRules`);
+         const errors = [];
+         for (const [matchingChildType, forbiddenParentType] of GraphValidationRules.cannotBeImmediatelyDownstreamOf) {
+             if (thisNodeType === matchingChildType) {
+@@ -203,7 +203,7 @@ export default class GraphValidator {
+     // recursively checks for missing properties and returns a list of errors
+     private static async recursiveGetValidationErrors(type: string, nodeProperties: any, path: string[], errors: ValidationError[]): Promise<ValidationError[]> {
+         const definition = Definitions.getNodeDefinition(type);
+-        const moduleVersion = Definitions.ModuleVersion;
++        const versionFolder = Definitions.VersionFolder;
+ 
+         if (!definition) {
+             return errors;
+@@ -229,7 +229,7 @@ export default class GraphValidator {
+                 });
+             } else if (property?.type === "string" && nestedProperties != null && nestedProperties !== "" && !nestedProperties.includes("${")) {
+                 const key = `${definition.localizationKey}.${name}`;
+-                const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
++                const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
+                 const format = (customPropertyTypes as any)[key] ?? null;
+                 let value = nestedProperties;
+                 if (value && format === "isoDuration") {
+@@ -284,12 +284,12 @@ export default class GraphValidator {
+     }
+ 
+     static async validateProperty(value: string, key: any) {
+-        const moduleVersion = Definitions.ModuleVersion;
++        const versionFolder = Definitions.VersionFolder;
+         if (value === "" || value == undefined) {
+             return "";
+         }
+ 
+-        const customPropertyTypes = await import(`../Definitions/v${moduleVersion}/customPropertyTypes.json`);
++        const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
+         const format = (customPropertyTypes as any)[key];
+         if (format === "urlFormat") {
+             const r = new RegExp('^(rtsp|ftp|http|https|tcp)://[^ "]+$');
+@@ -302,7 +302,7 @@ export default class GraphValidator {
+                 return Localizer.l("valueMustBeNumbersError");
+             }
+         }
+-        const validationJson = await import(`../Definitions/v${moduleVersion}/validation.json`);
++        const validationJson = await import(`../Definitions/${versionFolder}/validation.json`);
+         const validationValue = (validationJson as any)[key];
+         if (validationValue) {
+             const validationType = validationValue.type;
+diff --git a/src/Webview/Types/GraphTypes.ts b/src/Webview/Types/GraphTypes.ts
+index 2f7bae3..c2c9409 100644
+--- a/src/Webview/Types/GraphTypes.ts
++++ b/src/Webview/Types/GraphTypes.ts
+@@ -2,7 +2,7 @@ import { ICanvasEdge, ICanvasNode } from "@vienna/react-dag-editor";
+ import {
+     MediaGraphNodeInput,
+     MediaGraphParameterType,
+-    MediaGraphTopology
++    PipelineTopology
+ } from "../../Common/Types/LVASDKTypes";
+ 
+ export enum MediaGraphNodeType {
+@@ -19,7 +19,7 @@ export enum OutputSelectorValueType {
+ }
+ 
+ export interface GraphInfo {
+-    meta: MediaGraphTopology;
++    meta: PipelineTopology;
+     nodes: ICanvasNode<any>[];
+     edges: ICanvasEdge<any>[];
+ }
+diff --git a/src/Webview/Types/VSCodeDelegationTypes.ts b/src/Webview/Types/VSCodeDelegationTypes.ts
+index ce825a9..7929eb4 100644
+--- a/src/Webview/Types/VSCodeDelegationTypes.ts
++++ b/src/Webview/Types/VSCodeDelegationTypes.ts
+@@ -1,5 +1,5 @@
+ import { IZoomPanSettings } from "@vienna/react-dag-editor";
+-import { MediaGraphInstance } from "../../Common/Types/LVASDKTypes";
++import { LivePipeline } from "../../Common/Types/LVASDKTypes";
+ import { PageType } from "../Utils/Constants";
+ import { GraphInfo } from "./GraphTypes";
+ 
+@@ -15,7 +15,7 @@ export interface VSCodeState {
+     isHorizontal: boolean;
+     graphData?: GraphInfo;
+     zoomPanSettings?: IZoomPanSettings;
+-    instance?: MediaGraphInstance;
++    instance?: LivePipeline;
+ }
+ 
+ export interface InitializationParameters {

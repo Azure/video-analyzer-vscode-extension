@@ -1,0 +1,5783 @@
+{
+  "availableNodes": [
+    {
+      "name": "LivePipeline",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "localizationKey": "LivePipeline.name"
+        },
+        "systemData": {
+          "parsedRef": "#/definitions/SystemData",
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "SystemData.createdAt"
+            },
+            "lastModifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "SystemData.lastModifiedAt"
+            }
+          },
+          "localizationKey": "LivePipeline.systemData"
+        },
+        "properties": {
+          "parsedRef": "#/definitions/LivePipelineProperties",
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "localizationKey": "LivePipelineProperties.description"
+            },
+            "topologyName": {
+              "type": "string",
+              "localizationKey": "LivePipelineProperties.topologyName"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/ParameterDefinition",
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "ParameterDefinition.name"
+                  },
+                  "value": {
+                    "type": "string",
+                    "localizationKey": "ParameterDefinition.value"
+                  }
+                },
+                "localizationKey": "ParameterDefinition"
+              },
+              "localizationKey": "LivePipelineProperties.parameters"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "inactive",
+                "activating",
+                "active",
+                "deactivating"
+              ],
+              "x-ms-enum": {
+                "name": "livePipelineState",
+                "values": [
+                  {
+                    "localizationKey": "LivePipelineProperties.state.inactive"
+                  },
+                  {
+                    "localizationKey": "LivePipelineProperties.state.activating"
+                  },
+                  {
+                    "localizationKey": "LivePipelineProperties.state.active"
+                  },
+                  {
+                    "localizationKey": "LivePipelineProperties.state.deactivating"
+                  }
+                ],
+                "modelAsString": true
+              },
+              "localizationKey": "LivePipelineProperties.state"
+            }
+          },
+          "localizationKey": "LivePipeline.properties"
+        }
+      },
+      "localizationKey": "LivePipeline"
+    },
+    {
+      "name": "LivePipelineProperties",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "localizationKey": "LivePipelineProperties.description"
+        },
+        "topologyName": {
+          "type": "string",
+          "localizationKey": "LivePipelineProperties.topologyName"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/ParameterDefinition",
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "localizationKey": "ParameterDefinition.name"
+              },
+              "value": {
+                "type": "string",
+                "localizationKey": "ParameterDefinition.value"
+              }
+            },
+            "localizationKey": "ParameterDefinition"
+          },
+          "localizationKey": "LivePipelineProperties.parameters"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "inactive",
+            "activating",
+            "active",
+            "deactivating"
+          ],
+          "x-ms-enum": {
+            "name": "livePipelineState",
+            "values": [
+              {
+                "localizationKey": "LivePipelineProperties.state.inactive"
+              },
+              {
+                "localizationKey": "LivePipelineProperties.state.activating"
+              },
+              {
+                "localizationKey": "LivePipelineProperties.state.active"
+              },
+              {
+                "localizationKey": "LivePipelineProperties.state.deactivating"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "LivePipelineProperties.state"
+        }
+      },
+      "localizationKey": "LivePipelineProperties"
+    },
+    {
+      "name": "ParameterDefinition",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "localizationKey": "ParameterDefinition.name"
+        },
+        "value": {
+          "type": "string",
+          "localizationKey": "ParameterDefinition.value"
+        }
+      },
+      "localizationKey": "ParameterDefinition"
+    },
+    {
+      "name": "LivePipelineCollection",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/LivePipeline",
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "localizationKey": "LivePipeline.name"
+              },
+              "systemData": {
+                "parsedRef": "#/definitions/SystemData",
+                "type": "object",
+                "properties": {
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "SystemData.createdAt"
+                  },
+                  "lastModifiedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "SystemData.lastModifiedAt"
+                  }
+                },
+                "localizationKey": "LivePipeline.systemData"
+              },
+              "properties": {
+                "parsedRef": "#/definitions/LivePipelineProperties",
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "localizationKey": "LivePipelineProperties.description"
+                  },
+                  "topologyName": {
+                    "type": "string",
+                    "localizationKey": "LivePipelineProperties.topologyName"
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/ParameterDefinition",
+                      "type": "object",
+                      "required": [
+                        "name"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "ParameterDefinition.name"
+                        },
+                        "value": {
+                          "type": "string",
+                          "localizationKey": "ParameterDefinition.value"
+                        }
+                      },
+                      "localizationKey": "ParameterDefinition"
+                    },
+                    "localizationKey": "LivePipelineProperties.parameters"
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "inactive",
+                      "activating",
+                      "active",
+                      "deactivating"
+                    ],
+                    "x-ms-enum": {
+                      "name": "livePipelineState",
+                      "values": [
+                        {
+                          "localizationKey": "LivePipelineProperties.state.inactive"
+                        },
+                        {
+                          "localizationKey": "LivePipelineProperties.state.activating"
+                        },
+                        {
+                          "localizationKey": "LivePipelineProperties.state.active"
+                        },
+                        {
+                          "localizationKey": "LivePipelineProperties.state.deactivating"
+                        }
+                      ],
+                      "modelAsString": true
+                    },
+                    "localizationKey": "LivePipelineProperties.state"
+                  }
+                },
+                "localizationKey": "LivePipeline.properties"
+              }
+            },
+            "localizationKey": "LivePipeline"
+          },
+          "localizationKey": "LivePipelineCollection.value"
+        },
+        "@continuationToken": {
+          "type": "string",
+          "localizationKey": "LivePipelineCollection.@continuationToken"
+        }
+      },
+      "localizationKey": "LivePipelineCollection"
+    },
+    {
+      "name": "PipelineTopologyCollection",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/PipelineTopology",
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "localizationKey": "PipelineTopology.name"
+              },
+              "systemData": {
+                "parsedRef": "#/definitions/SystemData",
+                "type": "object",
+                "properties": {
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "SystemData.createdAt"
+                  },
+                  "lastModifiedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "localizationKey": "SystemData.lastModifiedAt"
+                  }
+                },
+                "localizationKey": "PipelineTopology.systemData"
+              },
+              "properties": {
+                "parsedRef": "#/definitions/PipelineTopologyProperties",
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "localizationKey": "PipelineTopologyProperties.description"
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/ParameterDeclaration",
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "type"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "maxLength": 64,
+                          "localizationKey": "ParameterDeclaration.name"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "string",
+                            "secretString",
+                            "int",
+                            "double",
+                            "bool"
+                          ],
+                          "x-ms-enum": {
+                            "name": "parameterType",
+                            "values": [
+                              {
+                                "localizationKey": "ParameterDeclaration.type.string"
+                              },
+                              {
+                                "localizationKey": "ParameterDeclaration.type.secretString"
+                              },
+                              {
+                                "localizationKey": "ParameterDeclaration.type.int"
+                              },
+                              {
+                                "localizationKey": "ParameterDeclaration.type.double"
+                              },
+                              {
+                                "localizationKey": "ParameterDeclaration.type.bool"
+                              }
+                            ],
+                            "modelAsString": true
+                          },
+                          "localizationKey": "ParameterDeclaration.type"
+                        },
+                        "description": {
+                          "type": "string",
+                          "localizationKey": "ParameterDeclaration.description"
+                        },
+                        "default": {
+                          "type": "string",
+                          "localizationKey": "ParameterDeclaration.default"
+                        }
+                      },
+                      "localizationKey": "ParameterDeclaration"
+                    },
+                    "localizationKey": "PipelineTopologyProperties.parameters"
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/SourceNodeBase",
+                      "type": "object",
+                      "required": [
+                        "@type",
+                        "name"
+                      ],
+                      "discriminator": "@type",
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "localizationKey": "SourceNodeBase.@type"
+                        },
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "SourceNodeBase.name"
+                        }
+                      },
+                      "localizationKey": "SourceNodeBase"
+                    },
+                    "localizationKey": "PipelineTopologyProperties.sources"
+                  },
+                  "processors": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/ProcessorNodeBase",
+                      "type": "object",
+                      "required": [
+                        "@type",
+                        "inputs",
+                        "name"
+                      ],
+                      "discriminator": "@type",
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "localizationKey": "ProcessorNodeBase.@type"
+                        },
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "ProcessorNodeBase.name"
+                        },
+                        "inputs": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/NodeInput",
+                            "type": "object",
+                            "required": [
+                              "nodeName"
+                            ],
+                            "properties": {
+                              "nodeName": {
+                                "type": "string",
+                                "localizationKey": "NodeInput.nodeName"
+                              },
+                              "outputSelectors": {
+                                "type": "array",
+                                "items": {
+                                  "parsedRef": "#/definitions/OutputSelector",
+                                  "type": "object",
+                                  "properties": {
+                                    "property": {
+                                      "type": "string",
+                                      "enum": [
+                                        "mediaType"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "outputSelectorProperty",
+                                        "values": [
+                                          {
+                                            "localizationKey": "OutputSelector.property.mediaType"
+                                          }
+                                        ],
+                                        "modelAsString": true
+                                      },
+                                      "localizationKey": "OutputSelector.property"
+                                    },
+                                    "operator": {
+                                      "type": "string",
+                                      "enum": [
+                                        "is",
+                                        "isNot"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "outputSelectorOperator",
+                                        "values": [
+                                          {
+                                            "localizationKey": "OutputSelector.operator.is"
+                                          },
+                                          {
+                                            "localizationKey": "OutputSelector.operator.isNot"
+                                          }
+                                        ],
+                                        "modelAsString": true
+                                      },
+                                      "localizationKey": "OutputSelector.operator"
+                                    },
+                                    "value": {
+                                      "type": "string",
+                                      "localizationKey": "OutputSelector.value"
+                                    }
+                                  },
+                                  "localizationKey": "OutputSelector"
+                                },
+                                "localizationKey": "NodeInput.outputSelectors"
+                              }
+                            },
+                            "localizationKey": "NodeInput"
+                          },
+                          "localizationKey": "ProcessorNodeBase.inputs"
+                        }
+                      },
+                      "localizationKey": "ProcessorNodeBase"
+                    },
+                    "localizationKey": "PipelineTopologyProperties.processors"
+                  },
+                  "sinks": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/SinkNodeBase",
+                      "type": "object",
+                      "required": [
+                        "@type",
+                        "inputs",
+                        "name"
+                      ],
+                      "discriminator": "@type",
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "localizationKey": "SinkNodeBase.@type"
+                        },
+                        "name": {
+                          "type": "string",
+                          "localizationKey": "SinkNodeBase.name"
+                        },
+                        "inputs": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/NodeInput",
+                            "type": "object",
+                            "required": [
+                              "nodeName"
+                            ],
+                            "properties": {
+                              "nodeName": {
+                                "type": "string",
+                                "localizationKey": "NodeInput.nodeName"
+                              },
+                              "outputSelectors": {
+                                "type": "array",
+                                "items": {
+                                  "parsedRef": "#/definitions/OutputSelector",
+                                  "type": "object",
+                                  "properties": {
+                                    "property": {
+                                      "type": "string",
+                                      "enum": [
+                                        "mediaType"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "outputSelectorProperty",
+                                        "values": [
+                                          {
+                                            "localizationKey": "OutputSelector.property.mediaType"
+                                          }
+                                        ],
+                                        "modelAsString": true
+                                      },
+                                      "localizationKey": "OutputSelector.property"
+                                    },
+                                    "operator": {
+                                      "type": "string",
+                                      "enum": [
+                                        "is",
+                                        "isNot"
+                                      ],
+                                      "x-ms-enum": {
+                                        "name": "outputSelectorOperator",
+                                        "values": [
+                                          {
+                                            "localizationKey": "OutputSelector.operator.is"
+                                          },
+                                          {
+                                            "localizationKey": "OutputSelector.operator.isNot"
+                                          }
+                                        ],
+                                        "modelAsString": true
+                                      },
+                                      "localizationKey": "OutputSelector.operator"
+                                    },
+                                    "value": {
+                                      "type": "string",
+                                      "localizationKey": "OutputSelector.value"
+                                    }
+                                  },
+                                  "localizationKey": "OutputSelector"
+                                },
+                                "localizationKey": "NodeInput.outputSelectors"
+                              }
+                            },
+                            "localizationKey": "NodeInput"
+                          },
+                          "localizationKey": "SinkNodeBase.inputs"
+                        }
+                      },
+                      "localizationKey": "SinkNodeBase"
+                    },
+                    "localizationKey": "PipelineTopologyProperties.sinks"
+                  }
+                },
+                "localizationKey": "PipelineTopology.properties"
+              }
+            },
+            "localizationKey": "PipelineTopology"
+          },
+          "localizationKey": "PipelineTopologyCollection.value"
+        },
+        "@continuationToken": {
+          "type": "string",
+          "localizationKey": "PipelineTopologyCollection.@continuationToken"
+        }
+      },
+      "localizationKey": "PipelineTopologyCollection"
+    },
+    {
+      "name": "PipelineTopology",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "localizationKey": "PipelineTopology.name"
+        },
+        "systemData": {
+          "parsedRef": "#/definitions/SystemData",
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "SystemData.createdAt"
+            },
+            "lastModifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "localizationKey": "SystemData.lastModifiedAt"
+            }
+          },
+          "localizationKey": "PipelineTopology.systemData"
+        },
+        "properties": {
+          "parsedRef": "#/definitions/PipelineTopologyProperties",
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "localizationKey": "PipelineTopologyProperties.description"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/ParameterDeclaration",
+                "type": "object",
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "localizationKey": "ParameterDeclaration.name"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "string",
+                      "secretString",
+                      "int",
+                      "double",
+                      "bool"
+                    ],
+                    "x-ms-enum": {
+                      "name": "parameterType",
+                      "values": [
+                        {
+                          "localizationKey": "ParameterDeclaration.type.string"
+                        },
+                        {
+                          "localizationKey": "ParameterDeclaration.type.secretString"
+                        },
+                        {
+                          "localizationKey": "ParameterDeclaration.type.int"
+                        },
+                        {
+                          "localizationKey": "ParameterDeclaration.type.double"
+                        },
+                        {
+                          "localizationKey": "ParameterDeclaration.type.bool"
+                        }
+                      ],
+                      "modelAsString": true
+                    },
+                    "localizationKey": "ParameterDeclaration.type"
+                  },
+                  "description": {
+                    "type": "string",
+                    "localizationKey": "ParameterDeclaration.description"
+                  },
+                  "default": {
+                    "type": "string",
+                    "localizationKey": "ParameterDeclaration.default"
+                  }
+                },
+                "localizationKey": "ParameterDeclaration"
+              },
+              "localizationKey": "PipelineTopologyProperties.parameters"
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/SourceNodeBase",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "SourceNodeBase.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "SourceNodeBase.name"
+                  }
+                },
+                "localizationKey": "SourceNodeBase"
+              },
+              "localizationKey": "PipelineTopologyProperties.sources"
+            },
+            "processors": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/ProcessorNodeBase",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "inputs",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "ProcessorNodeBase.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "ProcessorNodeBase.name"
+                  },
+                  "inputs": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/NodeInput",
+                      "type": "object",
+                      "required": [
+                        "nodeName"
+                      ],
+                      "properties": {
+                        "nodeName": {
+                          "type": "string",
+                          "localizationKey": "NodeInput.nodeName"
+                        },
+                        "outputSelectors": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/OutputSelector",
+                            "type": "object",
+                            "properties": {
+                              "property": {
+                                "type": "string",
+                                "enum": [
+                                  "mediaType"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "outputSelectorProperty",
+                                  "values": [
+                                    {
+                                      "localizationKey": "OutputSelector.property.mediaType"
+                                    }
+                                  ],
+                                  "modelAsString": true
+                                },
+                                "localizationKey": "OutputSelector.property"
+                              },
+                              "operator": {
+                                "type": "string",
+                                "enum": [
+                                  "is",
+                                  "isNot"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "outputSelectorOperator",
+                                  "values": [
+                                    {
+                                      "localizationKey": "OutputSelector.operator.is"
+                                    },
+                                    {
+                                      "localizationKey": "OutputSelector.operator.isNot"
+                                    }
+                                  ],
+                                  "modelAsString": true
+                                },
+                                "localizationKey": "OutputSelector.operator"
+                              },
+                              "value": {
+                                "type": "string",
+                                "localizationKey": "OutputSelector.value"
+                              }
+                            },
+                            "localizationKey": "OutputSelector"
+                          },
+                          "localizationKey": "NodeInput.outputSelectors"
+                        }
+                      },
+                      "localizationKey": "NodeInput"
+                    },
+                    "localizationKey": "ProcessorNodeBase.inputs"
+                  }
+                },
+                "localizationKey": "ProcessorNodeBase"
+              },
+              "localizationKey": "PipelineTopologyProperties.processors"
+            },
+            "sinks": {
+              "type": "array",
+              "items": {
+                "parsedRef": "#/definitions/SinkNodeBase",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "inputs",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "SinkNodeBase.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "SinkNodeBase.name"
+                  },
+                  "inputs": {
+                    "type": "array",
+                    "items": {
+                      "parsedRef": "#/definitions/NodeInput",
+                      "type": "object",
+                      "required": [
+                        "nodeName"
+                      ],
+                      "properties": {
+                        "nodeName": {
+                          "type": "string",
+                          "localizationKey": "NodeInput.nodeName"
+                        },
+                        "outputSelectors": {
+                          "type": "array",
+                          "items": {
+                            "parsedRef": "#/definitions/OutputSelector",
+                            "type": "object",
+                            "properties": {
+                              "property": {
+                                "type": "string",
+                                "enum": [
+                                  "mediaType"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "outputSelectorProperty",
+                                  "values": [
+                                    {
+                                      "localizationKey": "OutputSelector.property.mediaType"
+                                    }
+                                  ],
+                                  "modelAsString": true
+                                },
+                                "localizationKey": "OutputSelector.property"
+                              },
+                              "operator": {
+                                "type": "string",
+                                "enum": [
+                                  "is",
+                                  "isNot"
+                                ],
+                                "x-ms-enum": {
+                                  "name": "outputSelectorOperator",
+                                  "values": [
+                                    {
+                                      "localizationKey": "OutputSelector.operator.is"
+                                    },
+                                    {
+                                      "localizationKey": "OutputSelector.operator.isNot"
+                                    }
+                                  ],
+                                  "modelAsString": true
+                                },
+                                "localizationKey": "OutputSelector.operator"
+                              },
+                              "value": {
+                                "type": "string",
+                                "localizationKey": "OutputSelector.value"
+                              }
+                            },
+                            "localizationKey": "OutputSelector"
+                          },
+                          "localizationKey": "NodeInput.outputSelectors"
+                        }
+                      },
+                      "localizationKey": "NodeInput"
+                    },
+                    "localizationKey": "SinkNodeBase.inputs"
+                  }
+                },
+                "localizationKey": "SinkNodeBase"
+              },
+              "localizationKey": "PipelineTopologyProperties.sinks"
+            }
+          },
+          "localizationKey": "PipelineTopology.properties"
+        }
+      },
+      "localizationKey": "PipelineTopology"
+    },
+    {
+      "name": "PipelineTopologyProperties",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "localizationKey": "PipelineTopologyProperties.description"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/ParameterDeclaration",
+            "type": "object",
+            "required": [
+              "name",
+              "type"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 64,
+                "localizationKey": "ParameterDeclaration.name"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "string",
+                  "secretString",
+                  "int",
+                  "double",
+                  "bool"
+                ],
+                "x-ms-enum": {
+                  "name": "parameterType",
+                  "values": [
+                    {
+                      "localizationKey": "ParameterDeclaration.type.string"
+                    },
+                    {
+                      "localizationKey": "ParameterDeclaration.type.secretString"
+                    },
+                    {
+                      "localizationKey": "ParameterDeclaration.type.int"
+                    },
+                    {
+                      "localizationKey": "ParameterDeclaration.type.double"
+                    },
+                    {
+                      "localizationKey": "ParameterDeclaration.type.bool"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "ParameterDeclaration.type"
+              },
+              "description": {
+                "type": "string",
+                "localizationKey": "ParameterDeclaration.description"
+              },
+              "default": {
+                "type": "string",
+                "localizationKey": "ParameterDeclaration.default"
+              }
+            },
+            "localizationKey": "ParameterDeclaration"
+          },
+          "localizationKey": "PipelineTopologyProperties.parameters"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SourceNodeBase",
+            "type": "object",
+            "required": [
+              "@type",
+              "name"
+            ],
+            "discriminator": "@type",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "localizationKey": "SourceNodeBase.@type"
+              },
+              "name": {
+                "type": "string",
+                "localizationKey": "SourceNodeBase.name"
+              }
+            },
+            "localizationKey": "SourceNodeBase"
+          },
+          "localizationKey": "PipelineTopologyProperties.sources"
+        },
+        "processors": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/ProcessorNodeBase",
+            "type": "object",
+            "required": [
+              "@type",
+              "inputs",
+              "name"
+            ],
+            "discriminator": "@type",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "localizationKey": "ProcessorNodeBase.@type"
+              },
+              "name": {
+                "type": "string",
+                "localizationKey": "ProcessorNodeBase.name"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/NodeInput",
+                  "type": "object",
+                  "required": [
+                    "nodeName"
+                  ],
+                  "properties": {
+                    "nodeName": {
+                      "type": "string",
+                      "localizationKey": "NodeInput.nodeName"
+                    },
+                    "outputSelectors": {
+                      "type": "array",
+                      "items": {
+                        "parsedRef": "#/definitions/OutputSelector",
+                        "type": "object",
+                        "properties": {
+                          "property": {
+                            "type": "string",
+                            "enum": [
+                              "mediaType"
+                            ],
+                            "x-ms-enum": {
+                              "name": "outputSelectorProperty",
+                              "values": [
+                                {
+                                  "localizationKey": "OutputSelector.property.mediaType"
+                                }
+                              ],
+                              "modelAsString": true
+                            },
+                            "localizationKey": "OutputSelector.property"
+                          },
+                          "operator": {
+                            "type": "string",
+                            "enum": [
+                              "is",
+                              "isNot"
+                            ],
+                            "x-ms-enum": {
+                              "name": "outputSelectorOperator",
+                              "values": [
+                                {
+                                  "localizationKey": "OutputSelector.operator.is"
+                                },
+                                {
+                                  "localizationKey": "OutputSelector.operator.isNot"
+                                }
+                              ],
+                              "modelAsString": true
+                            },
+                            "localizationKey": "OutputSelector.operator"
+                          },
+                          "value": {
+                            "type": "string",
+                            "localizationKey": "OutputSelector.value"
+                          }
+                        },
+                        "localizationKey": "OutputSelector"
+                      },
+                      "localizationKey": "NodeInput.outputSelectors"
+                    }
+                  },
+                  "localizationKey": "NodeInput"
+                },
+                "localizationKey": "ProcessorNodeBase.inputs"
+              }
+            },
+            "localizationKey": "ProcessorNodeBase"
+          },
+          "localizationKey": "PipelineTopologyProperties.processors"
+        },
+        "sinks": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SinkNodeBase",
+            "type": "object",
+            "required": [
+              "@type",
+              "inputs",
+              "name"
+            ],
+            "discriminator": "@type",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "localizationKey": "SinkNodeBase.@type"
+              },
+              "name": {
+                "type": "string",
+                "localizationKey": "SinkNodeBase.name"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/NodeInput",
+                  "type": "object",
+                  "required": [
+                    "nodeName"
+                  ],
+                  "properties": {
+                    "nodeName": {
+                      "type": "string",
+                      "localizationKey": "NodeInput.nodeName"
+                    },
+                    "outputSelectors": {
+                      "type": "array",
+                      "items": {
+                        "parsedRef": "#/definitions/OutputSelector",
+                        "type": "object",
+                        "properties": {
+                          "property": {
+                            "type": "string",
+                            "enum": [
+                              "mediaType"
+                            ],
+                            "x-ms-enum": {
+                              "name": "outputSelectorProperty",
+                              "values": [
+                                {
+                                  "localizationKey": "OutputSelector.property.mediaType"
+                                }
+                              ],
+                              "modelAsString": true
+                            },
+                            "localizationKey": "OutputSelector.property"
+                          },
+                          "operator": {
+                            "type": "string",
+                            "enum": [
+                              "is",
+                              "isNot"
+                            ],
+                            "x-ms-enum": {
+                              "name": "outputSelectorOperator",
+                              "values": [
+                                {
+                                  "localizationKey": "OutputSelector.operator.is"
+                                },
+                                {
+                                  "localizationKey": "OutputSelector.operator.isNot"
+                                }
+                              ],
+                              "modelAsString": true
+                            },
+                            "localizationKey": "OutputSelector.operator"
+                          },
+                          "value": {
+                            "type": "string",
+                            "localizationKey": "OutputSelector.value"
+                          }
+                        },
+                        "localizationKey": "OutputSelector"
+                      },
+                      "localizationKey": "NodeInput.outputSelectors"
+                    }
+                  },
+                  "localizationKey": "NodeInput"
+                },
+                "localizationKey": "SinkNodeBase.inputs"
+              }
+            },
+            "localizationKey": "SinkNodeBase"
+          },
+          "localizationKey": "PipelineTopologyProperties.sinks"
+        }
+      },
+      "localizationKey": "PipelineTopologyProperties"
+    },
+    {
+      "name": "SystemData",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "localizationKey": "SystemData.createdAt"
+        },
+        "lastModifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "localizationKey": "SystemData.lastModifiedAt"
+        }
+      },
+      "localizationKey": "SystemData"
+    },
+    {
+      "name": "ParameterDeclaration",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "localizationKey": "ParameterDeclaration.name"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "secretString",
+            "int",
+            "double",
+            "bool"
+          ],
+          "x-ms-enum": {
+            "name": "parameterType",
+            "values": [
+              {
+                "localizationKey": "ParameterDeclaration.type.string"
+              },
+              {
+                "localizationKey": "ParameterDeclaration.type.secretString"
+              },
+              {
+                "localizationKey": "ParameterDeclaration.type.int"
+              },
+              {
+                "localizationKey": "ParameterDeclaration.type.double"
+              },
+              {
+                "localizationKey": "ParameterDeclaration.type.bool"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "ParameterDeclaration.type"
+        },
+        "description": {
+          "type": "string",
+          "localizationKey": "ParameterDeclaration.description"
+        },
+        "default": {
+          "type": "string",
+          "localizationKey": "ParameterDeclaration.default"
+        }
+      },
+      "localizationKey": "ParameterDeclaration"
+    },
+    {
+      "name": "SourceNodeBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SourceNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "SourceNodeBase.name"
+        }
+      },
+      "localizationKey": "SourceNodeBase"
+    },
+    {
+      "name": "RtspSource",
+      "nodeType": "source",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SourceNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "SourceNodeBase.name"
+        },
+        "transport": {
+          "type": "string",
+          "enum": [
+            "http",
+            "tcp"
+          ],
+          "x-ms-enum": {
+            "name": "rtspTransport",
+            "values": [
+              {
+                "localizationKey": "RtspSource.transport.http"
+              },
+              {
+                "localizationKey": "RtspSource.transport.tcp"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "RtspSource.transport"
+        },
+        "endpoint": {
+          "parsedRef": "#/definitions/EndpointBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "EndpointBase.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/CredentialsBase",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "CredentialsBase.@type"
+                }
+              },
+              "localizationKey": "EndpointBase.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "EndpointBase.url"
+            }
+          },
+          "localizationKey": "RtspSource.endpoint"
+        }
+      },
+      "required": [
+        "@type",
+        "name",
+        "endpoint"
+      ],
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.RtspSource",
+      "localizationKey": "RtspSource",
+      "parsedAllOf": [
+        "#/definitions/SourceNodeBase"
+      ]
+    },
+    {
+      "name": "IotHubMessageSource",
+      "nodeType": "source",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SourceNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "SourceNodeBase.name"
+        },
+        "hubInputName": {
+          "type": "string",
+          "localizationKey": "IotHubMessageSource.hubInputName"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.IotHubMessageSource",
+      "localizationKey": "IotHubMessageSource",
+      "parsedAllOf": [
+        "#/definitions/SourceNodeBase"
+      ],
+      "required": [
+        "@type",
+        "name",
+        null
+      ]
+    },
+    {
+      "name": "IotHubMessageSink",
+      "nodeType": "sink",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "SinkNodeBase.inputs"
+        },
+        "hubOutputName": {
+          "type": "string",
+          "localizationKey": "IotHubMessageSink.hubOutputName"
+        }
+      },
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "@type",
+        "hubOutputName"
+      ],
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.IotHubMessageSink",
+      "localizationKey": "IotHubMessageSink",
+      "parsedAllOf": [
+        "#/definitions/SinkNodeBase"
+      ]
+    },
+    {
+      "name": "EndpointBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "url"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "EndpointBase.@type"
+        },
+        "credentials": {
+          "parsedRef": "#/definitions/CredentialsBase",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "CredentialsBase.@type"
+            }
+          },
+          "localizationKey": "EndpointBase.credentials"
+        },
+        "url": {
+          "type": "string",
+          "localizationKey": "EndpointBase.url"
+        }
+      },
+      "localizationKey": "EndpointBase"
+    },
+    {
+      "name": "CredentialsBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "CredentialsBase.@type"
+        }
+      },
+      "localizationKey": "CredentialsBase"
+    },
+    {
+      "name": "UsernamePasswordCredentials",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "CredentialsBase.@type"
+        },
+        "username": {
+          "type": "string",
+          "localizationKey": "UsernamePasswordCredentials.username"
+        },
+        "password": {
+          "type": "string",
+          "localizationKey": "UsernamePasswordCredentials.password"
+        }
+      },
+      "required": [
+        "@type",
+        "username",
+        "password"
+      ],
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials",
+      "localizationKey": "UsernamePasswordCredentials",
+      "parsedAllOf": [
+        "#/definitions/CredentialsBase"
+      ]
+    },
+    {
+      "name": "HttpHeaderCredentials",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "CredentialsBase.@type"
+        },
+        "headerName": {
+          "type": "string",
+          "localizationKey": "HttpHeaderCredentials.headerName"
+        },
+        "headerValue": {
+          "type": "string",
+          "localizationKey": "HttpHeaderCredentials.headerValue"
+        }
+      },
+      "required": [
+        "@type",
+        "headerName",
+        "headerValue"
+      ],
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.HttpHeaderCredentials",
+      "localizationKey": "HttpHeaderCredentials",
+      "parsedAllOf": [
+        "#/definitions/CredentialsBase"
+      ]
+    },
+    {
+      "name": "UnsecuredEndpoint",
+      "nodeType": "other",
+      "type": "object",
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint",
+      "localizationKey": "UnsecuredEndpoint",
+      "parsedAllOf": [
+        "#/definitions/EndpointBase"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "EndpointBase.@type"
+        },
+        "credentials": {
+          "parsedRef": "#/definitions/CredentialsBase",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "CredentialsBase.@type"
+            }
+          },
+          "localizationKey": "EndpointBase.credentials"
+        },
+        "url": {
+          "type": "string",
+          "localizationKey": "EndpointBase.url"
+        }
+      },
+      "required": [
+        "@type",
+        "url",
+        null
+      ]
+    },
+    {
+      "name": "TlsEndpoint",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "EndpointBase.@type"
+        },
+        "credentials": {
+          "parsedRef": "#/definitions/CredentialsBase",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "CredentialsBase.@type"
+            }
+          },
+          "localizationKey": "EndpointBase.credentials"
+        },
+        "url": {
+          "type": "string",
+          "localizationKey": "EndpointBase.url"
+        },
+        "trustedCertificates": {
+          "parsedRef": "#/definitions/CertificateSource",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "CertificateSource.@type"
+            }
+          },
+          "localizationKey": "TlsEndpoint.trustedCertificates"
+        },
+        "validationOptions": {
+          "parsedRef": "#/definitions/TlsValidationOptions",
+          "type": "object",
+          "properties": {
+            "ignoreHostname": {
+              "type": "string",
+              "localizationKey": "TlsValidationOptions.ignoreHostname"
+            },
+            "ignoreSignature": {
+              "type": "string",
+              "localizationKey": "TlsValidationOptions.ignoreSignature"
+            }
+          },
+          "localizationKey": "TlsEndpoint.validationOptions"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.TlsEndpoint",
+      "localizationKey": "TlsEndpoint",
+      "parsedAllOf": [
+        "#/definitions/EndpointBase"
+      ],
+      "required": [
+        "@type",
+        "url",
+        null
+      ]
+    },
+    {
+      "name": "CertificateSource",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "CertificateSource.@type"
+        }
+      },
+      "localizationKey": "CertificateSource"
+    },
+    {
+      "name": "TlsValidationOptions",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "ignoreHostname": {
+          "type": "string",
+          "localizationKey": "TlsValidationOptions.ignoreHostname"
+        },
+        "ignoreSignature": {
+          "type": "string",
+          "localizationKey": "TlsValidationOptions.ignoreSignature"
+        }
+      },
+      "localizationKey": "TlsValidationOptions"
+    },
+    {
+      "name": "PemCertificateList",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "CertificateSource.@type"
+        },
+        "certificates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "localizationKey": "PemCertificateList.certificates"
+        }
+      },
+      "required": [
+        "@type",
+        "certificates"
+      ],
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.PemCertificateList",
+      "localizationKey": "PemCertificateList",
+      "parsedAllOf": [
+        "#/definitions/CertificateSource"
+      ]
+    },
+    {
+      "name": "SinkNodeBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "SinkNodeBase.inputs"
+        }
+      },
+      "localizationKey": "SinkNodeBase"
+    },
+    {
+      "name": "NodeInput",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "nodeName"
+      ],
+      "properties": {
+        "nodeName": {
+          "type": "string",
+          "localizationKey": "NodeInput.nodeName"
+        },
+        "outputSelectors": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/OutputSelector",
+            "type": "object",
+            "properties": {
+              "property": {
+                "type": "string",
+                "enum": [
+                  "mediaType"
+                ],
+                "x-ms-enum": {
+                  "name": "outputSelectorProperty",
+                  "values": [
+                    {
+                      "localizationKey": "OutputSelector.property.mediaType"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "OutputSelector.property"
+              },
+              "operator": {
+                "type": "string",
+                "enum": [
+                  "is",
+                  "isNot"
+                ],
+                "x-ms-enum": {
+                  "name": "outputSelectorOperator",
+                  "values": [
+                    {
+                      "localizationKey": "OutputSelector.operator.is"
+                    },
+                    {
+                      "localizationKey": "OutputSelector.operator.isNot"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "OutputSelector.operator"
+              },
+              "value": {
+                "type": "string",
+                "localizationKey": "OutputSelector.value"
+              }
+            },
+            "localizationKey": "OutputSelector"
+          },
+          "localizationKey": "NodeInput.outputSelectors"
+        }
+      },
+      "localizationKey": "NodeInput"
+    },
+    {
+      "name": "OutputSelector",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "property": {
+          "type": "string",
+          "enum": [
+            "mediaType"
+          ],
+          "x-ms-enum": {
+            "name": "outputSelectorProperty",
+            "values": [
+              {
+                "localizationKey": "OutputSelector.property.mediaType"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "OutputSelector.property"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "is",
+            "isNot"
+          ],
+          "x-ms-enum": {
+            "name": "outputSelectorOperator",
+            "values": [
+              {
+                "localizationKey": "OutputSelector.operator.is"
+              },
+              {
+                "localizationKey": "OutputSelector.operator.isNot"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "OutputSelector.operator"
+        },
+        "value": {
+          "type": "string",
+          "localizationKey": "OutputSelector.value"
+        }
+      },
+      "localizationKey": "OutputSelector"
+    },
+    {
+      "name": "FileSink",
+      "nodeType": "sink",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "SinkNodeBase.inputs"
+        },
+        "baseDirectoryPath": {
+          "type": "string",
+          "localizationKey": "FileSink.baseDirectoryPath"
+        },
+        "fileNamePattern": {
+          "type": "string",
+          "localizationKey": "FileSink.fileNamePattern"
+        },
+        "maximumSizeMiB": {
+          "type": "string",
+          "localizationKey": "FileSink.maximumSizeMiB"
+        }
+      },
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "fileNamePattern",
+        "baseDirectoryPath",
+        "maximumSizeMiB"
+      ],
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.FileSink",
+      "localizationKey": "FileSink",
+      "parsedAllOf": [
+        "#/definitions/SinkNodeBase"
+      ]
+    },
+    {
+      "name": "VideoCreationProperties",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "localizationKey": "VideoCreationProperties.title"
+        },
+        "description": {
+          "type": "string",
+          "localizationKey": "VideoCreationProperties.description"
+        },
+        "segmentLength": {
+          "type": "string",
+          "localizationKey": "VideoCreationProperties.segmentLength"
+        }
+      },
+      "localizationKey": "VideoCreationProperties"
+    },
+    {
+      "name": "VideoSink",
+      "nodeType": "sink",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "SinkNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "SinkNodeBase.inputs"
+        },
+        "videoName": {
+          "type": "string",
+          "localizationKey": "VideoSink.videoName"
+        },
+        "videoCreationProperties": {
+          "parsedRef": "#/definitions/VideoCreationProperties",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "localizationKey": "VideoCreationProperties.title"
+            },
+            "description": {
+              "type": "string",
+              "localizationKey": "VideoCreationProperties.description"
+            },
+            "segmentLength": {
+              "type": "string",
+              "localizationKey": "VideoCreationProperties.segmentLength"
+            }
+          },
+          "localizationKey": "VideoSink.videoCreationProperties"
+        },
+        "localMediaCachePath": {
+          "type": "string",
+          "localizationKey": "VideoSink.localMediaCachePath"
+        },
+        "localMediaCacheMaximumSizeMiB": {
+          "type": "string",
+          "localizationKey": "VideoSink.localMediaCacheMaximumSizeMiB"
+        }
+      },
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "@type",
+        "videoName",
+        "localMediaCachePath",
+        "localMediaCacheMaximumSizeMiB"
+      ],
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.VideoSink",
+      "localizationKey": "VideoSink",
+      "parsedAllOf": [
+        "#/definitions/SinkNodeBase"
+      ]
+    },
+    {
+      "name": "ProcessorNodeBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        }
+      },
+      "localizationKey": "ProcessorNodeBase"
+    },
+    {
+      "name": "MotionDetectionProcessor",
+      "nodeType": "processor",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "sensitivity": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "x-ms-enum": {
+            "name": "motionDetectionSensitivity",
+            "values": [
+              {
+                "localizationKey": "MotionDetectionProcessor.sensitivity.low"
+              },
+              {
+                "localizationKey": "MotionDetectionProcessor.sensitivity.medium"
+              },
+              {
+                "localizationKey": "MotionDetectionProcessor.sensitivity.high"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "MotionDetectionProcessor.sensitivity"
+        },
+        "outputMotionRegion": {
+          "type": "boolean",
+          "localizationKey": "MotionDetectionProcessor.outputMotionRegion"
+        },
+        "eventAggregationWindow": {
+          "type": "string",
+          "localizationKey": "MotionDetectionProcessor.eventAggregationWindow"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor",
+      "localizationKey": "MotionDetectionProcessor",
+      "parsedAllOf": [
+        "#/definitions/ProcessorNodeBase"
+      ],
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        null
+      ]
+    },
+    {
+      "name": "ObjectTrackingProcessor",
+      "nodeType": "processor",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "accuracy": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "x-ms-enum": {
+            "name": "objectTrackingAccuracy",
+            "values": [
+              {
+                "localizationKey": "ObjectTrackingProcessor.accuracy.low"
+              },
+              {
+                "localizationKey": "ObjectTrackingProcessor.accuracy.medium"
+              },
+              {
+                "localizationKey": "ObjectTrackingProcessor.accuracy.high"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "ObjectTrackingProcessor.accuracy"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor",
+      "localizationKey": "ObjectTrackingProcessor",
+      "parsedAllOf": [
+        "#/definitions/ProcessorNodeBase"
+      ],
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        null
+      ]
+    },
+    {
+      "name": "LineCrossingProcessor",
+      "nodeType": "processor",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "lines"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NamedLineBase",
+            "type": "object",
+            "required": [
+              "@type",
+              "name"
+            ],
+            "discriminator": "@type",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "localizationKey": "NamedLineBase.@type"
+              },
+              "name": {
+                "type": "string",
+                "localizationKey": "NamedLineBase.name"
+              }
+            },
+            "localizationKey": "NamedLineBase"
+          },
+          "localizationKey": "LineCrossingProcessor.lines"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.LineCrossingProcessor",
+      "localizationKey": "LineCrossingProcessor",
+      "parsedAllOf": [
+        "#/definitions/ProcessorNodeBase"
+      ]
+    },
+    {
+      "name": "ExtensionProcessorBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "endpoint",
+        "image"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "endpoint": {
+          "parsedRef": "#/definitions/EndpointBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "EndpointBase.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/CredentialsBase",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "CredentialsBase.@type"
+                }
+              },
+              "localizationKey": "EndpointBase.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "EndpointBase.url"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.endpoint"
+        },
+        "image": {
+          "parsedRef": "#/definitions/ImageProperties",
+          "type": "object",
+          "properties": {
+            "scale": {
+              "parsedRef": "#/definitions/ImageScale",
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "preserveAspectRatio",
+                    "pad",
+                    "stretch"
+                  ],
+                  "x-ms-enum": {
+                    "name": "imageScaleMode",
+                    "values": [
+                      {
+                        "localizationKey": "ImageScale.mode.preserveAspectRatio"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.pad"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.stretch"
+                      }
+                    ],
+                    "modelAsString": true
+                  },
+                  "localizationKey": "ImageScale.mode"
+                },
+                "width": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.width"
+                },
+                "height": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.height"
+                }
+              },
+              "localizationKey": "ImageScale"
+            },
+            "format": {
+              "parsedRef": "#/definitions/ImageFormatProperties",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "ImageFormatProperties.@type"
+                }
+              },
+              "localizationKey": "ImageFormatProperties"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.image"
+        },
+        "samplingOptions": {
+          "parsedRef": "#/definitions/SamplingOptions",
+          "type": "object",
+          "properties": {
+            "skipSamplesWithoutAnnotation": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.skipSamplesWithoutAnnotation"
+            },
+            "maximumSamplesPerSecond": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.maximumSamplesPerSecond"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.samplingOptions"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase",
+      "localizationKey": "ExtensionProcessorBase",
+      "parsedAllOf": [
+        "#/definitions/ProcessorNodeBase"
+      ]
+    },
+    {
+      "name": "GrpcExtension",
+      "nodeType": "processor",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "endpoint",
+        "image",
+        "dataTransfer"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "endpoint": {
+          "parsedRef": "#/definitions/EndpointBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "EndpointBase.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/CredentialsBase",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "CredentialsBase.@type"
+                }
+              },
+              "localizationKey": "EndpointBase.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "EndpointBase.url"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.endpoint"
+        },
+        "image": {
+          "parsedRef": "#/definitions/ImageProperties",
+          "type": "object",
+          "properties": {
+            "scale": {
+              "parsedRef": "#/definitions/ImageScale",
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "preserveAspectRatio",
+                    "pad",
+                    "stretch"
+                  ],
+                  "x-ms-enum": {
+                    "name": "imageScaleMode",
+                    "values": [
+                      {
+                        "localizationKey": "ImageScale.mode.preserveAspectRatio"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.pad"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.stretch"
+                      }
+                    ],
+                    "modelAsString": true
+                  },
+                  "localizationKey": "ImageScale.mode"
+                },
+                "width": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.width"
+                },
+                "height": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.height"
+                }
+              },
+              "localizationKey": "ImageScale"
+            },
+            "format": {
+              "parsedRef": "#/definitions/ImageFormatProperties",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "ImageFormatProperties.@type"
+                }
+              },
+              "localizationKey": "ImageFormatProperties"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.image"
+        },
+        "samplingOptions": {
+          "parsedRef": "#/definitions/SamplingOptions",
+          "type": "object",
+          "properties": {
+            "skipSamplesWithoutAnnotation": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.skipSamplesWithoutAnnotation"
+            },
+            "maximumSamplesPerSecond": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.maximumSamplesPerSecond"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.samplingOptions"
+        },
+        "dataTransfer": {
+          "parsedRef": "#/definitions/GrpcExtensionDataTransfer",
+          "type": "object",
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "sharedMemorySizeMiB": {
+              "type": "string",
+              "localizationKey": "GrpcExtensionDataTransfer.sharedMemorySizeMiB"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "embedded",
+                "sharedMemory"
+              ],
+              "x-ms-enum": {
+                "name": "grpcExtensionDataTransferMode",
+                "values": [
+                  {
+                    "localizationKey": "GrpcExtensionDataTransfer.mode.embedded"
+                  },
+                  {
+                    "localizationKey": "GrpcExtensionDataTransfer.mode.sharedMemory"
+                  }
+                ],
+                "modelAsString": true
+              },
+              "localizationKey": "GrpcExtensionDataTransfer.mode"
+            }
+          },
+          "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.GrpcExtensionDataTransfer",
+          "localizationKey": "GrpcExtension.dataTransfer"
+        },
+        "extensionConfiguration": {
+          "type": "string",
+          "localizationKey": "GrpcExtension.extensionConfiguration"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.GrpcExtension",
+      "localizationKey": "GrpcExtension",
+      "parsedAllOf": [
+        "#/definitions/ExtensionProcessorBase"
+      ]
+    },
+    {
+      "name": "GrpcExtensionDataTransfer",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "sharedMemorySizeMiB": {
+          "type": "string",
+          "localizationKey": "GrpcExtensionDataTransfer.sharedMemorySizeMiB"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "embedded",
+            "sharedMemory"
+          ],
+          "x-ms-enum": {
+            "name": "grpcExtensionDataTransferMode",
+            "values": [
+              {
+                "localizationKey": "GrpcExtensionDataTransfer.mode.embedded"
+              },
+              {
+                "localizationKey": "GrpcExtensionDataTransfer.mode.sharedMemory"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "GrpcExtensionDataTransfer.mode"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.GrpcExtensionDataTransfer",
+      "localizationKey": "GrpcExtensionDataTransfer"
+    },
+    {
+      "name": "HttpExtension",
+      "nodeType": "processor",
+      "type": "object",
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.HttpExtension",
+      "localizationKey": "HttpExtension",
+      "parsedAllOf": [
+        "#/definitions/ExtensionProcessorBase"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "endpoint": {
+          "parsedRef": "#/definitions/EndpointBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "EndpointBase.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/CredentialsBase",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "CredentialsBase.@type"
+                }
+              },
+              "localizationKey": "EndpointBase.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "EndpointBase.url"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.endpoint"
+        },
+        "image": {
+          "parsedRef": "#/definitions/ImageProperties",
+          "type": "object",
+          "properties": {
+            "scale": {
+              "parsedRef": "#/definitions/ImageScale",
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "preserveAspectRatio",
+                    "pad",
+                    "stretch"
+                  ],
+                  "x-ms-enum": {
+                    "name": "imageScaleMode",
+                    "values": [
+                      {
+                        "localizationKey": "ImageScale.mode.preserveAspectRatio"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.pad"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.stretch"
+                      }
+                    ],
+                    "modelAsString": true
+                  },
+                  "localizationKey": "ImageScale.mode"
+                },
+                "width": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.width"
+                },
+                "height": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.height"
+                }
+              },
+              "localizationKey": "ImageScale"
+            },
+            "format": {
+              "parsedRef": "#/definitions/ImageFormatProperties",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "ImageFormatProperties.@type"
+                }
+              },
+              "localizationKey": "ImageFormatProperties"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.image"
+        },
+        "samplingOptions": {
+          "parsedRef": "#/definitions/SamplingOptions",
+          "type": "object",
+          "properties": {
+            "skipSamplesWithoutAnnotation": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.skipSamplesWithoutAnnotation"
+            },
+            "maximumSamplesPerSecond": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.maximumSamplesPerSecond"
+            }
+          },
+          "localizationKey": "ExtensionProcessorBase.samplingOptions"
+        }
+      },
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "endpoint",
+        "image",
+        null
+      ]
+    },
+    {
+      "name": "ImageProperties",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "scale": {
+          "parsedRef": "#/definitions/ImageScale",
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "preserveAspectRatio",
+                "pad",
+                "stretch"
+              ],
+              "x-ms-enum": {
+                "name": "imageScaleMode",
+                "values": [
+                  {
+                    "localizationKey": "ImageScale.mode.preserveAspectRatio"
+                  },
+                  {
+                    "localizationKey": "ImageScale.mode.pad"
+                  },
+                  {
+                    "localizationKey": "ImageScale.mode.stretch"
+                  }
+                ],
+                "modelAsString": true
+              },
+              "localizationKey": "ImageScale.mode"
+            },
+            "width": {
+              "type": "string",
+              "localizationKey": "ImageScale.width"
+            },
+            "height": {
+              "type": "string",
+              "localizationKey": "ImageScale.height"
+            }
+          },
+          "localizationKey": "ImageScale"
+        },
+        "format": {
+          "parsedRef": "#/definitions/ImageFormatProperties",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "ImageFormatProperties.@type"
+            }
+          },
+          "localizationKey": "ImageFormatProperties"
+        }
+      },
+      "localizationKey": "ImageProperties"
+    },
+    {
+      "name": "SamplingOptions",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "skipSamplesWithoutAnnotation": {
+          "type": "string",
+          "localizationKey": "SamplingOptions.skipSamplesWithoutAnnotation"
+        },
+        "maximumSamplesPerSecond": {
+          "type": "string",
+          "localizationKey": "SamplingOptions.maximumSamplesPerSecond"
+        }
+      },
+      "localizationKey": "SamplingOptions"
+    },
+    {
+      "name": "ImageScale",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "preserveAspectRatio",
+            "pad",
+            "stretch"
+          ],
+          "x-ms-enum": {
+            "name": "imageScaleMode",
+            "values": [
+              {
+                "localizationKey": "ImageScale.mode.preserveAspectRatio"
+              },
+              {
+                "localizationKey": "ImageScale.mode.pad"
+              },
+              {
+                "localizationKey": "ImageScale.mode.stretch"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "ImageScale.mode"
+        },
+        "width": {
+          "type": "string",
+          "localizationKey": "ImageScale.width"
+        },
+        "height": {
+          "type": "string",
+          "localizationKey": "ImageScale.height"
+        }
+      },
+      "localizationKey": "ImageScale"
+    },
+    {
+      "name": "ImageFormatProperties",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ImageFormatProperties.@type"
+        }
+      },
+      "localizationKey": "ImageFormatProperties"
+    },
+    {
+      "name": "ImageFormatRaw",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "pixelFormat"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ImageFormatProperties.@type"
+        },
+        "pixelFormat": {
+          "type": "string",
+          "enum": [
+            "yuv420p",
+            "rgb565be",
+            "rgb565le",
+            "rgb555be",
+            "rgb555le",
+            "rgb24",
+            "bgr24",
+            "argb",
+            "rgba",
+            "abgr",
+            "bgra"
+          ],
+          "x-ms-enum": {
+            "name": "imageFormatRawPixelFormat",
+            "values": [
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.yuv420p"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.rgb565be"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.rgb565le"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.rgb555be"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.rgb555le"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.rgb24"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.bgr24"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.argb"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.rgba"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.abgr"
+              },
+              {
+                "localizationKey": "ImageFormatRaw.pixelFormat.bgra"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "ImageFormatRaw.pixelFormat"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.ImageFormatRaw",
+      "localizationKey": "ImageFormatRaw",
+      "parsedAllOf": [
+        "#/definitions/ImageFormatProperties"
+      ]
+    },
+    {
+      "name": "ImageFormatJpeg",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ImageFormatProperties.@type"
+        },
+        "quality": {
+          "type": "string",
+          "localizationKey": "ImageFormatJpeg.quality"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.ImageFormatJpeg",
+      "localizationKey": "ImageFormatJpeg",
+      "parsedAllOf": [
+        "#/definitions/ImageFormatProperties"
+      ],
+      "required": [
+        "@type",
+        null
+      ]
+    },
+    {
+      "name": "ImageFormatBmp",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ImageFormatProperties.@type"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.ImageFormatBmp",
+      "localizationKey": "ImageFormatBmp",
+      "parsedAllOf": [
+        "#/definitions/ImageFormatProperties"
+      ],
+      "required": [
+        "@type",
+        null
+      ]
+    },
+    {
+      "name": "ImageFormatPng",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ImageFormatProperties.@type"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.ImageFormatPng",
+      "localizationKey": "ImageFormatPng",
+      "parsedAllOf": [
+        "#/definitions/ImageFormatProperties"
+      ],
+      "required": [
+        "@type",
+        null
+      ]
+    },
+    {
+      "name": "NamedLineBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "NamedLineBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "NamedLineBase.name"
+        }
+      },
+      "localizationKey": "NamedLineBase"
+    },
+    {
+      "name": "NamedLineString",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "name",
+        "line"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "NamedLineBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "NamedLineBase.name"
+        },
+        "line": {
+          "type": "string",
+          "localizationKey": "NamedLineString.line"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.NamedLineString",
+      "localizationKey": "NamedLineString",
+      "parsedAllOf": [
+        "#/definitions/NamedLineBase"
+      ]
+    },
+    {
+      "name": "NamedPolygonBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "name"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "NamedPolygonBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "NamedPolygonBase.name"
+        }
+      },
+      "localizationKey": "NamedPolygonBase"
+    },
+    {
+      "name": "NamedPolygonString",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "name",
+        "polygon"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "NamedPolygonBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "NamedPolygonBase.name"
+        },
+        "polygon": {
+          "type": "string",
+          "localizationKey": "NamedPolygonString.polygon"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.NamedPolygonString",
+      "localizationKey": "NamedPolygonString",
+      "parsedAllOf": [
+        "#/definitions/NamedPolygonBase"
+      ]
+    },
+    {
+      "name": "SignalGateProcessor",
+      "nodeType": "processor",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "activationEvaluationWindow": {
+          "type": "string",
+          "localizationKey": "SignalGateProcessor.activationEvaluationWindow"
+        },
+        "activationSignalOffset": {
+          "type": "string",
+          "localizationKey": "SignalGateProcessor.activationSignalOffset"
+        },
+        "minimumActivationTime": {
+          "type": "string",
+          "localizationKey": "SignalGateProcessor.minimumActivationTime"
+        },
+        "maximumActivationTime": {
+          "type": "string",
+          "localizationKey": "SignalGateProcessor.maximumActivationTime"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.SignalGateProcessor",
+      "localizationKey": "SignalGateProcessor",
+      "parsedAllOf": [
+        "#/definitions/ProcessorNodeBase"
+      ],
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        null
+      ]
+    },
+    {
+      "name": "SpatialAnalysisOperationBase",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type"
+      ],
+      "discriminator": "@type",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationBase.@type"
+        }
+      },
+      "localizationKey": "SpatialAnalysisOperationBase"
+    },
+    {
+      "name": "SpatialAnalysisCustomOperation",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        "extensionConfiguration"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationBase.@type"
+        },
+        "extensionConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisCustomOperation.extensionConfiguration"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation",
+      "localizationKey": "SpatialAnalysisCustomOperation",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisOperationBase"
+      ]
+    },
+    {
+      "name": "SpatialAnalysisTypedOperationBase",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationBase.@type"
+        },
+        "debug": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.debug"
+        },
+        "cameraConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.cameraConfiguration"
+        },
+        "detectorNodeConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.detectorNodeConfiguration"
+        },
+        "enableFaceMaskClassifier": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.enableFaceMaskClassifier"
+        }
+      },
+      "localizationKey": "SpatialAnalysisTypedOperationBase",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisOperationBase"
+      ],
+      "required": [
+        "@type",
+        null
+      ]
+    },
+    {
+      "name": "SpatialAnalysisOperationEventBase",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "center",
+            "bottomCenter",
+            "footprint"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisOperationFocus",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+        }
+      },
+      "localizationKey": "SpatialAnalysisOperationEventBase"
+    },
+    {
+      "name": "SpatialAnalysisPersonCountEvent",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "center",
+            "bottomCenter",
+            "footprint"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisOperationFocus",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": [
+            "event",
+            "interval"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisPersonCountEventTrigger",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisPersonCountEvent.trigger.event"
+              },
+              {
+                "localizationKey": "SpatialAnalysisPersonCountEvent.trigger.interval"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisPersonCountEvent.trigger"
+        },
+        "outputFrequency": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisPersonCountEvent.outputFrequency"
+        }
+      },
+      "localizationKey": "SpatialAnalysisPersonCountEvent",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisOperationEventBase"
+      ],
+      "required": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "SpatialAnalysisPersonCountZoneEvents",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "zone"
+      ],
+      "properties": {
+        "zone": {
+          "parsedRef": "#/definitions/NamedPolygonBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "name"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "NamedPolygonBase.@type"
+            },
+            "name": {
+              "type": "string",
+              "localizationKey": "NamedPolygonBase.name"
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonCountZoneEvents.zone"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonCountEvent",
+            "type": "object",
+            "properties": {
+              "threshold": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+              },
+              "focus": {
+                "type": "string",
+                "enum": [
+                  "center",
+                  "bottomCenter",
+                  "footprint"
+                ],
+                "x-ms-enum": {
+                  "name": "spatialAnalysisOperationFocus",
+                  "values": [
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+              },
+              "trigger": {
+                "type": "string",
+                "enum": [
+                  "event",
+                  "interval"
+                ],
+                "x-ms-enum": {
+                  "name": "spatialAnalysisPersonCountEventTrigger",
+                  "values": [
+                    {
+                      "localizationKey": "SpatialAnalysisPersonCountEvent.trigger.event"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisPersonCountEvent.trigger.interval"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "SpatialAnalysisPersonCountEvent.trigger"
+              },
+              "outputFrequency": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisPersonCountEvent.outputFrequency"
+              }
+            },
+            "localizationKey": "SpatialAnalysisPersonCountEvent",
+            "parsedAllOf": [
+              "#/definitions/SpatialAnalysisOperationEventBase"
+            ],
+            "required": [
+              null,
+              null
+            ]
+          },
+          "localizationKey": "SpatialAnalysisPersonCountZoneEvents.events"
+        }
+      }
+    },
+    {
+      "name": "SpatialAnalysisPersonCountOperation",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        null,
+        "zones"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationBase.@type"
+        },
+        "debug": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.debug"
+        },
+        "cameraConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.cameraConfiguration"
+        },
+        "detectorNodeConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.detectorNodeConfiguration"
+        },
+        "enableFaceMaskClassifier": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.enableFaceMaskClassifier"
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonCountZoneEvents",
+            "type": "object",
+            "required": [
+              "zone"
+            ],
+            "properties": {
+              "zone": {
+                "parsedRef": "#/definitions/NamedPolygonBase",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "NamedPolygonBase.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "NamedPolygonBase.name"
+                  }
+                },
+                "localizationKey": "SpatialAnalysisPersonCountZoneEvents.zone"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/SpatialAnalysisPersonCountEvent",
+                  "type": "object",
+                  "properties": {
+                    "threshold": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+                    },
+                    "focus": {
+                      "type": "string",
+                      "enum": [
+                        "center",
+                        "bottomCenter",
+                        "footprint"
+                      ],
+                      "x-ms-enum": {
+                        "name": "spatialAnalysisOperationFocus",
+                        "values": [
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+                    },
+                    "trigger": {
+                      "type": "string",
+                      "enum": [
+                        "event",
+                        "interval"
+                      ],
+                      "x-ms-enum": {
+                        "name": "spatialAnalysisPersonCountEventTrigger",
+                        "values": [
+                          {
+                            "localizationKey": "SpatialAnalysisPersonCountEvent.trigger.event"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisPersonCountEvent.trigger.interval"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "SpatialAnalysisPersonCountEvent.trigger"
+                    },
+                    "outputFrequency": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisPersonCountEvent.outputFrequency"
+                    }
+                  },
+                  "localizationKey": "SpatialAnalysisPersonCountEvent",
+                  "parsedAllOf": [
+                    "#/definitions/SpatialAnalysisOperationEventBase"
+                  ],
+                  "required": [
+                    null,
+                    null
+                  ]
+                },
+                "localizationKey": "SpatialAnalysisPersonCountZoneEvents.events"
+              }
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonCountOperation.zones"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation",
+      "localizationKey": "SpatialAnalysisPersonCountOperation",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisTypedOperationBase"
+      ]
+    },
+    {
+      "name": "SpatialAnalysisPersonZoneCrossingEvent",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "center",
+            "bottomCenter",
+            "footprint"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisOperationFocus",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+        },
+        "eventType": {
+          "type": "string",
+          "enum": [
+            "zoneCrossing",
+            "zoneDwellTime"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisPersonZoneCrossingEventType",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType.zoneCrossing"
+              },
+              {
+                "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType.zoneDwellTime"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType"
+        }
+      },
+      "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisOperationEventBase"
+      ],
+      "required": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "SpatialAnalysisPersonZoneCrossingZoneEvents",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "zone"
+      ],
+      "properties": {
+        "zone": {
+          "parsedRef": "#/definitions/NamedPolygonBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "name"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "NamedPolygonBase.@type"
+            },
+            "name": {
+              "type": "string",
+              "localizationKey": "NamedPolygonBase.name"
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonZoneCrossingZoneEvents.zone"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonZoneCrossingEvent",
+            "type": "object",
+            "properties": {
+              "threshold": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+              },
+              "focus": {
+                "type": "string",
+                "enum": [
+                  "center",
+                  "bottomCenter",
+                  "footprint"
+                ],
+                "x-ms-enum": {
+                  "name": "spatialAnalysisOperationFocus",
+                  "values": [
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+              },
+              "eventType": {
+                "type": "string",
+                "enum": [
+                  "zoneCrossing",
+                  "zoneDwellTime"
+                ],
+                "x-ms-enum": {
+                  "name": "spatialAnalysisPersonZoneCrossingEventType",
+                  "values": [
+                    {
+                      "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType.zoneCrossing"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType.zoneDwellTime"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType"
+              }
+            },
+            "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent",
+            "parsedAllOf": [
+              "#/definitions/SpatialAnalysisOperationEventBase"
+            ],
+            "required": [
+              null,
+              null
+            ]
+          },
+          "localizationKey": "SpatialAnalysisPersonZoneCrossingZoneEvents.events"
+        }
+      }
+    },
+    {
+      "name": "SpatialAnalysisPersonZoneCrossingOperation",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        null,
+        "zones"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationBase.@type"
+        },
+        "debug": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.debug"
+        },
+        "cameraConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.cameraConfiguration"
+        },
+        "detectorNodeConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.detectorNodeConfiguration"
+        },
+        "enableFaceMaskClassifier": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.enableFaceMaskClassifier"
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonZoneCrossingZoneEvents",
+            "type": "object",
+            "required": [
+              "zone"
+            ],
+            "properties": {
+              "zone": {
+                "parsedRef": "#/definitions/NamedPolygonBase",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "NamedPolygonBase.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "NamedPolygonBase.name"
+                  }
+                },
+                "localizationKey": "SpatialAnalysisPersonZoneCrossingZoneEvents.zone"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/SpatialAnalysisPersonZoneCrossingEvent",
+                  "type": "object",
+                  "properties": {
+                    "threshold": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+                    },
+                    "focus": {
+                      "type": "string",
+                      "enum": [
+                        "center",
+                        "bottomCenter",
+                        "footprint"
+                      ],
+                      "x-ms-enum": {
+                        "name": "spatialAnalysisOperationFocus",
+                        "values": [
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+                    },
+                    "eventType": {
+                      "type": "string",
+                      "enum": [
+                        "zoneCrossing",
+                        "zoneDwellTime"
+                      ],
+                      "x-ms-enum": {
+                        "name": "spatialAnalysisPersonZoneCrossingEventType",
+                        "values": [
+                          {
+                            "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType.zoneCrossing"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType.zoneDwellTime"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent.eventType"
+                    }
+                  },
+                  "localizationKey": "SpatialAnalysisPersonZoneCrossingEvent",
+                  "parsedAllOf": [
+                    "#/definitions/SpatialAnalysisOperationEventBase"
+                  ],
+                  "required": [
+                    null,
+                    null
+                  ]
+                },
+                "localizationKey": "SpatialAnalysisPersonZoneCrossingZoneEvents.events"
+              }
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonZoneCrossingOperation.zones"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation",
+      "localizationKey": "SpatialAnalysisPersonZoneCrossingOperation",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisTypedOperationBase"
+      ]
+    },
+    {
+      "name": "SpatialAnalysisPersonDistanceEvent",
+      "nodeType": "other",
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "center",
+            "bottomCenter",
+            "footprint"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisOperationFocus",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": [
+            "event",
+            "interval"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisPersonDistanceEventTrigger",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger.event"
+              },
+              {
+                "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger.interval"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger"
+        },
+        "outputFrequency": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisPersonDistanceEvent.outputFrequency"
+        },
+        "minimumDistanceThreshold": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisPersonDistanceEvent.minimumDistanceThreshold"
+        },
+        "maximumDistanceThreshold": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisPersonDistanceEvent.maximumDistanceThreshold"
+        }
+      },
+      "localizationKey": "SpatialAnalysisPersonDistanceEvent",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisOperationEventBase"
+      ],
+      "required": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "SpatialAnalysisPersonDistanceZoneEvents",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "zone"
+      ],
+      "properties": {
+        "zone": {
+          "parsedRef": "#/definitions/NamedPolygonBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "name"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "NamedPolygonBase.@type"
+            },
+            "name": {
+              "type": "string",
+              "localizationKey": "NamedPolygonBase.name"
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonDistanceZoneEvents.zone"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonDistanceEvent",
+            "type": "object",
+            "properties": {
+              "threshold": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+              },
+              "focus": {
+                "type": "string",
+                "enum": [
+                  "center",
+                  "bottomCenter",
+                  "footprint"
+                ],
+                "x-ms-enum": {
+                  "name": "spatialAnalysisOperationFocus",
+                  "values": [
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+              },
+              "trigger": {
+                "type": "string",
+                "enum": [
+                  "event",
+                  "interval"
+                ],
+                "x-ms-enum": {
+                  "name": "spatialAnalysisPersonDistanceEventTrigger",
+                  "values": [
+                    {
+                      "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger.event"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger.interval"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger"
+              },
+              "outputFrequency": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisPersonDistanceEvent.outputFrequency"
+              },
+              "minimumDistanceThreshold": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisPersonDistanceEvent.minimumDistanceThreshold"
+              },
+              "maximumDistanceThreshold": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisPersonDistanceEvent.maximumDistanceThreshold"
+              }
+            },
+            "localizationKey": "SpatialAnalysisPersonDistanceEvent",
+            "parsedAllOf": [
+              "#/definitions/SpatialAnalysisOperationEventBase"
+            ],
+            "required": [
+              null,
+              null
+            ]
+          },
+          "localizationKey": "SpatialAnalysisPersonDistanceZoneEvents.events"
+        }
+      }
+    },
+    {
+      "name": "SpatialAnalysisPersonDistanceOperation",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        null,
+        "zones"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationBase.@type"
+        },
+        "debug": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.debug"
+        },
+        "cameraConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.cameraConfiguration"
+        },
+        "detectorNodeConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.detectorNodeConfiguration"
+        },
+        "enableFaceMaskClassifier": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.enableFaceMaskClassifier"
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonDistanceZoneEvents",
+            "type": "object",
+            "required": [
+              "zone"
+            ],
+            "properties": {
+              "zone": {
+                "parsedRef": "#/definitions/NamedPolygonBase",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "NamedPolygonBase.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "NamedPolygonBase.name"
+                  }
+                },
+                "localizationKey": "SpatialAnalysisPersonDistanceZoneEvents.zone"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/SpatialAnalysisPersonDistanceEvent",
+                  "type": "object",
+                  "properties": {
+                    "threshold": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+                    },
+                    "focus": {
+                      "type": "string",
+                      "enum": [
+                        "center",
+                        "bottomCenter",
+                        "footprint"
+                      ],
+                      "x-ms-enum": {
+                        "name": "spatialAnalysisOperationFocus",
+                        "values": [
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+                    },
+                    "trigger": {
+                      "type": "string",
+                      "enum": [
+                        "event",
+                        "interval"
+                      ],
+                      "x-ms-enum": {
+                        "name": "spatialAnalysisPersonDistanceEventTrigger",
+                        "values": [
+                          {
+                            "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger.event"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger.interval"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "SpatialAnalysisPersonDistanceEvent.trigger"
+                    },
+                    "outputFrequency": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisPersonDistanceEvent.outputFrequency"
+                    },
+                    "minimumDistanceThreshold": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisPersonDistanceEvent.minimumDistanceThreshold"
+                    },
+                    "maximumDistanceThreshold": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisPersonDistanceEvent.maximumDistanceThreshold"
+                    }
+                  },
+                  "localizationKey": "SpatialAnalysisPersonDistanceEvent",
+                  "parsedAllOf": [
+                    "#/definitions/SpatialAnalysisOperationEventBase"
+                  ],
+                  "required": [
+                    null,
+                    null
+                  ]
+                },
+                "localizationKey": "SpatialAnalysisPersonDistanceZoneEvents.events"
+              }
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonDistanceOperation.zones"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation",
+      "localizationKey": "SpatialAnalysisPersonDistanceOperation",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisTypedOperationBase"
+      ]
+    },
+    {
+      "name": "SpatialAnalysisPersonLineCrossingEvent",
+      "nodeType": "other",
+      "type": "object",
+      "localizationKey": "SpatialAnalysisPersonLineCrossingEvent",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisOperationEventBase"
+      ],
+      "properties": {
+        "threshold": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "center",
+            "bottomCenter",
+            "footprint"
+          ],
+          "x-ms-enum": {
+            "name": "spatialAnalysisOperationFocus",
+            "values": [
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+              },
+              {
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+              }
+            ],
+            "modelAsString": true
+          },
+          "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+        }
+      },
+      "required": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "SpatialAnalysisPersonLineCrossingLineEvents",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "line"
+      ],
+      "properties": {
+        "line": {
+          "parsedRef": "#/definitions/NamedLineBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "name"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "NamedLineBase.@type"
+            },
+            "name": {
+              "type": "string",
+              "localizationKey": "NamedLineBase.name"
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonLineCrossingLineEvents.line"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonLineCrossingEvent",
+            "type": "object",
+            "localizationKey": "SpatialAnalysisPersonLineCrossingEvent",
+            "parsedAllOf": [
+              "#/definitions/SpatialAnalysisOperationEventBase"
+            ],
+            "properties": {
+              "threshold": {
+                "type": "string",
+                "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+              },
+              "focus": {
+                "type": "string",
+                "enum": [
+                  "center",
+                  "bottomCenter",
+                  "footprint"
+                ],
+                "x-ms-enum": {
+                  "name": "spatialAnalysisOperationFocus",
+                  "values": [
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                    },
+                    {
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                    }
+                  ],
+                  "modelAsString": true
+                },
+                "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+              }
+            },
+            "required": [
+              null,
+              null
+            ]
+          },
+          "localizationKey": "SpatialAnalysisPersonLineCrossingLineEvents.events"
+        }
+      }
+    },
+    {
+      "name": "SpatialAnalysisPersonLineCrossingOperation",
+      "nodeType": "other",
+      "type": "object",
+      "required": [
+        "@type",
+        null,
+        "lines"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisOperationBase.@type"
+        },
+        "debug": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.debug"
+        },
+        "cameraConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.cameraConfiguration"
+        },
+        "detectorNodeConfiguration": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.detectorNodeConfiguration"
+        },
+        "enableFaceMaskClassifier": {
+          "type": "string",
+          "localizationKey": "SpatialAnalysisTypedOperationBase.enableFaceMaskClassifier"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/SpatialAnalysisPersonLineCrossingLineEvents",
+            "type": "object",
+            "required": [
+              "line"
+            ],
+            "properties": {
+              "line": {
+                "parsedRef": "#/definitions/NamedLineBase",
+                "type": "object",
+                "required": [
+                  "@type",
+                  "name"
+                ],
+                "discriminator": "@type",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "localizationKey": "NamedLineBase.@type"
+                  },
+                  "name": {
+                    "type": "string",
+                    "localizationKey": "NamedLineBase.name"
+                  }
+                },
+                "localizationKey": "SpatialAnalysisPersonLineCrossingLineEvents.line"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/SpatialAnalysisPersonLineCrossingEvent",
+                  "type": "object",
+                  "localizationKey": "SpatialAnalysisPersonLineCrossingEvent",
+                  "parsedAllOf": [
+                    "#/definitions/SpatialAnalysisOperationEventBase"
+                  ],
+                  "properties": {
+                    "threshold": {
+                      "type": "string",
+                      "localizationKey": "SpatialAnalysisOperationEventBase.threshold"
+                    },
+                    "focus": {
+                      "type": "string",
+                      "enum": [
+                        "center",
+                        "bottomCenter",
+                        "footprint"
+                      ],
+                      "x-ms-enum": {
+                        "name": "spatialAnalysisOperationFocus",
+                        "values": [
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.center"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.bottomCenter"
+                          },
+                          {
+                            "localizationKey": "SpatialAnalysisOperationEventBase.focus.footprint"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "SpatialAnalysisOperationEventBase.focus"
+                    }
+                  },
+                  "required": [
+                    null,
+                    null
+                  ]
+                },
+                "localizationKey": "SpatialAnalysisPersonLineCrossingLineEvents.events"
+              }
+            }
+          },
+          "localizationKey": "SpatialAnalysisPersonLineCrossingOperation.lines"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation",
+      "localizationKey": "SpatialAnalysisPersonLineCrossingOperation",
+      "parsedAllOf": [
+        "#/definitions/SpatialAnalysisTypedOperationBase"
+      ]
+    },
+    {
+      "name": "CognitiveServicesVisionProcessor",
+      "nodeType": "processor",
+      "type": "object",
+      "required": [
+        "@type",
+        "inputs",
+        "name",
+        "operation",
+        "endpoint"
+      ],
+      "properties": {
+        "@type": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.@type"
+        },
+        "name": {
+          "type": "string",
+          "localizationKey": "ProcessorNodeBase.name"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "parsedRef": "#/definitions/NodeInput",
+            "type": "object",
+            "required": [
+              "nodeName"
+            ],
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "localizationKey": "NodeInput.nodeName"
+              },
+              "outputSelectors": {
+                "type": "array",
+                "items": {
+                  "parsedRef": "#/definitions/OutputSelector",
+                  "type": "object",
+                  "properties": {
+                    "property": {
+                      "type": "string",
+                      "enum": [
+                        "mediaType"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorProperty",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.property.mediaType"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.property"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "is",
+                        "isNot"
+                      ],
+                      "x-ms-enum": {
+                        "name": "outputSelectorOperator",
+                        "values": [
+                          {
+                            "localizationKey": "OutputSelector.operator.is"
+                          },
+                          {
+                            "localizationKey": "OutputSelector.operator.isNot"
+                          }
+                        ],
+                        "modelAsString": true
+                      },
+                      "localizationKey": "OutputSelector.operator"
+                    },
+                    "value": {
+                      "type": "string",
+                      "localizationKey": "OutputSelector.value"
+                    }
+                  },
+                  "localizationKey": "OutputSelector"
+                },
+                "localizationKey": "NodeInput.outputSelectors"
+              }
+            },
+            "localizationKey": "NodeInput"
+          },
+          "localizationKey": "ProcessorNodeBase.inputs"
+        },
+        "endpoint": {
+          "parsedRef": "#/definitions/EndpointBase",
+          "type": "object",
+          "required": [
+            "@type",
+            "url"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "EndpointBase.@type"
+            },
+            "credentials": {
+              "parsedRef": "#/definitions/CredentialsBase",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "CredentialsBase.@type"
+                }
+              },
+              "localizationKey": "EndpointBase.credentials"
+            },
+            "url": {
+              "type": "string",
+              "localizationKey": "EndpointBase.url"
+            }
+          },
+          "localizationKey": "CognitiveServicesVisionProcessor.endpoint"
+        },
+        "image": {
+          "parsedRef": "#/definitions/ImageProperties",
+          "type": "object",
+          "properties": {
+            "scale": {
+              "parsedRef": "#/definitions/ImageScale",
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "preserveAspectRatio",
+                    "pad",
+                    "stretch"
+                  ],
+                  "x-ms-enum": {
+                    "name": "imageScaleMode",
+                    "values": [
+                      {
+                        "localizationKey": "ImageScale.mode.preserveAspectRatio"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.pad"
+                      },
+                      {
+                        "localizationKey": "ImageScale.mode.stretch"
+                      }
+                    ],
+                    "modelAsString": true
+                  },
+                  "localizationKey": "ImageScale.mode"
+                },
+                "width": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.width"
+                },
+                "height": {
+                  "type": "string",
+                  "localizationKey": "ImageScale.height"
+                }
+              },
+              "localizationKey": "ImageScale"
+            },
+            "format": {
+              "parsedRef": "#/definitions/ImageFormatProperties",
+              "type": "object",
+              "required": [
+                "@type"
+              ],
+              "discriminator": "@type",
+              "properties": {
+                "@type": {
+                  "type": "string",
+                  "localizationKey": "ImageFormatProperties.@type"
+                }
+              },
+              "localizationKey": "ImageFormatProperties"
+            }
+          },
+          "localizationKey": "CognitiveServicesVisionProcessor.image"
+        },
+        "samplingOptions": {
+          "parsedRef": "#/definitions/SamplingOptions",
+          "type": "object",
+          "properties": {
+            "skipSamplesWithoutAnnotation": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.skipSamplesWithoutAnnotation"
+            },
+            "maximumSamplesPerSecond": {
+              "type": "string",
+              "localizationKey": "SamplingOptions.maximumSamplesPerSecond"
+            }
+          },
+          "localizationKey": "CognitiveServicesVisionProcessor.samplingOptions"
+        },
+        "operation": {
+          "parsedRef": "#/definitions/SpatialAnalysisOperationBase",
+          "type": "object",
+          "required": [
+            "@type"
+          ],
+          "discriminator": "@type",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "localizationKey": "SpatialAnalysisOperationBase.@type"
+            }
+          },
+          "localizationKey": "CognitiveServicesVisionProcessor.operation"
+        }
+      },
+      "x-ms-discriminator-value": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor",
+      "localizationKey": "CognitiveServicesVisionProcessor",
+      "parsedAllOf": [
+        "#/definitions/ProcessorNodeBase"
+      ]
+    }
+  ],
+  "itemPanelNodes": [
+    {
+      "title": "sources",
+      "id": "sources",
+      "searchKeys": [
+        "sources"
+      ],
+      "children": [
+        {
+          "extra": {
+            "id": "e1bdae0e-57fa-4aa4-afc9-2ddb00e79623",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "43d5af81-c25d-425c-a4a7-7da855f1a2b1",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.RtspSource",
+                "name": "RtspSource"
+              },
+              "nodeType": "source"
+            }
+          },
+          "id": "95edbec2-2856-4ec1-8904-b152c406baf3",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "2476cecd-ab57-4f00-b423-388dd1e9170e",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "7dd26a6e-6de5-42e7-b2c1-abf80ac681c0",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSource",
+                "name": "IotHubMessageSource"
+              },
+              "nodeType": "source"
+            }
+          },
+          "id": "08ead94a-b4d2-4697-a58e-b7f57d5c58c2",
+          "children": []
+        }
+      ],
+      "expanded": true
+    },
+    {
+      "title": "processors",
+      "id": "processors",
+      "searchKeys": [
+        "processors"
+      ],
+      "children": [
+        {
+          "extra": {
+            "id": "5fb3226b-ce9c-4a48-8967-461e1ec5426b",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "d34467f0-7ecd-45c0-b7f9-ade1d217e8b8",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "67c76ba0-28a1-46de-8dad-444122d4fd65",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor",
+                "name": "MotionDetectionProcessor"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "44f5d8e7-c19e-45cf-9ad3-d1f938223df7",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "d7caf740-45c2-4538-b641-b2a55fb58081",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "04ce738c-376c-4900-b277-6bad8b7e09f6",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "6eda9d5c-3c69-4cbf-9d16-c1d2a3477046",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor",
+                "name": "ObjectTrackingProcessor"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "3e644435-0d95-413c-953d-bfe413e14229",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "a36f81a6-d64f-4a2f-b652-080e7d0c90ce",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "52d836b5-b36a-46c4-abc2-1fab9c7f42cd",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "39367a64-ecd2-4b21-885c-8cd20402b648",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.LineCrossingProcessor",
+                "name": "LineCrossingProcessor"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "8724d55d-d61e-4ed5-b7a0-1d8d17de0340",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "04ad1c3c-0601-404b-9b42-127625fd1e19",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "a79c2565-3910-4ee2-adbf-18219148388a",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "2ccb0b1a-d0f2-4d51-9df1-45579e729b42",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.GrpcExtension",
+                "name": "GrpcExtension"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "287de7cc-97dc-4103-8955-668194bdd43f",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "38128124-5d0b-4ba3-9b3a-0bad460d1cd5",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "38c76d75-f8c0-4ec3-a44c-b7c9aab47442",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "c06628c9-1a75-4560-ab2a-4f9144f23fbd",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.HttpExtension",
+                "name": "HttpExtension"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "ea381092-e869-44db-9e0d-740e72e3fd79",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "9670516f-9e6a-4a78-93da-077f0640b6c3",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "5321f0e6-2364-4441-8cc8-468ea5e929c9",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "b636f563-8213-4969-b0f2-66d50f478586",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.SignalGateProcessor",
+                "name": "SignalGateProcessor"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "41644aaa-6d3e-46e0-93fa-49f9f0887858",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "ac196a8d-6a5b-4b51-8ff5-780b8e48e8d9",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "8b406974-4dff-41b5-b165-acfc4e4f673a",
+                "shape": "modulePort",
+                "isInputDisabled": true,
+                "isOutputDisabled": false,
+                "name": ""
+              },
+              {
+                "id": "ad5f7c09-75a5-4f19-b43d-47e5bf25e309",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor",
+                "name": "CognitiveServicesVisionProcessor"
+              },
+              "nodeType": "processor"
+            }
+          },
+          "id": "62dcb4af-f16c-46ba-934c-8193282441d1",
+          "children": []
+        }
+      ],
+      "expanded": true
+    },
+    {
+      "title": "sinks",
+      "id": "sinks",
+      "searchKeys": [
+        "sinks"
+      ],
+      "children": [
+        {
+          "extra": {
+            "id": "3f26e8bd-7973-434c-836a-9d2ac4c95d1d",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "da37df96-bbec-42f2-9f7d-d48b039cbdb1",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink",
+                "name": "IotHubMessageSink"
+              },
+              "nodeType": "sink"
+            }
+          },
+          "id": "e0e5c8b3-2df1-4b46-b28b-a9a79160f161",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "6f2c6328-fe97-4264-86d1-aa76fcca36f8",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "fcc93c3d-90e8-433b-9379-8ad0d2c2118c",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.FileSink",
+                "name": "FileSink"
+              },
+              "nodeType": "sink"
+            }
+          },
+          "id": "43d3819f-044d-47f9-8a7f-46f4b5b02fb4",
+          "children": []
+        },
+        {
+          "extra": {
+            "id": "880b49fd-29b2-4478-a932-9482c2c41514",
+            "shape": "module",
+            "ports": [
+              {
+                "id": "aeb05c8f-1d47-4be2-85cb-3cab3e683eef",
+                "shape": "modulePort",
+                "isInputDisabled": false,
+                "isOutputDisabled": true,
+                "name": ""
+              }
+            ],
+            "data": {
+              "nodeProperties": {
+                "@type": "#Microsoft.VideoAnalyzer.VideoSink",
+                "name": "VideoSink"
+              },
+              "nodeType": "sink"
+            }
+          },
+          "id": "d8758b8d-5eaa-4e35-a204-fdaf92d2121e",
+          "children": []
+        }
+      ],
+      "expanded": true
+    }
+  ]
+}
