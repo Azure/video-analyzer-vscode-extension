@@ -18,6 +18,7 @@ export class Constants {
     public static VideoAnalyzerGlobalStateKey = "videoAnalyzerGlobalStateConfigKey";
     public static VideoAnalyzerGlobalStateGraphAlignKey = "videoAnalyzerGlobalStateGraphAlignKey";
     public static ExtensionId = "azure-video-analyzer";
+    public static ExtensionName = "Azure Video Analyzer";
 
     public static TreeViewAutoRefreshIntervalInSecondsKey = "treeViewAutoRefreshIntervalInSeconds";
 

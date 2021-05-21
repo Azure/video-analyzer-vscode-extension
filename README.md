@@ -45,7 +45,7 @@ Now that you have the connection string, the below steps will connect the extens
 1. Select the device – default is `avasample-iot-edge-device`.
 1. Select the Video Analyzer module – default is `avaedge`.
 
-    ![Setup IoT Hub Connection String](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/addConnectionString.gif)
+    ![Setup IoT Hub Connection String](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/EnterConnectionString.gif)
 
 Along the left, you will now see your connected device with the underlying module. By default, there are no pipeline topologies deployed.
 
@@ -57,19 +57,19 @@ Pipeline topologies are the basic building block which Video Analyzer uses to de
 1. Along the top, under `Try sample topologies`, under `Motion Detection`, select `Publish motion events to IoT Hub`. When prompted, click `Proceed`.
 1. Click `Save` in the top right.
 
-    ![Create a graph topology](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/createTopology.gif)
+    ![Create a graph topology](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/AddToplogy.gif)
 
 You should now see an entry in the `Pipeline topologies` list on the left labeled `MotionDetection`. This is a pipeline topology, where some of the parameters are defined as variables that you can feed in when you create a live pipeline. Next we will create a live pipeline.
 
 1. On the left under `Pipeline topologies`, right click on `MotionDetection` and select `Create live pipeline`.
 1. For `Live pipeline name`, put in `mdpipeline1`.
 1. In the `Parameters` section:
-    - For “rtspPassword” put in “testuser”.
     - For “rtspUrl” put in “rtsp://rtspsim:554/media/camera-300s.mkv”.
-    - For “rtspUserName” put in “testpassword”.
+    - For “rtspUserName” put in “testuser”.
+    - For “rtspPassword” put in “testpassword”.
 1. In the top right, click “Save and activate”.
 
-    ![Activate an graph instance](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/activateTopology.gif)
+    ![Activate an graph instance](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/CreateAndActivate.gif)
 
 This gets a starting topology deployed and a live pipeline up and running on your edge device. If you have the Azure IoT Hub extension installed from the Get Started quickstart, you can monitor the build-in event endpoint in the Azure IoT-Hub Visual Studio Code extension to monitor this as shown in the [Observe Results](https://docs.microsoft.com/azure/azure-video-analyzer/video-analyzer-docs/get-started-detect-motion-emit-events.md#observe-results) section. This will require you to install the [Azure IoT Tools extension](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-tools) as well.
 
