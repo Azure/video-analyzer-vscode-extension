@@ -1,6 +1,6 @@
 {
     "name": "azure-video-analyzer",
-    "displayName": "Azure Video Analyzer on IoT Edge",
+    "displayName": "Azure Video Analyzer",
     "description": "%extensionDescription%",
     "version": "0.1.0",
     "publisher": "ms-azuretools",
@@ -26,7 +26,7 @@
         "onView:moduleExplorer"
     ],
     "keywords": [
-        "azure video analyzer, video analyzer, AVA"
+        "azure video analyzer,video analyzer,AVA,azureVideo,videoAnalyzer"
     ],
     "main": "./dist/extension",
     "contributes": {

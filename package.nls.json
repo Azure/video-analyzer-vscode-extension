@@ -28,7 +28,7 @@
     "editInstanceButton": "Edit graph instance",
     "editInstancePageTile": "Edit topology instance",
     "extensionConfigurationTitle": "Azure Video Analyzer extension configuration",
-    "extensionDescription": "Azure Video Analyzer on IoT Edge support for Visual Studio Code is provided through this extension that makes it easy to edit and manage media graphs.",
+    "extensionDescription": "Azure Video Analyzer extension for Visual Studio Code provides support by making it easy to edit and manage media topologies and live pipelines.",
     "getAllGraphsFailedError": "Failed to get the list of graphs ",
     "graphInstanceListTreeItem": "Graph instances",
     "graphTopologyListTreeItem": "Graph topologies",
