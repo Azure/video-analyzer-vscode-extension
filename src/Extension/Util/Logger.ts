@@ -24,7 +24,7 @@ export class Logger {
 
     public static getOrCreateOutputChannel() {
         if (!this._outputChanelObj) {
-            this._outputChanelObj = new Logger("Live Video Analytics", Constants.ExtensionId);
+            this._outputChanelObj = new Logger(Constants.ExtensionName, Constants.ExtensionId);
         }
         return this._outputChanelObj;
     }
@@ -46,7 +46,7 @@ export class Logger {
     public appendLog(options: ErrorOption): void {
         const date: Date = options.date || new Date();
         this.appendLine(
-            `[${date.toLocaleTimeString()}] [Live video analytics]${options.logLevel ? " " + options.logLevel : ""}${
+            `[${date.toLocaleTimeString()}] [${Constants.ExtensionName}]${options.logLevel ? " " + options.logLevel : ""}${
                 options.nodeName ? ` [target: ${options.nodeName}]:` : ""
             } ${options.nodeProperty ? ` [property: ${options.nodeProperty}]:` : ""} ${options.value}`
         );
