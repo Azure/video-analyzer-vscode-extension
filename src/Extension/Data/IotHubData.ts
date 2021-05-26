@@ -76,7 +76,7 @@ export class IotHubData {
         const productInfo = twinResult?.responseBody?.properties?.reported?.ProductInfo;
         if (productInfo) {
             const infoParts = productInfo.split(":");
-            if (infoParts.length === 2 && (infoParts[0] == "live-video-analytics" || infoParts[0] == "video-analyzer")) {
+            if (infoParts.length === 2 && (infoParts[0] == "live-video-analytics" || infoParts[0] == "video-analyzer" || infoParts[0] == "Azure Video Analyzer")) {
                 const version: string = infoParts[1];
                 const apiVersion = version.substr(0, 3);
                 const isLegacy = infoParts[0] === "live-video-analytics";
