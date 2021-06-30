@@ -1,5 +1,9 @@
 # Azure Video Analyzer VSCode extension release notes
 
+## Changes in 0.1.3
+
+Added new samples for Spatial Analysis
+
 ## Changes in 0.1.2
 
 Support new Product name

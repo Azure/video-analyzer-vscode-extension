@@ -1286,7 +1286,8 @@
                         "$ref": "#/definitions/SpatialAnalysisPersonCountEvent"
                     }
                 }
-            }
+            },
+            "description": "Defines a Spatial Analysis person count operation events."
         },
         "SpatialAnalysisPersonCountOperation": {
             "type": "object",
@@ -1353,7 +1354,8 @@
                         "$ref": "#/definitions/SpatialAnalysisPersonZoneCrossingEvent"
                     }
                 }
-            }
+            },
+            "description": "Defines a Spatial Analysis person crossing zone operation events."
         },
         "SpatialAnalysisPersonZoneCrossingOperation": {
             "type": "object",
@@ -1432,7 +1434,8 @@
                         "$ref": "#/definitions/SpatialAnalysisPersonDistanceEvent"
                     }
                 }
-            }
+            },
+            "description": "Defines a Spatial Analysis person distance operation events."
         },
         "SpatialAnalysisPersonDistanceOperation": {
             "type": "object",
@@ -1478,7 +1481,8 @@
                         "$ref": "#/definitions/SpatialAnalysisPersonLineCrossingEvent"
                     }
                 }
-            }
+            },
+            "description": "Defines a Spatial Analysis person line crossing operation events."
         },
         "SpatialAnalysisPersonLineCrossingOperation": {
             "type": "object",
