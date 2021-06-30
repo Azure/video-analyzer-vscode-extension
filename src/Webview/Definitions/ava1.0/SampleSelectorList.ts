@@ -134,8 +134,28 @@ export class SamplesList {
                 subMenuProps: {
                     items: [
                         {
-                            text: Localizer.l("sample.lva-spatial-analysis"),
-                            key: "pipelines/live/topologies/lva-spatial-analysis/topology.json",
+                            text: Localizer.l("sample.ava-spatial-analysis-person-count"),
+                            key: "pipelines/live/topologies/spatial-analysis/person-count-operation-topology.json",
+                            onClick: menuItemOnClick
+                        },
+                        {
+                            text: Localizer.l("sample.ava-spatial-analysis-person-crossing-line"),
+                            key: "pipelines/live/topologies/spatial-analysis/person-line-crossing-operation-topology.json",
+                            onClick: menuItemOnClick
+                        },
+                        {
+                            text: Localizer.l("sample.ava-spatial-analysis-person-crossing-zone"),
+                            key: "pipelines/live/topologies/spatial-analysis/person-zone-crossing-operation-topology.json",
+                            onClick: menuItemOnClick
+                        },
+                        {
+                            text: Localizer.l("sample.ava-spatial-analysis-person-distance"),
+                            key: "pipelines/live/topologies/spatial-analysis/person-distance-operation-topology.json",
+                            onClick: menuItemOnClick
+                        },
+                        {
+                            text: Localizer.l("sample.ava-spatial-analysis-custom"),
+                            key: "pipelines/live/topologies/spatial-analysis/custom-operation-topology.json",
                             onClick: menuItemOnClick
                         }
                     ]

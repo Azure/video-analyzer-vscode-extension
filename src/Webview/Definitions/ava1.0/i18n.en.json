@@ -919,6 +919,10 @@
         "description": "The event or interval output frequency.",
         "placeholder": ""
     },
+    "SpatialAnalysisPersonCountZoneEvents": {
+        "title": "Spatial analysis person count zone events",
+        "description": "Defines a Spatial Analysis person count operation events."
+    },
     "SpatialAnalysisPersonCountZoneEvents.zone": {
         "title": "Zone",
         "description": "The named zone.",
@@ -954,6 +958,10 @@
     "SpatialAnalysisPersonZoneCrossingEvent.eventType.zoneDwellTime": {
         "title": "Zone dwell time",
         "description": "Zone dwell time event type."
+    },
+    "SpatialAnalysisPersonZoneCrossingZoneEvents": {
+        "title": "Spatial analysis person zone crossing zone events",
+        "description": "Defines a Spatial Analysis person crossing zone operation events."
     },
     "SpatialAnalysisPersonZoneCrossingZoneEvents.zone": {
         "title": "Zone",
@@ -1006,6 +1014,10 @@
         "description": "The maximum distance threshold",
         "placeholder": ""
     },
+    "SpatialAnalysisPersonDistanceZoneEvents": {
+        "title": "Spatial analysis person distance zone events",
+        "description": "Defines a Spatial Analysis person distance operation events."
+    },
     "SpatialAnalysisPersonDistanceZoneEvents.zone": {
         "title": "Zone",
         "description": "The named zone.",
@@ -1028,6 +1040,10 @@
     "SpatialAnalysisPersonLineCrossingEvent": {
         "title": "Spatial analysis person line crossing event",
         "description": "Defines a Spatial Analysis person line crossing operation eventing configuration."
+    },
+    "SpatialAnalysisPersonLineCrossingLineEvents": {
+        "title": "Spatial analysis person line crossing line events",
+        "description": "Defines a Spatial Analysis person line crossing operation events."
     },
     "SpatialAnalysisPersonLineCrossingLineEvents.line": {
         "title": "Line",
