@@ -2,7 +2,7 @@
 
 ## Changes in 0.1.3
 
-Added new samples for Spacial analysis
+Added new samples for Spatial Analysis
 
 ## Changes in 0.1.2
 
