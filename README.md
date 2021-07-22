@@ -1,5 +1,7 @@
 # LVA Edge Graph Extension for VS Code
 
+⚠️ _This extension has been deprecated. Please use our updated extension instead: [Azure Video Analyzer](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.azure-video-analyzer)_
+
 Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is provided through this extension that makes it easy to edit and manage LVA Edge media graphs.
 
 # What's New (v0.1.2)
