@@ -1,5 +1,5 @@
 {
-    "lva-edge.views.moduleExplorer.name": "Live Video Analytics",
+    "lva-edge.views.moduleExplorer.name": "Live Video Analytics [Deprecated]",
     "extensionDescription": "Live Video Analytics on IoT Edge support for Visual Studio Code is provided through this extension that makes it easy to edit and manage media graphs.",
     "deprecationNoticeMessage": "This extension has been deprecated. Please use our updated extension instead.",
     "deprecationNoticeShowNewExtension": "Show new extension",

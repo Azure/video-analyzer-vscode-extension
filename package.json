@@ -1,6 +1,6 @@
 {
     "name": "live-video-analytics-edge",
-    "displayName": "Live Video Analytics on IoT Edge",
+    "displayName": "[Deprecated] Live Video Analytics on IoT Edge",
     "description": "%extensionDescription%",
     "version": "0.1.2",
     "publisher": "ms-azuretools",
