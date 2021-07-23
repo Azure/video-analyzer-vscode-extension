@@ -19,6 +19,14 @@ export async function activate(context: vscode.ExtensionContext) {
         moduleExplorer.setConnectionString(config);
     }
 
+    const showNewExtensionButton = Localizer.localize("deprecationNoticeShowNewExtension");
+    const newExtensionId = "ms-azuretools.azure-video-analyzer";
+    vscode.window.showWarningMessage(Localizer.localize("deprecationNoticeMessage"), showNewExtensionButton).then((choice) => {
+        if (choice === showNewExtensionButton) {
+            vscode.env.openExternal(vscode.Uri.parse("vscode:extension/" + newExtensionId));
+        }
+    });
+
     Constants.initialize(context);
 
     context.subscriptions.push(
