@@ -8,7 +8,7 @@ Live Video Analytics on IoT Edge (LVA Edge) support for Visual Studio Code is pr
 
 ## Added
 
--   Added a deprecation notice when the extension is activated
+-   Added a deprecation notice to the extension
 
 # What's New (v0.1.2)
 
