@@ -329,7 +329,7 @@
         "@fluentui/react": "^7.153.0",
         "@uifabric/icons": "^7.5.17",
         "@uifabric/react-hooks": "^7.13.9",
-        "@vienna/react-dag-editor": "^2.0.0-rc.58",
+        "@vienna/react-dag-editor": "2.0.0-rc.58",
         "azure-iothub": "^1.14.2",
         "compare-versions": "^3.6.0",
         "dagre": "^0.8.5",

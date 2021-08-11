@@ -42,7 +42,7 @@ export class NodeBase implements IRectConfig<ICanvasNode> {
         const rectWidth = getRectWidth<ICanvasNode>(this, node);
 
         return (
-            <foreignObject transform={`translate(${node.x}, ${node.y})`} width={rectWidth} overflow="visible">
+            <foreignObject transform={`translate(${node.x}, ${node.y})`} width={rectWidth} height={rectHeight} overflow="visible">
                 <NodeContainer nodeId={node.id} isDraggable={!this.readOnly} nodeRef={this.nodeRef} />
             </foreignObject>
         );
