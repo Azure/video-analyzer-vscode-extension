@@ -111,11 +111,6 @@ export class SamplesList {
                 subMenuProps: {
                     items: [
                         {
-                            text: Localizer.l("sample.grpcExtension"),
-                            key: "pipelines/live/topologies/grpcExtension/topology.json",
-                            onClick: menuItemOnClick
-                        },
-                        {
                             text: Localizer.l("sample.httpExtension"),
                             key: "pipelines/live/topologies/httpExtension/topology.json",
                             onClick: menuItemOnClick
