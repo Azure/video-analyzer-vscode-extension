@@ -1,5 +1,9 @@
 # Azure Video Analyzer VSCode extension release notes
 
+## Changes in 0.1.6
+
+Fixed a bug where the node name in the properties panel would not update when directly selecting a node after another.
+
 ## Changes in 0.1.5
 
 Fixed a bug where the nodes in the graph editor were not shown correctly.
