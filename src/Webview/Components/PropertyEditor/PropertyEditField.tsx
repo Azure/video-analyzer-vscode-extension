@@ -77,7 +77,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
                 } else setParameterizeFalse();
             }
         });
-    }, []);
+    }, [nodeId]); // listen for changes on nodeId and fetch new node's value
 
     async function getInitialValue() {
         const customPropertyTypes = await import(`../../Definitions/${versionFolder}/customPropertyTypes.json`);
