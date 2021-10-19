@@ -9,6 +9,7 @@ import { Logger } from "../Util/Logger";
 import { TreeUtils } from "../Util/TreeUtils";
 import { GraphEditorPanel } from "../Webview/GraphPanel";
 import { INode } from "./Node";
+import { RemoteDeviceAdapterListItem } from "./RemoteDeviceAdapterListItem";
 import { TopologyListItem } from "./TopologyListItem";
 
 export interface ModuleDetails {
@@ -56,7 +57,18 @@ export class ModuleItem extends vscode.TreeItem {
                             this._collapsibleState
                         );
                         await topologyListItem.loadInstances();
-                        return [topologyListItem];
+                        const items: any[] = [topologyListItem];
+                        if (!versionDetails.legacy && versionDetails.apiVersion !== "1.0") {
+                            const remoteDevideAdapterListItem = new RemoteDeviceAdapterListItem(this.iotHubData, {
+                                deviceId: this.deviceId,
+                                moduleId: this.moduleId,
+                                apiVersion: versionDetails.apiVersion,
+                                legacyModule: versionDetails.legacy,
+                                versionFolder: versionDetails.versionFolder
+                            });
+                            items.push(remoteDevideAdapterListItem);
+                        }
+                        return items;
                     } else {
                         return [new vscode.TreeItem(Localizer.localize("iotHub.connectionString.moduleNotLVA"), vscode.TreeItemCollapsibleState.None) as INode];
                     }

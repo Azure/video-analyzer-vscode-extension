@@ -13,7 +13,7 @@ export class Constants {
     };
 
     public static LegacySupportedApiVersions = ["2.0"];
-    public static SupportedApiVersions = ["1.0"];
+    public static SupportedApiVersions = ["1.0", "1.1"];
 
     public static VideoAnalyzerGlobalStateKey = "videoAnalyzerGlobalStateConfigKey";
     public static VideoAnalyzerGlobalStateGraphAlignKey = "videoAnalyzerGlobalStateGraphAlignKey";

@@ -2,7 +2,7 @@
     "name": "azure-video-analyzer",
     "displayName": "Azure Video Analyzer",
     "description": "%extensionDescription%",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "publisher": "ms-azuretools",
     "license": "SEE LICENSE IN LICENSE",
     "homepage": "https://github.com/Azure/video-analyzer-vscode-extension",
@@ -134,6 +134,19 @@
             {
                 "command": "moduleExplorer.livePipeline.showJson",
                 "title": "%livePipeline.showJson%"
+            },
+            {
+                "command": "moduleExplorer.remoteDeviceAdapter.create",
+                "title": "%remoteDeviceAdapter.create%",
+                "icon": "$(add)"
+            },
+            {
+                "command": "moduleExplorer.remoteDeviceAdapter.delete",
+                "title": "%remoteDeviceAdapter.delete%"
+            },
+            {
+                "command": "moduleExplorer.remoteDeviceAdapter.showJson",
+                "title": "%remoteDeviceAdapter.showJson%"
             }
         ],
         "viewsContainers": {
@@ -289,6 +302,23 @@
                     "command": "moduleExplorer.livePipeline.showJson",
                     "when": "view == moduleExplorer && viewItem =~ /^livePipelineItemContext.*$/",
                     "group": "3_instanceCommands@0"
+                },
+                {
+                    "command": "moduleExplorer.remoteDeviceAdapter.create",
+                    "when": "view == moduleExplorer && viewItem == remoteAdapterListContext"
+                },
+                {
+                    "command": "moduleExplorer.remoteDeviceAdapter.create",
+                    "when": "view == moduleExplorer && viewItem == remoteAdapterListContext",
+                    "group": "inline"
+                },
+                {
+                    "command": "moduleExplorer.remoteDeviceAdapter.delete",
+                    "when": "view == moduleExplorer && viewItem == remoteDeviceAdapterContext"
+                },
+                {
+                    "command": "moduleExplorer.remoteDeviceAdapter.showJson",
+                    "when": "view == moduleExplorer && viewItem == remoteDeviceAdapterContext"
                 }
             ]
         },

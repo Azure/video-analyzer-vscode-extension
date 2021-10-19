@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 import { LivePipelineItem } from "./ModuleExplorerPanel/LivePipelineItem";
 import ModuleExplorer from "./ModuleExplorerPanel/ModuleExplorer";
+import { RemoteDeviceAdapterItem } from "./ModuleExplorerPanel/RemoteDeviceAdapterItem";
+import { RemoteDeviceAdapterListItem } from "./ModuleExplorerPanel/RemoteDeviceAdapterListItem";
 import { TopologyItem } from "./ModuleExplorerPanel/TopologyItem";
 import { TopologyListItem } from "./ModuleExplorerPanel/TopologyListItem";
 import { Constants } from "./Util/Constants";
@@ -90,6 +92,15 @@ export async function activate(context: vscode.ExtensionContext) {
         }),
         vscode.commands.registerCommand("moduleExplorer.livePipeline.showJson", (instanceNode: LivePipelineItem) => {
             instanceNode.showLivePipelineJson();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.remoteDeviceAdapter.create", (remoteDeviceAdapter: RemoteDeviceAdapterListItem) => {
+            remoteDeviceAdapter.createNewRemoteDeviceAdapterCommand(context);
+        }),
+        vscode.commands.registerCommand("moduleExplorer.remoteDeviceAdapter.delete", (remoteDeviceAdapter: RemoteDeviceAdapterItem) => {
+            remoteDeviceAdapter.deleteRemoteDeviceAdapterCommand();
+        }),
+        vscode.commands.registerCommand("moduleExplorer.remoteDeviceAdapter.showJson", (remoteDeviceAdapter: RemoteDeviceAdapterItem) => {
+            remoteDeviceAdapter.showRemoteDeviceAdapterJson();
         })
     );
 }

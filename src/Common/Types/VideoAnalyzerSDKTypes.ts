@@ -240,6 +240,32 @@ export interface PipelineTopology {
     systemData?: MediaGraphSystemData;
     properties?: MediaGraphTopologyProperties;
 }
+export interface RemoteDeviceAdapter {
+    name: string;
+    apiVersion?: string;
+    systemData?: MediaGraphSystemData;
+    properties?: RemoteDeviceAdapterProperties;
+}
+
+export interface RemoteDeviceAdapterProperties {
+    description?: string;
+    target?: RemoteDeviceAdapterTarget;
+    iotHubDeviceConnection?: IotHubDeviceConnection;
+}
+
+export interface RemoteDeviceAdapterTarget {
+    host: string;
+}
+
+export interface IotHubDeviceConnection {
+    deviceId: string;
+    credentials: { key: string };
+}
+
+export interface SymmetricKeyCredentials {
+    "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+    key: string;
+}
 
 /**
  * Collection of graph topologies.
