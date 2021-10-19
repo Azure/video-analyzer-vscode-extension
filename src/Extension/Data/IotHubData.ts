@@ -85,4 +85,8 @@ export class IotHubData {
         }
         return null;
     }
+
+    public async addDevice(deviceId: string) {
+        return await this.registryClient?.addDevices([{ deviceId: deviceId, capabilities: { iotEdge: false } }]);
+    }
 }

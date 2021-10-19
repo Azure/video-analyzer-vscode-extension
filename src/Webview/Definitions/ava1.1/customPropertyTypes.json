@@ -1,0 +1,13 @@
+{
+    "Endpoint.url": "urlFormat",
+    "FileSink.filePathPattern": "number",
+    "VideoCreationProperties.segmentLength": "isoDuration",
+    "SignalGateProcessor.activationEvaluationWindow": "isoDuration",
+    "SignalGateProcessor.activationSignalOffset": "isoDuration",
+    "SignalGateProcessor.minimumActivationTime": "isoDuration",
+    "SignalGateProcessor.maximumActivationTime": "isoDuration",
+    "ImageScale.width": "number",
+    "ImageScale.height": "number",
+    "VideoSink.localMediaCacheMaximumSizeMiB": "number",
+    "SamplingOptions.maximumSamplesPerSecond": "number"
+}
