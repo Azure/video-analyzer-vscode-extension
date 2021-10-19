@@ -52,7 +52,7 @@ Using your IoT Hub connection string, connect the Visual Studio Code extension t
 1. Select the device where AVA is deployed. The default is named `avasample-iot-edge-device`.
 1. Select the Video Analyzer module. The default is named `avaedge`.
 
-    ![Setup IoT Hub Connection String](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/EnterConnectionString.gif)
+    ![Gif showing how to enter the connection string](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/EnterConnectionString.gif)
 
 The Video Analyzer extension pane should now show the connected device with all of its modules. Below the modules are where pipeline topologies are listed. By default, there are no pipeline topologies deployed.
 
@@ -64,7 +64,7 @@ A [pipeline topology](https://docs.microsoft.com/en-us/azure/azure-video-analyze
 1. Along the top, under **Try sample topologies**, under **Continuous Video Recording**, select **Record to Azure Video Analyzer video**. When prompted, click **Proceed**.
 1. Click **Save** in the top right.
 
-    ![Create a graph topology](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/AddToplogy.gif)
+    ![Gif showing how to add a topology](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/AddToplogy.gif)
 
 Notice that there is now an entry in the **Pipeline topologies** list on the left labeled **CVRToVideoSink**. This is a pipeline topology, where some of the parameters are defined as variables.
 
@@ -77,7 +77,7 @@ A live pipeline is an instance of a pipeline topology. The variables in a pipeli
 1. In the **Parameters** section, under the **rtspUrl** parameter, put in `rtsp://rtspsim:554/media/camera-300s.mkv`.
 1. In the top right, click **Save and activate**.
 
-    ![Activate an graph instance](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/CreateAndActivate.gif)
+    ![Gif showing how to create and activate a live pipeline](https://github.com/Azure/lva-edge-vscode-extension/raw/main/resources/gifs/CreateAndActivate.gif)
 
 Now that a live pipeline has been activated, operational events can be viewed by clicking on the **Start Monitoring Built-in Event Endpoint** button on the IoT Hub extension, as shown in the [Continuous video recording and playback](https://docs.microsoft.com/azure/azure-video-analyzer/video-analyzer-docs/edge/use-continuous-video-recording#prepare-to-monitor-the-modules) tutorial.
 
