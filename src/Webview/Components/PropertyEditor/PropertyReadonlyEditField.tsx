@@ -15,6 +15,11 @@ export const PropertyReadOnlyEditField: React.FunctionComponent<IPropertyReadOnl
     const labelId: string = useId("label");
 
     if (property.type === "object") {
+        // in case not set, fill in an empty object for this nested value
+        if (!nodeProperties[name]) {
+            nodeProperties[name] = {};
+        }
+
         return <PropertyNestedObject name={name} property={property} nodeProperties={nodeProperties[name]} required={false} readOnly />;
     }
 
