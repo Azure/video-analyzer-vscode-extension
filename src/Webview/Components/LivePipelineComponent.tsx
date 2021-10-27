@@ -272,7 +272,7 @@ const LivePipelineComponent: React.FunctionComponent<IGraphInstanceProps> = (pro
                     }
 
                     if (parameter.value) {
-                        const localizationKey = graph.checkForParamsInGraphNode(parameter.name)[0]?.localizationKey;
+                        const localizationKey = graph.getPropertiesWithExactParameter(parameter.name)[0]?.localizationKey;
                         if (localizationKey) {
                             const versionFolder = Definitions.VersionFolder;
                             const customPropertyTypes = await import(`../Definitions/${versionFolder}/customPropertyTypes.json`);
