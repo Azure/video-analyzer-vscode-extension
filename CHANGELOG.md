@@ -2,8 +2,8 @@
 
 ## Changes in 0.2.0
 
--   Support 1.1 version of Azure Video Analyzer Edge module
--   Added support for Remote Device Adapter configuration for ingesting video in a private network
+- Support 1.1 version of Azure Video Analyzer Edge module
+- Added support for Remote Device Adapter configuration for ingesting video in a private network
 
 ## Changes in 0.1.6
 
