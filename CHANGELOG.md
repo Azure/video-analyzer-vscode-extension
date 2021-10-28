@@ -1,5 +1,10 @@
 # Azure Video Analyzer VSCode extension release notes
 
+## Changes in 0.2.0
+
+-   Support 1.1 version of Azure Video Analyzer Edge module
+-   Added support for Remote Device Adapter configuration for ingesting video in a private network
+
 ## Changes in 0.1.6
 
 Fixed a bug where the node name in the properties panel would not update when directly selecting a node after another.
