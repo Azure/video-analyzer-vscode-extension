@@ -17,7 +17,6 @@ import {
     MediaGraphSourceUnion,
     PipelineTopology
 } from "../../Common/Types/VideoAnalyzerSDKTypes";
-import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import {
