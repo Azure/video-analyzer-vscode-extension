@@ -17,7 +17,6 @@ import {
     MediaGraphSourceUnion,
     PipelineTopology
 } from "../../Common/Types/VideoAnalyzerSDKTypes";
-import { ParameterChangeValidation } from "../Components/ParameterSelector/ParameterSelector";
 import Definitions from "../Definitions/Definitions";
 import Localizer from "../Localization/Localizer";
 import {
@@ -26,6 +25,7 @@ import {
     GraphInfo,
     MediaGraphNodeType,
     OutputSelectorValueType,
+    PropertyReferenceForParameter,
     ValidationError
 } from "../Types/GraphTypes";
 import Helpers from "../Utils/Helpers";
@@ -256,86 +256,91 @@ export class GraphData {
         return GraphValidator.validate(graphPropsApi, this.graphStructureStore, errorsFromService);
     }
 
-    public getLocalizationKeyOfParameter = (parameterName: string) => {
-        const nodes = this.graphStructureStore.nodes;
-        const parameterString = "${" + parameterName + "}";
-        let localizationKey = "";
-        for (const node of nodes) {
-            localizationKey = this.recursiveGetLocalizationKeyOfParameter(node.data, parameterString);
-            if (localizationKey !== "") {
-                return localizationKey;
-            }
-        }
-
-        return localizationKey;
-    };
-
-    public recursiveGetLocalizationKeyOfParameter = (nestedNode: any, parameterName: string): any => {
-        const propertyKeys = Object.keys(nestedNode);
-        for (let i = 0; i < propertyKeys.length; i++) {
-            const propertyValue = nestedNode[propertyKeys[i]];
-            if (typeof propertyValue !== "number" && typeof propertyValue !== "boolean") {
-                if (typeof propertyValue !== "string") {
-                    return this.recursiveGetLocalizationKeyOfParameter(propertyValue, parameterName);
-                } else {
-                    if (propertyValue != null && propertyValue === parameterName) {
-                        return propertyKeys[i];
-                    }
-                }
-            }
-        }
-    };
-
-    public checkForParamsInGraphNode(parameter: string) {
-        const nodes = this.graphStructureStore.nodes;
+    public getPropertiesWithExactParameter(parameter: string) {
         const parameterString = "${" + parameter + "}";
-        let resultNodes: ParameterChangeValidation[] = [];
-        for (const node of nodes) {
-            if (node.data && node.name) {
-                const nodeDrillDown: string[] = [node.name];
-                resultNodes = resultNodes.concat(
-                    this.recursiveCheckForParamsInGraphNode(node.data.nodeProperties["@type"], node.data, node.name, node.id, parameterString, nodeDrillDown)
-                );
-            }
-        }
-        return resultNodes;
+        return this.getAllNodePropertiesMatching((propertyValue) => {
+            return propertyValue === parameterString;
+        });
     }
 
-    // recursively returns an array that shows what properties will be affected if the parameter is deleted
-    private recursiveCheckForParamsInGraphNode(type: string, nestedNode: any, nodeName: string, nodeId: string, parameterName: string, nodeDrillDown: string[]) {
-        let itemsThatWillChange: ParameterChangeValidation[] = [];
-        const definition = Definitions.getNodeDefinition(type);
-        for (const propertyKey in nestedNode) {
-            const propertyValue = nestedNode[propertyKey];
-            if (typeof propertyValue !== "number" && typeof propertyValue !== "boolean") {
-                if (typeof propertyValue !== "string") {
-                    nodeDrillDown.push(propertyKey);
-                    const newItem = this.recursiveCheckForParamsInGraphNode(type, propertyValue, nodeName, nodeId, parameterName, nodeDrillDown);
-                    itemsThatWillChange = itemsThatWillChange.concat(newItem);
-                } else {
-                    if (propertyValue != null && propertyValue.indexOf(parameterName) !== -1) {
+    public getPropertiesContaining(value: string) {
+        return this.getAllNodePropertiesMatching((propertyValue) => {
+            return propertyValue.indexOf(value) !== -1;
+        });
+    }
+
+    public getAllNodePropertiesMatching(filter: (propertyValue: string) => boolean) {
+        const nodes = this.graphStructureStore.nodes;
+        let affectedParameters: PropertyReferenceForParameter[] = [];
+        for (const node of nodes) {
+            affectedParameters = affectedParameters.concat(
+                this.getPropertiesInNode(node, filter).map((propertyLocation) => {
+                    return {
+                        node: node,
+                        nodeType: node.data!.nodeProperties["@type"],
+                        nodeName: node.name,
+                        ...propertyLocation
+                    } as PropertyReferenceForParameter;
+                })
+            );
+        }
+        return affectedParameters;
+    }
+
+    // returns an array that shows what properties match a given filter for a single node
+    public getPropertiesInNode(node: ICanvasNode<CanvasNodeData, unknown>, filter?: (propertyValue: string) => boolean) {
+        const nodeDrillDown: string[] = [node.name!];
+        const properties = NodeHelpers.getTrimmedNodeProperties(node.data!.nodeProperties as CanvasNodeProperties);
+        properties.name = node.data!.nodeProperties.name;
+        const definition = Definitions.getNodeDefinition(properties["@type"]);
+        return this.recursiveGetPropertiesInNode(properties, definition, nodeDrillDown, filter);
+    }
+
+    private recursiveGetPropertiesInNode(
+        properties: any,
+        definition: any,
+        propertyKeyPath: string[],
+        filter?: (propertyValue: string) => boolean
+    ): Partial<PropertyReferenceForParameter>[] {
+        let matchingProperties: Partial<PropertyReferenceForParameter>[] = [];
+        for (const propertyKey in properties) {
+            const propertyValue = (properties as any)[propertyKey];
+            if (propertyValue !== undefined) {
+                // the definition for this specific property
+                const nestedChildDefinition = definition.properties[propertyKey];
+
+                if (nestedChildDefinition.type === "object") {
+                    // if this level has a discriminator, we need to fetch it's definition since it might vary
+                    // otherwise, we know there is only one possible child definition so just fetch that
+                    const propertyType = propertyValue["@type"] ?? Definitions.getNameFromParsedRef(nestedChildDefinition.parsedRef);
+                    const childDefinition = Definitions.getNodeDefinition(propertyType);
+
+                    propertyKeyPath.push(propertyKey);
+                    const newItem = this.recursiveGetPropertiesInNode(propertyValue, childDefinition, propertyKeyPath, filter);
+                    matchingProperties = matchingProperties.concat(newItem);
+                    propertyKeyPath.pop();
+                } else if (nestedChildDefinition.type === "string" && propertyValue) {
+                    // if there is no filter specified or the filter matched the property value, add this property to return
+                    if (!filter || filter(propertyValue)) {
                         const localizationKey = this.recursiveGetDefinitionFromProperty(definition.properties, propertyKey);
-                        nodeDrillDown.push(propertyKey);
-                        const tempObj: ParameterChangeValidation = {
-                            nodeId: nodeId,
-                            nodeName: nodeName,
-                            value: nodeDrillDown,
-                            localizationKey: localizationKey
-                        };
-                        itemsThatWillChange.push(tempObj);
-                        break;
+                        matchingProperties.push({
+                            pathOfPropertyKeys: [...propertyKeyPath, propertyKey],
+                            propertyDefinition: nestedChildDefinition,
+                            localizationKey,
+                            propertyValue
+                        });
                     }
                 }
             }
         }
-        return itemsThatWillChange;
+        return matchingProperties;
     }
 
     private recursiveGetDefinitionFromProperty(definition: any, propertyKey: string) {
         let localizationKey = "";
         for (const def in definition) {
             const property = definition[def];
-            if (typeof property !== "boolean" && typeof property !== "number") {
+            if (property !== undefined) {
                 if (property?.properties != undefined) {
                     localizationKey = this.recursiveGetDefinitionFromProperty(property.properties, propertyKey);
                 } else {
@@ -361,9 +366,11 @@ export class GraphData {
         const propertyKeys = Object.keys(nestedNode);
         for (let i = 0; i < propertyKeys.length; i++) {
             const propertyValue = nestedNode[propertyKeys[i]];
-            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+            if (propertyValue !== undefined) {
                 if (typeof propertyValue != "string") {
-                    this.recursiveDeleteParamsFromGraph(propertyValue, parameterName);
+                    if (propertyValue) {
+                        this.recursiveDeleteParamsFromGraph(propertyValue, parameterName);
+                    }
                 } else {
                     if (propertyValue != null && propertyValue.indexOf(parameterName) !== -1) {
                         nestedNode[propertyKeys[i]] = "";
@@ -387,7 +394,7 @@ export class GraphData {
         const propertyKeys = Object.keys(nestedNode);
         for (let i = 0; i < propertyKeys.length; i++) {
             const propertyValue = nestedNode[propertyKeys[i]];
-            if (typeof propertyValue != "number" && typeof propertyValue != "boolean") {
+            if (propertyValue !== undefined) {
                 if (typeof propertyValue != "string") {
                     this.recursiveEditParamsFromGraph(propertyValue, oldParameterName, newParameterName);
                 } else {

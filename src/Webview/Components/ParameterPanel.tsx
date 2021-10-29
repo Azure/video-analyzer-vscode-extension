@@ -46,9 +46,12 @@ interface IGraphPanelEditFieldProps {
 
 const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = (props) => {
     const getLocalizationKey = () => {
-        const paramsInNode = graph.checkForParamsInGraphNode(parameter.name);
-        const localizationKey = paramsInNode[0]?.localizationKey;
-        return localizationKey ?? "";
+        const propsWithParam = graph.getPropertiesWithExactParameter(parameter.name);
+        if (propsWithParam.length === 1) {
+            return propsWithParam[0].propertyDefinition.localizationKey;
+        } else {
+            return undefined;
+        }
     };
     const { parameter, graph, setParameter } = props;
     const { name, defaultValue, type, error } = parameter;
@@ -82,7 +85,6 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
             const format = (customPropertyTypes as any)[localizationKey] ?? null;
             if (format === PropertyFormatType.isoDuration) {
                 const isoValue = Helpers.secondsToIso(newValue);
-                console.log("🚀 ~ file: ParameterPanel.tsx ~ line 85 ~ onChange ~ isoValue", isoValue);
                 setParameter({ ...parameter, error, value: isoValue ?? newValue });
             } else {
                 setParameter({ ...parameter, error, value: newValue });

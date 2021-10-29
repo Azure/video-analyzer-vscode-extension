@@ -15,6 +15,8 @@ import { useBoolean } from "@uifabric/react-hooks";
 import { IPropsAPI } from "@vienna/react-dag-editor";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
 import Localizer from "../../Localization/Localizer";
+import { GraphData } from "../../Models/GraphData";
+import { PropertyReferenceForParameter } from "../../Types/GraphTypes";
 import {
     createParameter,
     deleteParameter,
@@ -31,16 +33,9 @@ export interface ParamCreateConfig extends MediaGraphParameterDeclaration {
 interface ParameterSelectorProps {
     isOpen: boolean;
     parameters: MediaGraphParameterDeclaration[];
-    graph: any;
+    graph: GraphData;
     propsApiRef: React.RefObject<IPropsAPI>;
     onClose: () => void;
-}
-
-export interface ParameterChangeValidation {
-    nodeId: string;
-    nodeName: string;
-    localizationKey?: string;
-    value: string[];
 }
 
 const addIcon: IIconProps = { iconName: "Add" };
@@ -53,7 +48,7 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     const [paramCreateConfig, setParamCreateConfig] = React.useState<ParamCreateConfig | undefined>();
     const [editedParameter, setEditedParameter] = React.useState<number>(-1);
     const [focusedDeleteParameter, setFocusedDeleteParameter] = React.useState<number>(-1);
-    const [paramsThatWillChange, setParamsThatWillChange] = React.useState<ParameterChangeValidation[]>([]);
+    const [paramsThatWillChange, setParamsThatWillChange] = React.useState<PropertyReferenceForParameter[]>([]);
 
     const dialogContentProps = {
         type: DialogType.normal,
@@ -110,7 +105,7 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
     };
 
     const checkParameter = (parameter: MediaGraphParameterDeclaration) => {
-        const paramChanges = graph.checkForParamsInGraphNode(parameter.name);
+        const paramChanges = graph.getPropertiesWithExactParameter(parameter.name);
         setParamsThatWillChange(paramChanges);
     };
 
@@ -162,8 +157,8 @@ export const ParameterSelector: React.FunctionComponent<ParameterSelectorProps> 
                         <Stack>
                             {paramsThatWillChange.map((m1) => {
                                 return (
-                                    <Text key={m1.nodeId} variant="medium">
-                                        {buildNodeDrillDown(m1.value)}
+                                    <Text key={m1.node.id} variant="medium">
+                                        {buildNodeDrillDown(m1.pathOfPropertyKeys)}
                                     </Text>
                                 );
                             })}

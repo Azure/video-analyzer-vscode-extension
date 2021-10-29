@@ -103,6 +103,16 @@ export interface GraphInstanceParameter {
     error: string;
 }
 
+export interface PropertyReferenceForParameter {
+    node: ICanvasNode<CanvasNodeData, unknown>;
+    nodeType: string;
+    nodeName: string;
+    pathOfPropertyKeys: string[];
+    localizationKey: string;
+    propertyValue: string;
+    propertyDefinition: any;
+}
+
 export interface NestedLocalizedStrings {
     title: string;
     description: string;
