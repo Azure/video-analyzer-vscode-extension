@@ -7,10 +7,7 @@
     "importSorter.importStringConfiguration.quoteMark": "double",
     "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 1,
     "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 0,
-    "cSpell.words": [
-        "enablement",
-        "localizable"
-    ],
+    "cSpell.words": ["enablement", "localizable"],
     "typescript.updateImportsOnFileMove.enabled": "always",
     "editor.renderWhitespace": "all",
     "editor.formatOnSave": true,
@@ -20,5 +17,11 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": false
     },
-    "turboConsoleLog.addSemicolonInTheEnd": true
+    "turboConsoleLog.addSemicolonInTheEnd": true,
+    "markdownlint.config": {
+        "MD028": false,
+        "MD025": {
+            "front_matter_title": ""
+        }
+    }
 }
