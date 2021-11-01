@@ -356,6 +356,7 @@
         "refreshVSToken": "vsts-npm-auth -config .npmrc"
     },
     "dependencies": {
+        "@fluentui/merge-styles": "^8.2.0",
         "@fluentui/react": "^7.153.0",
         "@uifabric/icons": "^7.5.17",
         "@uifabric/react-hooks": "^7.13.9",
