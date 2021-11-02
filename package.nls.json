@@ -66,7 +66,7 @@
     "remoteDeviceAdapter.showJson": "Show remote device adapter JSON",
     "remoteDeviceAdapter.create.name.prompt": "Enter a unique name for the remote device adapter",
     "remoteDeviceAdapter.create.name.existing.validation.error": "Name already in use, please enter a unique name for the remote device adapter",
-    "remoteDeviceAdapter.create.deviceId.pick.placeHolder": "Select a device",
+    "remoteDeviceAdapter.create.deviceId.pick.placeHolder": "Select a IoT Device",
     "remoteDeviceAdapter.create.deviceId.new.button": "Create a new IoT Device",
     "remoteDeviceAdapter.create.newDevice.prompt": "Enter a unique ID for the new IoT Device",
     "remoteDeviceAdapter.create.newDevice.existing.validation.error": "ID already in use, please enter a unique ID for the new IoT Device",
