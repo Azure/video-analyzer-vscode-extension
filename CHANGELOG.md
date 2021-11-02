@@ -1,5 +1,10 @@
 # Azure Video Analyzer VSCode extension release notes
 
+## Changes in 0.2.2
+
+- Fixed the icons for topology and pipeline.
+- Fixed a few strings for Remote device adapter
+
 ## Changes in 0.2.0
 
 - Support 1.1 version of Azure Video Analyzer Edge module
