@@ -109,7 +109,7 @@ const GraphPanelEditField: React.FunctionComponent<IGraphPanelEditFieldProps> = 
             errorMessage = await GraphValidator.validateProperty(value, localizationKey);
         }
 
-        return errorMessage;
+        return errorMessage ? `${name}: ${errorMessage}` : "";
     };
 
     const styles = mergeStyleSets({

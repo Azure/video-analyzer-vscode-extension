@@ -93,6 +93,7 @@ export const PropertyArrayObject: React.FunctionComponent<IPropertyArrayObjectPr
                     )}
                 </Stack.Item>
                 <IconButton
+                    ariaLabel={Localizer.l("delete")}
                     iconProps={{ iconName: "delete" }}
                     onClick={() => {
                         onDeleteClick(index);
