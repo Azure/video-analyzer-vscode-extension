@@ -96,7 +96,7 @@ export const PropertyNestedObject: React.FunctionComponent<IPropertyNestedObject
                         required={required}
                         onRenderLabel={onRenderLabel}
                         aria-labelledby={labelId}
-                        errorMessage={errorMessage}
+                        errorMessage={errorMessage ? `${localizedPropertyStrings.title}: ${errorMessage}` : ""}
                     />
                 )
             ) : (

@@ -60,7 +60,7 @@ export const PropertyEditField: React.FunctionComponent<IPropertyEditFieldProps>
             errorMessage = await GraphValidator.validateProperty(value, property.localizationKey);
         }
 
-        return errorMessage;
+        return errorMessage ? `${localizedPropertyStrings.title}: ${errorMessage}` : "";
     };
 
     const isValueParameterized = (valueString: string) => {

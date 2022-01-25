@@ -9,7 +9,8 @@ import {
     mergeStyleSets,
     Pivot,
     PivotItem,
-    Stack
+    Stack,
+    Text
 } from "@fluentui/react";
 import { useId } from "@uifabric/react-hooks";
 import { MediaGraphParameterDeclaration } from "../../../Common/Types/VideoAnalyzerSDKTypes";
@@ -48,7 +49,8 @@ const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) 
         },
         body: {
             flex: 1,
-            overflowY: "auto"
+            overflowY: "auto",
+            marginTop: 20
         },
         scrollContainer: {
             display: "flex",
@@ -86,11 +88,11 @@ const ParameterEditor: React.FunctionComponent<IParameterEditorProps> = (props) 
                 styles: { inner: { minWidth: 600 }, innerContent: { maxHeight: 800 } },
                 titleProps: { id: titleId },
                 type: DialogType.close,
-                title: Localizer.l("parameterEditorTitle").format(propertyName),
-                subText: Localizer.l("parameterEditorText")
+                title: Localizer.l("parameterEditorTitle").format(propertyName)
             }}
             modalProps={{ isBlocking: true, titleAriaId: titleId, topOffsetFixed: false }}
         >
+            <Text>{Localizer.l("parameterEditorText")}</Text>
             <div className={contentStyles.body}>
                 <ParameterEditorChoice
                     parameters={parameters}
