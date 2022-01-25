@@ -1,14 +1,20 @@
 # Azure Video Analyzer VSCode extension release notes
 
+## Changes in 0.2.4
+
+-   Added affected property/parameter name in validation error messages.
+-   Added screen reader text to delete line crossing button.
+-   Improved color contrast on parameter creation text.
+
 ## Changes in 0.2.2
 
-- Fixed the icons for topology and pipeline.
-- Fixed a few strings for Remote device adapter
+-   Fixed the icons for topology and pipeline.
+-   Fixed a few strings for Remote device adapter
 
 ## Changes in 0.2.0
 
-- Support 1.1 version of Azure Video Analyzer Edge module
-- Added support for Remote Device Adapter configuration for ingesting video in a private network
+-   Support 1.1 version of Azure Video Analyzer Edge module
+-   Added support for Remote Device Adapter configuration for ingesting video in a private network
 
 ## Changes in 0.1.6
 
