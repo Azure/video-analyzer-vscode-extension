@@ -1,4 +1,6 @@
-# Azure Video Analyzer Extension for VSCode
+# Deprecated. Azure Video Analyzer Extension for VSCode
+
+Deprecated. We’re retiring the Azure Video Analyzer preview service, you're advised to transition your applications off of Video Analyzer by 01 December 2022. This extension is no longer being maintained.
 
 The Azure Video Analyzer extension makes it easy to edit and manage Video Analyzer pipelines. The steps below closely mirror our how-to guide on how to [use the Visual Studio Code extension for Azure Video Analyzer](https://docs.microsoft.com/azure/azure-video-analyzer/video-analyzer-docs/edge/use-visual-studio-code-extension).
 
