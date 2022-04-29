@@ -1,4 +1,6 @@
-# Azure Video Analyzer VSCode extension release notes
+# Deprecated. Azure Video Analyzer VSCode extension release notes
+
+-  We’re retiring the Azure Video Analyzer preview service, you're advised to transition your applications off of Video Analyzer by 01 December 2022. This extension is no longer being maintained.
 
 ## Changes in 0.2.4
 
