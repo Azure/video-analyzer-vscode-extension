@@ -8,7 +8,7 @@ If you have already connected to your IoT Hub and are looking for reference on h
 
 ## Suggested Pre-reading
 
--   [Video Analyzer overview](https://docs.microsoft.com/azure/azure-video-analyzer/video-analyzer-docs/overview)
+-   [Video Analyzer overview](https://learn.microsoft.com/en-ca/azure/azure-video-indexer/video-indexer-overview)
 -   [Video Analyzer terminology](https://docs.microsoft.com/azure/azure-video-analyzer/video-analyzer-docs/terminology)
 
 ## Prerequisites
